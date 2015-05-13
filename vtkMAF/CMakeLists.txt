@@ -323,7 +323,8 @@ IF(VTK_FOUND)
 
   # Create the instantiator for these classes.
   SET(VTK_USE_INSTANTIATOR_NEW 1)
-  VTK_MAKE_INSTANTIATOR2("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
+	include(${VTK_CMAKE_DIR}/vtkMakeInstantiator.cmake)
+  VTK_MAKE_INSTANTIATOR3("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
                          ${vtkMAF_SRCS}
                          EXPORT_MACRO "MAF_EXPORT"
                          HEADER_LOCATION ${PROJECT_BINARY_DIR}
