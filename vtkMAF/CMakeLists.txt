@@ -5,6 +5,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # project set here.
 PROJECT(vtkMAF)
 
+MESSAGE(STATUS "MAF: Configuring vtkMAF")
+
 # Set your list of sources here.  Do not change the name of the
 # vtkMAF_SRCS variable.
 SET(vtkMAF_SRCS
@@ -324,7 +326,7 @@ IF(VTK_FOUND)
   # Create the instantiator for these classes.
   SET(VTK_USE_INSTANTIATOR_NEW 1)
 	include(${VTK_CMAKE_DIR}/vtkMakeInstantiator.cmake)
-  VTK_MAKE_INSTANTIATOR3("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
+  VTK_MAKE_INSTANTIATOR2("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
                          ${vtkMAF_SRCS}
                          EXPORT_MACRO "MAF_EXPORT"
                          HEADER_LOCATION ${PROJECT_BINARY_DIR}
