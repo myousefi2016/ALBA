@@ -56,12 +56,7 @@ Then Render()
 #include "vtkVolumeMapper.h"
 #include "vtkPolyData.h"
 #include "vtkMatrix4x4.h"
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "vtkgl.h"
 
 #include "mafConfigure.h"
 /**

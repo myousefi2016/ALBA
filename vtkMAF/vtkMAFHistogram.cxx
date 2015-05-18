@@ -76,7 +76,7 @@ vtkMAFHistogram::vtkMAFHistogram()
   LabelVisibility     = 1;
 
   AutoscaleCalculated = false;
-  ShowLines = FALSE;
+  ShowLines = false;
 
   HistogramCreate();
 }
@@ -152,7 +152,7 @@ int vtkMAFHistogram::RenderOverlay(vtkViewport *viewport)
   HistActor->RenderOverlay(viewport);
   if (LabelVisibility) TextActor->RenderOverlay(viewport);
 
-  if (ShowLines == TRUE)
+  if (ShowLines == true)
   {
 	  Line1Actor->RenderOverlay(viewport);
 	  Line2Actor->RenderOverlay(viewport);
