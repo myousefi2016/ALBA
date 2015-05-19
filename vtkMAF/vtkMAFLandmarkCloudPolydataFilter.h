@@ -15,7 +15,7 @@ University of Bedfordshire
 #define __vtkMAFLandmarkCloudPolydataFilter_h
 
 #include "vtkPolyData.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 
 #include "vtkSphereSource.h"
@@ -31,11 +31,11 @@ University of Bedfordshire
 //
 // Version: Nigel McFarlane 6.3.14
 //------------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFLandmarkCloudPolydataFilter : public vtkPolyDataToPolyDataFilter 
+class MAF_EXPORT vtkMAFLandmarkCloudPolydataFilter : public vtkPolyDataAlgorithm 
 {
 public:
   void PrintSelf(ostream& os, vtkIndent indent) const {}
-  vtkTypeMacro(vtkMAFLandmarkCloudPolydataFilter,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFLandmarkCloudPolydataFilter,vtkPolyDataAlgorithm);
 
   /// Constructor
   static vtkMAFLandmarkCloudPolydataFilter *New();

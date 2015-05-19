@@ -24,7 +24,7 @@
 #include "vtkstd/vector"
 #include "vtkCellArray.h"
 #include "vtkPointLocator.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include <cmath>
 #include <algorithm>
 
@@ -37,7 +37,7 @@
   class name: vtkMAFFillingHole
   Filter which fill holes of a vtkPolydata
 */
-class MAF_EXPORT vtkMAFFillingHole : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFFillingHole : public vtkPolyDataAlgorithm
 {
 public:
 #pragma region Nested classes
@@ -146,7 +146,7 @@ public:
   static vtkMAFFillingHole *New();
 
   /** RTTI macro */
-  vtkTypeMacro(vtkMAFFillingHole,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFFillingHole,vtkPolyDataAlgorithm);
   /** print information of the class */
   void PrintSelf(ostream& os, vtkIndent indent);
 

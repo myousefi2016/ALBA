@@ -14,7 +14,7 @@
 
 =========================================================================*/
 
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkObjectFactory.h"
 #include "vtkIdList.h"
 #include "vtkPolyData.h"

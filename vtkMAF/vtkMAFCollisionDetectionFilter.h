@@ -38,7 +38,7 @@
 #ifndef __vtkMAFCollisionDetectionFilter_h
 #define __vtkMAFCollisionDetectionFilter_h
 
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "mafConfigure.h" // Include configuration header.
 
 #include "vtkLinearTransform.h"
@@ -50,10 +50,10 @@ class vtkPolyData;
 class vtkPoints;
 class vtkMatrix4x4;
 
-class MAF_EXPORT vtkMAFCollisionDetectionFilter : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFCollisionDetectionFilter : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeMacro(vtkMAFCollisionDetectionFilter, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFCollisionDetectionFilter, vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 
 //BTX

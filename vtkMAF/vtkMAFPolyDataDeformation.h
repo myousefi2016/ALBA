@@ -53,7 +53,7 @@
 
 #pragma warning(push)
 #pragma warning(disable:4996)
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #pragma warning(pop)
 
 //#define DEBUG_vtkMAFPolyDataDeformation
@@ -68,13 +68,13 @@ class vtkCellLocator;
 // EXPORT_STL_VECTOR(MAF_EXPORT,CSkeletonEdge*);
 // EXPORT_STL_VECTOR(MAF_EXPORT,CSkeletonVertex*);
 
-class MAF_EXPORT vtkMAFPolyDataDeformation : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFPolyDataDeformation : public vtkPolyDataAlgorithm
 {
 
 public:
   static vtkMAFPolyDataDeformation *New();
 
-  vtkTypeMacro(vtkMAFPolyDataDeformation, vtkPolyDataToPolyDataFilter);  
+  vtkTypeMacro(vtkMAFPolyDataDeformation, vtkPolyDataAlgorithm);  
 
   friend class CMatrixTest;
   friend class CSkeletonEdgeTest;

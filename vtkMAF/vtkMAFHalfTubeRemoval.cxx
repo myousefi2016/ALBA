@@ -56,7 +56,7 @@ vtkMAFHalfTubeRemoval::~vtkMAFHalfTubeRemoval()
 //------------------------------------------------------------------------------
 unsigned long vtkMAFHalfTubeRemoval::GetMTime()
 {
-  unsigned long mTime1 = this->vtkPolyDataToPolyDataFilter::GetMTime() ;
+  unsigned long mTime1 = this->vtkPolyDataAlgorithm::GetMTime() ;
 
   if (m_CenterLine != NULL){
     unsigned long mTime2 = m_CenterLine->GetMTime() ;

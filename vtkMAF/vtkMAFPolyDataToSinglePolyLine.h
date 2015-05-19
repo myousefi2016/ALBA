@@ -18,9 +18,9 @@
 #define __vtkMAFPolyDataToSinglePolyLine_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 //----------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFPolyDataToSinglePolyLine : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFPolyDataToSinglePolyLine : public vtkPolyDataAlgorithm
 //----------------------------------------------------------------------------
 {
 public:

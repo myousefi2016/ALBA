@@ -12,7 +12,7 @@ University of Bedfordshire
 
 
 #include "vtkPolyData.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkObjectFactory.h"
 #include "vtkIdList.h"
 #include "vtkSphereSource.h"

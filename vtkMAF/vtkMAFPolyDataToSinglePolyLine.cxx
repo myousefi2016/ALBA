@@ -34,7 +34,7 @@
 vtkStandardNewMacro(vtkMAFPolyDataToSinglePolyLine);
 
 //----------------------------------------------------------------------------
-vtkMAFPolyDataToSinglePolyLine::vtkMAFPolyDataToSinglePolyLine() : vtkPolyDataToPolyDataFilter()
+vtkMAFPolyDataToSinglePolyLine::vtkMAFPolyDataToSinglePolyLine() : vtkPolyDataAlgorithm()
 //----------------------------------------------------------------------------
 {
 }

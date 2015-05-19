@@ -59,6 +59,6 @@ void vtkHoleConnectivity::Execute()
 void vtkHoleConnectivity::PrintSelf(ostream& os, vtkIndent indent)
 //----------------------------------------------------------------------------
 {
-	vtkPolyDataToPolyDataFilter::PrintSelf(os,indent);
+	vtkPolyDataAlgorithm::PrintSelf(os,indent);
 }
 

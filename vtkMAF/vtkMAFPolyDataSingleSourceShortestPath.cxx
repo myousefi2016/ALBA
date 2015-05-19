@@ -417,7 +417,7 @@ void vtkMAFPolyDataSingleSourceShortestPath::HeapDecreaseKey(int v)
 
 void vtkMAFPolyDataSingleSourceShortestPath::PrintSelf(ostream& os, vtkIndent indent)
 {
-	vtkPolyDataToPolyDataFilter::PrintSelf(os,indent);
+	vtkPolyDataAlgorithm::PrintSelf(os,indent);
 
 	// Add all members later...
 }

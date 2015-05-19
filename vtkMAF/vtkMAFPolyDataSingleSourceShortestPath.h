@@ -29,17 +29,17 @@
 #ifndef __vtkMAFPolyDataSingleSourceShortestPath_h__
 #define __vtkMAFPolyDataSingleSourceShortestPath_h__
 
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 class vtkDoubleArray;
 class vtkIntArray;
 class vtkIdList;
 class vtkFloatArray;
 
-class vtkMAFPolyDataSingleSourceShortestPath : public vtkPolyDataToPolyDataFilter
+class vtkMAFPolyDataSingleSourceShortestPath : public vtkPolyDataAlgorithm
 {
 public:
-	vtkTypeMacro(vtkMAFPolyDataSingleSourceShortestPath,vtkPolyDataToPolyDataFilter);
+	vtkTypeMacro(vtkMAFPolyDataSingleSourceShortestPath,vtkPolyDataAlgorithm);
 	
 	static vtkMAFPolyDataSingleSourceShortestPath *New();
 	

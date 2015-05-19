@@ -14,13 +14,13 @@ See the COPYINGS file for license details
 #define __vtkPatchLine_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
-class MAF_EXPORT vtkPatchLine : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkPatchLine : public vtkPolyDataAlgorithm
 {
 	public:
 	/** RTTI macro*/
-	vtkTypeMacro(vtkPatchLine, vtkPolyDataToPolyDataFilter);
+	vtkTypeMacro(vtkPatchLine, vtkPolyDataAlgorithm);
 
 	/** return object instance */
 		static vtkPatchLine *New();

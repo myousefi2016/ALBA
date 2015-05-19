@@ -24,7 +24,7 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPointData.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 //----------------------------------------------------------------------------
 // forward declarations :
@@ -37,13 +37,13 @@
 class name: vtkMAFFixTopology
 This class is a filter which use vtkMAFPoissonSurfaceReconstruction class for fixing the topology.
 */
-class MAF_EXPORT vtkMAFFixTopology : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFFixTopology : public vtkPolyDataAlgorithm
 {
   public:
     /** create instance of the class*/
     static vtkMAFFixTopology *New();
     /** RTTI macro*/
-    vtkTypeMacro(vtkMAFFixTopology,vtkPolyDataToPolyDataFilter);
+    vtkTypeMacro(vtkMAFFixTopology,vtkPolyDataAlgorithm);
     /** print information*/
     void PrintSelf(ostream& os, vtkIndent indent);
   

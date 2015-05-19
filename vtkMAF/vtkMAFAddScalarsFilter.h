@@ -15,7 +15,7 @@ University of Bedfordshire
 #define __vtkMAFAddScalarsFilter_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkPolyData.h"
 #include <ostream>
 #include <vector>
@@ -28,10 +28,10 @@ University of Bedfordshire
 //
 // Version 18.2.14
 //------------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFAddScalarsFilter : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFAddScalarsFilter : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeMacro(vtkMAFAddScalarsFilter,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFAddScalarsFilter,vtkPolyDataAlgorithm);
   static vtkMAFAddScalarsFilter *New();
   void PrintSelf(ostream& os, vtkIndent indent) const {}
 

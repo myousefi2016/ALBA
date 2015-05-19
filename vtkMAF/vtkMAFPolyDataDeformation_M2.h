@@ -50,7 +50,7 @@
 
 #pragma warning(push)
 #pragma warning(disable:4996)
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #pragma warning(pop)
 
 #include <vector>
@@ -69,10 +69,10 @@ class CSkeletonVertex;
 // EXPORT_STL_VECTOR(MAF_EXPORT,CSkeletonVertex*);
 // EXPORT_STL_VECTOR(MAF_EXPORT,vtkIdType);
 
-class MAF_EXPORT vtkMAFPolyDataDeformation_M2 : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFPolyDataDeformation_M2 : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeMacro(vtkMAFPolyDataDeformation_M2, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPolyDataDeformation_M2, vtkPolyDataAlgorithm);
 
   static vtkMAFPolyDataDeformation_M2 *New();
 

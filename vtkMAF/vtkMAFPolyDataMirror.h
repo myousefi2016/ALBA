@@ -14,7 +14,7 @@
 #ifndef __vtkMAFPolyDataMirror_h
 #define __vtkMAFPolyDataMirror_h
 
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "mafConfigure.h"
 
 class vtkDoubleArray;
@@ -25,10 +25,10 @@ class vtkPolyData;
   class name: vtkMAFPolyDataMirror
   Mirror the polydata over one or more axises.
 */
-class MAF_EXPORT vtkMAFPolyDataMirror : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFPolyDataMirror : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeMacro(vtkMAFPolyDataMirror,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPolyDataMirror,vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   static vtkMAFPolyDataMirror *New();
