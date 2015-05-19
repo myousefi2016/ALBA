@@ -238,7 +238,7 @@ void mafGizmoSlice::CreateGizmoSliceInLocalPositionOnAxis(int gizmoSliceId, int 
 		  break;
 	  }
 
-    vtkDataSetToPolyDataFilter *cornerFilter;
+    vtkPolyDataAlgorithm *cornerFilter;
 
     if(m_CentralClipFactor == 0)
     {

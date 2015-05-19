@@ -27,7 +27,7 @@
 #ifndef __vtkMAFExtendedGlyph3D_h
 #define __vtkMAFExtendedGlyph3D_h
 
-#include "vtkDataSetToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "mafConfigure.h"
 
 #define VTK_SCALE_BY_SCALAR 0
@@ -47,11 +47,14 @@
 #define VTK_INDEXING_BY_SCALAR 1
 #define VTK_INDEXING_BY_VECTOR 2
 
-class MAF_EXPORT vtkMAFExtendedGlyph3D : public vtkDataSetToPolyDataFilter
+class MAF_EXPORT vtkMAFExtendedGlyph3D : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeMacro(vtkMAFExtendedGlyph3D,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFExtendedGlyph3D,vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
+
+	/** Set Input port information to accept the right type */
+	int FillInputPortInformation(int, vtkInformation *info);
 
   /**
   Construct object with scaling on, scaling mode is by scalar value, 

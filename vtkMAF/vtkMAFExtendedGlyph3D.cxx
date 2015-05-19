@@ -28,6 +28,7 @@
 #include "vtkPolyData.h"
 #include "vtkTransform.h"
 #include "vtkUnsignedCharArray.h"
+#include "vtkInformation.h"
 
 vtkStandardNewMacro(vtkMAFExtendedGlyph3D);
 
@@ -705,6 +706,12 @@ void vtkMAFExtendedGlyph3D::PrintSelf(ostream& os, vtkIndent indent)
      << (this->InputVectorsSelection ? this->InputVectorsSelection : "(none)") << "\n";
   os << indent << "InputNormalsSelection: " 
      << (this->InputNormalsSelection ? this->InputNormalsSelection : "(none)") << "\n";
+}
+
+int vtkMAFExtendedGlyph3D::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
+	return 1;
 }
 
 void vtkMAFExtendedGlyph3D::ComputeInputUpdateExtents( vtkDataObject *output )

@@ -24,7 +24,7 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPointData.h"
-#include "vtkDataSetToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 #include <vector>
 #include <hash_map>
@@ -42,15 +42,18 @@ class name: vtkMAFPoissonSurfaceReconstruction
 This class implement Poisson Surface Reconstruction method.
 A paper can be viewed here: research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf
 */
-class MAF_EXPORT vtkMAFPoissonSurfaceReconstruction : public vtkDataSetToPolyDataFilter
+class MAF_EXPORT vtkMAFPoissonSurfaceReconstruction : public vtkPolyDataAlgorithm
 {
 public:
   /** create instance of the object */
   static vtkMAFPoissonSurfaceReconstruction *New();
   /** RTTI macro */
-  vtkTypeMacro(vtkMAFPoissonSurfaceReconstruction,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPoissonSurfaceReconstruction,vtkPolyDataAlgorithm);
   /** print object information */
   void PrintSelf(ostream& os, vtkIndent indent);
+
+	/** Set Input port information to accept the right type */
+	int FillInputPortInformation(int, vtkInformation *info);
 
   // Description:
   // This error function allows our ported code to report error messages neatly.

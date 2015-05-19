@@ -23,6 +23,7 @@
 #include "vtkFloatArray.h"
 #include "vtkMath.h"
 #include "float.h"
+#include "vtkInformation.h"
 
 
 vtkCxxRevisionMacro(vtkMAFPoissonSurfaceReconstruction, "$Revision: 1.1.2.10 $");
@@ -90,6 +91,12 @@ void vtkMAFPoissonSurfaceReconstruction::PrintSelf(ostream& os, vtkIndent indent
 //----------------------------------------------------------------------------
 {
   this->Superclass::PrintSelf(os,indent);
+}
+
+int vtkMAFPoissonSurfaceReconstruction::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
+	return 1;
 }
 
 //----------------------------------------------------------------------------
