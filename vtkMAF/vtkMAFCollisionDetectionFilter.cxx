@@ -46,8 +46,8 @@ vtkMAFCollisionDetectionFilter::vtkMAFCollisionDetectionFilter()
   vtkDebugMacro(<< "Initializing object");
 
   // Ask the superclass to set the number of connections.
-  this->SetNumberOfInputs(2);
-  this->SetNumberOfOutputs(3);
+  this->SetNumberOfInputPorts(2);
+  this->SetNumberOfOutputPorts(3);
   this->vtkSource::SetNthOutput(1, vtkPolyData::New());
   // Releasing data for pipeline parallism.
   // Filters will know it is empty. 

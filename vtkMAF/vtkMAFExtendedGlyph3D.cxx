@@ -604,7 +604,7 @@ void vtkMAFExtendedGlyph3D::ExecuteInformation()
 void vtkMAFExtendedGlyph3D::SetNumberOfSources(int num)
 {
   // one more because input has index 0.
-  this->SetNumberOfInputs(num+1);
+  this->SetNumberOfInputPorts(num+1);
 }
 
 int vtkMAFExtendedGlyph3D::GetNumberOfSources()
