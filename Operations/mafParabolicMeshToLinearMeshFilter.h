@@ -18,7 +18,7 @@
 #define __mafParabolicMeshToLinearMeshFilter_h
 
 #include "mafDefines.h"
-#include "vtkUnstructuredGridToUnstructuredGridFilter.h"
+#include "vtkUnstructuredGridAlgorithm.h"
 
 /**
  mafParabolicMeshToLinearMeshFilter is a filter to linearize a mesh made of parabolic elements.
@@ -26,12 +26,12 @@
  Currently supported cells are 10 nodes tetra and 20 nodes hexa.
  If the input mesh is already linear or made of unsupported type elements the filter is simply bypassed.
 */
-class MAF_EXPORT mafParabolicMeshToLinearMeshFilter : public vtkUnstructuredGridToUnstructuredGridFilter
+class MAF_EXPORT mafParabolicMeshToLinearMeshFilter : public vtkUnstructuredGridAlgorithm
 {
 
 public:
   
-  vtkTypeMacro(mafParabolicMeshToLinearMeshFilter,vtkUnstructuredGridToUnstructuredGridFilter);
+  vtkTypeMacro(mafParabolicMeshToLinearMeshFilter,vtkUnstructuredGridAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   static mafParabolicMeshToLinearMeshFilter *New();
