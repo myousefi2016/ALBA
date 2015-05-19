@@ -134,7 +134,7 @@ vtkMAFAnnotatedCubeActor::vtkMAFAnnotatedCubeActor()
 
   this->AppendTextEdges = vtkAppendPolyData::New();
   this->AppendTextEdges->UserManagedInputsOn();
-  this->AppendTextEdges->SetNumberOfInputs(6);
+  this->AppendTextEdges->SetNumberOfInputPorts(6);
 
   for (int i = 0; i < 6; i++)
     {

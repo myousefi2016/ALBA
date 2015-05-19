@@ -385,7 +385,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation()
   {
     // output data type is image data also for rg
     OutputDataType = VTK_IMAGE_DATA;
-    SetNumberOfOutputs(NumberOfPieces);
+    SetNumberOfOutputPorts(NumberOfPieces);
   }
   else
   {
