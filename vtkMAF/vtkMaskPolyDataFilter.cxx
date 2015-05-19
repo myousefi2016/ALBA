@@ -258,7 +258,7 @@ void vtkMaskPolyDataFilter::Execute()
 
 void vtkMaskPolyDataFilter::PrintSelf(ostream& os, vtkIndent indent)
 {
-  vtkDataSetToDataSetFilter::PrintSelf(os,indent);
+  vtkDataSetAlgorithm ::PrintSelf(os,indent);
 
   os << indent << "Mask Function: " << this->GetMask() << "\n";
 

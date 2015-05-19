@@ -19,7 +19,7 @@
 // Include:
 //----------------------------------------------------------------------------
 #include "mafObserver.h"
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 //----------------------------------------------------------------------------
 // forward declarations
 //----------------------------------------------------------------------------
@@ -34,10 +34,10 @@ class vtkDataSet;
   @todo
   -
 */
-class MAF_EXPORT vtkMAFDataPipe : public vtkDataSetToDataSetFilter
+class MAF_EXPORT vtkMAFDataPipe : public vtkDataSetAlgorithm 
 {
 public:
-  vtkTypeMacro(vtkMAFDataPipe,vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFDataPipe,vtkDataSetAlgorithm );
 
   static vtkMAFDataPipe *New();
 

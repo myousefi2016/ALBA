@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeSlicer_BES_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 #include "vtkImageData.h"
 #include "vtkPolyData.h"
 
@@ -51,10 +51,10 @@ class mafGPUOGL;
 #endif
 
 
-class MAF_EXPORT vtkMAFVolumeSlicer_BES : public vtkDataSetToDataSetFilter {
+class MAF_EXPORT vtkMAFVolumeSlicer_BES : public vtkDataSetAlgorithm  {
 public:
   static vtkMAFVolumeSlicer_BES *New();
-  vtkTypeMacro(vtkMAFVolumeSlicer_BES, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicer_BES, vtkDataSetAlgorithm );
 
 #pragma region Attributes
   /**

@@ -31,19 +31,19 @@
 #ifndef __vtkMaskPolyDataFilter_h
 #define __vtkMaskPolyDataFilter_h
 
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 #include "vtkPolyData.h"
 #include "vtkMath.h"
 #include "vtkPolygon.h"
 #include "mafConfigure.h"
 //#include "vtkSVTKWin32Header.h"
 
-class MAF_EXPORT vtkMaskPolyDataFilter : public vtkDataSetToDataSetFilter
+class MAF_EXPORT vtkMaskPolyDataFilter : public vtkDataSetAlgorithm 
 {
 public:
   
   /** RTTI macro */
-  vtkTypeMacro(vtkMaskPolyDataFilter,vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMaskPolyDataFilter,vtkDataSetAlgorithm );
 
   const char *GetClassName() {return "vtkMaskPolyDataFilter";};
   void PrintSelf(ostream& os, vtkIndent indent);

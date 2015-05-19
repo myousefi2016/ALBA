@@ -26,7 +26,7 @@
 #ifndef __vtkMAFDistanceFilter_h
 #define __vtkMAFDistanceFilter_h
 
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 #include "vtkMatrix4x4.h"
 #include "vtkTransform.h"
 
@@ -42,12 +42,12 @@ from isosurfaces of defined value obtained by interpolating into the source data
 For example, we can compute distances on a geometry
 (specified as Input) from an isosurface in a volume (Source).
 */
-class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetToDataSetFilter {
+class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetAlgorithm  {
   public:
     /** create an instance of the object */
     static vtkMAFDistanceFilter *New();
     /** RTTI Macro */
-    vtkTypeMacro(vtkMAFDistanceFilter, vtkDataSetToDataSetFilter);
+    vtkTypeMacro(vtkMAFDistanceFilter, vtkDataSetAlgorithm );
     
     /**   Specify the point locations used to Distance input. Any geometry  can be used.*/
     void SetSource(vtkDataSet *data);

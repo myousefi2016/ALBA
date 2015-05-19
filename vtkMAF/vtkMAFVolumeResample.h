@@ -32,17 +32,17 @@
 #define __vtkMAFVolumeResample_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 #include "vtkImageData.h"
 
 //class vtkImageData;
 class vtkRectilinearGrid;
 
 
-class MAF_EXPORT vtkMAFVolumeResample: public vtkDataSetToDataSetFilter {
+class MAF_EXPORT vtkMAFVolumeResample: public vtkDataSetAlgorithm  {
 public:
   static vtkMAFVolumeResample*New();
-  vtkTypeMacro(vtkMAFVolumeResample, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeResample, vtkDataSetAlgorithm );
   
   void PrintSelf(ostream& os, vtkIndent indent);
 

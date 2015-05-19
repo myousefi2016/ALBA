@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeSlicer_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm .h"
 #include "vtkImageData.h"
 #include "vtkPolyData.h"
 
@@ -42,10 +42,10 @@
 class vtkRectilinearGrid;
 class vtkLinearTransform;
 
-class MAF_EXPORT vtkMAFVolumeSlicer : public vtkDataSetToDataSetFilter {
+class MAF_EXPORT vtkMAFVolumeSlicer : public vtkDataSetAlgorithm  {
 public:
   static vtkMAFVolumeSlicer *New();
-  vtkTypeMacro(vtkMAFVolumeSlicer, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicer, vtkDataSetAlgorithm );
 
   /**
   Specify a point defining the origin of the plane.*/
