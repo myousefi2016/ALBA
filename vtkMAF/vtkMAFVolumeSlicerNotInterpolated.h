@@ -44,7 +44,7 @@ public:
   static vtkMAFVolumeSlicerNotInterpolated *New();
 
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFVolumeSlicerNotInterpolated, vtkDataSetToImageFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicerNotInterpolated, vtkDataSetToImageFilter);
 
   /** Set the slicer output */
   inline void SetOutput(vtkImageData * data) {vtkImageSource::SetOutput(data);};

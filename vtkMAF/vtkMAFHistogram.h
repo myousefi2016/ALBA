@@ -58,7 +58,7 @@ class MAF_EXPORT vtkMAFHistogram : public vtkActor2D
 {
  public:
   /** RTTI macro */
-  vtkTypeRevisionMacro(vtkMAFHistogram, vtkActor2D);
+  vtkTypeMacro(vtkMAFHistogram, vtkActor2D);
   /** Print Object Information*/
   void PrintSelf(ostream& os, vtkIndent indent);
   /** Function that create an instance of the object*/

@@ -74,7 +74,7 @@ class MAF_EXPORT vtkMAFPolyDataDeformation : public vtkPolyDataToPolyDataFilter
 public:
   static vtkMAFPolyDataDeformation *New();
 
-  vtkTypeRevisionMacro(vtkMAFPolyDataDeformation, vtkPolyDataToPolyDataFilter);  
+  vtkTypeMacro(vtkMAFPolyDataDeformation, vtkPolyDataToPolyDataFilter);  
 
   friend class CMatrixTest;
   friend class CSkeletonEdgeTest;

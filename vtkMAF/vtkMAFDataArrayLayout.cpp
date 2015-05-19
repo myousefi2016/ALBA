@@ -14,7 +14,6 @@
 #include "vtkMAFDataArrayLayout.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFDataArrayLayout, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFDataArrayLayout);
 
 // Construct object with default physical layout, which is

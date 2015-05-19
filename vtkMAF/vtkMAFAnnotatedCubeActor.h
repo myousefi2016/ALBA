@@ -62,7 +62,7 @@ class MAF_EXPORT vtkMAFAnnotatedCubeActor : public vtkProp3D
 {
 public:
   static vtkMAFAnnotatedCubeActor *New();
-  vtkTypeRevisionMacro(vtkMAFAnnotatedCubeActor,vtkProp3D);
+  vtkTypeMacro(vtkMAFAnnotatedCubeActor,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /** For some exporters and other other operations we must be

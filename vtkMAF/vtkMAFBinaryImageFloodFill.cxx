@@ -35,7 +35,6 @@
 #include "itkSubtractImageFilter.h"
 #include "itkImageToVTKImageFilter.h"
 
-vtkCxxRevisionMacro(vtkMAFBinaryImageFloodFill, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFBinaryImageFloodFill);
 
 

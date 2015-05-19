@@ -54,7 +54,7 @@ class mafGPUOGL;
 class MAF_EXPORT vtkMAFVolumeSlicer_BES : public vtkDataSetToDataSetFilter {
 public:
   static vtkMAFVolumeSlicer_BES *New();
-  vtkTypeRevisionMacro(vtkMAFVolumeSlicer_BES, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicer_BES, vtkDataSetToDataSetFilter);
 
 #pragma region Attributes
   /**

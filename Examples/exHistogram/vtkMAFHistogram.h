@@ -52,7 +52,7 @@ class __declspec( dllexport ) vtkMAFHistogram : public vtkActor2D
 //-----------------------------------------------------------------------------
 {
  public:
-  vtkTypeRevisionMacro(vtkMAFHistogram, vtkActor2D);
+  vtkTypeMacro(vtkMAFHistogram, vtkActor2D);
   void PrintSelf(ostream& os, vtkIndent indent);
   static	vtkMAFHistogram *New();
 

@@ -60,7 +60,7 @@ class MAF_EXPORT vtkMAFTextActorMeter : public vtkActor2D
 {
  public:
   /** RTTI macro. */
-  vtkTypeRevisionMacro(vtkMAFTextActorMeter,vtkActor2D);
+  vtkTypeMacro(vtkMAFTextActorMeter,vtkActor2D);
   /** Print useful information. */
   void PrintSelf(ostream& os, vtkIndent indent);
   /** Create an instance of the object. */

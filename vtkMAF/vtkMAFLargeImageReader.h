@@ -228,7 +228,7 @@ public:
 public:
 	//construction and RTTI information
 	static vtkMAFLargeImageReader *New();
-	vtkTypeRevisionMacro(vtkMAFLargeImageReader,vtkMAFLargeImageSource);
+	vtkTypeMacro(vtkMAFLargeImageReader,vtkMAFLargeImageSource);
 	void PrintSelf(ostream& os, vtkIndent indent);
 
 protected:

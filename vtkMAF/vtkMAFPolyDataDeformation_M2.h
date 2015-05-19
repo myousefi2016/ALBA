@@ -72,7 +72,7 @@ class CSkeletonVertex;
 class MAF_EXPORT vtkMAFPolyDataDeformation_M2 : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFPolyDataDeformation_M2, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPolyDataDeformation_M2, vtkPolyDataToPolyDataFilter);
 
   static vtkMAFPolyDataDeformation_M2 *New();
 

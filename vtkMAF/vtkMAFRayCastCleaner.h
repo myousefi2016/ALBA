@@ -40,7 +40,7 @@ class MAF_EXPORT vtkMAFRayCastCleaner : public vtkStructuredPointsToStructuredPo
 public:
   
   /** Add collect revision method */
-  vtkTypeRevisionMacro(vtkMAFRayCastCleaner,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFRayCastCleaner,vtkStructuredPointsToStructuredPointsFilter);
 
   /** Dynamic constructor */
   static vtkMAFRayCastCleaner *New();

@@ -21,7 +21,6 @@
 #include "vtkPointData.h"
 #include "vtkCellArray.h"
 
-vtkCxxRevisionMacro(vtkMAFPolyDataSingleSourceShortestPath, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFPolyDataSingleSourceShortestPath);
 
 //----------------------------------------------------------------------------

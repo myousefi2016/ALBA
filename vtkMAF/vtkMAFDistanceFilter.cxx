@@ -23,7 +23,6 @@
 #include "assert.h"
 
 
-vtkCxxRevisionMacro(vtkMAFDistanceFilter, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFDistanceFilter);
 
 #define min(x0, x1) (((x0) < (x1)) ? (x0) : (x1))

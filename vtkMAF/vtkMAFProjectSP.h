@@ -89,7 +89,7 @@ class MAF_EXPORT vtkMAFProjectSP : public vtkStructuredPointsToStructuredPointsF
 {
 public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFProjectSP,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFProjectSP,vtkStructuredPointsToStructuredPointsFilter);
   /** Print object information */
   void PrintSelf(ostream& os, vtkIndent indent);
 

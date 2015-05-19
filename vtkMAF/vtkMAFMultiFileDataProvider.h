@@ -81,7 +81,7 @@ public:
   virtual const char* GetInternalFileName(int nFile);
 
 public:
-  vtkTypeRevisionMacro(vtkMAFMultiFileDataProvider, vtkMAFLargeDataProvider);
+  vtkTypeMacro(vtkMAFMultiFileDataProvider, vtkMAFLargeDataProvider);
   static vtkMAFMultiFileDataProvider* New();
 
 public:

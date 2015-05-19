@@ -56,7 +56,7 @@ class MAF_EXPORT vtkMAFMatrixVectorMath : public vtkObject
 {
 public:
   static vtkMAFMatrixVectorMath *New();
-  vtkTypeRevisionMacro(vtkMAFMatrixVectorMath, vtkObject);
+  vtkTypeMacro(vtkMAFMatrixVectorMath, vtkObject);
   void PrintSelf(ostream& os, vtkIndent indent) {} ;
 
 

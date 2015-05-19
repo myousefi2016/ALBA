@@ -24,7 +24,6 @@
 #include "vtkLinearSubdivisionFilter.h"
 #include "vtkClipPolyData.h"
 
-vtkCxxRevisionMacro(vtkMAFClipSurfaceBoundingBox, "$Revision: 1.1 $");  
 vtkStandardNewMacro(vtkMAFClipSurfaceBoundingBox);
 
 //-------------------------------------------------------------------------

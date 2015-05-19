@@ -44,7 +44,7 @@ public:
   };
 
   /** Add collect revision method */
-  vtkTypeRevisionMacro(vtkMAFImageFillHolesRemoveIslands,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFImageFillHolesRemoveIslands,vtkStructuredPointsToStructuredPointsFilter);
 
   /** Dynamic ctor */
   static vtkMAFImageFillHolesRemoveIslands *New();

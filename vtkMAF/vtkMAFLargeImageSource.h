@@ -25,7 +25,7 @@ class MAF_EXPORT vtkMAFLargeImageSource : public vtkSource
 public:
   static vtkMAFLargeImageSource* New();
 
-  vtkTypeRevisionMacro(vtkMAFLargeImageSource,vtkSource);
+  vtkTypeMacro(vtkMAFLargeImageSource,vtkSource);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:

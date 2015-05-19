@@ -37,7 +37,6 @@
 #include <float.h>
 
 
-vtkCxxRevisionMacro(vtkMAFFillingHole, "$Revision: 1.1.2.6 $");
 vtkStandardNewMacro(vtkMAFFillingHole);
 
 #include "mafMemDbg.h"

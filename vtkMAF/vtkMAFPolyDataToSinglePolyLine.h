@@ -24,7 +24,7 @@ class MAF_EXPORT vtkMAFPolyDataToSinglePolyLine : public vtkPolyDataToPolyDataFi
 //----------------------------------------------------------------------------
 {
 public:
-  //vtkTypeRevisionMacro(vtkMAFFixedCutter,vtkCutter);
+  //vtkTypeMacro(vtkMAFFixedCutter,vtkCutter);
 
            vtkMAFPolyDataToSinglePolyLine();
   virtual ~vtkMAFPolyDataToSinglePolyLine();

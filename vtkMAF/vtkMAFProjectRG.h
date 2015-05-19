@@ -87,7 +87,7 @@ class MAF_EXPORT vtkMAFProjectRG : public vtkMAFRectilinearGridToRectilinearGrid
 {
 public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFProjectRG,vtkMAFRectilinearGridToRectilinearGridFilter);
+  vtkTypeMacro(vtkMAFProjectRG,vtkMAFRectilinearGridToRectilinearGridFilter);
   /** Print object information */
   void PrintSelf(ostream& os, vtkIndent indent);
 

@@ -35,7 +35,7 @@ class MAF_EXPORT vtkMAFLandmarkCloudPolydataFilter : public vtkPolyDataToPolyDat
 {
 public:
   void PrintSelf(ostream& os, vtkIndent indent) const {}
-  vtkTypeRevisionMacro(vtkMAFLandmarkCloudPolydataFilter,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFLandmarkCloudPolydataFilter,vtkPolyDataToPolyDataFilter);
 
   /// Constructor
   static vtkMAFLandmarkCloudPolydataFilter *New();

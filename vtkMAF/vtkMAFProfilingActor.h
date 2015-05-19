@@ -53,7 +53,7 @@ class MAF_EXPORT vtkMAFProfilingActor : public vtkActor2D
 {
  public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFProfilingActor,vtkActor2D);
+  vtkTypeMacro(vtkMAFProfilingActor,vtkActor2D);
   /** Print Object Information */
   void PrintSelf(ostream& os, vtkIndent indent);
   /** create an instance of the object */

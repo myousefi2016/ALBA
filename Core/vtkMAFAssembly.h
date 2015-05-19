@@ -38,7 +38,7 @@ class MAF_EXPORT vtkMAFAssembly : public vtkProp3D
 public:
   static vtkMAFAssembly *New();
 
-  vtkTypeRevisionMacro(vtkMAFAssembly,vtkProp3D);
+  vtkTypeMacro(vtkMAFAssembly,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /**

@@ -27,7 +27,7 @@ http://arxiv.org/ftp/q-bio/papers/0507/0507024.pdf*/
 class MAF_EXPORT vtkMAFErythrocyteSource : public vtkPolyDataSource
 {
 public:  
-  vtkTypeRevisionMacro(vtkMAFErythrocyteSource,vtkPolyDataSource);
+  vtkTypeMacro(vtkMAFErythrocyteSource,vtkPolyDataSource);
   static vtkMAFErythrocyteSource *New();
   
 protected:

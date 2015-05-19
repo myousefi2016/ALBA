@@ -31,7 +31,7 @@ protected:
 
 public:
   static vtkMAFVolumeRayCastMapper *New();
-  vtkTypeRevisionMacro(vtkMAFVolumeRayCastMapper, vtkOpenGLVolumeRayCastMapper);	
+  vtkTypeMacro(vtkMAFVolumeRayCastMapper, vtkOpenGLVolumeRayCastMapper);	
 
 public:
   // WARNING: INTERNAL METHOD - NOT INTENDED FOR GENERAL USE

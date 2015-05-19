@@ -32,7 +32,7 @@ class vtkMAFLargeDataProvider;
 class MAF_EXPORT vtkMAFLargeDataSet : public vtkDataObject
 {
 public:
-	vtkTypeRevisionMacro(vtkMAFLargeDataSet,vtkDataObject);
+	vtkTypeMacro(vtkMAFLargeDataSet,vtkDataObject);
 	void PrintSelf(ostream& os, vtkIndent indent);
 
 	// Description:

@@ -23,7 +23,7 @@
 class MAF_EXPORT vtkMAFDataArrayLayout : public vtkObject 
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFDataArrayLayout,vtkObject);
+  vtkTypeMacro(vtkMAFDataArrayLayout,vtkObject);
   void PrintSelf(ostream& os, vtkIndent indent);
   static vtkMAFDataArrayLayout* New();
 public:

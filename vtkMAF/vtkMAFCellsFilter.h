@@ -44,7 +44,7 @@ public:
   /** create an instance of the object */
   static vtkMAFCellsFilter *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFCellsFilter, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFCellsFilter, vtkPolyDataToPolyDataFilter);
   /** Print Object Information */
   void PrintSelf(ostream& os, vtkIndent indent);
    

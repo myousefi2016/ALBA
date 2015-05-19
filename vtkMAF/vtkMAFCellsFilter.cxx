@@ -28,7 +28,6 @@
 #include "vtkCharArray.h"
 #include "vtkLookupTable.h"
 
-vtkCxxRevisionMacro(vtkMAFCellsFilter, "$Revision: 1.1.2.1 $");  
 vtkStandardNewMacro(vtkMAFCellsFilter);
 
 // Constructs with initial  values.

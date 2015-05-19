@@ -71,7 +71,7 @@ struct tfWidget {
 class MAF_EXPORT vtkMAFTransferFunction2D : public vtkDataObject {
   public:
     static vtkMAFTransferFunction2D *New();
-    vtkTypeRevisionMacro(vtkMAFTransferFunction2D,vtkDataObject);
+    vtkTypeMacro(vtkMAFTransferFunction2D,vtkDataObject);
     
     void Initialize();
     void DeepCopy( vtkDataObject *f ) { this->ShallowCopy(f); }
@@ -174,7 +174,7 @@ class MAF_EXPORT vtkMAFTransferFunction2D : public vtkDataObject {
 class MAF_EXPORT vtkVolumeProperty2 : public vtkVolumeProperty {
   public:
     static vtkVolumeProperty2 *New();
-    vtkTypeRevisionMacro(vtkVolumeProperty2, vtkVolumeProperty);
+    vtkTypeMacro(vtkVolumeProperty2, vtkVolumeProperty);
 
     void SetTransferFunction2D(vtkMAFTransferFunction2D *function);
     vtkMAFTransferFunction2D *GetTransferFunction2D() const { return this->TransferFunction2D; }

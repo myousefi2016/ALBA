@@ -46,7 +46,6 @@
 
 static const vtkMarchingSquaresLineCases* marchingSquaresCases = vtkMarchingSquaresLineCases::GetCases();
 
-vtkCxxRevisionMacro(vtkMAFContourVolumeMapperAdv, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFContourVolumeMapperAdv);
 
 //------------------------------------------------------------------------------

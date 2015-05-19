@@ -42,7 +42,7 @@ class vtkRectilinearGrid;
 class MAF_EXPORT vtkMAFVolumeResample: public vtkDataSetToDataSetFilter {
 public:
   static vtkMAFVolumeResample*New();
-  vtkTypeRevisionMacro(vtkMAFVolumeResample, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeResample, vtkDataSetToDataSetFilter);
   
   void PrintSelf(ostream& os, vtkIndent indent);
 

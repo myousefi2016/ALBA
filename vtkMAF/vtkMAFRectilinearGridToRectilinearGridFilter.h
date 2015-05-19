@@ -64,7 +64,7 @@ public:
   /** create an instance of the object */
   static vtkMAFRectilinearGridToRectilinearGridFilter *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFRectilinearGridToRectilinearGridFilter,vtkRectilinearGridSource);
+  vtkTypeMacro(vtkMAFRectilinearGridToRectilinearGridFilter,vtkRectilinearGridSource);
 
   /**  Set  the input data or filter.*/
   virtual void SetInput(vtkRectilinearGrid *input);

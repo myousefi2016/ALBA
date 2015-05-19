@@ -49,7 +49,7 @@ class MAF_EXPORT mafICPUtility : public vtkObject
 public:
   static mafICPUtility *New();
 
-  vtkTypeRevisionMacro(mafICPUtility,vtkObject);
+  vtkTypeMacro(mafICPUtility,vtkObject);
 
   struct RegResult{
 		vnl_matrix_fixed<double,3,3> R;

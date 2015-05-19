@@ -41,7 +41,7 @@ public:
 	static vtkMAFClipSurfaceBoundingBox *New();
 
   /** RTTI macro*/
-	vtkTypeRevisionMacro(vtkMAFClipSurfaceBoundingBox,vtkObject);
+	vtkTypeMacro(vtkMAFClipSurfaceBoundingBox,vtkObject);
 
   /** Set the polydata with which clip is performed.*/
 	void SetMask(vtkPolyData *mask) {this->SetNthInput(1, mask);};

@@ -47,7 +47,7 @@ class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetToDataSetFilter {
     /** create an instance of the object */
     static vtkMAFDistanceFilter *New();
     /** RTTI Macro */
-    vtkTypeRevisionMacro(vtkMAFDistanceFilter, vtkDataSetToDataSetFilter);
+    vtkTypeMacro(vtkMAFDistanceFilter, vtkDataSetToDataSetFilter);
     
     /**   Specify the point locations used to Distance input. Any geometry  can be used.*/
     void SetSource(vtkDataSet *data);

@@ -146,7 +146,7 @@ public:
   static vtkMAFFillingHole *New();
 
   /** RTTI macro */
-  vtkTypeRevisionMacro(vtkMAFFillingHole,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFFillingHole,vtkPolyDataToPolyDataFilter);
   /** print information of the class */
   void PrintSelf(ostream& os, vtkIndent indent);
 

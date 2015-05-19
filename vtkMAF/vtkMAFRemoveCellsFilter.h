@@ -47,7 +47,7 @@ public:
   // Constructs with initial values of zero.
   static vtkMAFRemoveCellsFilter *New();
 
-  vtkTypeRevisionMacro(vtkMAFRemoveCellsFilter, vtkMAFCellsFilter);
+  vtkTypeMacro(vtkMAFRemoveCellsFilter, vtkMAFCellsFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
   
   // Description:

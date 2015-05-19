@@ -55,7 +55,7 @@ polydata will contain the points, but no cell will be created.*/
 class MAF_EXPORT vtkMAFMeshCutter : public vtkUnstructuredGridToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFMeshCutter,vtkUnstructuredGridToPolyDataFilter);
+  vtkTypeMacro(vtkMAFMeshCutter,vtkUnstructuredGridToPolyDataFilter);
   static vtkMAFMeshCutter *New() ;
   void PrintSelf(ostream& os, vtkIndent indent);                                ///< print self
 

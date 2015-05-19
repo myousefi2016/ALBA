@@ -88,7 +88,7 @@ class MAF_EXPORT vtkMAFOrientationMarkerWidget : public vtkInteractorObserver
 {
 public:
   static vtkMAFOrientationMarkerWidget* New();
-  vtkTypeRevisionMacro(vtkMAFOrientationMarkerWidget, vtkInteractorObserver);
+  vtkTypeMacro(vtkMAFOrientationMarkerWidget, vtkInteractorObserver);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   

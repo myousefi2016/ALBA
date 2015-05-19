@@ -48,7 +48,7 @@ public:
   /** create instance of the object */
   static vtkMAFPoissonSurfaceReconstruction *New();
   /** RTTI macro */
-  vtkTypeRevisionMacro(vtkMAFPoissonSurfaceReconstruction,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPoissonSurfaceReconstruction,vtkDataSetToPolyDataFilter);
   /** print object information */
   void PrintSelf(ostream& os, vtkIndent indent);
 

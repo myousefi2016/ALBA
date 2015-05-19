@@ -21,7 +21,7 @@
 
 class vtkMAFDummyRectilinearGridToRectilinearGridFilter : public vtkMAFRectilinearGridToRectilinearGridFilter
 {
-  vtkTypeRevisionMacro(vtkMAFDummyRectilinearGridToRectilinearGridFilter,vtkMAFRectilinearGridToRectilinearGridFilter);
+  vtkTypeMacro(vtkMAFDummyRectilinearGridToRectilinearGridFilter,vtkMAFRectilinearGridToRectilinearGridFilter);
 
 protected:
   void operator=(const vtkMAFDummyRectilinearGridToRectilinearGridFilter&) {};

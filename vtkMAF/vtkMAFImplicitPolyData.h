@@ -29,7 +29,7 @@ class MAF_EXPORT vtkMAFImplicitPolyData : public vtkImplicitFunction
 {
 public:
   static vtkMAFImplicitPolyData *New();
-  vtkTypeRevisionMacro(vtkMAFImplicitPolyData, vtkImplicitFunction);
+  vtkTypeMacro(vtkMAFImplicitPolyData, vtkImplicitFunction);
 
   void PrintSelf(ostream& os, vtkIndent indent);
   

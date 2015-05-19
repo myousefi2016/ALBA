@@ -72,7 +72,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class MAF_EXPORT vtkXRayVolumeMapper : public vtkVolumeMapper {
   public:
     static vtkXRayVolumeMapper *New();
-    vtkTypeRevisionMacro(vtkXRayVolumeMapper, vtkVolumeMapper);
+    vtkTypeMacro(vtkXRayVolumeMapper, vtkVolumeMapper);
     
     // standard vtkVolumeMapper only accept vtkImageData. Overwrite input functions
     void  SetInput(vtkDataSet *input);

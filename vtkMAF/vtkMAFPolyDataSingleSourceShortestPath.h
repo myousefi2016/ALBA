@@ -39,7 +39,7 @@ class vtkFloatArray;
 class vtkMAFPolyDataSingleSourceShortestPath : public vtkPolyDataToPolyDataFilter
 {
 public:
-	vtkTypeRevisionMacro(vtkMAFPolyDataSingleSourceShortestPath,vtkPolyDataToPolyDataFilter);
+	vtkTypeMacro(vtkMAFPolyDataSingleSourceShortestPath,vtkPolyDataToPolyDataFilter);
 	
 	static vtkMAFPolyDataSingleSourceShortestPath *New();
 	

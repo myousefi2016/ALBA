@@ -31,7 +31,7 @@ University of Bedfordshire
 class MAF_EXPORT vtkMAFAddScalarsFilter : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFAddScalarsFilter,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFAddScalarsFilter,vtkPolyDataToPolyDataFilter);
   static vtkMAFAddScalarsFilter *New();
   void PrintSelf(ostream& os, vtkIndent indent) const {}
 

@@ -16,7 +16,6 @@
 #include "vtkMAFDataArrayDescriptor.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFDataArrayDescriptor, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFDataArrayDescriptor);
 
 // Construct object with default tuple dimension (number of components) of 1.

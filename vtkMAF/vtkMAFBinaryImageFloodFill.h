@@ -36,7 +36,7 @@ class MAF_EXPORT vtkMAFBinaryImageFloodFill : public vtkStructuredPointsToStruct
 public:
 
   /** Add collect revision method */
-  vtkTypeRevisionMacro(vtkMAFBinaryImageFloodFill,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFBinaryImageFloodFill,vtkStructuredPointsToStructuredPointsFilter);
 
   /** Dynamic ctor */
   static vtkMAFBinaryImageFloodFill *New();

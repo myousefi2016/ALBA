@@ -128,7 +128,7 @@ public:
   // Instantiate the object.
   static mafOpMMLContourWidget *New();
 
-  vtkTypeRevisionMacro(mafOpMMLContourWidget,vtkPolyDataSourceWidget);
+  vtkTypeMacro(mafOpMMLContourWidget,vtkPolyDataSourceWidget);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:

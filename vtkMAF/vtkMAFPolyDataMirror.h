@@ -28,7 +28,7 @@ class vtkPolyData;
 class MAF_EXPORT vtkMAFPolyDataMirror : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFPolyDataMirror,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPolyDataMirror,vtkPolyDataToPolyDataFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   static vtkMAFPolyDataMirror *New();

@@ -240,7 +240,7 @@ class name: vtkMAFContourVolumeMapperGPU.
     /** create an instance of the object */
     static vtkMAFContourVolumeMapperGPU *New();
     /** RTTI Macro */
-    vtkTypeRevisionMacro(vtkMAFContourVolumeMapperGPU, vtkVolumeMapper);
+    vtkTypeMacro(vtkMAFContourVolumeMapperGPU, vtkVolumeMapper);
     
 
     /** The input should be either vtkImageData or vtkRectilinearGrid */

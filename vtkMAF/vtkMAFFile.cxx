@@ -25,10 +25,8 @@
   #include <share.h>
 #endif
 
-vtkCxxRevisionMacro(vtkMAFFile, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFFile);
 
-vtkCxxRevisionMacro(vtkMAFFile2, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFFile2);
 
 //creates a new file

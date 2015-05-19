@@ -36,7 +36,7 @@ public:
   //----------------------------------------------------------------------------
   // Public methods
   //----------------------------------------------------------------------------
-  vtkTypeRevisionMacro(vtkMAFExtrudeToCircle, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFExtrudeToCircle, vtkPolyDataToPolyDataFilter);
   static vtkMAFExtrudeToCircle *New();                  ///< New() method
   void PrintSelf(ostream& os, vtkIndent indent) const ; ///< print self
 

@@ -36,7 +36,7 @@ class MAF_EXPORT vtkMAFToLinearTransform : public vtkLinearTransform
 {
  public:
   static vtkMAFToLinearTransform *New();
-  vtkTypeRevisionMacro(vtkMAFToLinearTransform,vtkLinearTransform);
+  vtkTypeMacro(vtkMAFToLinearTransform,vtkLinearTransform);
   void PrintSelf (ostream& os, vtkIndent indent);
   
   /** 

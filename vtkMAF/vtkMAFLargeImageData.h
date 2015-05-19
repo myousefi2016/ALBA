@@ -31,7 +31,7 @@ class MAF_EXPORT vtkMAFLargeImageData : public vtkMAFLargeDataSet
 public:
 	static vtkMAFLargeImageData *New();
 
-	vtkTypeRevisionMacro(vtkMAFLargeImageData,vtkMAFLargeDataSet);
+	vtkTypeMacro(vtkMAFLargeImageData,vtkMAFLargeDataSet);
 	virtual void PrintSelf(ostream& os, vtkIndent indent);
 
 #pragma region vtkLargeDataAPI

@@ -58,7 +58,7 @@ class MAF_EXPORT vtkMAFGridActor : public vtkActor
 {
  public:
   /** RTTI macro. */
-  vtkTypeRevisionMacro(vtkMAFGridActor,vtkActor);
+  vtkTypeMacro(vtkMAFGridActor,vtkActor);
   /** Print information regarding the status of the object. */
   void PrintSelf(ostream& os, vtkIndent indent);
   /** Create an instance of the object. */

@@ -15,7 +15,6 @@
 #include "vtkImageUnPacker.h"
 #include "vtkImageData.h"
 
-vtkCxxRevisionMacro(vtkImageUnPacker, "$Revision: 1.1.1.1.8.1 $");
 vtkStandardNewMacro(vtkImageUnPacker);
 
 //----------------------------------------------------------------------------

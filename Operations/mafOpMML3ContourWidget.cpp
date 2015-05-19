@@ -34,7 +34,6 @@
 #include <algorithm>
 
 
-vtkCxxRevisionMacro(mafOpMML3ContourWidget, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(mafOpMML3ContourWidget);
 vtkCxxSetObjectMacro(mafOpMML3ContourWidget, m_PlaneProperty, vtkProperty);
 

@@ -90,7 +90,7 @@ public:
   } DICOM_DEFAULT;
 
 public:
-	vtkTypeRevisionMacro(vtkDicomUnPacker,vtkImageUnPacker);
+	vtkTypeMacro(vtkDicomUnPacker,vtkImageUnPacker);
 	void PrintSelf(ostream& os, vtkIndent indent);
 
 	/**	Constructor.*/

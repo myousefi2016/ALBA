@@ -65,7 +65,7 @@ class MAF_EXPORT mafClassicICPRegistration : public vtkIterativeClosestPointTran
 {
 public:
   static mafClassicICPRegistration *New();
-	vtkTypeRevisionMacro(mafClassicICPRegistration, vtkIterativeClosestPointTransform);
+	vtkTypeMacro(mafClassicICPRegistration, vtkIterativeClosestPointTransform);
   //vtkTypeMacro(mflClassicICPRegistration,vtkIterativeClosestPointTransform);
   //void PrintSelf(ostream& os, vtkIndent indent);
 

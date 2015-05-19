@@ -36,7 +36,6 @@ See the COPYINGS file for license details
 
 #include <math.h>
 
-vtkCxxRevisionMacro(vtkMAFCellLocator, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFCellLocator);
 
 

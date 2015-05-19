@@ -34,7 +34,6 @@
 
 //------------------------------------------------------------------------------
 // standard macros
-vtkCxxRevisionMacro(vtkMAFExtrudeToCircle, "$Revision: 1.4.2.5 $");
 vtkStandardNewMacro(vtkMAFExtrudeToCircle);
 //------------------------------------------------------------------------------
 

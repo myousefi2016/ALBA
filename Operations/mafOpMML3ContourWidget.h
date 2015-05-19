@@ -73,7 +73,7 @@ public:
   /// Instantiate the object.
   static mafOpMML3ContourWidget *New();
 
-  vtkTypeRevisionMacro(mafOpMML3ContourWidget,vtkPolyDataSourceWidget);
+  vtkTypeMacro(mafOpMML3ContourWidget,vtkPolyDataSourceWidget);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Methods that satisfy the superclass' API.

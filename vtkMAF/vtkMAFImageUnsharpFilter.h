@@ -30,7 +30,7 @@ class MAF_EXPORT vtkMAFImageUnsharpFilter : public vtkImageToImageFilter
 {
 public:
   /** RTTI macro*/
-  vtkTypeRevisionMacro(vtkMAFImageUnsharpFilter,vtkImageToImageFilter);
+  vtkTypeMacro(vtkMAFImageUnsharpFilter,vtkImageToImageFilter);
   /** print information */
   void PrintSelf(ostream& os, vtkIndent indent);
 

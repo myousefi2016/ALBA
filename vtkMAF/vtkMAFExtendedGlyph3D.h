@@ -50,7 +50,7 @@
 class MAF_EXPORT vtkMAFExtendedGlyph3D : public vtkDataSetToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFExtendedGlyph3D,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFExtendedGlyph3D,vtkDataSetToPolyDataFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /**

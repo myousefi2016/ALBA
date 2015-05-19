@@ -61,7 +61,7 @@ class MAF_EXPORT vtkMAFMeshCutter_BES : public vtkUnstructuredGridToPolyDataFilt
 {
 public:
   /** RTTI macro*/
-  vtkTypeRevisionMacro(vtkMAFMeshCutter_BES,vtkUnstructuredGridToPolyDataFilter);
+  vtkTypeMacro(vtkMAFMeshCutter_BES,vtkUnstructuredGridToPolyDataFilter);
   /** return object instance */
   static vtkMAFMeshCutter_BES *New() ;
   /** print object information */

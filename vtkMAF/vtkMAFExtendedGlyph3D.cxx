@@ -29,7 +29,6 @@
 #include "vtkTransform.h"
 #include "vtkUnsignedCharArray.h"
 
-vtkCxxRevisionMacro(vtkMAFExtendedGlyph3D, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFExtendedGlyph3D);
 
 // Construct object with scaling on, scaling mode is by scalar value,

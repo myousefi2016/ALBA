@@ -37,7 +37,7 @@ University of Bedfordshire
 class MAF_EXPORT vtkMAFSubdividePolylines : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFSubdividePolylines,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFSubdividePolylines,vtkPolyDataToPolyDataFilter);
   static vtkMAFSubdividePolylines *New();
   void PrintSelf(ostream& os, vtkIndent indent) const ;
 

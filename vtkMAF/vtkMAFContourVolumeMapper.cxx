@@ -48,7 +48,6 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
 
 using namespace vtkMAFContourVolumeMapperNamespace;
 
-vtkCxxRevisionMacro(vtkMAFContourVolumeMapper, "$Revision: 1.1.2.6 $");
 vtkStandardNewMacro(vtkMAFContourVolumeMapper);
 
 

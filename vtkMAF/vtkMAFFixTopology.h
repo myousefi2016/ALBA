@@ -43,7 +43,7 @@ class MAF_EXPORT vtkMAFFixTopology : public vtkPolyDataToPolyDataFilter
     /** create instance of the class*/
     static vtkMAFFixTopology *New();
     /** RTTI macro*/
-    vtkTypeRevisionMacro(vtkMAFFixTopology,vtkPolyDataToPolyDataFilter);
+    vtkTypeMacro(vtkMAFFixTopology,vtkPolyDataToPolyDataFilter);
     /** print information*/
     void PrintSelf(ostream& os, vtkIndent indent);
   

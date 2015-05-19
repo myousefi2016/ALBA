@@ -40,7 +40,7 @@ protected:
 #endif // _WIN32
 
 public:
-  vtkTypeRevisionMacro(vtkMAFFile, vtkObject);
+  vtkTypeMacro(vtkMAFFile, vtkObject);
   static vtkMAFFile* New();
 
 protected:
@@ -184,7 +184,7 @@ inline long long vtkMAFFile::GetCurrentPos() throw(...)
 class MAF_EXPORT vtkMAFFile2 : public vtkMAFFile
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFFile2, vtkMAFFile);
+  vtkTypeMacro(vtkMAFFile2, vtkMAFFile);
   static vtkMAFFile2* New();
 
 protected:

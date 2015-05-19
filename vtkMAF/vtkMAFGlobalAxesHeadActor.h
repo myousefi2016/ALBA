@@ -61,7 +61,7 @@ class MAF_EXPORT vtkMAFGlobalAxesHeadActor : public vtkProp3D
 {
 public:
   static vtkMAFGlobalAxesHeadActor *New();
-  vtkTypeRevisionMacro(vtkMAFGlobalAxesHeadActor,vtkProp3D);
+  vtkTypeMacro(vtkMAFGlobalAxesHeadActor,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:

@@ -22,7 +22,7 @@ class vtkIdList;
 class MAF_EXPORT vtkMAFDataArrayDescriptor : public vtkObject 
 {
 public:
-	vtkTypeRevisionMacro(vtkMAFDataArrayDescriptor,vtkObject);
+	vtkTypeMacro(vtkMAFDataArrayDescriptor,vtkObject);
 	void PrintSelf(ostream& os, vtkIndent indent);
 	static vtkMAFDataArrayDescriptor* New();
 

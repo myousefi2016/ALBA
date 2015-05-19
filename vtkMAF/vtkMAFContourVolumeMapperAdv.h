@@ -75,7 +75,7 @@ public:
   /** create an instance of the object */
   static vtkMAFContourVolumeMapperAdv *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFContourVolumeMapperAdv, vtkMAFContourVolumeMapper);
+  vtkTypeMacro(vtkMAFContourVolumeMapperAdv, vtkMAFContourVolumeMapper);
 
 protected:
   /** constructor */

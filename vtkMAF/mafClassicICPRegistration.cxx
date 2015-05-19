@@ -35,8 +35,7 @@
 
 #include "mafICPUtility.h"
 
-	vtkCxxRevisionMacro(mafClassicICPRegistration, "$Revision: 1.1.2.1 $");
-  vtkStandardNewMacro(mafClassicICPRegistration);
+vtkStandardNewMacro(mafClassicICPRegistration);
 
 /*//--------------------------------------------------------------------------
 mafClassicICPRegistration* mafClassicICPRegistration::New()

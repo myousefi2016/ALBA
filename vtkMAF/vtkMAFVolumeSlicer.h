@@ -45,7 +45,7 @@ class vtkLinearTransform;
 class MAF_EXPORT vtkMAFVolumeSlicer : public vtkDataSetToDataSetFilter {
 public:
   static vtkMAFVolumeSlicer *New();
-  vtkTypeRevisionMacro(vtkMAFVolumeSlicer, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicer, vtkDataSetToDataSetFilter);
 
   /**
   Specify a point defining the origin of the plane.*/

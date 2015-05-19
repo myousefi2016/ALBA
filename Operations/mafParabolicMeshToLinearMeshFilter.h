@@ -31,7 +31,7 @@ class MAF_EXPORT mafParabolicMeshToLinearMeshFilter : public vtkUnstructuredGrid
 
 public:
   
-  vtkTypeRevisionMacro(mafParabolicMeshToLinearMeshFilter,vtkUnstructuredGridToUnstructuredGridFilter);
+  vtkTypeMacro(mafParabolicMeshToLinearMeshFilter,vtkUnstructuredGridToUnstructuredGridFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   static mafParabolicMeshToLinearMeshFilter *New();

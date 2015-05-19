@@ -60,7 +60,7 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 class MAF_EXPORT vtkMAFRGSliceAccumulate : public vtkRectilinearGridSource
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFRGSliceAccumulate,vtkRectilinearGridSource);
+  vtkTypeMacro(vtkMAFRGSliceAccumulate,vtkRectilinearGridSource);
   void PrintSelf(ostream& os, vtkIndent indent);
 
 	static vtkMAFRGSliceAccumulate *New();

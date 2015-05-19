@@ -53,7 +53,7 @@ class vtkMatrix4x4;
 class MAF_EXPORT vtkMAFCollisionDetectionFilter : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFCollisionDetectionFilter, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFCollisionDetectionFilter, vtkPolyDataToPolyDataFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
 //BTX

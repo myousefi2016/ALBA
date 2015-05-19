@@ -22,7 +22,6 @@
 #include "vtkPointData.h"
 #include "vtkDataSet.h"
 
-vtkCxxRevisionMacro(vtkMAFFixedCutter, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFFixedCutter);
 
 //----------------------------------------------------------------------------

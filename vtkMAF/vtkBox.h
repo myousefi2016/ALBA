@@ -50,7 +50,7 @@ class MAF_EXPORT vtkBox : public vtkImplicitFunction
 {
 public:
   /** RTTI macro */
-  vtkTypeRevisionMacro(vtkBox,vtkImplicitFunction);
+  vtkTypeMacro(vtkBox,vtkImplicitFunction);
   /** print information */
   void PrintSelf(ostream& os, vtkIndent indent);
 

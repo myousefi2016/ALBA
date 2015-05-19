@@ -20,7 +20,7 @@ class MAF_EXPORT vtkPatchLine : public vtkPolyDataToPolyDataFilter
 {
 	public:
 	/** RTTI macro*/
-	vtkTypeRevisionMacro(vtkPatchLine, vtkPolyDataToPolyDataFilter);
+	vtkTypeMacro(vtkPatchLine, vtkPolyDataToPolyDataFilter);
 
 	/** return object instance */
 		static vtkPatchLine *New();

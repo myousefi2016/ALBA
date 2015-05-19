@@ -38,7 +38,7 @@ class MAF_EXPORT vtkMAFVolumeToClosedSmoothSurface : public vtkMAFContourVolumeM
 public:
   
   /** Add collect revision method */
-  vtkTypeRevisionMacro(vtkMAFVolumeToClosedSmoothSurface,vtkMAFContourVolumeMapper);
+  vtkTypeMacro(vtkMAFVolumeToClosedSmoothSurface,vtkMAFContourVolumeMapper);
 
   
   /**

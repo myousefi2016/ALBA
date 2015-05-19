@@ -56,7 +56,7 @@ class MAF_EXPORT vtkMAFSimpleRulerActor2D : public vtkActor2D
 //-----------------------------------------------------------------------------
 {
  public:
-  vtkTypeRevisionMacro(vtkMAFSimpleRulerActor2D,vtkActor2D);
+  vtkTypeMacro(vtkMAFSimpleRulerActor2D,vtkActor2D);
   void PrintSelf(ostream& os, vtkIndent indent);
   static	vtkMAFSimpleRulerActor2D *New();
 

@@ -36,7 +36,7 @@ University of Bedfordshire
 class MAF_EXPORT vtkMAFHalfTubeRemoval : public vtkPolyDataToPolyDataFilter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFHalfTubeRemoval,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFHalfTubeRemoval,vtkPolyDataToPolyDataFilter);
   static vtkMAFHalfTubeRemoval *New();
   void PrintSelf(ostream& os, vtkIndent indent) const {}
 

@@ -61,7 +61,7 @@ class MAF_EXPORT vtkMAFPolyDataNavigator : public vtkObject
 {
 public:
   static vtkMAFPolyDataNavigator *New();
-  vtkTypeRevisionMacro(vtkMAFPolyDataNavigator, vtkObject);
+  vtkTypeMacro(vtkMAFPolyDataNavigator, vtkObject);
   void PrintSelf(ostream& os, vtkIndent indent) {} ;
 
 

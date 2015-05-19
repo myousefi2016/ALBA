@@ -35,7 +35,7 @@ class name: vtkMAFGlobalAxisCoordinate.
 class MAF_EXPORT  vtkMAFGlobalAxisCoordinate : public vtkCoordinate
 {
 public:
-  //vtkTypeRevisionMacro(vtkMAFGlobalAxisCoordinate,vtkCoordinate);
+  //vtkTypeMacro(vtkMAFGlobalAxisCoordinate,vtkCoordinate);
   /** destructor */
   virtual ~vtkMAFGlobalAxisCoordinate();
   /** create an instance of the object */

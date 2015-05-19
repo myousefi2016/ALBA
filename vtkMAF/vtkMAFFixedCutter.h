@@ -27,7 +27,7 @@ that is the center of the input.
 class MAF_EXPORT vtkMAFFixedCutter : public vtkCutter
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFFixedCutter,vtkCutter);
+  vtkTypeMacro(vtkMAFFixedCutter,vtkCutter);
   /** constructor */
            vtkMAFFixedCutter();
   /** destructor */

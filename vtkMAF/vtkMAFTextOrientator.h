@@ -59,7 +59,7 @@ class MAF_EXPORT vtkMAFTextOrientator : public vtkActor2D
 {
  public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFTextOrientator,vtkActor2D);
+  vtkTypeMacro(vtkMAFTextOrientator,vtkActor2D);
   /** Print Object Information */
   void PrintSelf(ostream& os, vtkIndent indent);
   /** create an instance of the object */

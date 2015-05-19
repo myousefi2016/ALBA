@@ -21,7 +21,6 @@
 #include "mafDbg.h"
 
 
-vtkCxxRevisionMacro(vtkMAFErythrocyteSource, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFErythrocyteSource);
 
 vtkMAFErythrocyteSource::vtkMAFErythrocyteSource(void)

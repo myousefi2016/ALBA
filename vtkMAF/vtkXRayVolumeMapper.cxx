@@ -94,7 +94,6 @@ static float Color[4] = { 0.5f, 0.5f, 0.5f, 1.f };
 
 void ProjectBoxToViewport(const vtkMatrix4x4 *matrixObject, const double (&boundingBox)[6], double (&minMaxViewportCoordinates)[4]);
   
-vtkCxxRevisionMacro(vtkXRayVolumeMapper, "$Revision: 1.3.2.3 $");
 vtkStandardNewMacro(vtkXRayVolumeMapper);
 
 //------------------------------------------------------------------------------

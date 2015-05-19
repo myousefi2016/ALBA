@@ -74,7 +74,7 @@ public:
 
   static vtkMAFPolyDataDeformation_M1 *New();
 
-  vtkTypeRevisionMacro(vtkMAFPolyDataDeformation_M1, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPolyDataDeformation_M1, vtkPolyDataToPolyDataFilter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   friend class CMatrixTestM1;

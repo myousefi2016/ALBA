@@ -23,7 +23,6 @@ University of Bedfordshire
 
 
 
-vtkCxxRevisionMacro(vtkMAFAddScalarsFilter, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFAddScalarsFilter);
 
 

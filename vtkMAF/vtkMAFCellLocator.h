@@ -32,7 +32,7 @@ public:
   /** create object  instance. */
   static vtkMAFCellLocator *New();
   /**  RTTI Macro. */
-  vtkTypeRevisionMacro(vtkMAFCellLocator, vtkCellLocator);	
+  vtkTypeMacro(vtkMAFCellLocator, vtkCellLocator);	
 
 public:
 

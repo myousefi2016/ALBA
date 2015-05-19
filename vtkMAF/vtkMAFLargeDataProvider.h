@@ -98,7 +98,7 @@ public:
 	}
 	
 public:
-	vtkTypeRevisionMacro(vtkMAFLargeDataProvider,vtkObject);    
+	vtkTypeMacro(vtkMAFLargeDataProvider,vtkObject);    
 
 	// Return this object's modified time.
 	/*virtual*/ unsigned long GetMTime();

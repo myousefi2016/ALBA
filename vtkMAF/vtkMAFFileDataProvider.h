@@ -54,7 +54,7 @@ public:
 	vtkSetMacro(DeleteOnClose, bool);
 
 public:
-	vtkTypeRevisionMacro(vtkMAFFileDataProvider, vtkMAFLargeDataProvider);
+	vtkTypeMacro(vtkMAFFileDataProvider, vtkMAFLargeDataProvider);
 	static vtkMAFFileDataProvider* New();
 
 

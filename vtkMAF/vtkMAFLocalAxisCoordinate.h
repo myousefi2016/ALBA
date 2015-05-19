@@ -31,7 +31,7 @@ class name: vtkMAFLocalAxisCoordinate.
 class MAF_EXPORT vtkMAFLocalAxisCoordinate : public vtkCoordinate
 {
 public:
-  //vtkTypeRevisionMacro(vtkMAFLocalAxisCoordinate,vtkCoordinate);
+  //vtkTypeMacro(vtkMAFLocalAxisCoordinate,vtkCoordinate);
   /** destructor */
   virtual ~vtkMAFLocalAxisCoordinate();
   /** create an instance of the object */

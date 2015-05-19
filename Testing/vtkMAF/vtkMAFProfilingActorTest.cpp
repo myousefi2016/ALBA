@@ -37,7 +37,7 @@
 class vtkMAFProfilingActorDummy : public vtkMAFProfilingActor
 {
   public:
-    //vtkTypeRevisionMacro(vtkMAFProfilingActorDummy,vtkMAFProfilingActor);
+    //vtkTypeMacro(vtkMAFProfilingActorDummy,vtkMAFProfilingActor);
     
     static vtkMAFProfilingActorDummy *New()
     {

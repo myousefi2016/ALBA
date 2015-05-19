@@ -24,7 +24,7 @@ class vtkImageData;
 class MAF_EXPORT vtkMAFRegionGrowingLocalGlobalThreshold : public vtkProcessObject
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFRegionGrowingLocalGlobalThreshold,vtkProcessObject);
+  vtkTypeMacro(vtkMAFRegionGrowingLocalGlobalThreshold,vtkProcessObject);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
