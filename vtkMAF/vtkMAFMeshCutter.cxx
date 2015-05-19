@@ -34,6 +34,7 @@
 #include "mafDefines.h"
 #include "vtkMAFToLinearTransform.h"
 #include "vtkTransform.h"
+#include "vtkInformation.h"
 
 
 
@@ -66,7 +67,7 @@ vtkMAFMeshCutter::~vtkMAFMeshCutter()
 unsigned long vtkMAFMeshCutter::GetMTime()
 //------------------------------------------------------------------------------
 {
-  unsigned long mTime = this->vtkUnstructuredGridToPolyDataFilter::GetMTime();
+  unsigned long mTime = this->vtkPolyDataAlgorithm::GetMTime();
   unsigned long time;
 
   if (CutFunction != NULL )
@@ -76,6 +77,13 @@ unsigned long vtkMAFMeshCutter::GetMTime()
   }
 
   return mTime;
+}
+
+//------------------------------------------------------------------------------
+int vtkMAFMeshCutter::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkUnstructuredGrid");
+	return 1;
 }
 
 //------------------------------------------------------------------------------

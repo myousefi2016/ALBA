@@ -41,6 +41,7 @@ vtkCxxRevisionMacro(vtkMAFMeshCutter_BES, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFMeshCutter_BES);
 //------------------------------------------------------------------------------
 #include "mafMemDbg.h"
+#include "vtkInformation.h"
 
 ////#define __PROFILING__
 //#include <atlbase.h>
@@ -93,7 +94,7 @@ vtkMAFMeshCutter_BES::~vtkMAFMeshCutter_BES()
 unsigned long vtkMAFMeshCutter_BES::GetMTime()
 //------------------------------------------------------------------------------
 {
-  unsigned long mTime = this->vtkUnstructuredGridToPolyDataFilter::GetMTime();
+  unsigned long mTime = this->vtkPolyDataAlgorithm::GetMTime();
   unsigned long time;
 
   if (CutFunction != NULL )
@@ -1175,4 +1176,11 @@ void vtkMAFMeshCutter_BES::PrintSelf(ostream& os, vtkIndent indent)
   os << "polydata..." << std::endl ;
   Polydata->PrintSelf(os, indent) ;
 
+}
+
+//------------------------------------------------------------------------------
+int vtkMAFMeshCutter_BES::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkUnstructuredGrid");
+	return 1;
 }
