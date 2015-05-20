@@ -3,7 +3,7 @@
   Program:   Visualization Toolkit
   Module:    vtkMAFCollisionDetectionFilter.h
   Language:  C++
-  RCS:   $Id: vtkMAFCollisionDetectionFilter.h,v 1.1.2.2 2012-02-22 12:53:16 ior02 Exp $
+  RCS:   $Id$
 
   Copyright (c) 2003 and onwards, Goodwin Lawlor
   All rights reserved.
@@ -108,7 +108,8 @@ public:
 
   // Description:
   // Get the output with the points where the contacting cells intersect. This method is
-  // is equivalent to GetOutput(2) 
+  // is equivalent to GetOutputPort(2)/GetOutput(2) 
+  vtkAlgorithmOutput *GetContactsOutputPort() {return this->GetOutputPort(2);}
   vtkPolyData *GetContactsOutput() {return this->GetOutput(2);}
 
   // Description:
@@ -141,7 +142,8 @@ public:
   
   //Description:
   // Get the number of contacting cell pairs
-  int GetNumberOfContacts();
+  int GetNumberOfContacts() 
+    {return this->GetOutput(0)->GetFieldData()->GetArray("ContactCells")->GetNumberOfTuples();}
   
   //Description:
   // Get the number of box tests
@@ -149,8 +151,8 @@ public:
     
   //Description:
   // Set and Get the number of cells in each OBB. Default is 2
-  vtkSetMacro(NumberOfCellsPerBucket, int);
-  vtkGetMacro(NumberOfCellsPerBucket, int);
+  vtkSetMacro(NumberOfCellsPerNode, int);
+  vtkGetMacro(NumberOfCellsPerNode, int);
   
   //Description:
   // Set and Get the opacity of the polydata output when a collision takes place.
@@ -167,14 +169,17 @@ protected:
   ~vtkMAFCollisionDetectionFilter();
 
   // Usual data generation method
-  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+  virtual int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *);
+  
+  vtkOBBTree *tree0;
+  vtkOBBTree *tree1;
 
   vtkLinearTransform *Transform[2];
   vtkMatrix4x4 *Matrix[2];
   
   int NumberOfBoxTests;
   
-  int NumberOfCellsPerBucket;
+  int NumberOfCellsPerNode;
   
   int GenerateScalars;
   
@@ -183,8 +188,6 @@ protected:
   float Opacity;
   
   int CollisionMode;
-  vtkOBBTree *Tree[2]; 
-
 
 private:  
 

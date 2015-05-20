@@ -3,7 +3,7 @@
   Program:   Visualization Toolkit
   Module:    vtkMAFCollisionDetectionFilter.cxx
   Language:  C++
-  RCS:   $Id: vtkMAFCollisionDetectionFilter.cxx,v 1.1.2.2 2012-02-22 12:53:16 ior02 Exp $
+  RCS:   $Id$
 
   Copyright (c) 2003-2004 Goodwin Lawlor
   All rights reserved.
@@ -32,13 +32,14 @@
 #include "vtkPlane.h"
 #include "vtkMath.h"
 #include "vtkCommand.h"
-#include "vtkPointData.h"
-#include "vtkMatrixToLinearTransform.h"
-#include "vtkTransform.h"
-#include "vtkMAFSmartPointer.h"
-#include "vtkCellArray.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
+#include "vtkPointData.h"
+#include "vtkStreamingDemandDrivenPipeline.h"
+#include "vtkMatrixToLinearTransform.h"
+#include "vtkTransform.h"
+#include "vtkSmartPointer.h"
+#include "vtkCellArray.h"
 
 vtkStandardNewMacro(vtkMAFCollisionDetectionFilter);
 
@@ -49,18 +50,9 @@ vtkMAFCollisionDetectionFilter::vtkMAFCollisionDetectionFilter()
 
   // Ask the superclass to set the number of connections.
   this->SetNumberOfInputPorts(2);
+  this->SetNumberOfInputConnections(0,1);
+  this->SetNumberOfInputConnections(1,1);
   this->SetNumberOfOutputPorts(3);
-  this->vtkSource::SetNthOutput(1, vtkPolyData::New());
-  // Releasing data for pipeline parallism.
-  // Filters will know it is empty. 
-  this->Outputs[1]->ReleaseData();
-  this->Outputs[1]->Delete();
-  this->vtkSource::SetNthOutput(2, vtkPolyData::New());
-  // Releasing data for pipeline parallism.
-  // Filters will know it is empty. 
-  this->Outputs[2]->ReleaseData();
-  this->Outputs[2]->Delete();
-
   this->Transform[0] = NULL;
   this->Transform[1] = NULL;
   this->Matrix[0] = NULL;
@@ -68,31 +60,36 @@ vtkMAFCollisionDetectionFilter::vtkMAFCollisionDetectionFilter()
   this->NumberOfBoxTests = 0;
   this->BoxTolerance = 0.0;
   this->CellTolerance = 0.0;
-  this->NumberOfCellsPerBucket = 10;
+  this->NumberOfCellsPerNode = 10;
+  this->tree0 = vtkOBBTree::New();
+  this->tree1 = vtkOBBTree::New();
   this->GenerateScalars = 0;
   this->CollisionMode = VTK_ALL_CONTACTS;
   this->Opacity = 1.0;
-  this->Tree[0] = NULL;
-  this->Tree[1] = NULL;
-
-  this->Tree[0] = vtkOBBTree::New();
-  this->Tree[1] = vtkOBBTree::New();
 }
 
 // Destroy any allocated memory.
 vtkMAFCollisionDetectionFilter::~vtkMAFCollisionDetectionFilter()
 {
+  if (this->tree0 != NULL)
+    {
+    this->tree0->Delete();
+    }
+  if (this->tree1 != NULL)
+    {
+    this->tree1->Delete();
+    }
 
-//   if (this->Matrix[0])
-//     {
-//     this->Matrix[0]->UnRegister(this);
-//     this->Matrix[0] = NULL;
-//     }
-//   if (this->Matrix[1])
-//     {
-//     this->Matrix[1]->UnRegister(this);
-//     this->Matrix[1] = NULL;
-//     }
+  if (this->Matrix[0])
+    {
+    this->Matrix[0]->UnRegister(this);
+    this->Matrix[0] = NULL;
+    }
+  if (this->Matrix[1])
+    {
+    this->Matrix[1]->UnRegister(this);
+    this->Matrix[1] = NULL;
+    }
   if (this->Transform[0])
     {
     this->Transform[0]->UnRegister(this);
@@ -103,9 +100,6 @@ vtkMAFCollisionDetectionFilter::~vtkMAFCollisionDetectionFilter()
     this->Transform[1]->UnRegister(this);
     this->Transform[1] = NULL;
     }
-
-  Tree[0]->Delete();
-  Tree[1]->Delete();
 
 }
 
@@ -122,13 +116,7 @@ void vtkMAFCollisionDetectionFilter::SetInput(int idx, vtkPolyData *input)
     }
     
   // Ask the superclass to connect the input.
-  this->SetNthInput(idx, input);
-
-  Tree[idx]->SetDataSet(input);
-  Tree[idx]->AutomaticOn();
-  Tree[idx]->SetNumberOfCellsPerBucket(this->NumberOfCellsPerBucket);
-  Tree[idx]->BuildLocator();
-  Tree[idx]->SetTolerance(this->BoxTolerance);
+  this->SetNthInputConnection(idx, 0, input? input->GetProducerPort() : 0);
 }
 
 
@@ -144,7 +132,7 @@ vtkPolyData *vtkMAFCollisionDetectionFilter::GetInput(int idx)
     return NULL;
     }
   
-  return vtkPolyData::SafeDownCast(this->Inputs[idx]);
+  return vtkPolyData::SafeDownCast(this->GetExecutive()->GetInputData(idx, 0));
 }
 
 vtkIdTypeArray *vtkMAFCollisionDetectionFilter::GetContactCells(int i)
@@ -179,12 +167,12 @@ void vtkMAFCollisionDetectionFilter::SetTransform(int i, vtkLinearTransform *tra
     this->Transform[i]->Delete();
     this->Transform[i] = NULL;
     }
-//     
-//   if (this->Matrix[i])
-//     {
-//     this->Matrix[i]->Delete();
-//     this->Matrix[i] = NULL;
-//     } 
+    
+  if (this->Matrix[i])
+    {
+    this->Matrix[i]->Delete();
+    this->Matrix[i] = NULL;
+    } 
   
   if(transform)
     {
@@ -218,23 +206,23 @@ void vtkMAFCollisionDetectionFilter::SetMatrix(int i, vtkMatrix4x4 *matrix)
     this->Transform[i] = NULL;
     }
 
-//   if(this->Matrix[i]) 
-//     {
-//     this->Matrix[i]->Delete();
-//     this->Matrix[i] = NULL;
-//     }
+  if(this->Matrix[i]) 
+    {
+    this->Matrix[i]->Delete();
+    this->Matrix[i] = NULL;
+    }
     
   vtkDebugMacro(<< "Setting matrix: " << i << " to point to " << matrix << endl);
 
   if(matrix)
     {
     this->Matrix[i] = matrix;
+    matrix->Register(this);
     vtkMatrixToLinearTransform *transform = vtkMatrixToLinearTransform::New();
     // Consistent Register and UnRegisters.
-//     transform->Register(this);
-//     transform->Delete();
+    transform->Register(this);
+    transform->Delete();
     transform->SetInput(matrix);
-
     this->Transform[i] = transform;
     vtkDebugMacro(<< "Setting Transform " << i << " to points to: " << transform << endl);
     }
@@ -418,25 +406,27 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
   vtkPolyData *output[3];
 
   // copy inputs to outputs
+  vtkInformation *inInfo, *outInfo;
   for (int i=0; i<2; i++)
-  {
-    input[i] = vtkPolyData::SafeDownCast(Inputs[i]);
-    if (input[i])
     {
-	    output[i] = vtkPolyData::SafeDownCast(this->GetOutput(i));
-	    output[i]->CopyStructure(input[i]);
-	    output[i]->GetPointData()->PassData(input[i]->GetPointData());
-	    output[i]->GetCellData()->PassData(input[i]->GetCellData());
-	    output[i]->GetFieldData()->PassData(input[i]->GetFieldData());
+    inInfo = inputVector[i]->GetInformationObject(0);
+    input[i] = vtkPolyData::SafeDownCast(
+      inInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+    outInfo = outputVector->GetInformationObject(i);
+    output[i] = vtkPolyData::SafeDownCast(
+      outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+    output[i]->CopyStructure(input[i]);
+    output[i]->GetPointData()->PassData(input[i]->GetPointData());
+    output[i]->GetCellData()->PassData(input[i]->GetCellData());
+    output[i]->GetFieldData()->PassData(input[i]->GetFieldData());
     }
-    else
-    {
-      return;
-    }
-  }
   
   // set up the contacts polydata output on port index 2
-  output[2] = vtkPolyData::SafeDownCast(this->Outputs[2]);
+  outInfo = outputVector->GetInformationObject(2);
+  output[2] = vtkPolyData::SafeDownCast(
+    outInfo->Get(vtkDataObject::DATA_OBJECT()));
   vtkPoints *contactsPoints = vtkPoints::New();
   output[2]->SetPoints(contactsPoints);
   contactsPoints->Delete();
@@ -455,28 +445,28 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
     }
 
   //Allocate arrays for the contact cells lists
-  vtkIdTypeArray *contactcells0 = vtkIdTypeArray::New();
+  vtkSmartPointer<vtkIdTypeArray> contactcells0 =
+    vtkSmartPointer<vtkIdTypeArray>::New();
   contactcells0->SetName("ContactCells");
   output[0]->GetFieldData()->AddArray(contactcells0);
-  contactcells0->Delete();
 
-  vtkIdTypeArray *contactcells1 = vtkIdTypeArray::New();
+  vtkSmartPointer<vtkIdTypeArray> contactcells1 =
+    vtkSmartPointer<vtkIdTypeArray>::New();
   contactcells1->SetName("ContactCells");
   output[1]->GetFieldData()->AddArray(contactcells1);
-  contactcells1->Delete();
 
   // make sure input is available
   if ( ! input[0] )
     {
     vtkWarningMacro(<< "Input 1 hasn't been added... can't execute!");
-    return;
+    return 1;
     }
 
   // make sure input is available
   if ( ! input[1] )
     {
     vtkWarningMacro(<< "Input 2 hasn't been added... can't execute!");
-    return;
+    return 1;
     }
     
   // The transformations...
@@ -492,34 +482,33 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
    else
     {
      vtkWarningMacro(<< "Set two transforms or two matrices");
-     return;
+     return 1;
     }
 
   this->InvokeEvent(vtkCommand::StartEvent, NULL);
   
 
   // rebuild the obb trees... they do their own mtime checking with input data
-//   vtkOBBTree *Tree0 = vtkOBBTree::New();
-//   vtkOBBTree *Tree1 = vtkOBBTree::New();
-//   Tree0->SetDataSet(input[0]);
-//   Tree0->AutomaticOn();
-//   Tree0->SetNumberOfCellsPerBucket(this->NumberOfCellsPerBucket);
-//   Tree0->BuildLocator();
-// 
-//   Tree1->SetDataSet(input[1]);
-//   Tree1->AutomaticOn();
-//   Tree1->SetNumberOfCellsPerBucket(this->NumberOfCellsPerBucket);
-//   Tree1->BuildLocator();
-//     
-//   // Set the Box Tolerance
-//   Tree0->SetTolerance(this->BoxTolerance);
-//   Tree1->SetTolerance(this->BoxTolerance);
+  tree0->SetDataSet(input[0]);
+  tree0->AutomaticOn();
+  tree0->SetNumberOfCellsPerNode(this->NumberOfCellsPerNode);
+  tree0->BuildLocator();
+
+  tree1->SetDataSet(input[1]);
+  tree1->AutomaticOn();
+  tree1->SetNumberOfCellsPerNode(this->NumberOfCellsPerNode);
+  tree1->BuildLocator();
+    
+  // Set the Box Tolerance
+  tree0->SetTolerance(this->BoxTolerance);
+  tree1->SetTolerance(this->BoxTolerance);
+
+
+
 
   // Do the collision detection...
-  vtkIdType BoxTests = Tree[0]->IntersectWithOBBTree(Tree[1],  matrix, ComputeCollisions, this);
-
-//   Tree0->Delete();
-//   Tree1->Delete();
+  vtkIdType BoxTests = 
+    tree0->IntersectWithOBBTree(tree1,  matrix, ComputeCollisions, this);
 
   matrix->Delete();
   tmpMatrix->Delete();
@@ -599,7 +588,7 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
     
   this->InvokeEvent(vtkCommand::EndEvent, NULL);
 
-  return;
+  return 1;
 
 }
 
@@ -683,7 +672,7 @@ int vtkMAFCollisionDetectionFilter::IntersectPolygonWithPolygon(int npts, double
             for (int jj=0; jj < npts2; jj++)
               {
               if (vtkLine::Intersection(pts+3*ii,pts+3*((ii+1)%npts),
-              pts2+3*jj,pts2+3*((jj+1)%npts2),u,v) > 0)
+              pts2+3*jj,pts2+3*((jj+1)%npts2),u,v) == 2)
                 {
                 //cout << "Found an overlapping one!!!" << endl;
                 for (int k=0;k<3;k++)
@@ -786,11 +775,6 @@ void vtkMAFCollisionDetectionFilter::PrintSelf(ostream& os, vtkIndent indent)
   
   os << indent << "Box Tolerance: " << this->BoxTolerance << "\n";
   os << indent << "Cell Tolerance: " << this->CellTolerance << "\n";
-  os << indent << "Number of cells per bucket: " << this->NumberOfCellsPerBucket << "\n";
+  os << indent << "Number of cells per Node: " << this->NumberOfCellsPerNode << "\n";
 
-}
-
-int vtkMAFCollisionDetectionFilter::GetNumberOfContacts()
-{
-  return this->GetOutput(0)->GetFieldData()->GetArray("ContactCells")->GetNumberOfTuples();
 }
