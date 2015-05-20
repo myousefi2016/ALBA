@@ -36,7 +36,6 @@
 #include "vtkDirectory.h"
 #include "vtkTransformPolydataFilter.h"
 
-vtkCxxRevisionMacro(vtkMAFGlobalAxesHeadActor, "$Revision: 1.1.2.5 $");
 vtkStandardNewMacro(vtkMAFGlobalAxesHeadActor);
 
 #include "mafConfigure.h"

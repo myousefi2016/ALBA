@@ -20,7 +20,6 @@
 
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFLargeImageReader, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFLargeImageReader);
 
 #include "mafMemDbg.h"

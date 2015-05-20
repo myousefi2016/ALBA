@@ -33,7 +33,6 @@
 #include "vtkActor.h"
 #include "vtkVolume.h"
 
-vtkCxxRevisionMacro(vtkMAFAssembly, "$Revision: 1.5.2.2 $");
 vtkStandardNewMacro(vtkMAFAssembly);
 
 // Construct object with no children.

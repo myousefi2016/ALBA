@@ -135,7 +135,7 @@ public:
   /** create an instance of the object */
   static vtkMAFContourVolumeMapper *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFContourVolumeMapper, vtkVolumeMapper);
+  vtkTypeMacro(vtkMAFContourVolumeMapper, vtkVolumeMapper);
   /** Print Object Information */
   void PrintSelf( ostream& os, vtkIndent index );
 

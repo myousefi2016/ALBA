@@ -31,7 +31,6 @@
 
 #include "assert.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeSlicer_BES, "$Revision: 1.1.2.9 $");
 vtkStandardNewMacro(vtkMAFVolumeSlicer_BES);
 
 #include "mafMemDbg.h"

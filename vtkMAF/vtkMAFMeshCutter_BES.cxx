@@ -37,7 +37,6 @@
 
 //------------------------------------------------------------------------------
 // standard macros
-vtkCxxRevisionMacro(vtkMAFMeshCutter_BES, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFMeshCutter_BES);
 //------------------------------------------------------------------------------
 #include "mafMemDbg.h"

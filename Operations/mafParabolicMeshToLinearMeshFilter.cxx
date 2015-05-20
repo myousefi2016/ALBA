@@ -41,7 +41,6 @@
 
 #include "mafString.h"
 
-vtkCxxRevisionMacro(mafParabolicMeshToLinearMeshFilter, "$Revision: 1.4 $");
 vtkStandardNewMacro(mafParabolicMeshToLinearMeshFilter);
 
 mafParabolicMeshToLinearMeshFilter::mafParabolicMeshToLinearMeshFilter()

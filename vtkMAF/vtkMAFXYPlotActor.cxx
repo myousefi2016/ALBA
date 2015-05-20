@@ -41,7 +41,6 @@
 
 #define VTK_MAX_PLOTS 50
 
-vtkCxxRevisionMacro(vtkMAFXYPlotActor, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFXYPlotActor);
 
 vtkCxxSetObjectMacro(vtkMAFXYPlotActor,TitleTextProperty,vtkTextProperty);

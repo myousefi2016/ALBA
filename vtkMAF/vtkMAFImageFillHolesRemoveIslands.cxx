@@ -32,7 +32,6 @@
 
 #define PENINSULA_CORNER_MAXIMUM_NUMBER_OF_PIXELS 1
 
-vtkCxxRevisionMacro(vtkMAFImageFillHolesRemoveIslands, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFImageFillHolesRemoveIslands);
 
 //----------------------------------------------------------------------------

@@ -15,7 +15,6 @@
 #include "vtkMAFImageMapToWidgetColors.h"
 
 
-vtkCxxRevisionMacro(vtkMAFImageMapToWidgetColors, "$Revision: 1.2 $");
 vtkStandardNewMacro(vtkMAFImageMapToWidgetColors);
 
 template<typename type> static inline type clip(type x, type xmin, type xmax) { if (x < xmin) return xmin; if (x > xmax) return xmax; return x; }

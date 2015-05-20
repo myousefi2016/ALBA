@@ -39,7 +39,6 @@
 #include "vtkVolumeMapper.h"
 
 //------------------------------------------------------------------------------
-vtkCxxRevisionMacro(vtkMAFRayCast3DPicker, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFRayCast3DPicker);
 //------------------------------------------------------------------------------
 

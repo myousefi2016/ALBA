@@ -30,7 +30,6 @@
 
 
 
-vtkCxxRevisionMacro(vtkMAFTextActorMeter, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFTextActorMeter);
 //------------------------------------------------------------------------------
 vtkMAFTextActorMeter::vtkMAFTextActorMeter()

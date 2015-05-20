@@ -32,7 +32,6 @@
 #include "vtkCardinalSpline.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
-//vtkCxxRevisionMacro(vtkMAFFixedCutter, "$Revision: 1.2 $");
 vtkStandardNewMacro(vtkMAFPolyDataToSinglePolyLine);
 
 //----------------------------------------------------------------------------

@@ -26,7 +26,6 @@ University of Bedfordshire
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFHalfTubeRemoval, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFHalfTubeRemoval);
 
 

@@ -25,7 +25,6 @@
 
 #include <math.h>
 
-vtkCxxRevisionMacro(vtkMAFImageUnsharpFilter, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFImageUnsharpFilter);
 
 //----------------------------------------------------------------------------

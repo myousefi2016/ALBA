@@ -14,7 +14,6 @@
 #include "vtkMAFMultiFileDataProvider.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFMultiFileDataProvider, "$Revision: 1.1.2.4 $");
 vtkStandardNewMacro(vtkMAFMultiFileDataProvider);
 
 #include "mafMemDbg.h"

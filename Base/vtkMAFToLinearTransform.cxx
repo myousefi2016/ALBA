@@ -23,7 +23,6 @@
 #include "vtkMatrix4x4.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFToLinearTransform, "$Revision: 1.5.4.1 $");
 vtkStandardNewMacro(vtkMAFToLinearTransform);
 
 //----------------------------------------------------------------------------

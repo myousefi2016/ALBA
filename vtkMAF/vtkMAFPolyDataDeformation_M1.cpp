@@ -20,7 +20,6 @@ See the COPYINGS file for license details
 #include "vtkCellLocator.h"
 #include "vtkGenericCell.h"
 
-vtkCxxRevisionMacro(vtkMAFPolyDataDeformation_M1, "$Revision: 1.1.2.5 $");
 vtkStandardNewMacro(vtkMAFPolyDataDeformation_M1);
 
 #include "mafMemDbg.h"

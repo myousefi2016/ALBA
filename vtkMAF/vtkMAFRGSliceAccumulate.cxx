@@ -49,7 +49,6 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 
-vtkCxxRevisionMacro(vtkMAFRGSliceAccumulate, "$Revision: 1.1.2.4 $");
 vtkStandardNewMacro(vtkMAFRGSliceAccumulate);
 
 //--------------------------------------------------------------------------------------

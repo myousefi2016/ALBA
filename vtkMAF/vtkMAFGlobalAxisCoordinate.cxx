@@ -22,7 +22,6 @@
 #include "vtkRenderer.h"
 #include "vtkRenderWindow.h"
 
-//vtkCxxRevisionMacro(vtkMAFGlobalAxisCoordinate, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFGlobalAxisCoordinate);
 
 //----------------------------------------------------------------------------

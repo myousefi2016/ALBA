@@ -25,7 +25,6 @@ See the COPYINGS file for license details
 #pragma warning(pop)
 
 
-vtkCxxRevisionMacro(vtkPatchLine, "$Revision: 1.1.2.5 $");
 vtkStandardNewMacro(vtkPatchLine);
 
 void vtkPatchLine::ExecuteData(vtkDataObject *output)

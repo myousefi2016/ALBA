@@ -13,7 +13,6 @@ ToDo:
 #include "vtkMAFImplicitPolyData.h"
 #include "vtkPolygon.h"
 
-vtkCxxRevisionMacro(vtkMAFImplicitPolyData, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFImplicitPolyData);
 
 // Constructor

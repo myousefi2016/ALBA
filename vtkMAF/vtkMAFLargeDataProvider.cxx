@@ -23,7 +23,6 @@
 
 
 
-vtkCxxRevisionMacro(vtkMAFLargeDataProvider, "$Revision: 1.1.2.3 $");
 
 #include "mafMemDbg.h"
 #include <assert.h>

@@ -28,7 +28,6 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 
-vtkCxxRevisionMacro(vtkMAFOrientationMarkerWidget, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFOrientationMarkerWidget);
 vtkCxxSetObjectMacro(vtkMAFOrientationMarkerWidget, OrientationMarker, vtkProp);
 

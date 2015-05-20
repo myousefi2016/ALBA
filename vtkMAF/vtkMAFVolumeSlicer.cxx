@@ -21,7 +21,6 @@
 
 #include "assert.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeSlicer, "$Revision: 1.2.2.3 $");
 vtkStandardNewMacro(vtkMAFVolumeSlicer);
 
 typedef unsigned short u_short;

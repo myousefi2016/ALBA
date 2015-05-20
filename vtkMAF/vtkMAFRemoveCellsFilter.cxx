@@ -20,7 +20,6 @@
 #include "vtkIdList.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFRemoveCellsFilter, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFRemoveCellsFilter);
 
 vtkMAFRemoveCellsFilter::vtkMAFRemoveCellsFilter()

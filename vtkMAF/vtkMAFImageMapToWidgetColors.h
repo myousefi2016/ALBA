@@ -41,7 +41,7 @@ class MAF_EXPORT vtkMAFImageMapToWidgetColors : public vtkImageMapToColors
 {
 public:
   static vtkMAFImageMapToWidgetColors *New();
-  vtkTypeRevisionMacro(vtkMAFImageMapToWidgetColors,vtkImageMapToColors);
+  vtkTypeMacro(vtkMAFImageMapToWidgetColors,vtkImageMapToColors);
 
   /**
   Set / Get transfer function*/

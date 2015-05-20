@@ -27,7 +27,6 @@
 #include "vtkInformationVector.h"
 
 
-vtkCxxRevisionMacro(vtkMAFPoissonSurfaceReconstruction, "$Revision: 1.1.2.10 $");
 vtkStandardNewMacro(vtkMAFPoissonSurfaceReconstruction);
 
 vtkDataSet* vtk_psr_input;

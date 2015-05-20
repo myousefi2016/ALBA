@@ -30,7 +30,6 @@ PURPOSE.  See the above copyright notice for more information.
 
 #define APLHA 1.0
 
-vtkCxxRevisionMacro(vtkMAFRegionGrowingLocalGlobalThreshold, "$Revision: 1.1.2.4 $");
 vtkStandardNewMacro(vtkMAFRegionGrowingLocalGlobalThreshold);
 
 //----------------------------------------------------------------------------

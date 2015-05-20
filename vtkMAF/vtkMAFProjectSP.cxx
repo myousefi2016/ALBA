@@ -47,7 +47,6 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFProjectSP, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFProjectSP);
 
 // Construct object to extract all of the input data.

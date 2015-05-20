@@ -21,7 +21,6 @@
 #include "vtkPointData.h"
 #include "vtkCellData.h"
 
-vtkCxxRevisionMacro(vtkMAFPolyDataNormals, "$Revision: 1.0 $");
 vtkStandardNewMacro(vtkMAFPolyDataNormals);
 
 vtkMAFPolyDataNormals::vtkMAFPolyDataNormals()

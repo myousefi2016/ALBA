@@ -45,7 +45,6 @@
 #include "vtkProperty2D.h"
 #include <algorithm>
 
-vtkCxxRevisionMacro(mafOpMMLContourWidget, "$Revision: 1.3 $");
 vtkStandardNewMacro(mafOpMMLContourWidget);
 vtkCxxSetObjectMacro(mafOpMMLContourWidget, m_PlaneProperty, vtkProperty);
 

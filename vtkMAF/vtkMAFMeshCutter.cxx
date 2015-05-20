@@ -41,7 +41,6 @@
 
 //------------------------------------------------------------------------------
 // standard macros
-vtkCxxRevisionMacro(vtkMAFMeshCutter, "$Revision: 1.5.2.2 $");
 vtkStandardNewMacro(vtkMAFMeshCutter);
 //------------------------------------------------------------------------------
 

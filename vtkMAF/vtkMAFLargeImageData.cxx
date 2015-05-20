@@ -25,7 +25,6 @@
 #include "vtkSmartPointer.h"
 
 
-vtkCxxRevisionMacro(vtkMAFLargeImageData, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFLargeImageData);
 
 //----------------------------------------------------------------------------

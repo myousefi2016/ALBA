@@ -101,7 +101,6 @@ protected:
   ~mafICPUtility() {};
 };
 
-vtkCxxRevisionMacro(mafICPUtility, "$Revision: 1.4.2.3 $");
   vtkStandardNewMacro(mafICPUtility);
 //----------------------------------------------------------------------------
 inline vnl_matrix<double> mafICPUtility::PolyData2VnlFilter(vtkPolyData* Shape)

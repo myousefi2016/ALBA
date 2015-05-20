@@ -21,7 +21,6 @@
 #include "vtkMAFLargeDataSet.h"
 #include "vtkMAFLargeDataProvider.h"
 
-vtkCxxRevisionMacro(vtkMAFLargeDataSet, "$Revision: 1.1.2.1 $");
 
 #include "mafMemDbg.h"
 

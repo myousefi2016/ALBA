@@ -38,7 +38,6 @@
 #include "vtkProperty2D.h"
 #include "vtkPolyDataMapper2D.h"
 
-vtkCxxRevisionMacro(vtkMAFRulerActor2D, "$Revision: 1.5.2.3 $");
 vtkStandardNewMacro(vtkMAFRulerActor2D);
 //------------------------------------------------------------------------------
 vtkMAFRulerActor2D::vtkMAFRulerActor2D()

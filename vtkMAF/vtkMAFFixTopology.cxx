@@ -27,7 +27,6 @@
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFFixTopology, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFFixTopology);
 
 //----------------------------------------------------------------------------

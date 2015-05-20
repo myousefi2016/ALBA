@@ -22,7 +22,6 @@ See the COPYINGS file for license details
 #include "vtkVolumeProperty.h"
 #include "vtkgl.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeTextureMapper2D, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFVolumeTextureMapper2D);
 
 #include "mafMemDbg.h"

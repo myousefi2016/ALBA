@@ -43,7 +43,6 @@ University of Bedfordshire
 
 //------------------------------------------------------------------------------
 // standard macros
-vtkCxxRevisionMacro(vtkMAFPolyDataNavigator, "$Revision: 1.1.2.7 $");
 vtkStandardNewMacro(vtkMAFPolyDataNavigator);
 //------------------------------------------------------------------------------
 

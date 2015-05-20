@@ -34,7 +34,6 @@ See the COPYINGS file for license details
 
 
 
-vtkCxxRevisionMacro(vtkMAFPolyDataDeformation_M2, "$Revision: 1.1.2.4 $");
 vtkStandardNewMacro(vtkMAFPolyDataDeformation_M2);
 
 #include "mafMemDbg.h"

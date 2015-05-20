@@ -20,7 +20,6 @@
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFPolyDataMirror, "$Revision: 1.3.2.1 $");
 vtkStandardNewMacro(vtkMAFPolyDataMirror);
 
 //----------------------------------------------------------------------------

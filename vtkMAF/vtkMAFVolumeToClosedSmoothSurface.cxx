@@ -36,7 +36,6 @@
 
 
 
-vtkCxxRevisionMacro(vtkMAFVolumeToClosedSmoothSurface, "$Revision: 1.1.2.6 $");
 vtkStandardNewMacro(vtkMAFVolumeToClosedSmoothSurface);
 
 

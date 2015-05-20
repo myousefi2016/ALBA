@@ -31,7 +31,6 @@
 #include "vtkPolyData.h"
 
 
-vtkCxxRevisionMacro(vtkMAFTextOrientator, "$Revision: 1.3.2.2 $");
 vtkStandardNewMacro(vtkMAFTextOrientator);
 //------------------------------------------------------------------------------
 vtkMAFTextOrientator::vtkMAFTextOrientator()

@@ -25,7 +25,6 @@ See the COPYINGS file for license details
 #include "vtkVolumeProperty.h"
 #include "gl/gl.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeRayCastMapper, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFVolumeRayCastMapper);
 
 #include "mafMemDbg.h"

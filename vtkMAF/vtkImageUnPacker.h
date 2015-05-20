@@ -32,7 +32,7 @@ class MAF_EXPORT vtkImageUnPacker : public vtkImageSource
 {
 public:
   static vtkImageUnPacker *New();
-  vtkTypeRevisionMacro(vtkImageUnPacker, vtkImageSource);
+  vtkTypeMacro(vtkImageUnPacker, vtkImageSource);
 
   void PrintSelf(ostream& os, vtkIndent indent);   
 

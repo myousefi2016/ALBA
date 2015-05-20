@@ -39,7 +39,6 @@
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
 
-vtkCxxRevisionMacro(vtkMAFVolumeSlicerNotInterpolated, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFVolumeSlicerNotInterpolated);
 
 //----------------------------------------------------------------------------

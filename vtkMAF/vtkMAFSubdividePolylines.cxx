@@ -23,7 +23,6 @@ University of Bedfordshire
 
 
 
-vtkCxxRevisionMacro(vtkMAFSubdividePolylines, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFSubdividePolylines);
 
 

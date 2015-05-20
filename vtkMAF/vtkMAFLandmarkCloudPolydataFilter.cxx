@@ -23,7 +23,6 @@ University of Bedfordshire
 #include <algorithm>
 
 
-vtkCxxRevisionMacro(vtkMAFLandmarkCloudPolydataFilter, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFLandmarkCloudPolydataFilter);
 
 

@@ -40,7 +40,6 @@
 #include "vtkMath.h"
 #include "vtkCamera.h"
 
-vtkCxxRevisionMacro(mafLODActor, "$Revision: 1.3.10.1 $");
 vtkStandardNewMacro(mafLODActor);
 
 //------------------------------------------------------------------------

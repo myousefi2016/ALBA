@@ -18,7 +18,6 @@
 #include "vtkObjectFactory.h"
 
 #include "mafMemDbg.h"
-vtkCxxRevisionMacro(vtkMAFLargeImageSource, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFLargeImageSource);
 
 //----------------------------------------------------------------------------

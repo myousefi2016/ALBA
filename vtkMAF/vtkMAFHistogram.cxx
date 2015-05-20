@@ -38,7 +38,6 @@
 #include "vtkPolyDataMapper.h"
 #include "vtkProperty.h"
 
-vtkCxxRevisionMacro(vtkMAFHistogram, "$Revision: 1.1.2.5 $");
 vtkStandardNewMacro(vtkMAFHistogram);
 //------------------------------------------------------------------------------
 vtkMAFHistogram::vtkMAFHistogram()

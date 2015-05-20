@@ -32,7 +32,6 @@ enum RAY_CAST_MODALITY
   MR_MODALITY,
 };
 
-vtkCxxRevisionMacro(vtkMAFRayCastCleaner, "$Revision: 1.0 $");
 vtkStandardNewMacro(vtkMAFRayCastCleaner);
 
 //----------------------------------------------------------------------------

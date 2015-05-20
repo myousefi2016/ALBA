@@ -47,7 +47,6 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFProjectRG, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFProjectRG);
 
 //----------------------------------------------------------------------------

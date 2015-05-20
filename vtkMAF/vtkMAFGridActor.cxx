@@ -34,7 +34,6 @@
 #include "vtkTextActor.h"
 #include "vtkTextProperty.h"
 
-vtkCxxRevisionMacro(vtkMAFGridActor, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFGridActor);
 //------------------------------------------------------------------------------
 vtkMAFGridActor::vtkMAFGridActor()
