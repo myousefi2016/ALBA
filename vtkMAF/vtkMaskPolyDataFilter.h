@@ -31,7 +31,7 @@
 #ifndef __vtkMaskPolyDataFilter_h
 #define __vtkMaskPolyDataFilter_h
 
-#include "vtkDataSetAlgorithm .h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkPolyData.h"
 #include "vtkMath.h"
 #include "vtkPolygon.h"
@@ -94,7 +94,9 @@ protected:
   vtkMaskPolyDataFilter(const vtkMaskPolyDataFilter&);
   void operator=(const vtkMaskPolyDataFilter&);
 
-  void Execute();
+	/**  Mask through data generating surface. */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
   vtkPolyData *Mask;
 	vtkPolyData *CurrentSliceMask;
 	vtkIdType *IdConversionTable;

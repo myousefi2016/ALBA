@@ -182,7 +182,8 @@ protected:
   vtkMAFExtendedGlyph3D();
   ~vtkMAFExtendedGlyph3D();
 
-  void Execute();
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
   void ExecuteInformation();
   void ComputeInputUpdateExtents(vtkDataObject *output);
 

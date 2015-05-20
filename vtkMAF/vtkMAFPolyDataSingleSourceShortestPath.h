@@ -90,7 +90,7 @@ protected:
 	void operator=(const vtkMAFPolyDataSingleSourceShortestPath&);
 	
 	// Usual data generation method
-	void Execute();
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 	
 	// Build a graph description of the mesh
 	void BuildAdjacency(vtkPolyData *pd);

@@ -24,6 +24,7 @@
 #include "vtkMath.h"
 #include "float.h"
 #include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 vtkCxxRevisionMacro(vtkMAFPoissonSurfaceReconstruction, "$Revision: 1.1.2.10 $");
@@ -45,7 +46,7 @@ vtkMAFPoissonSurfaceReconstruction::~vtkMAFPoissonSurfaceReconstruction()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::Execute()
+int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   vtkDataSet *input= this->GetInput();

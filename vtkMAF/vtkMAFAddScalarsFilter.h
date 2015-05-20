@@ -84,7 +84,8 @@ protected:
   vtkMAFAddScalarsFilter();
   ~vtkMAFAddScalarsFilter() {};
 
-  void Execute();
+	/** Execute method */
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   float m_Color[4] ;
   char m_ScalarName[256] ;

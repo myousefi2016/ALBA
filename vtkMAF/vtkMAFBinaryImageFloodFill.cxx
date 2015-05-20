@@ -34,6 +34,8 @@
 #include "itkOrImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkImageToVTKImageFilter.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFBinaryImageFloodFill);
 
@@ -62,7 +64,7 @@ vtkMAFBinaryImageFloodFill::~vtkMAFBinaryImageFloodFill()
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFBinaryImageFloodFill::Execute()
+int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   // get input

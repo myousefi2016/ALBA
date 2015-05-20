@@ -68,7 +68,7 @@ protected:
 
   // Description:
   // the main function that does the work
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   /** computation of extents and update values*/
   void ComputeInputUpdateExtents(vtkDataObject *output);

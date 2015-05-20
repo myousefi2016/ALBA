@@ -40,6 +40,8 @@
 vtkStandardNewMacro(vtkMAFFillingHole);
 
 #include "mafMemDbg.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 #define MAXPATCHVERTEX 4096
 
@@ -2897,7 +2899,7 @@ void vtkMAFFillingHole::BuildPatchOutput()
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
-void vtkMAFFillingHole::Execute()
+int vtkMAFFillingHole::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {  
   //InitManifoldMesh();

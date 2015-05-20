@@ -37,6 +37,8 @@
 #include "vtkTransform.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkCellArray.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFCollisionDetectionFilter);
 
@@ -406,7 +408,7 @@ static int ComputeCollisions(vtkOBBNode *nodeA, vtkOBBNode *nodeB, vtkMatrix4x4 
 
 // Description:
 // Perform a collision detection
-void vtkMAFCollisionDetectionFilter::Execute()
+int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   // get the info objects
   vtkDebugMacro(<< "Beginning execution...");

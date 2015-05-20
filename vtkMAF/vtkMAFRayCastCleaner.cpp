@@ -23,6 +23,8 @@
 #include "vtkPointData.h"
 #include "vtkMAFSmartPointer.h"
 #include "mafDefines.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 enum RAY_CAST_MODALITY
 {
@@ -59,7 +61,7 @@ vtkMAFRayCastCleaner::~vtkMAFRayCastCleaner()
 
 
 //------------------------------------------------------------------------------
-void vtkMAFRayCastCleaner::Execute()
+int vtkMAFRayCastCleaner::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   vtkStructuredPoints *outputImage = this->GetOutput();

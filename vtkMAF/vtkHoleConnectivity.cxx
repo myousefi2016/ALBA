@@ -22,6 +22,8 @@ under MAF (www.openmaf.org)
 #include "vtkPolyDataConnectivityFilter.h"
 #include "vtkPolyData.h"
 #include "vtkObjectFactory.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkHoleConnectivity);
 
@@ -38,7 +40,7 @@ vtkHoleConnectivity::~vtkHoleConnectivity()
 {  
 }
 //----------------------------------------------------------------------------
-void vtkHoleConnectivity::Execute()
+int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
 	vtkPolyData *output = this->GetOutput();

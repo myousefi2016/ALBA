@@ -58,7 +58,7 @@ protected:
   ~vtkMAFPolyDataMirror() {};
 
   // Usual data generation method
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   int FlipNormals;
   int MirrorXCoordinate;

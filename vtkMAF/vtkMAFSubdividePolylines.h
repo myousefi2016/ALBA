@@ -53,7 +53,8 @@ protected:
   vtkMAFSubdividePolylines();
   ~vtkMAFSubdividePolylines();
 
-  void Execute();
+	/** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkMAFPolyDataNavigator* m_Nav ;
 

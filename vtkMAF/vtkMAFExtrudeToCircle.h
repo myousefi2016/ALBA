@@ -74,7 +74,8 @@ protected:
   vtkMAFExtrudeToCircle() ;   ///< constructor
   ~vtkMAFExtrudeToCircle() ;  ///< deconstructor
 
-  void Execute();       ///< execute method
+	/** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   void Initialize() ;   ///< initialize filter (clear old data out for clean start)
 

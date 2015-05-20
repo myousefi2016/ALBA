@@ -31,6 +31,8 @@
 #endif
 
 #include <cmath>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 //------------------------------------------------------------------------------
 // standard macros
@@ -75,8 +77,7 @@ void vtkMAFExtrudeToCircle::Initialize()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-void vtkMAFExtrudeToCircle::Execute()
+int vtkMAFExtrudeToCircle::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   vtkDebugMacro(<< "Executing ExtrudeToCircle Filter") ;

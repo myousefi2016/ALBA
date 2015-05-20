@@ -17,8 +17,7 @@
 
 #include "vtkObject.h"
 
-/*virtual*/ void vtkMAFLargeDataSetCallback
-	::Execute(vtkObject* caller, unsigned long eventId, void* callData)
+/*virtual*/ void vtkMAFLargeDataSetCallback::Execute(vtkObject* caller, unsigned long eventId, void* callData)
 {	
 	if (Listener != NULL)
 	{

@@ -19,6 +19,8 @@ University of Bedfordshire
 #include "vtkCellData.h"
 #include "vtkIdList.h"
 #include "assert.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 
@@ -217,9 +219,7 @@ void vtkMAFAddScalarsFilter::SetName(char* name)
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFAddScalarsFilter::Execute()
+int vtkMAFAddScalarsFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkDebugMacro(<< "Executing vtkMAFAddScalarsFilter") ;
 

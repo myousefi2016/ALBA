@@ -167,7 +167,7 @@ protected:
   ~vtkMAFCollisionDetectionFilter();
 
   // Usual data generation method
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkLinearTransform *Transform[2];
   vtkMatrix4x4 *Matrix[2];

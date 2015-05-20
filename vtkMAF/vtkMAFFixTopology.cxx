@@ -24,6 +24,8 @@
 #include "vtkObjectFactory.h"
 #include "vtkTriangleFilter.h"
 #include "vtkPolyDataNormals.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkCxxRevisionMacro(vtkMAFFixTopology, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFFixTopology);
@@ -48,7 +50,7 @@ void vtkMAFFixTopology::PrintSelf(ostream& os, vtkIndent indent)
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFFixTopology::Execute()
+int vtkMAFFixTopology::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   vtkTriangleFilter *triangle_mesh = vtkTriangleFilter::New();

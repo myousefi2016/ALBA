@@ -78,7 +78,7 @@ public:
 protected:
 
   /** Execute this filter */
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 private:
 

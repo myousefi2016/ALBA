@@ -21,6 +21,8 @@
 #include "vtkPolyData.h"
 #include "vtkPointData.h"
 #include "vtkDataSet.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFFixedCutter);
 
@@ -35,10 +37,10 @@ vtkMAFFixedCutter::~vtkMAFFixedCutter()
 {
 }
 //----------------------------------------------------------------------------
-void vtkMAFFixedCutter::Execute()
+int vtkMAFFixedCutter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkCutter::Execute();
+  vtkCutter::RequestData( NULL,  inputVector, outputVector);
   
   if(this->GetOutput()->GetNumberOfPoints() == 0)
   {

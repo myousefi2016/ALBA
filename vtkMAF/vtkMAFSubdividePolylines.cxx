@@ -18,6 +18,8 @@ University of Bedfordshire
 
 #include <ostream>
 #include <cmath>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 
@@ -49,9 +51,7 @@ vtkMAFSubdividePolylines::~vtkMAFSubdividePolylines()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFSubdividePolylines::Execute()
+int vtkMAFSubdividePolylines::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkDebugMacro(<< "Executing vtkMAFSubdividePolylines Filter") ;
 

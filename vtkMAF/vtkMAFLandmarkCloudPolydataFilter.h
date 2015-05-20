@@ -132,7 +132,8 @@ protected:
 
   char m_ScalarName[256] ;
 
-  void Execute();
+	/** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   // visual pipes
   std::vector<vtkSphereSource*> m_SphereList ;          // sphere sources

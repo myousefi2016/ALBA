@@ -42,6 +42,7 @@ vtkStandardNewMacro(vtkMAFMeshCutter_BES);
 //------------------------------------------------------------------------------
 #include "mafMemDbg.h"
 #include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 ////#define __PROFILING__
 //#include <atlbase.h>
@@ -107,8 +108,7 @@ unsigned long vtkMAFMeshCutter_BES::GetMTime()
 }
 
 //------------------------------------------------------------------------------
-// Execute method
-void vtkMAFMeshCutter_BES::Execute()
+int vtkMAFMeshCutter_BES::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   vtkUnstructuredGrid* input = this->GetInput();

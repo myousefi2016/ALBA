@@ -44,20 +44,20 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 #include "vtkStructuredPoints.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkCxxRevisionMacro(vtkMAFProjectRG, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFProjectRG);
 
-//=========================================================================
+//----------------------------------------------------------------------------
 vtkMAFProjectRG::vtkMAFProjectRG()
-//=========================================================================
 {
   this->ProjectionMode = VTK_PROJECT_FROM_X;
 }
 
-//=========================================================================
+//----------------------------------------------------------------------------
 void vtkMAFProjectRG::ExecuteInformation()
-//=========================================================================
 {
   vtkRectilinearGrid *input=this->GetInput();
   vtkRectilinearGrid *output=this->GetOutput();
@@ -105,9 +105,8 @@ void vtkMAFProjectRG::ExecuteInformation()
   vtkDebugMacro(<<"Whole Extent is " << wholeExtent[1] << " " << wholeExtent[3] << " " << wholeExtent[5]);
 }
 
-//=========================================================================
-void vtkMAFProjectRG::Execute()
-//=========================================================================
+//----------------------------------------------------------------------------
+int vtkMAFProjectRG::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   int i, j, k, dims[3], outDims[3], dim, idx, newIdx;  
   int sliceSize, outSize, jOffset, kOffset;
@@ -250,16 +249,11 @@ void vtkMAFProjectRG::Execute()
 }
 
 
-//=========================================================================
+//----------------------------------------------------------------------------
 void vtkMAFProjectRG::PrintSelf(ostream& os, vtkIndent indent)
-//=========================================================================
 {
   vtkMAFRectilinearGridToRectilinearGridFilter::PrintSelf(os,indent);
 
   os << indent << "ProjectionMode: " <<GetProjectionModeAsString() << "\n";
-  
 }
-
-
-
 

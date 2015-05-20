@@ -44,21 +44,21 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkStructuredPoints.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkCxxRevisionMacro(vtkMAFProjectSP, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFProjectSP);
 
 // Construct object to extract all of the input data.
-//=========================================================================
+//----------------------------------------------------------------------------
 vtkMAFProjectSP::vtkMAFProjectSP()
-//=========================================================================
 {
   this->ProjectionMode = VTK_PROJECT_FROM_X;
 }
 
-//=========================================================================
+//----------------------------------------------------------------------------
 void vtkMAFProjectSP::ExecuteInformation()
-//=========================================================================
 {
   vtkImageData *input=this->GetInput();
   vtkStructuredPoints *output=this->GetOutput();
@@ -108,9 +108,8 @@ void vtkMAFProjectSP::ExecuteInformation()
   vtkDebugMacro(<<"Whole Extent is " << wholeExtent[1] << " " << wholeExtent[3] << " " << wholeExtent[5]);
 }
 
-//=========================================================================
-void vtkMAFProjectSP::Execute()
-//=========================================================================
+//----------------------------------------------------------------------------
+int vtkMAFProjectSP::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   int dims[3], outDims[3];
   double origin[3], ar[3], outOrigin[3]={0.0,0.0,0.0}, outAR[3];
@@ -236,10 +235,8 @@ void vtkMAFProjectSP::Execute()
   } 
 }
 
-
-//=========================================================================
+//----------------------------------------------------------------------------
 void vtkMAFProjectSP::PrintSelf(ostream& os, vtkIndent indent)
-//=========================================================================
 {
   vtkStructuredPointsToStructuredPointsFilter::PrintSelf(os,indent);
 

@@ -23,6 +23,8 @@
 #include "vtkMAFImplicitPolyData.h"
 #include "vtkLinearSubdivisionFilter.h"
 #include "vtkClipPolyData.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFClipSurfaceBoundingBox);
 
@@ -39,7 +41,7 @@ vtkMAFClipSurfaceBoundingBox::~vtkMAFClipSurfaceBoundingBox()
 	SetMask(NULL);
 }
 //-------------------------------------------------------------------------
-void vtkMAFClipSurfaceBoundingBox::Execute() 
+int vtkMAFClipSurfaceBoundingBox::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //-------------------------------------------------------------------------
 {
 	vtkPolyData *output = this->GetOutput();

@@ -29,6 +29,7 @@
 #include "vtkTransform.h"
 #include "vtkUnsignedCharArray.h"
 #include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFExtendedGlyph3D);
 
@@ -36,6 +37,7 @@ vtkStandardNewMacro(vtkMAFExtendedGlyph3D);
 // scale factor = 1.0, the range is (0,1), orient geometry is on, and
 // orientation is by vector. Clamping and indexing are turned off. No
 // initial sources are defined.
+//------------------------------------------------------------------------------
 vtkMAFExtendedGlyph3D::vtkMAFExtendedGlyph3D()
 {
   this->Scaling = 0;
@@ -58,6 +60,7 @@ vtkMAFExtendedGlyph3D::vtkMAFExtendedGlyph3D()
   this->InputNormalsSelection = NULL;
 }
 
+//------------------------------------------------------------------------------
 vtkMAFExtendedGlyph3D::~vtkMAFExtendedGlyph3D()
 {
   if (this->PointIdsName)
@@ -69,7 +72,8 @@ vtkMAFExtendedGlyph3D::~vtkMAFExtendedGlyph3D()
   this->SetInputNormalsSelection(NULL);
 }
 
-void vtkMAFExtendedGlyph3D::Execute()
+//------------------------------------------------------------------------------
+int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkPointData *pd;
   vtkDataArray *inScalars;
@@ -601,12 +605,14 @@ void vtkMAFExtendedGlyph3D::ExecuteInformation()
 
 // Set the number of source objects in the glyph table. This should be
 // done prior to specifying more than one source.
+//------------------------------------------------------------------------------
 void vtkMAFExtendedGlyph3D::SetNumberOfSources(int num)
 {
   // one more because input has index 0.
   this->SetNumberOfInputPorts(num+1);
 }
 
+//------------------------------------------------------------------------------
 int vtkMAFExtendedGlyph3D::GetNumberOfSources()
 {
   // one less because input has index 0.
@@ -614,6 +620,7 @@ int vtkMAFExtendedGlyph3D::GetNumberOfSources()
 }
 
 // Specify a source object at a specified table location.
+//------------------------------------------------------------------------------
 void vtkMAFExtendedGlyph3D::SetSource(int id, vtkPolyData *pd)
 {
   if (id < 0)
@@ -625,6 +632,7 @@ void vtkMAFExtendedGlyph3D::SetSource(int id, vtkPolyData *pd)
 }
 
 // Get a pointer to a source object at a specified table location.
+//------------------------------------------------------------------------------
 vtkPolyData *vtkMAFExtendedGlyph3D::GetSource(int id)
 {
   if ( id < 0 || id >= this->GetNumberOfSources() )
@@ -637,6 +645,7 @@ vtkPolyData *vtkMAFExtendedGlyph3D::GetSource(int id)
     }
 }
 
+//------------------------------------------------------------------------------
 void vtkMAFExtendedGlyph3D::PrintSelf(ostream& os, vtkIndent indent)
 {
   this->Superclass::PrintSelf(os,indent);
@@ -708,12 +717,14 @@ void vtkMAFExtendedGlyph3D::PrintSelf(ostream& os, vtkIndent indent)
      << (this->InputNormalsSelection ? this->InputNormalsSelection : "(none)") << "\n";
 }
 
+//------------------------------------------------------------------------------
 int vtkMAFExtendedGlyph3D::FillInputPortInformation(int, vtkInformation *info)
 {
 	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
 	return 1;
 }
 
+//------------------------------------------------------------------------------
 void vtkMAFExtendedGlyph3D::ComputeInputUpdateExtents( vtkDataObject *output )
 {
   vtkPolyData *outPd;

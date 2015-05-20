@@ -23,6 +23,8 @@ University of Bedfordshire
 
 #include "assert.h"
 #include <algorithm>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkCxxRevisionMacro(vtkMAFHalfTubeRemoval, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFHalfTubeRemoval);
@@ -69,9 +71,7 @@ unsigned long vtkMAFHalfTubeRemoval::GetMTime()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFHalfTubeRemoval::Execute()
+int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkDebugMacro(<< "Executing vtkMAFHalfTubeRemoval Filter") ;
 

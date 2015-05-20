@@ -66,7 +66,8 @@ protected:
   vtkMAFHalfTubeRemoval();
   ~vtkMAFHalfTubeRemoval();
 
-  void Execute();
+	/** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkPolyData *m_Input ;
   vtkPolyData *m_Output ;

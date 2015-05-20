@@ -113,7 +113,7 @@ protected:
   double UnmarkedColor[3];
   double MarkedOpacity;
   
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 private:
   /** Copy Constructor , not implemented.*/

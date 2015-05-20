@@ -47,6 +47,8 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkCellArray.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkCellLocator.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMaskPolyDataFilter);
 
@@ -72,10 +74,8 @@ vtkMaskPolyDataFilter::~vtkMaskPolyDataFilter()
 
 
 
-//
-// Mask through data generating surface.
-//
-void vtkMaskPolyDataFilter::Execute()
+//------------------------------------------------------------------------------
+int vtkMaskPolyDataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 	int i,j,k, abortExecute=0;
 	vtkDataSet *output = this->GetOutput();

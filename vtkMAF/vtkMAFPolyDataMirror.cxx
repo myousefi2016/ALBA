@@ -17,6 +17,8 @@
 #include "vtkPolygon.h"
 #include "vtkTriangleStrip.h"
 #include "vtkPolyDataNormals.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkCxxRevisionMacro(vtkMAFPolyDataMirror, "$Revision: 1.3.2.1 $");
 vtkStandardNewMacro(vtkMAFPolyDataMirror);
@@ -31,7 +33,7 @@ vtkMAFPolyDataMirror::vtkMAFPolyDataMirror()
   this->MirrorZCoordinate = 0;
 }
 //----------------------------------------------------------------------------
-void vtkMAFPolyDataMirror::Execute()
+int vtkMAFPolyDataMirror::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   vtkPoints *inPts;

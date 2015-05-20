@@ -35,6 +35,7 @@
 #include "vtkMAFToLinearTransform.h"
 #include "vtkTransform.h"
 #include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 
@@ -87,8 +88,7 @@ int vtkMAFMeshCutter::FillInputPortInformation(int, vtkInformation *info)
 }
 
 //------------------------------------------------------------------------------
-// Execute method
-void vtkMAFMeshCutter::Execute()
+int vtkMAFMeshCutter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   // Make a copy of the input data and buil links

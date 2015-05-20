@@ -20,6 +20,8 @@
 #include "vtkPoints.h"
 #include "vtkPointData.h"
 #include "vtkCellArray.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFPolyDataSingleSourceShortestPath);
 
@@ -71,7 +73,7 @@ unsigned long vtkMAFPolyDataSingleSourceShortestPath::GetMTime()
 	return mTime;
 }
 
-void vtkMAFPolyDataSingleSourceShortestPath::Execute()
+int vtkMAFPolyDataSingleSourceShortestPath::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 	vtkPolyData *input = this->GetInput();
 	vtkPolyData *output = this->GetOutput();

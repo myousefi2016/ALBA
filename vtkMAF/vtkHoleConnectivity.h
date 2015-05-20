@@ -57,7 +57,7 @@ protected:
 	~vtkHoleConnectivity();
 
   /** execute the filter */
-	void Execute();
+	int RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
 	vtkIdType PointID;
 	double Point[3];

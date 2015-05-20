@@ -27,6 +27,8 @@
 #include "vtkCellArray.h"
 #include "vtkCharArray.h"
 #include "vtkLookupTable.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFCellsFilter);
 
@@ -96,7 +98,7 @@ void vtkMAFCellsFilter::SetMarkedOpacity(double opacity)
 
 // Description:
 // Perform cell removal
-void vtkMAFCellsFilter::Execute()
+int vtkMAFCellsFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   if (!this->IsInitialized)
     {

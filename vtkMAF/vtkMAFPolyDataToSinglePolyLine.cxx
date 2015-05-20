@@ -30,6 +30,8 @@
 #include "vtkPolyLine.h"
 #include "vtkSplineFilter.h"
 #include "vtkCardinalSpline.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 //vtkCxxRevisionMacro(vtkMAFFixedCutter, "$Revision: 1.2 $");
 vtkStandardNewMacro(vtkMAFPolyDataToSinglePolyLine);
 
@@ -44,7 +46,7 @@ vtkMAFPolyDataToSinglePolyLine::~vtkMAFPolyDataToSinglePolyLine()
 {
 }
 //----------------------------------------------------------------------------
-void vtkMAFPolyDataToSinglePolyLine::Execute()
+int vtkMAFPolyDataToSinglePolyLine::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
 	vtkPoints* InPts = this->GetInput()->GetPoints();

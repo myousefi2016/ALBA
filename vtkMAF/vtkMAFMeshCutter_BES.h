@@ -113,8 +113,8 @@ protected:
   /** destructor */                                                           
   ~vtkMAFMeshCutter_BES() ;                                                             
 
-  /** execute method */
-  void Execute();
+  /** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 
   // edge described by id's of endpoints

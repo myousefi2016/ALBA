@@ -57,9 +57,7 @@ vtkMAFLandmarkCloudPolydataFilter::~vtkMAFLandmarkCloudPolydataFilter()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFLandmarkCloudPolydataFilter::Execute()
+int vtkMAFLandmarkCloudPolydataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   // pointers to input and output
   m_Input = this->GetInput() ;

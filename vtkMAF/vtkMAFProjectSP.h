@@ -136,7 +136,7 @@ protected:
   /** Update dimensions and whole extents */
   void ExecuteInformation();
   /** Execute the projection and fill output scalars */
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   int ProjectionMode;  
 };

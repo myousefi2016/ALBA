@@ -54,7 +54,7 @@ class MAF_EXPORT vtkMAFFixTopology : public vtkPolyDataAlgorithm
     ~vtkMAFFixTopology();
 
     /** execute the filter*/
-    void Execute();
+    int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   private:
     /** copy constructor not implemented*/

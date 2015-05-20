@@ -60,7 +60,7 @@ protected:
 	~vtkMAFClipSurfaceBoundingBox();
 
   /** Execute the filter. */
-	void Execute();
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 	int ClipInside;
 };

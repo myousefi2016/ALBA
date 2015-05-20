@@ -21,7 +21,6 @@
 // Include:
 //----------------------------------------------------------------------------
 #include "mafConfigure.h"
-#include "vtkstd/vector"
 #include "vtkCellArray.h"
 #include "vtkPointLocator.h"
 #include "vtkPolyDataAlgorithm.h"
@@ -53,10 +52,10 @@ public:
       double  DWeight,DOneRingEdgeLength;
       bool    BMarked;
       bool    BBoundary;
-      vtkstd::vector<int> OneRingTriangle;
-      vtkstd::vector<int> OneRingEdge;
-      vtkstd::vector<int> OneRingVertex;
-      vtkstd::vector<int> TwoRingVertex;
+      std::vector<int> OneRingTriangle;
+      std::vector<int> OneRingEdge;
+      std::vector<int> OneRingVertex;
+      std::vector<int> TwoRingVertex;
 
       /** constructor */
       CVertex(double *pCoord);
@@ -309,7 +308,7 @@ protected:
   /** Build internal mesh. It suppose that the input mesh is manifold */
   void InitMesh();
   /** filter execution */
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
   /** mesh allocation */
   void DoneMesh();
 
