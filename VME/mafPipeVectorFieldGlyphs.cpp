@@ -60,12 +60,7 @@
 #include "mafGUIValidator.h"
 #include "mafGUIButton.h"
 #include "vtkRectilinearGrid.h"
-
 #include "vtkImageData.h"
-//#include "vtkStructuredPointsToPolyDataFilter.h"
-//#include "medPointsFilter.h"
-
-
 #include "wx/busyinfo.h"
 #include <wx/tokenzr.h>
 #include <wx/slider.h>

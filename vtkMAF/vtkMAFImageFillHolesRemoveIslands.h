@@ -18,7 +18,7 @@
 #define __vtkMAFImageFillHolesRemoveIslands_H__
 
 #include "mafConfigure.h"
-#include "vtkStructuredPointsToStructuredPointsFilter.h"
+#include "vtkMAFStructuredPointsAlgorithm.h"
 
 class vtkImageData;
 class vtkStructuredPoints;
@@ -31,7 +31,7 @@ vtkMAFImageFillHolesRemoveIslands is a vtkStructuredPointsToStructuredPointsFilt
 that must be a binary image represented by a vtkUCharArray with values of 0 or 255 only.
 */
 //---------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFImageFillHolesRemoveIslands : public vtkStructuredPointsToStructuredPointsFilter
+class MAF_EXPORT vtkMAFImageFillHolesRemoveIslands : public vtkMAFStructuredPointsAlgorithm
 //---------------------------------------------------------------------------
 {
 public:
@@ -44,7 +44,7 @@ public:
   };
 
   /** Add collect revision method */
-  vtkTypeMacro(vtkMAFImageFillHolesRemoveIslands,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFImageFillHolesRemoveIslands,vtkMAFStructuredPointsAlgorithm);
 
   /** Dynamic ctor */
   static vtkMAFImageFillHolesRemoveIslands *New();

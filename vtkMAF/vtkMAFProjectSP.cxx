@@ -69,7 +69,7 @@ void vtkMAFProjectSP::ExecuteInformation()
     vtkErrorMacro("Missing input");
     return;
     }
-  this->vtkStructuredPointsToStructuredPointsFilter::ExecuteInformation();
+  this->vtkMAFStructuredPointsAlgorithm::ExecuteInformation();
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
@@ -238,7 +238,7 @@ int vtkMAFProjectSP::RequestData( vtkInformation *vtkNotUsed(request), vtkInform
 //----------------------------------------------------------------------------
 void vtkMAFProjectSP::PrintSelf(ostream& os, vtkIndent indent)
 {
-  vtkStructuredPointsToStructuredPointsFilter::PrintSelf(os,indent);
+  vtkMAFStructuredPointsAlgorithm::PrintSelf(os,indent);
 
   os << indent << "ProjectionMode: " <<GetProjectionModeAsString() << "\n";
 }

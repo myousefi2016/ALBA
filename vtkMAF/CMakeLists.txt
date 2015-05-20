@@ -62,8 +62,8 @@ SET(vtkMAF_SRCS
   vtkMAFProjectSP.h
   vtkMAFRayCast3DPicker.cxx
   vtkMAFRayCast3DPicker.h
-  vtkMAFRectilinearGridToRectilinearGridFilter.cxx
-  vtkMAFRectilinearGridToRectilinearGridFilter.h
+  vtkMAFRectilinearGridAlgorithm.h vtkMAFRectilinearGridAlgorithm.cxx
+	vtkMAFStructuredPointsAlgorithm.h vtkMAFStructuredPointsAlgorithm.cxx
   vtkMAFRGSliceAccumulate.cxx
   vtkMAFRGSliceAccumulate.h
   vtkMAFRulerActor2D.cxx

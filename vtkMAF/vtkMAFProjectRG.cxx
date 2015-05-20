@@ -68,7 +68,7 @@ void vtkMAFProjectRG::ExecuteInformation()
     vtkErrorMacro("Missing input");
     return;
     }
-  this->vtkMAFRectilinearGridToRectilinearGridFilter::ExecuteInformation();
+  this->vtkMAFRectilinearGridAlgorithm::ExecuteInformation();
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
@@ -252,7 +252,7 @@ int vtkMAFProjectRG::RequestData( vtkInformation *vtkNotUsed(request), vtkInform
 //----------------------------------------------------------------------------
 void vtkMAFProjectRG::PrintSelf(ostream& os, vtkIndent indent)
 {
-  vtkMAFRectilinearGridToRectilinearGridFilter::PrintSelf(os,indent);
+  vtkMAFRectilinearGridAlgorithm::PrintSelf(os,indent);
 
   os << indent << "ProjectionMode: " <<GetProjectionModeAsString() << "\n";
 }

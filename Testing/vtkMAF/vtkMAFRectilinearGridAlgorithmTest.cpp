@@ -1,7 +1,7 @@
 /*=========================================================================
 
  Program: MAF2
- Module: vtkMAFRectilinearGridToRectilinearGridFilterTest
+ Module: vtkMAFRectilinearGridAlgorithmTest
  Authors: Eleonora Mambrini
  
  Copyright (c) B3C
@@ -15,33 +15,33 @@
 =========================================================================*/
 
 #include <cppunit/config/SourcePrefix.h>
-#include "vtkMAFRectilinearGridToRectilinearGridFilterTest.h"
+#include "vtkMAFRectilinearGridAlgorithmTest.h"
 
 #include "mafSmartPointer.h"
 #include "vtkMAFSmartPointer.h"
 
 #include "vtkRectilinearGrid.h"
-#include "vtkMAFDummyRectilinearGridToRectilinearGridFilter.h"
+#include "vtkMAFDummyRectilinearGridAlgorithm.h"
 
 using namespace std;
 
 //----------------------------------------------------------------------------
-void vtkMAFRectilinearGridToRectilinearGridFilterTest::TestFixture()
+void vtkMAFRectilinearGridAlgorithmTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
 //----------------------------------------------------------------------------
-void vtkMAFRectilinearGridToRectilinearGridFilterTest::setUp()
+void vtkMAFRectilinearGridAlgorithmTest::setUp()
 //----------------------------------------------------------------------------
 {
 }
 //----------------------------------------------------------------------------
-void vtkMAFRectilinearGridToRectilinearGridFilterTest::tearDown()
+void vtkMAFRectilinearGridAlgorithmTest::tearDown()
 //----------------------------------------------------------------------------
 {
 }
 
-void vtkMAFRectilinearGridToRectilinearGridFilterTest::TestGetInput()
+void vtkMAFRectilinearGridAlgorithmTest::TestGetInput()
 {
   vtkMAFSmartPointer<vtkRectilinearGrid> originalRectilinearGrid;
 
@@ -57,7 +57,7 @@ void vtkMAFRectilinearGridToRectilinearGridFilterTest::TestGetInput()
 
   originalRectilinearGrid->GetDimensions(dim);
 
-  vtkMAFSmartPointer<vtkMAFDummyRectilinearGridToRectilinearGridFilter> dummyFilter;
+  vtkMAFSmartPointer<vtkMAFDummyRectilinearGridAlgorithm> dummyFilter;
   dummyFilter->SetInput(originalRectilinearGrid);
   dummyFilter->Update();
 

@@ -40,8 +40,8 @@
 #include "vtkMAFProjectRGTest.h"
 #include "vtkMAFClipSurfaceBoundingBoxTest.h"
 #include "vtkMAFRGSliceAccumulateTest.h"
-#include "vtkMAFRectilinearGridToRectilinearGridFilterTest.h"
-#include "vtkMAFDummyRectilinearGridToRectilinearGridFilter.h"
+#include "vtkMAFRectilinearGridAlgorithmTest.h"
+#include "vtkMAFDummyRectilinearGridAlgorithm.h"
 #include "vtkMAFProfilingActorTest.h"
 #include "vtkMAFRulerActor2DTest.h"
 #include "vtkMAFSimpleRulerActor2DTest.h"
@@ -145,7 +145,7 @@ int
 	runner.addTest(vtkMAFProjectRGTest::suite());
 	runner.addTest(vtkMAFClipSurfaceBoundingBoxTest::suite());
 	runner.addTest(vtkMAFRGSliceAccumulateTest::suite());
-	runner.addTest(vtkMAFRectilinearGridToRectilinearGridFilterTest::suite());
+	runner.addTest(vtkMAFRectilinearGridAlgorithmTest::suite());
 	runner.addTest(vtkMAFProfilingActorTest::suite());
 	runner.addTest(vtkMAFRulerActor2DTest::suite());
 	runner.addTest(vtkMAFSimpleRulerActor2DTest::suite());

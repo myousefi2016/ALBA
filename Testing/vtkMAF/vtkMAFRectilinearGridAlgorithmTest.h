@@ -1,7 +1,7 @@
 /*=========================================================================
 
  Program: MAF2
- Module: vtkMAFRectilinearGridToRectilinearGridFilterTest
+ Module: vtkMAFRectilinearGridAlgorithmTest
  Authors: Eleonora Mambrini
  
  Copyright (c) B3C
@@ -14,8 +14,8 @@
 
 =========================================================================*/
 
-#ifndef __CPP_UNIT_RECTILINEARGRIDTORECTILINEARGRIDFILTERTEST_H__
-#define __CPP_UNIT_RECTILINEARGRIDTORECTILINEARGRIDFILTERTEST_H__
+#ifndef __CPP_UNIT_RectilinearGridAlgorithmTEST_H__
+#define __CPP_UNIT_RectilinearGridAlgorithmTEST_H__
 
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/BriefTestProgressListener.h>
@@ -28,7 +28,7 @@
 #include "vtkDataSet.h"
 #include "vtkTransform.h"
 
-class vtkMAFRectilinearGridToRectilinearGridFilterTest : public CPPUNIT_NS::TestFixture
+class vtkMAFRectilinearGridAlgorithmTest : public CPPUNIT_NS::TestFixture
 {
 public:
   // CPPUNIT fixture: executed before each test
@@ -38,7 +38,7 @@ public:
   void tearDown();
 
   // CPPUNIT test suite
-  CPPUNIT_TEST_SUITE( vtkMAFRectilinearGridToRectilinearGridFilterTest );
+  CPPUNIT_TEST_SUITE( vtkMAFRectilinearGridAlgorithmTest );
   CPPUNIT_TEST(TestGetInput);
   CPPUNIT_TEST( TestFixture ); // just to test that the fixture has no leaks
   CPPUNIT_TEST_SUITE_END();

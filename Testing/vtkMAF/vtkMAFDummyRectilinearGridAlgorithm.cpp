@@ -1,7 +1,7 @@
 /*=========================================================================
 
  Program: MAF2
- Module: vtkMAFDummyRectilinearGridToRectilinearGridFilter
+ Module: vtkMAFDummyRectilinearGridAlgorithm
  Authors: Eleonora Mambrini
  
  Copyright (c) B3C
@@ -14,5 +14,5 @@
 
 =========================================================================*/
 
-#include "vtkMAFDummyRectilinearGridToRectilinearGridFilter.h"
+#include "vtkMAFDummyRectilinearGridAlgorithm.h"
 
