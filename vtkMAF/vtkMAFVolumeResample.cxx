@@ -279,7 +279,11 @@ void vtkMAFVolumeResample::PrepareVolume() {
 
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ComputeInputUpdateExtents(vtkDataObject *output) {
+int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+{
+	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
+
   vtkDataObject *input = this->GetInput();
   input->SetUpdateExtentToWholeExtent();
   }

@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeSlicer_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetAlgorithm .h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkImageData.h"
 #include "vtkPolyData.h"
 
@@ -114,7 +114,8 @@ protected:
   void ExecuteData(vtkPolyData *output);
   void ExecuteData(vtkImageData *output);
 
-  void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
 
   void PrepareVolume();
   void CalculateTextureCoordinates(const float point[3], const int size[2], const double spacing[2], float ts[2]);

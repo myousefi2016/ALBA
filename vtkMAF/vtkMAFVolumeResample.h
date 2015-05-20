@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeResample_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetAlgorithm .h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkImageData.h"
 
 //class vtkImageData;
@@ -97,7 +97,8 @@ protected:
   
   void ExecuteData(vtkImageData *output);
 
-  void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
 
   void PrepareVolume();
   void CalculateTextureCoordinates(const double point[3], const int size[2], const double spacing[2], double ts[2]);

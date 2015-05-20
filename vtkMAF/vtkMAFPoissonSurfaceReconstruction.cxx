@@ -100,10 +100,11 @@ int vtkMAFPoissonSurfaceReconstruction::FillInputPortInformation(int, vtkInforma
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::ComputeInputUpdateExtents(vtkDataObject *output)
-//----------------------------------------------------------------------------
+int	vtkMAFPoissonSurfaceReconstruction::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 {
-  int piece, numPieces, ghostLevels;
+	this->vtkPolyDataAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
+	int piece, numPieces, ghostLevels;
   
   if (this->GetInput() == NULL)
     {

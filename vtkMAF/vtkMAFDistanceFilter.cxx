@@ -92,19 +92,24 @@ unsigned long int vtkMAFDistanceFilter::GetMTime()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFDistanceFilter::ComputeInputUpdateExtents(vtkDataObject *output) {
+int	vtkMAFDistanceFilter::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+{
+	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
   vtkDataObject *source = this->GetSource();
   if (source)
     source->SetUpdateExtentToWholeExtent();
-  }
+}
 
 //----------------------------------------------------------------------------
-void vtkMAFDistanceFilter::ExecuteInformation() {
-  }
+void vtkMAFDistanceFilter::ExecuteInformation() 
+{
+}
 
 
 //----------------------------------------------------------------------------
-void vtkMAFDistanceFilter::ExecuteData(vtkDataObject *outputObject) {
+void vtkMAFDistanceFilter::ExecuteData(vtkDataObject *outputObject) 
+{
   vtkImageData       *imageData = vtkImageData::SafeDownCast(this->GetSource());
   vtkRectilinearGrid *gridData  = vtkRectilinearGrid::SafeDownCast(this->GetSource());
   vtkPointSet   *input  = vtkPointSet::SafeDownCast(this->GetInput());
@@ -226,7 +231,8 @@ void vtkMAFDistanceFilter::ExecuteData(vtkDataObject *outputObject) {
 
 
 //--------------------------------------------------------------------------------------
-template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double origin[3], const double ray[3], const DataType *dataPointer) {
+template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double origin[3], const double ray[3], const DataType *dataPointer) 
+{
   // find intersection between volume and ray
   // this code can be removed if out-of-bounds points are ignored (tmin is always 0)
   static const double maxD = 1.e20f;
@@ -301,7 +307,8 @@ template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double o
 
 
 //------------------------------------------------------------------------
-template<typename DataType> double vtkMAFDistanceFilter::FindDensity(const double point[3], const DataType *dataPointer) {
+template<typename DataType> double vtkMAFDistanceFilter::FindDensity(const double point[3], const DataType *dataPointer) 
+{
   vtkRectilinearGrid *gridData  = vtkRectilinearGrid::SafeDownCast(this->GetSource());
 
   double density = 0.f, xyz[3], dxyz[3];
@@ -314,7 +321,7 @@ template<typename DataType> double vtkMAFDistanceFilter::FindDensity(const doubl
     xyz[i] = this->UniformToRectGridIndex[i][uIndex];
     ixyz[i] = int(xyz[i]);
     dxyz[i] = xyz[i] - double(ixyz[i]);
-    }
+  }
 
   int vi[3] = {int(xyz[0]), int(xyz[1]), int(xyz[2])};
   dataPointer += vi[0] + this->DataDimensions[0] * (vi[1] + vi[2] * this->DataDimensions[1]);
@@ -334,7 +341,8 @@ template<typename DataType> double vtkMAFDistanceFilter::FindDensity(const doubl
   }
 
 //--------------------------------------------------------------
-void vtkMAFDistanceFilter::PrepareVolume() {
+void vtkMAFDistanceFilter::PrepareVolume()
+{
   if (this->GetSource()->GetMTime() < this->BuildTime && this->VoxelSizes[0] != NULL)
     return; // caches are up-to-date
   vtkImageData       *imageData = vtkImageData::SafeDownCast(this->GetSource());
@@ -412,7 +420,7 @@ void vtkMAFDistanceFilter::PrepareVolume() {
   this->InterpolationOffsets[7] = this->InterpolationOffsets[3] + this->DataDimensions[0] * this->DataDimensions[1];
 
   this->BuildTime.Modified();
-  }
+ }
 
 
 

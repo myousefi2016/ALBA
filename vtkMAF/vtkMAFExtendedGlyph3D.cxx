@@ -725,9 +725,11 @@ int vtkMAFExtendedGlyph3D::FillInputPortInformation(int, vtkInformation *info)
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFExtendedGlyph3D::ComputeInputUpdateExtents( vtkDataObject *output )
+int	vtkMAFExtendedGlyph3D::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 {
-  vtkPolyData *outPd;
+	this->vtkPolyDataAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+	
+	vtkPolyData *outPd;
 
   if (this->GetInput() == NULL)
     {

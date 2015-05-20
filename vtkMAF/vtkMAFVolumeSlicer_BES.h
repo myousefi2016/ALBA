@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeSlicer_BES_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetAlgorithm .h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkImageData.h"
 #include "vtkPolyData.h"
 
@@ -145,7 +145,8 @@ protected:
   /*virtual*/ unsigned long int GetMTime();
 
   /** By default copy the output update extent to the input. */
-  /*virtual*/ void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
 
   /** 
   By default, UpdateInformation calls this method to copy information

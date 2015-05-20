@@ -26,7 +26,7 @@
 #ifndef __vtkMAFDistanceFilter_h
 #define __vtkMAFDistanceFilter_h
 
-#include "vtkDataSetAlgorithm .h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkMatrix4x4.h"
 #include "vtkTransform.h"
 
@@ -121,7 +121,7 @@ class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetAlgorithm  {
     /** execute data*/
     void ExecuteData(vtkDataObject *output);
     /** compute and update extents */
-    void ComputeInputUpdateExtents(vtkDataObject *output);
+    int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
     /**  Prepare special data fast traversing in the volume*/
     void PrepareVolume();

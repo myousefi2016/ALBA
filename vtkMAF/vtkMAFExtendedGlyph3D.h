@@ -185,9 +185,9 @@ protected:
 	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   void ExecuteInformation();
-  void ComputeInputUpdateExtents(vtkDataObject *output);
-
-  int NumberOfSources; // Number of source objects
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+	
+	int NumberOfSources; // Number of source objects
   vtkPolyData **Source; // Geometry to copy to each point
   int Scaling; // Determine whether scaling of geometry is performed
   int ScaleMode; // Scale by scalar value or vector magnitude

@@ -190,9 +190,10 @@ void vtkMAFVolumeSlicer_BES::SetPlaneOrigin(double x, double y, double z)
 
 //----------------------------------------------------------------------------
 //By default copy the output update extent to the input.
-void vtkMAFVolumeSlicer_BES::ComputeInputUpdateExtents(vtkDataObject *output) 
-//----------------------------------------------------------------------------
+int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 {
+	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
   vtkDataObject *input = this->GetInput();
   input->SetUpdateExtentToWholeExtent();
 }

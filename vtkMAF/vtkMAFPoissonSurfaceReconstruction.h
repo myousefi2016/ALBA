@@ -71,7 +71,8 @@ protected:
   int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   /** computation of extents and update values*/
-  void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
   /** only check if input is not null */
   void ExecuteInformation(); 
   

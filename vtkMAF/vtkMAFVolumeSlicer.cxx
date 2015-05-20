@@ -333,9 +333,10 @@ void vtkMAFVolumeSlicer::PrepareVolume()
   this->PreprocessingTime.Modified();
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::ComputeInputUpdateExtents(vtkDataObject *output) 
-//----------------------------------------------------------------------------
+int	vtkMAFVolumeSlicer::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 {
+	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
   vtkDataObject *input = this->GetInput();
   input->SetUpdateExtentToWholeExtent();
 }
