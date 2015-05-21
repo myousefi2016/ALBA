@@ -34,6 +34,8 @@
 #include "vtkDataSet.h"
 #include "vtkObjectFactory.h"
 #include "vtkErrorCode.h"
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 //------------------------------------------------------------------------------
 vtkStandardNewMacro(vtkMAFDataPipe)
 //------------------------------------------------------------------------------
@@ -145,7 +147,8 @@ void vtkMAFDataPipe::ExecuteInformation()
           data->UpdateInformation();
           vtkDataSet *new_data=data->NewInstance();
           new_data->CopyInformation(data);
-          this->SetNthOutput(i,new_data);
+          
+					this->GetExecutive()->SetOutputData(i,new_data);
           new_data->Delete();
         }
       }

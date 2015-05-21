@@ -14,6 +14,7 @@
 #include "vtkMAFLargeImageSource.h"
 #include "vtkMAFLargeImageData.h"
 #include "vtkMAFLargeDataProvider.h"
+#include "vtkExecutive.h"
 
 #include "vtkObjectFactory.h"
 
@@ -23,18 +24,14 @@ vtkStandardNewMacro(vtkMAFLargeImageSource);
 //----------------------------------------------------------------------------
 vtkMAFLargeImageSource::vtkMAFLargeImageSource()
 {
-	this->vtkSource::SetNthOutput(0,vtkMAFLargeImageData::New());
-	// Releasing data for pipeline parallism.
-	// Filters will know it is empty. 
-	this->Outputs[0]->ReleaseData();
-	this->Outputs[0]->Delete();
+
 }
 
 //----------------------------------------------------------------------------
 // Specify the input data or filter.
 void vtkMAFLargeImageSource::SetOutput(vtkMAFLargeImageData *output)
 {
-	this->vtkSource::SetNthOutput(0, output);
+	this->GetExecutive()->SetOutputData(0, output);
 }
 
 //----------------------------------------------------------------------------
@@ -97,7 +94,7 @@ vtkMAFLargeImageData *vtkMAFLargeImageSource::AllocateOutputData(vtkDataObject *
 //----------------------------------------------------------------------------
 vtkMAFLargeImageData *vtkMAFLargeImageSource::GetOutput(int idx)
 {
-	return (vtkMAFLargeImageData *) this->vtkSource::GetOutput(idx);
+	return vtkMAFLargeImageData::SafeDownCast( this->GetExecutive()->GetOutputData(idx) );
 }
 
 //----------------------------------------------------------------------------
