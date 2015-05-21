@@ -15,17 +15,17 @@
 #define __vtkMAFLargeImageSource_h
 
 #include "mafConfigure.h"
-#include "vtkSource.h"
 #include "vtkMAFIdType64.h"
+#include "vtkDataSetAlgorithm.h"
 
 class vtkMAFLargeImageData;
 
-class MAF_EXPORT vtkMAFLargeImageSource : public vtkSource
+class MAF_EXPORT vtkMAFLargeImageSource : public vtkDataSetAlgorithm
 {
 public:
   static vtkMAFLargeImageSource* New();
 
-  vtkTypeMacro(vtkMAFLargeImageSource,vtkSource);
+  vtkTypeMacro(vtkMAFLargeImageSource,vtkDataSetAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
@@ -38,8 +38,12 @@ protected:
   vtkMAFLargeImageSource();
   ~vtkMAFLargeImageSource() {};
 
-  void Execute();
-  virtual void Execute(vtkMAFLargeImageData *data);
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **vtkNotUsed(inputVector), vtkInformationVector *outputVector);
+
+	virtual void ExecuteData(vtkDataObject *data)=0;
+		
+	virtual void ExecuteInformation()=0;
+
 
   // a helper method that sets the extent and allocates the output 
   // passed into it and returns it as an image data

@@ -15,16 +15,19 @@
 #include "vtkMAFLargeImageData.h"
 #include "vtkMAFLargeDataProvider.h"
 #include "vtkExecutive.h"
-
+#include "vtkAlgorithm.h"
 #include "vtkObjectFactory.h"
 
 #include "mafMemDbg.h"
-vtkStandardNewMacro(vtkMAFLargeImageSource);
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
+
 
 //----------------------------------------------------------------------------
 vtkMAFLargeImageSource::vtkMAFLargeImageSource()
 {
-
+	this->SetNumberOfInputPorts(0);
+	this->SetNumberOfOutputPorts(1);
 }
 
 //----------------------------------------------------------------------------
@@ -38,35 +41,24 @@ void vtkMAFLargeImageSource::SetOutput(vtkMAFLargeImageData *output)
 // Specify the input data or filter.
 vtkMAFLargeImageData *vtkMAFLargeImageSource::GetOutput()
 {
-	if (this->NumberOfOutputs < 1)
-	{
-		return NULL;
-	}
-
-	return (vtkMAFLargeImageData *)(this->Outputs[0]);
+	return (vtkMAFLargeImageData *)this->GetExecutive()->GetOutputData(0);
 }
 
 
 //----------------------------------------------------------------------------
 // Convert to Imaging API
-void vtkMAFLargeImageSource::Execute()
+int vtkMAFLargeImageSource::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **vtkNotUsed(inputVector), vtkInformationVector *outputVector)
 {
-	vtkMAFLargeImageData *output = this->GetOutput();
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+	vtkMAFLargeImageData *output = vtkMAFLargeImageData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
 	// If we have multiple Outputs, they need to be allocate
 	// in a subclass.  We cannot be sure all outputs are images.
-	output->SetExtent(output->GetUpdateExtent());
+	output->SetExtent(this->GetUpdateExtent());
 	output->AllocateScalars();
 
-	this->Execute(this->GetOutput());
-}
-
-//----------------------------------------------------------------------------
-// This function can be defined in a subclass to generate the data
-// for a region.
-void vtkMAFLargeImageSource::Execute(vtkMAFLargeImageData *)
-{
-	vtkErrorMacro(<< "Execute(): Method not defined.");
+	// call ExecuteData
+	this->ExecuteData( output );
 }
 
 
@@ -80,13 +72,14 @@ vtkMAFLargeImageData *vtkMAFLargeImageSource::AllocateOutputData(vtkDataObject *
 		return NULL;
 	}
 
+
 	// I would like to eliminate this method which requires extra "information"
 	// That is not computed in the graphics pipeline.
 	// Until I can eliminate the method, I will reexecute the ExecuteInformation
 	// before the execute.
 	this->ExecuteInformation();
-
-	res->SetExtent(res->GetUpdateExtent());
+		
+	res->SetExtent(this->GetUpdateExtent());
 	res->AllocateScalars();
 	return res;
 }

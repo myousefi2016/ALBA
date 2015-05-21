@@ -20,6 +20,7 @@
 
 #include "vtkObjectFactory.h"
 
+vtkCxxRevisionMacro(vtkMAFLargeImageReader, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFLargeImageReader);
 
 #include "mafMemDbg.h"
@@ -173,9 +174,10 @@ vtkMAFLargeImageReader::~vtkMAFLargeImageReader()
 	
 	//set the dimensions of underlaying file
 	//NB: Extent will be set to UpdateExtent by the caller
-	output->SetWholeExtent(this->DataExtent);
-	output->SetUpdateExtentToWholeExtent();
+	output->SetExtent(this->DataExtent);
+  this->SetUpdateExtentToWholeExtent();
 
+	
 	// set the whole extent (area of interest in the image data) to our VOI
 	if ((this->DataVOI[0] | this->DataVOI[1] | this->DataVOI[2] |
 		this->DataVOI[3] | this->DataVOI[4] | this->DataVOI[5]) != 0)	
@@ -192,6 +194,7 @@ vtkMAFLargeImageReader::~vtkMAFLargeImageReader()
 	output->SetDataLowerLeft(this->FileLowerLeft != 0);
 	output->SetDataMask(this->DataMask);	
 	output->SetMemoryLimit(this->MemoryLimit);
+	output->AllocateScalars();
 }
 
 //----------------------------------------------------------------------------
