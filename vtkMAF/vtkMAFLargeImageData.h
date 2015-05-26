@@ -348,6 +348,9 @@ protected:
 
 	double Origin[3];
 	double Spacing[3];
+
+	int Extent[6];
+
 	int ScalarType;
 	int NumberOfScalarComponents;
 

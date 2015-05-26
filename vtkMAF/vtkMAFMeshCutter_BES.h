@@ -34,6 +34,7 @@
 //---------------------------------------------
 class vtkIdList;
 class vtkCell;
+class vtkUnstructuredGrid;
 
 /** 
 

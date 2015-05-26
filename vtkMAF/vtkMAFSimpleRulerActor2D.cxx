@@ -28,7 +28,6 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPoints.h"
-#include "vtkIdType.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkTextActor.h"
@@ -283,31 +282,28 @@ void vtkMAFSimpleRulerActor2D::RulerCreate()
   //Label //////////////////////////
   ScaleLabel = vtkTextActor::New();
 	ScaleLabel->GetProperty()->SetColor(1,0,0);
-  ScaleLabel->GetTextProperty()->AntiAliasingOff();
   ScaleLabel->GetTextProperty()->SetFontSize(12);
   ScaleLabel->GetTextProperty()->SetFontFamilyToArial();
   ScaleLabel->GetTextProperty()->SetJustificationToLeft();
-	ScaleLabel->ScaledTextOff();
+	ScaleLabel->SetTextScaleModeToNone();
 	ScaleLabel->SetDisplayPosition(Position[0] + Margin + 4, Position[1] + Margin + 4);
 	ScaleLabel->SetInput("");
 
   HorizontalAxesLabel = vtkTextActor::New();
   HorizontalAxesLabel->GetProperty()->SetColor(1,0,0);
-  HorizontalAxesLabel->GetTextProperty()->AntiAliasingOff();
   HorizontalAxesLabel->GetTextProperty()->SetFontSize(12);
   HorizontalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   HorizontalAxesLabel->GetTextProperty()->SetJustificationToRight();
-  HorizontalAxesLabel->ScaledTextOff();
+  HorizontalAxesLabel->SetTextScaleModeToNone();
 	HorizontalAxesLabel->SetDisplayPosition(Position[0], Position[1]);
   HorizontalAxesLabel->SetInput("");
 
   VerticalAxesLabel = vtkTextActor::New();
   VerticalAxesLabel->GetProperty()->SetColor(1,0,0);
-  VerticalAxesLabel->GetTextProperty()->AntiAliasingOff();
   VerticalAxesLabel->GetTextProperty()->SetFontSize(12);
   VerticalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   VerticalAxesLabel->GetTextProperty()->SetJustificationToLeft();
-  VerticalAxesLabel->ScaledTextOff();
+  VerticalAxesLabel->SetTextScaleModeToNone();
   VerticalAxesLabel->SetDisplayPosition(Position[0],Position[1]);
   VerticalAxesLabel->SetInput("");
 

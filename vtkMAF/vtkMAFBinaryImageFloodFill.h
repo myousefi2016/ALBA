@@ -18,7 +18,7 @@
 #define __vvtkMAFBinaryImageFloodFill_H__
 
 #include "mafConfigure.h"
-#include "vtkStructuredPointsAlgorithm.h"
+#include "vtkMAFStructuredPointsAlgorithm.h"
 
 class vtkImageData;
 class vtkStructuredPoints;

@@ -26,7 +26,6 @@
 #include "vtkUnstructuredGrid.h"
 #include "vtkPlane.h"
 #include "vtkPolyData.h"
-#include "vtkIdType.h"
 #include "vtkIdList.h"
 #include "vtkMatrix4x4.h"
 
@@ -36,6 +35,10 @@
 #include "vtkTransform.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
+#include "vtkPointSet.h"
+#include "vtkFieldData.h"
+#include "vtkDataSet.h"
+
 
 
 

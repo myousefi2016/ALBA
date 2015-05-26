@@ -1884,7 +1884,7 @@ void vtkMAFPolyDataDeformation_M2::RefineCurveROIs()
   //this detection will need a cell locator  
   //octree based locator for cells of the input mesh should be enough
   vtkCellLocator* cellLocator = vtkCellLocator::New();    
-  cellLocator->SetDataSet(GetInput());
+  cellLocator->SetDataSet(vtkDataSet::SafeDownCast(GetInput()));
   cellLocator->Update();
   
   vtkPoints* input = GetInput()->GetPoints();

@@ -46,6 +46,7 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkStructuredPoints.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
+#include "vtkRectilinearGrid.h"
 
 vtkStandardNewMacro(vtkMAFProjectRG);
 

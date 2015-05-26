@@ -1281,19 +1281,19 @@ void vtkMAFXYPlotActor::CreatePlotData(int *pos, int *pos2, double xRange[2],
     {
     this->PlotData[i] = vtkPolyData::New();
     this->PlotGlyph[i] = vtkGlyph2D::New();
-    this->PlotGlyph[i]->SetInput(this->PlotData[i]);
+    this->PlotGlyph[i]->SetInputData(this->PlotData[i]);
     this->PlotGlyph[i]->SetScaleModeToDataScalingOff();
     this->PlotAppend[i] = vtkAppendPolyData::New();
-    this->PlotAppend[i]->AddInput(this->PlotData[i]);
+    this->PlotAppend[i]->AddInputData(this->PlotData[i]);
     if ( this->LegendActor->GetEntrySymbol(i) != NULL &&
          this->LegendActor->GetEntrySymbol(i) != this->GlyphSource->GetOutput() )
       {
-      this->PlotGlyph[i]->SetSource(this->LegendActor->GetEntrySymbol(i));
+      this->PlotGlyph[i]->SetSourceData(this->LegendActor->GetEntrySymbol(i));
       this->PlotGlyph[i]->SetScaleFactor(this->ComputeGlyphScale(i,pos,pos2));
-      this->PlotAppend[i]->AddInput(this->PlotGlyph[i]->GetOutput());
+      this->PlotAppend[i]->AddInputData(this->PlotGlyph[i]->GetOutput());
       }
     this->PlotMapper[i] = vtkPolyDataMapper2D::New();
-    this->PlotMapper[i]->SetInput(this->PlotAppend[i]->GetOutput());
+    this->PlotMapper[i]->SetInputData(this->PlotAppend[i]->GetOutput());
     this->PlotMapper[i]->ScalarVisibilityOff();
     this->PlotActor[i] = vtkActor2D::New();
     this->PlotActor[i]->SetMapper(this->PlotMapper[i]);

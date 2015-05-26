@@ -71,6 +71,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assert.h>
 
 #include "vtkXRayVolumeMapper.h"
+#include "vtkDataArray.h"
 
 static const unsigned int MaxTextureResolution    = 512;
 static const unsigned int MinTextureResolution    = 2;
@@ -564,7 +565,7 @@ void vtkXRayVolumeMapper::Render(vtkRenderer *renderer, vtkVolume *volume) {
   vtkCamera *camera = renderer->GetActiveCamera();
   double cameraX[3], cameraY[3], cameraZ[3];
   if (enablePerspectiveCorrection) {
-    const double windowUnit = 2 * tan(vtkMath::DegreesToRadians() * 0.5f * camera->GetViewAngle()) * camera->GetDistance() / RenderingViewport[3];
+    const double windowUnit = 2 * tan(vtkMath::RadiansFromDegrees(0.5f * camera->GetViewAngle())) * camera->GetDistance() / RenderingViewport[3];
     camera->GetViewUp(cameraY);
     camera->GetFocalPoint(cameraZ);
     camera->GetPosition(cameraX);

@@ -15,6 +15,9 @@
 =========================================================================*/
 
 #include "vtkMAFStructuredPointsAlgorithm.h"
+#include "vtkObjectFactory.h"
+#include "vtkInformation.h"
+#include "vtkDataObject.h"
 
 vtkStandardNewMacro(vtkMAFStructuredPointsAlgorithm);
 

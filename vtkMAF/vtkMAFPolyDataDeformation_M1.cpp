@@ -681,7 +681,7 @@ void vtkMAFPolyDataDeformation_M1::PrintSelf(ostream& os, vtkIndent indent)
   //this will need cell locator
   //octree based locator for cells of the input mesh should be enough
   vtkCellLocator* cellLocator = vtkCellLocator::New();    
-  cellLocator->SetDataSet(GetInput());
+  cellLocator->SetDataSet(vtkDataSet::SafeDownCast(GetInput()));
   cellLocator->Update();
 
   nCount = (int)m_SuperSkeleton->m_pOC_Skel->Edges.size();

@@ -22,7 +22,6 @@
 #include "vtkCamera.h"
 #include "vtkCommand.h"
 #include "vtkGenericCell.h"
-#include "vtkIdType.h"
 #include "vtkImageData.h"
 #include "vtkLODProp3D.h"
 #include "vtkMapper.h"
@@ -220,7 +219,7 @@ int vtkMAFRayCast3DPicker::Pick(double *p1, double *p2, vtkRenderer *renderer)
   }
   else 
   {
-    props = renderer->GetProps();
+    props = renderer->GetViewProps();
   }
 
   vtkActor *actor;
@@ -235,7 +234,7 @@ int vtkMAFRayCast3DPicker::Pick(double *p1, double *p2, vtkRenderer *renderer)
     {
       pickable = 0;
       actor = NULL;
-      propCandidate = path->GetLastNode()->GetProp();
+      propCandidate = path->GetLastNode()->GetViewProp();
       if ( propCandidate->GetPickable() && propCandidate->GetVisibility() )
       {
         pickable = 1;

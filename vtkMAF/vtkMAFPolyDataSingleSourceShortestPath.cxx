@@ -90,11 +90,11 @@ int vtkMAFPolyDataSingleSourceShortestPath::RequestData( vtkInformation *vtkNotU
 
 void vtkMAFPolyDataSingleSourceShortestPath::Init()
 {
-	BuildAdjacency(this->GetInput());
+	BuildAdjacency(vtkPolyData::SafeDownCast(this->GetInput()));
 	
 	IdList->Reset();
 	
-	this->N = this->GetInput()->GetNumberOfPoints();
+	this->N = vtkPolyData::SafeDownCast(this->GetInput())->GetNumberOfPoints();
 	
 	this->D->SetNumberOfComponents(1);
 	this->D->SetNumberOfTuples(this->N);
@@ -300,7 +300,7 @@ void vtkMAFPolyDataSingleSourceShortestPath::ShortestPath(int startv, int endv)
 			if (!this->S->GetValue(v))
 			{
 				// Only relax edges where the end is not in s and edge is in the front set
-				double w = EdgeCost(this->GetInput(), u, v);
+				double w = EdgeCost(vtkPolyData::SafeDownCast(this->GetInput()), u, v);
 				
 				if (this->F->GetValue(v))
 				{

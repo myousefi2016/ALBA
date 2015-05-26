@@ -32,6 +32,7 @@ class vtkPlane;
 class vtkIdList;
 class vtkCell;
 class vtkMatrix4x4;
+class vtkUnstructuredGrid;
 
 /** vtkMAFMeshCutter - vtk filter which cuts a finite element mesh (unstructured grid) with a plane.
 This is very similar to vtkCutter().

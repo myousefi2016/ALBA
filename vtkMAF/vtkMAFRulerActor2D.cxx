@@ -28,7 +28,6 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPoints.h"
-#include "vtkIdType.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkTextActor.h"
@@ -308,31 +307,28 @@ void vtkMAFRulerActor2D::RulerCreate()
   //Label //////////////////////////
   ScaleLabel = vtkTextActor::New();
 	ScaleLabel->GetProperty()->SetColor(1,0,0);
-  ScaleLabel->GetTextProperty()->AntiAliasingOff();
   ScaleLabel->GetTextProperty()->SetFontSize(12);
   ScaleLabel->GetTextProperty()->SetFontFamilyToArial();
   ScaleLabel->GetTextProperty()->SetJustificationToLeft();
-	ScaleLabel->ScaledTextOff();
+	ScaleLabel->SetTextScaleModeToNone();
 	ScaleLabel->SetDisplayPosition(Position[0] + Margin + 4,Position[1] + Margin + 4);
 	ScaleLabel->SetInput("");
 
   HorizontalAxesLabel = vtkTextActor::New();
   HorizontalAxesLabel->GetProperty()->SetColor(1,0,0);
-  HorizontalAxesLabel->GetTextProperty()->AntiAliasingOff();
   HorizontalAxesLabel->GetTextProperty()->SetFontSize(12);
   HorizontalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   HorizontalAxesLabel->GetTextProperty()->SetJustificationToRight();
-  HorizontalAxesLabel->ScaledTextOff();
+  HorizontalAxesLabel->SetTextScaleModeToNone();
   HorizontalAxesLabel->SetDisplayPosition(Position[0],Position[1]);
   HorizontalAxesLabel->SetInput("");
 
   VerticalAxesLabel = vtkTextActor::New();
   VerticalAxesLabel->GetProperty()->SetColor(1,0,0);
-  VerticalAxesLabel->GetTextProperty()->AntiAliasingOff();
   VerticalAxesLabel->GetTextProperty()->SetFontSize(12);
   VerticalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   VerticalAxesLabel->GetTextProperty()->SetJustificationToLeft();
-  VerticalAxesLabel->ScaledTextOff();
+  VerticalAxesLabel->SetTextScaleModeToNone();
   VerticalAxesLabel->SetDisplayPosition(Position[0],Position[1]);
   VerticalAxesLabel->SetInput("");
 
@@ -340,25 +336,23 @@ void vtkMAFRulerActor2D::RulerCreate()
   {
     Labx[i] = vtkTextActor::New();
     Labx[i]->GetProperty()->SetColor(1,1,1);
-    Labx[i]->GetTextProperty()->AntiAliasingOff();
     Labx[i]->GetTextProperty()->SetFontSize(12);
     Labx[i]->GetTextProperty()->SetFontFamilyToArial();
     Labx[i]->GetTextProperty()->SetJustificationToCentered();
     Labx[i]->GetTextProperty()->SetVerticalJustificationToTop();
-    Labx[i]->ScaledTextOff();
+    Labx[i]->SetTextScaleModeToNone();
     Labx[i]->SetDisplayPosition(Position[0],Position[1]);
     Labx[i]->SetInput("");
 
 
     Laby[i] = vtkTextActor::New();
     Laby[i]->GetProperty()->SetColor(1,1,1);
-    Laby[i]->GetTextProperty()->AntiAliasingOff();
     Laby[i]->GetTextProperty()->SetFontSize(12);
     Laby[i]->GetTextProperty()->SetFontFamilyToArial();
   //Laby[i]->GetTextProperty()->SetJustificationToRight();
     Laby[i]->GetTextProperty()->SetJustificationToLeft();
     Laby[i]->GetTextProperty()->SetVerticalJustificationToCentered();
-    Laby[i]->ScaledTextOff();
+    Laby[i]->SetTextScaleModeToNone();
     Laby[i]->SetDisplayPosition(Position[0],Position[1]);
     Laby[i]->SetInput("");
   }

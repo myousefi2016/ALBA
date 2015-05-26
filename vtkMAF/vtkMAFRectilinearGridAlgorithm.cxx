@@ -15,6 +15,9 @@
 =========================================================================*/
 
 #include "vtkMAFRectilinearGridAlgorithm.h"
+#include "vtkInformation.h"
+#include "vtkDataObject.h"
+#include "vtkObjectFactory.h"
 
 vtkStandardNewMacro(vtkMAFRectilinearGridAlgorithm);
 

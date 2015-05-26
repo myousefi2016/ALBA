@@ -28,6 +28,7 @@ vtkImageUnPacker::vtkImageUnPacker()
 	SetDataScalarType(VTK_UNSIGNED_CHAR);
 	SetNumberOfScalarComponents(1);
 	UnPackFromFileOff();
+	SetNumberOfInputPorts(0);
 }
 
 //----------------------------------------------------------------------------
@@ -42,7 +43,7 @@ vtkImageUnPacker::~vtkImageUnPacker()
 void vtkImageUnPacker::PrintSelf(ostream& os, vtkIndent indent)
 //----------------------------------------------------------------------------
 {
-  vtkImageSource::PrintSelf(os,indent);
+  vtkImageAlgorithm::PrintSelf(os,indent);
 
   os << indent << "FileName: " <<
     (this->FileName ? this->FileName : "(none)") << "\n";

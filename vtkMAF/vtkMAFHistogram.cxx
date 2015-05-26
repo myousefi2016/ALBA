@@ -173,7 +173,6 @@ void vtkMAFHistogram::HistogramCreate()
 {
   TextMapper = vtkTextMapper::New();
   TextMapper->SetInput("");
-  TextMapper->GetTextProperty()->AntiAliasingOff();
   TextMapper->GetTextProperty()->SetFontFamily(VTK_TIMES);
   TextMapper->GetTextProperty()->SetColor(1,1,1);
   TextMapper->GetTextProperty()->SetLineOffset(0.5);
@@ -218,7 +217,7 @@ void vtkMAFHistogram::HistogramCreate()
   LineRepresentation->Update();
   
   Glyph = vtkGlyph3D::New();
-  Glyph->SetSource(LineRepresentation->GetOutput());
+  Glyph->SetSourceData(LineRepresentation->GetOutput());
   Glyph->SetScaleModeToScaleByScalar();
   Glyph->OrientOn();
   
@@ -370,18 +369,18 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
 
   if (HisctogramRepresentation == BAR_REPRESENTATION) 
   {
-    Glyph->SetSource(LineRepresentation->GetOutput());
+    Glyph->SetSourceData(LineRepresentation->GetOutput());
     float line_width = RenderWidth / (float)(NumberOfBins - 1);
     HistActor->GetProperty()->SetLineWidth(line_width+1);
   }
   else if (HisctogramRepresentation == POINT_REPRESENTATION) 
   {
-    Glyph->SetSource(PointsRepresentation);
+    Glyph->SetSourceData(PointsRepresentation);
     HistActor->GetProperty()->SetPointSize(1);
   }
   else
   {
-    Glyph->SetSource(LineRepresentation->GetOutput());
+    Glyph->SetSourceData(LineRepresentation->GetOutput());
     HistActor->GetProperty()->SetLineWidth(1);
   }
 

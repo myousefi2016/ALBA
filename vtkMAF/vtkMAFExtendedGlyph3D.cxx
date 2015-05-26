@@ -734,10 +734,10 @@ int	vtkMAFExtendedGlyph3D::RequestUpdateExtent( vtkInformation *request, vtkInfo
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("Missing input");
-    return;
+    return 0;
     }
 
-  output = output;
+ 
   outPd = this->GetOutput();
   if (this->GetSource())
     {
@@ -747,4 +747,6 @@ int	vtkMAFExtendedGlyph3D::RequestUpdateExtent( vtkInformation *request, vtkInfo
                                     outPd->GetUpdateNumberOfPieces(),
                                     outPd->GetUpdateGhostLevel());
   this->GetInput()->RequestExactExtentOn();
+
+	return 1;
 }

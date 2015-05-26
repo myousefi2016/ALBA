@@ -27,7 +27,6 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPoints.h"
-#include "vtkIdType.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkProperty2D.h"
 #include "vtkActor.h"
@@ -188,10 +187,9 @@ void vtkMAFGridActor::GridCreate()
   Label = vtkTextActor::New();
 	//Label->GetProperty()->SetColor(0.6,0.6,0.6);
 	Label->GetProperty()->SetColor(1,1,1);
-	Label->ScaledTextOff();
+	Label->SetTextScaleModeToNone();
 	Label->SetDisplayPosition(5,5);
 	Label->SetInput("");
-	Label->GetTextProperty()->AntiAliasingOff();
 	Label->GetTextProperty()->SetFontSize(12);
 	Label->GetTextProperty()->SetFontFamilyToArial();
 	//Label->GetTextProperty()->SetJustificationToRight();

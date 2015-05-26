@@ -88,7 +88,7 @@ void vtkMAFImageMapToWidgetColors::ExecuteData(vtkDataObject *output)
     this->GradientCacheMTime.Modified();
   }
 
-  this->vtkImageToImageFilter::ExecuteData(output);
+  this->vtkImageMapToColors::ExecuteData(output);
 }
 
 //----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ template<class T> void vtkMAFImageMapToWidgetColors::UpdateGradientCache(T *data
 //----------------------------------------------------------------------------
 unsigned long vtkMAFImageMapToWidgetColors::GetMTime() 
 {
-  unsigned long t1 = this->vtkImageToImageFilter::GetMTime();
+  unsigned long t1 = this->vtkImageMapToColors::GetMTime();
   if (this->TransferFunction) 
   {
     unsigned long t2 = this->TransferFunction->GetMTime();

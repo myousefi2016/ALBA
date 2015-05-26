@@ -17,7 +17,6 @@ University of Bedfordshire
 #include "mafConfigure.h"
 #include "vtkObject.h"
 #include "vtkPolyData.h"
-#include "vtkIdType.h"
 #include "vtkIdList.h"
 #include <vector>
 #include <map>

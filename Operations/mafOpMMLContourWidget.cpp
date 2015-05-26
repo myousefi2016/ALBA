@@ -1609,12 +1609,7 @@ void mafOpMMLContourWidget::GetPolyData(vtkPolyData *pd)
 { 
   pd->ShallowCopy(this->m_PlaneSource->GetOutput()); 
 }
-//----------------------------------------------------------------------------
-vtkPolyDataSource *mafOpMMLContourWidget::GetPolyDataSource()
-//----------------------------------------------------------------------------
-{
-  return this->m_PlaneSource;
-}
+
 //----------------------------------------------------------------------------
 void mafOpMMLContourWidget::GetPlane(vtkPlane *plane)
 //----------------------------------------------------------------------------

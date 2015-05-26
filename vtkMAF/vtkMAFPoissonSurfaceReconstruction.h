@@ -29,6 +29,7 @@
 #include <vector>
 #include <hash_map>
 #include <algorithm>
+#include <sysinfoapi.h>
 
 //----------------------------------------------------------------------------
 // forward declarations :

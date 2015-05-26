@@ -25,7 +25,6 @@
 #include "vtkUnstructuredGrid.h"
 #include "vtkPlane.h"
 #include "vtkPolyData.h"
-#include "vtkIdType.h"
 #include "vtkIdList.h"
 
 #include <ostream>

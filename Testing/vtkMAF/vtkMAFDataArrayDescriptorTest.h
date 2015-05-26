@@ -29,8 +29,6 @@
 // forward references:
 //-----------------------------------------------------
 
-class vtkImageUnPacker;
-
 class vtkMAFDataArrayDescriptorTest : public CPPUNIT_NS::TestFixture
 {
 public:
