@@ -67,6 +67,8 @@ vtkMAFRGSliceAccumulate::vtkMAFRGSliceAccumulate()
   m_rotationmatrix[0][0] = 1.; m_rotationmatrix[0][1] = 0.; m_rotationmatrix[0][2] = 0.;
   m_rotationmatrix[1][0] = 0.; m_rotationmatrix[1][1] = 1.; m_rotationmatrix[1][2] = 0.;
   m_rotationmatrix[2][0] = 0.; m_rotationmatrix[2][1] = 0.; m_rotationmatrix[2][2] = 1.;
+
+	SetNumberOfInputPorts(0);
   //SetSlices(vtkRectilinearGrid::New());
 }
 //--------------------------------------------------------------------------------------
