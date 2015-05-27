@@ -292,7 +292,7 @@ void vtkMAFRulerActor2D::RulerCreate()
   HorizontalAxesLabel->GetTextProperty()->SetFontSize(12);
   HorizontalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   HorizontalAxesLabel->GetTextProperty()->SetJustificationToRight();
-  HorizontalAxesLabel->ScaledTextOff();
+  HorizontalAxesLabel->SetTextScaleModeToNone();
   HorizontalAxesLabel->SetDisplayPosition(0,0);
   HorizontalAxesLabel->SetInput("");
 
@@ -301,7 +301,7 @@ void vtkMAFRulerActor2D::RulerCreate()
   VerticalAxesLabel->GetTextProperty()->SetFontSize(12);
   VerticalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   VerticalAxesLabel->GetTextProperty()->SetJustificationToLeft();
-  VerticalAxesLabel->ScaledTextOff();
+  VerticalAxesLabel->SetTextScaleModeToNone();
   VerticalAxesLabel->SetDisplayPosition(0,0);
   VerticalAxesLabel->SetInput("");
 
@@ -313,7 +313,7 @@ void vtkMAFRulerActor2D::RulerCreate()
     Labx[i]->GetTextProperty()->SetFontFamilyToArial();
     Labx[i]->GetTextProperty()->SetJustificationToCentered();
     Labx[i]->GetTextProperty()->SetVerticalJustificationToTop();
-    Labx[i]->ScaledTextOff();
+    Labx[i]->SetTextScaleModeToNone();
     Labx[i]->SetDisplayPosition(0,0);
     Labx[i]->SetInput("");
 
@@ -325,7 +325,7 @@ void vtkMAFRulerActor2D::RulerCreate()
   //Laby[i]->GetTextProperty()->SetJustificationToRight();
     Laby[i]->GetTextProperty()->SetJustificationToLeft();
     Laby[i]->GetTextProperty()->SetVerticalJustificationToCentered();
-    Laby[i]->ScaledTextOff();
+    Laby[i]->SetTextScaleModeToNone();
     Laby[i]->SetDisplayPosition(0,0);
     Laby[i]->SetInput("");
   }
