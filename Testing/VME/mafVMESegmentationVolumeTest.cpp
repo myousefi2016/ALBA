@@ -35,6 +35,8 @@
 #include "vtkStructuredPoints.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPointData.h"
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(m_Result)
 

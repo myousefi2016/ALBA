@@ -36,6 +36,7 @@
 #include "vtkMAFSmartPointer.h"
 #include "vtkPointData.h"
 #include "vtkRectilinearGridReader.h"
+#include "vtkFloatArray.h"
 
 #define OUTRANGE_SCALAR -1000
 

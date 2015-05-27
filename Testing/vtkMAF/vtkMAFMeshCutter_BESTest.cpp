@@ -48,6 +48,7 @@
 #include "vtkMAFMeshCutter_BESTest.h"
 
 #include "mafConfigure.h"
+#include <strstream>
 
 
 //#define TESTDATA MAF_DATA_ROOT"/FEM/ANSYS"

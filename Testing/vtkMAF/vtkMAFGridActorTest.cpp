@@ -32,6 +32,10 @@
 #include "vtkJPEGWriter.h"
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
+#include "vtkDataSet.h"
+#include "vtkImageAlgorithm.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataArray.h"
 
 
 //------------------------------------------------------------

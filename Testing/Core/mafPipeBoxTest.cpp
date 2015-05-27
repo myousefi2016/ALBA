@@ -49,6 +49,10 @@
 
 #include <iostream>
 #include <fstream>
+#include "vtkDataSetAttributes.h"
+#include "vtkImageAlgorithm.h"
+#include "vtkDataSet.h"
+#include "vtkDataArray.h"
 
 enum PIPE_BOX_ACTORS
 {

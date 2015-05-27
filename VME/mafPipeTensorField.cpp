@@ -29,6 +29,7 @@
 #include "vtkPointData.h"
 
 #include "mafDbg.h"
+#include "vtkFloatArray.h"
 
 //----------------------------------------------------------------------------
 mafCxxAbstractTypeMacro(mafPipeTensorField);

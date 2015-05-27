@@ -45,7 +45,7 @@
 #include "vtkPoints.h"
 #include "vtkPointSource.h"
 #include "vtkPointLocator.h"
-#include "vtkIdType.h"
+
 #include "vtkPolyData.h"
 #include "vtkIdList.h"
 #include "vtkMath.h"

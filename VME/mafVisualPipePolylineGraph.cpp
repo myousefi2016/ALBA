@@ -149,7 +149,7 @@ void mafVisualPipePolylineGraph::ExecutePipe()
   vtkNEW(m_Glyph);
   m_Glyph->SetInput(data);
   m_Glyph->SetSource(m_Sphere->GetOutput());
-  m_Glyph->NormalizeScalingOn();
+  m_Glyph->SetVectorModeToUseNormal();
   m_Glyph->SetScaleModeToScaleByScalar();
 
   vtkNEW(m_Tube);

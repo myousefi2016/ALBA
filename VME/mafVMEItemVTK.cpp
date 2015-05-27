@@ -797,5 +797,4 @@ void mafVMEItemVTK::Print(std::ostream& os, const int tabs) const
   mafIndent indent(tabs);
 
   // to do: implement DUMP of internally stored data
-  strstream ostr;
 }

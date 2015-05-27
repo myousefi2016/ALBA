@@ -52,6 +52,9 @@
 
 #include <iostream>
 #include <fstream>
+#include "vtkDataSetAttributes.h"
+#include "vtkDataArray.h"
+#include "vtkDataSet.h"
 
 enum PIPE_MESH_ACTORS
   {

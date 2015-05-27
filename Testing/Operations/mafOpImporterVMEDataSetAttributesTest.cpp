@@ -42,6 +42,8 @@
 #include "vtkDataSet.h"
 
 #include <iostream>
+#include "vtkAbstractArray.h"
+#include "vtkFieldData.h"
 
 
 void mafOpImporterVMEDataSetAttributesTest::TestFixture()

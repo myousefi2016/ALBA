@@ -3236,7 +3236,6 @@ void mafOpImporterDicomOffis::CreateSliceVTKPipeline()
 	m_Text = "Orientation: ";
 	m_TextMapper = vtkTextMapper::New();
 	m_TextMapper->SetInput(m_Text.c_str()); 
-	m_TextMapper->GetTextProperty()->AntiAliasingOn();
 
 	m_TextActor = vtkActor2D::New();
 	m_TextActor->GetProperty()->SetColor(0.8,0,0);

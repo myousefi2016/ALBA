@@ -31,6 +31,10 @@
 #include "vtkJPEGWriter.h"
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
+#include "vtkImageAlgorithm.h"
 
 //------------------------------------------------------------
 void vtkMAFRulerActor2DTest::setUp()

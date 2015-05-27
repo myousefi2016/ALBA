@@ -30,7 +30,7 @@
 #include "vtkPolyData.h"
 #include "vtkPoints.h"
 #include "vtkCellArray.h"
-#include "vtkIdType.h"
+
 #include "vtkTriangleFilter.h"
 #include "vtkPolyDataNormals.h"
 #include "vtkMAFPoissonSurfaceReconstruction.h"

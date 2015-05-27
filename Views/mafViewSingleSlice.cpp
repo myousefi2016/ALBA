@@ -140,7 +140,6 @@ void mafViewSingleSlice::Create()
   m_Text = "";
   m_TextMapper = vtkTextMapper::New();
   m_TextMapper->SetInput(m_Text.c_str());
-  m_TextMapper->GetTextProperty()->AntiAliasingOff();
 
   m_TextActor = vtkActor2D::New();
   m_TextActor->SetMapper(m_TextMapper);

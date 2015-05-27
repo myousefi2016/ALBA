@@ -153,7 +153,6 @@ void mafPipeGizmo::Create(mafSceneNode *n)
 	//m_CaptionActor->GetCaptionTextProperty()->SetFontFamilyToTimes();
 	m_CaptionActor->GetCaptionTextProperty()->SetFontFamilyToArial();
 	m_CaptionActor->GetCaptionTextProperty()->BoldOn();
-	m_CaptionActor->GetCaptionTextProperty()->AntiAliasingOn();
 	m_CaptionActor->GetCaptionTextProperty()->ItalicOff();
 	m_CaptionActor->GetCaptionTextProperty()->ShadowOn();
 	m_CaptionActor->SetPadding(0);

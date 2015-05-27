@@ -24,6 +24,8 @@
 
 #include "vtkDataSet.h"
 #include "vtkPointData.h"
+#include "vtkFieldData.h"
+#include "vtkAbstractArray.h"
 
 
 ///visual pipes for volumes

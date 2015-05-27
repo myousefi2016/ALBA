@@ -20,6 +20,7 @@
 #include "vtkMath.h"
 
 #include "assert.h"
+#include "vtkDataSetAlgorithm.h"
 
 vtkStandardNewMacro(vtkMAFVolumeSlicer);
 

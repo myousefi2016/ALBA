@@ -38,6 +38,7 @@
 #include "vtkAssemblyPath.h"
 #include "vtkAssemblyNode.h"
 #include "vtkProp3D.h"
+#include <strstream>
 
 //----------------------------------------------------------------------------
 mafCxxTypeMacro(mafView);

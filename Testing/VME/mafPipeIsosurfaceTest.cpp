@@ -53,6 +53,10 @@
 
 #include <iostream>
 #include <fstream>
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
+#include "vtkImageAlgorithm.h"
 //----------------------------------------------------------------------------
 void mafPipeIsosurfaceTest::TestFixture()
 //----------------------------------------------------------------------------

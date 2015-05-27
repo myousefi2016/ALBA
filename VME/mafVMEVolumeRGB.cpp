@@ -27,6 +27,9 @@
 #include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPointData.h"
+#include "vtkAbstractArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
 
 //-------------------------------------------------------------------------
 mafCxxTypeMacro(mafVMEVolumeRGB)

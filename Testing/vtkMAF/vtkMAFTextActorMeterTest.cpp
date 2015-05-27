@@ -31,6 +31,9 @@
 #include "vtkJPEGWriter.h"
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
 
 void vtkMAFTextActorMeterTest::setUp()
 {

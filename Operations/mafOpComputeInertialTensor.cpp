@@ -33,7 +33,7 @@ using namespace std;
 
 #include "vtkCell.h"
 #include "vtkIdList.h"
-#include "vtkIdType.h"
+
 #include "vtkPoints.h"
 #include "vtkTriangle.h"
 #include "vtkDataSet.h"

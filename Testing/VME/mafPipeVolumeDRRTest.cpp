@@ -51,6 +51,10 @@
 
 
 #include <iostream>
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
+#include "vtkImageAlgorithm.h"
 
 enum TESTS_PIPE_SURFACE
 {

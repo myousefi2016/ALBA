@@ -659,7 +659,6 @@ void mafOpSegmentation::CreateOpDialog()
   vtkNEW(m_AutomaticThresholdTextMapper);
   m_AutomaticThresholdTextMapper->SetInput(_("Threshold  = "));
   m_AutomaticThresholdTextMapper->GetTextProperty()->SetColor(1.0,0.0,0.0);
-  m_AutomaticThresholdTextMapper->GetTextProperty()->AntiAliasingOff();
 
   vtkNEW(m_AutomaticThresholdTextActor);
   m_AutomaticThresholdTextActor->SetMapper(m_AutomaticThresholdTextMapper);
@@ -675,7 +674,6 @@ void mafOpSegmentation::CreateOpDialog()
   vtkNEW(m_AutomaticScalarTextMapper);
   m_AutomaticScalarTextMapper->SetInput(_("Scalar  = "));
   m_AutomaticScalarTextMapper->GetTextProperty()->SetColor(0.0,1.0,0.0);
-  m_AutomaticScalarTextMapper->GetTextProperty()->AntiAliasingOff();
 
   vtkNEW(m_AutomaticScalarTextActor);
   m_AutomaticScalarTextActor->SetMapper(m_AutomaticScalarTextMapper);
@@ -706,7 +704,6 @@ void mafOpSegmentation::CreateOpDialog()
   }
   m_AutomaticSliceTextMapper->SetInput(text.GetCStr());
   m_AutomaticSliceTextMapper->GetTextProperty()->SetColor(1.0,1.0,0.0);
-  m_AutomaticSliceTextMapper->GetTextProperty()->AntiAliasingOff();
 
   vtkNEW(m_AutomaticSliceTextActor);
   m_AutomaticSliceTextActor->SetMapper(m_AutomaticSliceTextMapper);

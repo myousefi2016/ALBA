@@ -41,6 +41,7 @@
 #include "mafVMEVolumeGray.h"
 #include "mafVMESlicer.h"
 #include "mmaMaterial.h"
+#include "vtkDataArray.h"
 
 //----------------------------------------------------------------------------
 void mafVisualPipeSlicerSliceTest::TestFixture()

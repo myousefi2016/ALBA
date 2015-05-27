@@ -52,6 +52,10 @@
 
 
 #include <iostream>
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
+#include "vtkImageAlgorithm.h"
+#include "vtkDataArray.h"
 
 
 //----------------------------------------------------------------------------

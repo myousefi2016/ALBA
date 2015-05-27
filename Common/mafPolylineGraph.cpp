@@ -26,7 +26,7 @@ hack for mafLogMessage was used.
 #include "vtkPoints.h"
 #include "vtkCellArray.h"
 #include "vtkCell.h"
-#include "vtkIdType.h"
+
 #include "vtkIdList.h"
 #include "vtkMath.h"
 #include "vtkIndent.h"

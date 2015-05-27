@@ -117,7 +117,6 @@ void vtkMAFHistogram::HistogramCreate()
 {
   TextMapper = vtkTextMapper::New();
   TextMapper->SetInput("");
-  TextMapper->GetTextProperty()->AntiAliasingOff();
   TextMapper->GetTextProperty()->SetFontFamily(VTK_TIMES);
   TextMapper->GetTextProperty()->SetColor(1,1,1);
   TextMapper->GetTextProperty()->SetLineOffset(0.5);

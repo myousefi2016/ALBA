@@ -28,7 +28,7 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPoints.h"
-#include "vtkIdType.h"
+
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkTextActor.h"
@@ -280,17 +280,15 @@ void vtkMAFRulerActor2D::RulerCreate()
   //Label //////////////////////////
   ScaleLabel = vtkTextActor::New();
 	ScaleLabel->GetProperty()->SetColor(1,0,0);
-  ScaleLabel->GetTextProperty()->AntiAliasingOff();
   ScaleLabel->GetTextProperty()->SetFontSize(12);
   ScaleLabel->GetTextProperty()->SetFontFamilyToArial();
   ScaleLabel->GetTextProperty()->SetJustificationToLeft();
-	ScaleLabel->ScaledTextOff();
+	ScaleLabel->SetTextScaleModeToNone();
 	ScaleLabel->SetDisplayPosition(margin + 4,margin + 4);
 	ScaleLabel->SetInput("");
 
   HorizontalAxesLabel = vtkTextActor::New();
   HorizontalAxesLabel->GetProperty()->SetColor(1,0,0);
-  HorizontalAxesLabel->GetTextProperty()->AntiAliasingOff();
   HorizontalAxesLabel->GetTextProperty()->SetFontSize(12);
   HorizontalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   HorizontalAxesLabel->GetTextProperty()->SetJustificationToRight();
@@ -300,7 +298,6 @@ void vtkMAFRulerActor2D::RulerCreate()
 
   VerticalAxesLabel = vtkTextActor::New();
   VerticalAxesLabel->GetProperty()->SetColor(1,0,0);
-  VerticalAxesLabel->GetTextProperty()->AntiAliasingOff();
   VerticalAxesLabel->GetTextProperty()->SetFontSize(12);
   VerticalAxesLabel->GetTextProperty()->SetFontFamilyToArial();
   VerticalAxesLabel->GetTextProperty()->SetJustificationToLeft();
@@ -312,7 +309,6 @@ void vtkMAFRulerActor2D::RulerCreate()
   {
     Labx[i] = vtkTextActor::New();
     Labx[i]->GetProperty()->SetColor(1,1,1);
-    Labx[i]->GetTextProperty()->AntiAliasingOff();
     Labx[i]->GetTextProperty()->SetFontSize(12);
     Labx[i]->GetTextProperty()->SetFontFamilyToArial();
     Labx[i]->GetTextProperty()->SetJustificationToCentered();
@@ -324,7 +320,6 @@ void vtkMAFRulerActor2D::RulerCreate()
 
     Laby[i] = vtkTextActor::New();
     Laby[i]->GetProperty()->SetColor(1,1,1);
-    Laby[i]->GetTextProperty()->AntiAliasingOff();
     Laby[i]->GetTextProperty()->SetFontSize(12);
     Laby[i]->GetTextProperty()->SetFontFamilyToArial();
   //Laby[i]->GetTextProperty()->SetJustificationToRight();

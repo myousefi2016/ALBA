@@ -33,6 +33,9 @@
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
 #include "vtkObjectFactory.h"
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataSet.h"
 
 class vtkMAFProfilingActorDummy : public vtkMAFProfilingActor
 {

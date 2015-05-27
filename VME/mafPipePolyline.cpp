@@ -1227,7 +1227,6 @@ void mafPipePolyline::SetCaptionActorBorder(int index, double position[3])
     caption->SetPosition(-5,-10);
     caption->GetCaptionTextProperty()->SetFontFamilyToArial();
     caption->GetCaptionTextProperty()->BoldOn();
-    caption->GetCaptionTextProperty()->AntiAliasingOn();
     caption->GetCaptionTextProperty()->ItalicOff();
     caption->GetCaptionTextProperty()->ShadowOn();
     caption->SetPadding(0);
