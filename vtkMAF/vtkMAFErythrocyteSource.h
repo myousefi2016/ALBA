@@ -16,7 +16,7 @@
 #pragma once
 
 #include "mafConfigure.h"
-#include "vtkPolyDataSource.h"
+#include "vtkPolyDataAlgorithm.h"
 
 /** This class generates polydata with model of erythrocyte (blood cell).
 The technique behind it is general enough to be generalized for other
@@ -24,10 +24,10 @@ types of cells, if needed. Model is based on the paper:
 S. Mu?oz San Martín, J.L. Sebastián,M. Sancho and G. Álvarez:
 Modeling Human Erythrocyte Shape and Size Abnormalities
 http://arxiv.org/ftp/q-bio/papers/0507/0507024.pdf*/
-class MAF_EXPORT vtkMAFErythrocyteSource : public vtkPolyDataSource
+class MAF_EXPORT vtkMAFErythrocyteSource : public vtkPolyDataAlgorithm
 {
 public:  
-  vtkTypeMacro(vtkMAFErythrocyteSource,vtkPolyDataSource);
+  vtkTypeMacro(vtkMAFErythrocyteSource,vtkPolyDataAlgorithm);
   static vtkMAFErythrocyteSource *New();
   
 protected:

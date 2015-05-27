@@ -59,6 +59,7 @@
 
 #include <iostream>
 #include <set>
+#include "vtkPolyDataAlgorithm.h"
 
 const char *testMSFDir = "test_MSF";
 const char *testMSFCopyDir = "testMSF_copy";
@@ -367,7 +368,7 @@ void mafVMEStorageTest::CreateVMETestTree()
 
     vcone->SetPose(trans.GetMatrix(),i*.5+75);
 
-    vtkPolyDataSource *morph;
+    vtkPolyDataAlgorithm *morph;
 
     // the morphing tube
     if (i<50)

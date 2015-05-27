@@ -47,6 +47,7 @@
 #include "vtkOutlineSource.h"
 #include "vtkCamera.h"
 #include "vtkProperty.h"
+#include "vtkPolyDataAlgorithm.h"
 
 #include <iostream>
 
@@ -200,7 +201,7 @@ void VMEGenericTest::VMEGenericMainTest()
     vcone->SetPose(trans.GetMatrix(),i*.5+75.11); //
     matrix_time_stamps.push_back(i*.5+75.11);
 
-    vtkSmartPointer<vtkPolyDataSource> morph;
+    vtkSmartPointer<vtkPolyDataAlgorithm> morph;
 
     // the morphing tube
     if (i<50)

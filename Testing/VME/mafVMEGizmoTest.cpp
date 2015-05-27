@@ -331,7 +331,7 @@ void mafVMEGizmoTest::CreateVMETestTree()
 
     vcone->SetPose(trans.GetMatrix(),i*.5+75);
 
-    vtkPolyDataSource *morph;
+    vtkPolyDataAlgorithm *morph;
 
     // the morphing tube
     if (i<50)

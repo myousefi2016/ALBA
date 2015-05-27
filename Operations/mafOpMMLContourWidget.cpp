@@ -1363,7 +1363,7 @@ void mafOpMMLContourWidget::PlaceWidget(double bds[6])
     }
   else
     {
-    // this means we have to make use of the PolyDataSource, so
+    // this means we have to make use of the vtkPolyDataAlgorithm, so
     // we just calculate the magnitude of the longest diagonal on
     // the plane and use that as InitialLength
     double origin[3], point1[3], point2[3];
