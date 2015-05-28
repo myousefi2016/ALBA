@@ -627,7 +627,7 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
 //------------------------------------------------------------------------
 //By default, UpdateInformation calls this method to copy information
 //unmodified from the input to the output.
-/*virtual*/void vtkMAFPolyDataDeformation_M2::ExecuteInformation()
+/*virtual*/int vtkMAFPolyDataDeformation_M2::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //------------------------------------------------------------------------
 {
   //check input
@@ -644,7 +644,7 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
     SetOutput(vtkPolyData::New());
 
   //copy input to output
-  Superclass::ExecuteInformation();  
+  Superclass::RequestInformation(request,inputVector,outInfoVec);  
 }
 
 //------------------------------------------------------------------------

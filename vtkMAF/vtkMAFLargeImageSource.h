@@ -42,7 +42,7 @@ protected:
 
 	virtual void ExecuteData(vtkDataObject *data)=0;
 		
-	virtual void ExecuteInformation()=0;
+	virtual int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)=0;
 
 
   // a helper method that sets the extent and allocates the output 

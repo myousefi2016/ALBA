@@ -655,7 +655,7 @@ vtkMAFPolyDataDeformation::~vtkMAFPolyDataDeformation()
 //------------------------------------------------------------------------
 //By default, UpdateInformation calls this method to copy information
 //unmodified from the input to the output.
-/*virtual*/void vtkMAFPolyDataDeformation::ExecuteInformation()
+/*virtual*/int vtkMAFPolyDataDeformation::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //------------------------------------------------------------------------
 {
   //check input
@@ -672,7 +672,7 @@ vtkMAFPolyDataDeformation::~vtkMAFPolyDataDeformation()
     SetOutput(vtkPolyData::New());
 
   //copy input to output
-  Superclass::ExecuteInformation();  
+  Superclass::RequestInformation(request,inputVector,outInfoVec);  
 }
 
 //------------------------------------------------------------------------

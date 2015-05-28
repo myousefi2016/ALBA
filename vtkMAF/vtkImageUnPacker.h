@@ -38,7 +38,7 @@ public:
 
   /**
   This method returns the largest data that can be generated.*/
-  void ExecuteInformation();
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
   
   /**
   Set/Get the input object containing the packed image.*/

@@ -201,7 +201,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 //----------------------------------------------------------------------------
 //By default, UpdateInformation calls this method to copy information
 //unmodified from the input to the output.
-/*virtual*/ void vtkMAFVolumeSlicer_BES::ExecuteInformation() 
+/*virtual*/ int vtkMAFVolumeSlicer_BES::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //----------------------------------------------------------------------------
 {
   vtkDataSet* input;
@@ -432,7 +432,8 @@ void vtkMAFVolumeSlicer_BES::ExecuteDataHotFix(vtkDataObject *outputData)
     output->SetExtent(extent);
 
     LastPreprocessedInput = NULL; //to force PrepareVolume to reexecute
-    vtkMAFVolumeSlicer_BES::ExecuteInformation();                  
+    vtkMAFVolumeSlicer_BES::ExecuteInformation();       
+		//TODO CALL RequestInformation(vtkInformation*, vtkInformationVector**, vtkInformationVector* outInfoVec)
   }
 }
 

@@ -76,7 +76,7 @@ int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::ExecuteInformation()
+int vtkMAFPoissonSurfaceReconstruction::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //----------------------------------------------------------------------------
 {
   if (this->GetInput() == NULL)

@@ -76,7 +76,7 @@ vtkMAFVolumeSlicerNotInterpolated::~vtkMAFVolumeSlicerNotInterpolated()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation() 
+int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //----------------------------------------------------------------------------
 {
   vtkDataSet* input = NULL;

@@ -75,7 +75,7 @@ protected:
 	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** only check if input is not null */
-  void ExecuteInformation(); 
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec); 
   
 private:
   /** copy constructor not implemented */

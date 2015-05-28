@@ -57,7 +57,7 @@ vtkMAFProjectSP::vtkMAFProjectSP()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFProjectSP::ExecuteInformation()
+int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 {
   vtkImageData *input=this->GetInput();
   vtkStructuredPoints *output=this->GetOutput();
@@ -68,7 +68,7 @@ void vtkMAFProjectSP::ExecuteInformation()
     vtkErrorMacro("Missing input");
     return;
     }
-  this->vtkMAFStructuredPointsAlgorithm::ExecuteInformation();
+  this->vtkMAFStructuredPointsAlgorithm::RequestInformation(request, inputVector,outInfoVec);
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;

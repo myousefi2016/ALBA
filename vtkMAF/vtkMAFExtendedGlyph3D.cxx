@@ -593,7 +593,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
 // Since indexing determines size of outputs, EstimatedWholeMemorySize is
 // truly an estimate.  Ignore Indexing (although for a best estimate we
 // should average the size of the sources instead of using 0).
-void vtkMAFExtendedGlyph3D::ExecuteInformation()
+int vtkMAFExtendedGlyph3D::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 {
   if (this->GetInput() == NULL)
     {

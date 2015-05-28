@@ -74,8 +74,8 @@ protected:
   ~vtkMAFImageMapToWidgetColors();
 
   void ExecuteInformation(vtkImageData *inData, vtkImageData *outData);
-  void ExecuteInformation(){this->vtkImageMapToColors::ExecuteInformation();};
-  void ThreadedExecute(vtkImageData *inData, vtkImageData *outData,
+
+	void ThreadedExecute(vtkImageData *inData, vtkImageData *outData,
                        int extent[6], int id);
   void ExecuteData(vtkDataObject *output);
   template<class T> void UpdateGradientCache(T *dataPointer);

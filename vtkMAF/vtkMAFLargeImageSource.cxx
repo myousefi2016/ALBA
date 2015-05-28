@@ -77,7 +77,7 @@ vtkMAFLargeImageData *vtkMAFLargeImageSource::AllocateOutputData(vtkDataObject *
 	// That is not computed in the graphics pipeline.
 	// Until I can eliminate the method, I will reexecute the ExecuteInformation
 	// before the execute.
-	this->ExecuteInformation();
+	//this->ExecuteInformation();
 		
 	res->SetExtent(this->GetUpdateExtent());
 	res->AllocateScalars();

@@ -57,7 +57,7 @@ vtkMAFProjectRG::vtkMAFProjectRG()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFProjectRG::ExecuteInformation()
+void vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 {
   vtkRectilinearGrid *input=this->GetInput();
   vtkRectilinearGrid *output=this->GetOutput();
@@ -68,7 +68,7 @@ void vtkMAFProjectRG::ExecuteInformation()
     vtkErrorMacro("Missing input");
     return;
     }
-  this->vtkRectilinearGridAlgorithm::ExecuteInformation();
+  this->vtkRectilinearGridAlgorithm::RequestInformation(request,inputVector,outInfoVec);
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;

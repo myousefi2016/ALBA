@@ -107,7 +107,7 @@ protected:
 
   unsigned long int GetMTime();
 
-  void ExecuteInformation();
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
   void ExecuteData(vtkDataObject *output);
   
   // different implementations for polydata and imagedata

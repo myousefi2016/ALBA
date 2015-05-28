@@ -127,7 +127,7 @@ void vtkMAFDataPipe::UpdateInformation()
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFDataPipe::ExecuteInformation()
+int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //------------------------------------------------------------------------------
 {
   this->SetErrorCode( vtkErrorCode::NoError );
@@ -155,12 +155,11 @@ void vtkMAFDataPipe::ExecuteInformation()
     }
   } 
   
-  if (GetNumberOfInputs()>0&&GetInput()) // work around to skip vtkDataSet bug with zero inputs
-    Superclass::ExecuteInformation(); 
+ Superclass::RequestInformation(request, inputVector, outInfoVec);
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFDataPipe::Execute()
+int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   if (GetInput())

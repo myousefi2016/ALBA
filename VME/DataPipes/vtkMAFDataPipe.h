@@ -68,8 +68,8 @@ protected:
   vtkMAFDataPipe();
   virtual ~vtkMAFDataPipe();
 
-  virtual void ExecuteInformation();
-  virtual void Execute();
+  virtual int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
+  int RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   mafDataPipe *m_DataPipe; ///< the data pipe this object is linked to
 
