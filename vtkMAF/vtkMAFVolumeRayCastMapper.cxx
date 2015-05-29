@@ -55,9 +55,9 @@ vtkStandardNewMacro(vtkMAFVolumeRayCastMapper);
   }
   else
   {
-    this->GetInput()->UpdateInformation();
-    this->GetInput()->SetUpdateExtentToWholeExtent();
-    this->GetInput()->Update();
+    this->UpdateInformation();
+    this->SetUpdateExtentToWholeExtent();
+    this->vtkOpenGLVolumeRayCastMapper::Update();
   } 
 
 

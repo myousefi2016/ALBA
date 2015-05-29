@@ -1264,7 +1264,7 @@ void vtkMAFExtrudeToCircle::MeshData::PrintSelf(ostream& os, vtkIndent indent) c
 
   for (int i = 0 ;  i < NumRings ;  i++){
     os << indent << "ring " << i << "\t" ;
-    Ring[i].PrintSelf(os, 0) ;
+    Ring[i].PrintSelf(os, vtkIndent(0)) ;
     os << std::endl ;
   }
 }
@@ -1278,7 +1278,7 @@ void vtkMAFExtrudeToCircle::RingData::PrintSelf(ostream& os, vtkIndent indent) c
   os << indent << "no. vertices = " << NumVerts << "\t" << "z = " << Z << std::endl ;
   for (int j = 0 ;  j < NumVerts ;  j++){
     os << indent << "vertex " << j << "\t" ;
-    Vertex[j].PrintSelf(os, 0) ;
+    Vertex[j].PrintSelf(os, vtkIndent(0)) ;
   }
 }
 

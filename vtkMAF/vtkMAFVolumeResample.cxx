@@ -142,7 +142,7 @@ int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request)
       //  output->SetDimensions(dims);
       //  }
       output->SetWholeExtent(output->GetExtent());
-      output->SetUpdateExtentToWholeExtent();
+      this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) { // select spacing
         this->PrepareVolume();

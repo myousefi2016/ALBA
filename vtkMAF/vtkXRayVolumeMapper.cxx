@@ -1266,9 +1266,9 @@ int vtkXRayVolumeMapper::FindColorResolution() {
 void vtkXRayVolumeMapper::Update() {
   if (vtkImageData::SafeDownCast(this->GetInput()) != NULL || 
       vtkRectilinearGrid::SafeDownCast(this->GetInput()) != NULL) {
-    this->GetInput()->UpdateInformation();
-    this->GetInput()->SetUpdateExtentToWholeExtent();
-    this->GetInput()->Update();
+    this->UpdateInformation();
+    this->SetUpdateExtentToWholeExtent();
+    this->vtkVolumeMapper::Update();
     }
   }
 

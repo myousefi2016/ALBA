@@ -144,7 +144,7 @@ int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVe
         vtkDataSet *data=(vtkDataSet *)GetInputs()[i];
         if (data)
         {
-          data->UpdateInformation();
+          UpdateInformation();
           vtkDataSet *new_data=data->NewInstance();
           new_data->CopyInformation(data);
           

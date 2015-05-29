@@ -51,8 +51,8 @@ vtkMAFExtendedGlyph3D::vtkMAFExtendedGlyph3D()
   this->VectorMode = VTK_USE_VECTOR;
   this->Clamping = 0;
   this->IndexMode = VTK_INDEXING_OFF;
-  this->NumberOfRequiredInputs = 1;
-  this->GeneratePointIds = 0;
+	this->SetNumberOfInputPorts(1);
+	this->GeneratePointIds = 0;
   this->PointIdsName = NULL;
   this->SetPointIdsName("InputPointIds");
   this->InputScalarsSelection = NULL;
@@ -616,7 +616,7 @@ void vtkMAFExtendedGlyph3D::SetNumberOfSources(int num)
 int vtkMAFExtendedGlyph3D::GetNumberOfSources()
 {
   // one less because input has index 0.
-  return this->NumberOfInputs - 1;
+  return this->GetNumberOfInputPorts() - 1;
 }
 
 // Specify a source object at a specified table location.

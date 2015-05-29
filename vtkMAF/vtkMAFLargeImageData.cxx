@@ -803,12 +803,6 @@ void vtkMAFLargeImageData::PrintSelf(ostream& os, vtkIndent indent)
 		os << ", " << this->Extent[idx];
 	}
 	os << ")\n";
-	os << indent << "WholeExtent: (" << this->WholeExtent[0];
-	for (idx = 1; idx < 6; ++idx)
-	{
-		os << ", " << this->WholeExtent[idx];
-	}
-	os << ")\n";
 }
 
 //----------------------------------------------------------------------------

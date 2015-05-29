@@ -195,6 +195,8 @@ vtkMAFLargeImageReader::~vtkMAFLargeImageReader()
 	output->SetDataMask(this->DataMask);	
 	output->SetMemoryLimit(this->MemoryLimit);
 	output->AllocateScalars();
+	
+	return 1;
 }
 
 //----------------------------------------------------------------------------
