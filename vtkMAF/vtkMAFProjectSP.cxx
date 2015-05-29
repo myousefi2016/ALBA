@@ -66,7 +66,7 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("Missing input");
-    return;
+    return 1;
     }
   this->vtkMAFStructuredPointsAlgorithm::RequestInformation(request, inputVector,outInfoVec);
 
@@ -105,6 +105,8 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
 
 
   vtkDebugMacro(<<"Whole Extent is " << wholeExtent[1] << " " << wholeExtent[3] << " " << wholeExtent[5]);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

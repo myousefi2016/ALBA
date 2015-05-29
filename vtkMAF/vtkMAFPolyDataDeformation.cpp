@@ -663,7 +663,7 @@ vtkMAFPolyDataDeformation::~vtkMAFPolyDataDeformation()
   if (input == NULL)
   {
     vtkErrorMacro(<< "Invalid input for vtkMAFPolyDataDeformation.");
-    return;   //we have no input
+    return 1;   //we have no input
   }
 
   //check output
@@ -672,7 +672,7 @@ vtkMAFPolyDataDeformation::~vtkMAFPolyDataDeformation()
     SetOutput(vtkPolyData::New());
 
   //copy input to output
-  Superclass::RequestInformation(request,inputVector,outInfoVec);  
+  return Superclass::RequestInformation(request,inputVector,outInfoVec);  
 }
 
 //------------------------------------------------------------------------

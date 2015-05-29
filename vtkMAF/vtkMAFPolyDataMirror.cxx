@@ -48,13 +48,13 @@ int vtkMAFPolyDataMirror::RequestData( vtkInformation *vtkNotUsed(request), vtkI
   if ( !input )
     {
     vtkErrorMacro(<<"No input data");
-    return;
+    return 1;
     }
   inPts = input->GetPoints();
   if ( !inPts )
     {
     vtkErrorMacro(<<"No input data");
-    return;
+    return 1;
     }
   numPts = inPts->GetNumberOfPoints();
   newPts = vtkPoints::New();
@@ -112,6 +112,8 @@ int vtkMAFPolyDataMirror::RequestData( vtkInformation *vtkNotUsed(request), vtkI
   //pdn->Delete();   
 
   this->UpdateProgress (1);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

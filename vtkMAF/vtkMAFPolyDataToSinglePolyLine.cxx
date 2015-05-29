@@ -53,7 +53,7 @@ int vtkMAFPolyDataToSinglePolyLine::RequestData( vtkInformation *vtkNotUsed(requ
 	vtkPolyData *output = this->GetOutput();
 
 	int numLines = this->GetInput()->GetNumberOfLines();
-  if(numLines == 0) return;
+  if(numLines == 0) return 1;
 	int numPts = numLines+1;
 	double /*x[3],*/ tc[3]/*, v[3]*/;
 	int i/*, j*/;
@@ -111,4 +111,6 @@ int vtkMAFPolyDataToSinglePolyLine::RequestData( vtkInformation *vtkNotUsed(requ
 
   if(output->GetPointData()->GetScalars())
     output->GetPointData()->SetScalars(vtkFloatArray::New());
+
+	return 1;
 }

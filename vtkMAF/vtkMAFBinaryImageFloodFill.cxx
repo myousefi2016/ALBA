@@ -92,7 +92,7 @@ int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request)
   {
     case 0:
       {
-        return;
+        return 1;
       } break;
     case 1:
       {
@@ -115,6 +115,8 @@ int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request)
   output->Update();
   this->SetOutput(output);
   intermediate_output->Delete();
+	
+	return 1;
 }
 //------------------------------------------------------------------------------
 template <unsigned int ImageDimension>

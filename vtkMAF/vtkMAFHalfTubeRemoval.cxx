@@ -81,7 +81,7 @@ int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtk
   m_Output->DeepCopy(m_Input) ;
 
   if ((m_CenterLine == NULL) || (m_RemovalMode == REMOVE_NONE))
-    return ;
+    return 1;
 
   vtkMAFPolyDataNavigator* nav = vtkMAFPolyDataNavigator::New() ;
   vtkIdList* cellsToRemove = vtkIdList::New() ;
@@ -113,6 +113,8 @@ int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtk
 
   cellsToRemove->Delete() ;
   nav->Delete() ;
+
+	return 1;
 }
 
 

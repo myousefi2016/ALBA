@@ -104,7 +104,7 @@ int vtkMaskPolyDataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtk
 	if ( !this->GetMask() )
 	{
 		//	vtkErrorMacro(<<"No mask specified");
-		return;
+		return 1;
 	}
 
 	Mask=this->GetMask();
@@ -117,7 +117,7 @@ int vtkMaskPolyDataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtk
 	if ( numPts < 1 )
 	{
 		//vtkErrorMacro(<<"No data to Mask");
-		return;
+		return 1;
 	}
 
 

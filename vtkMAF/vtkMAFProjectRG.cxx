@@ -57,7 +57,7 @@ vtkMAFProjectRG::vtkMAFProjectRG()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 {
   vtkRectilinearGrid *input=this->GetInput();
   vtkRectilinearGrid *output=this->GetOutput();
@@ -66,7 +66,7 @@ void vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformation
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("Missing input");
-    return;
+    return 1;
     }
   this->vtkRectilinearGridAlgorithm::RequestInformation(request,inputVector,outInfoVec);
 
@@ -103,6 +103,8 @@ void vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformation
   output->SetUpdateExtent( wholeExtent );   // cosi funziona - Silvano & Robez
 
   vtkDebugMacro(<<"Whole Extent is " << wholeExtent[1] << " " << wholeExtent[3] << " " << wholeExtent[5]);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

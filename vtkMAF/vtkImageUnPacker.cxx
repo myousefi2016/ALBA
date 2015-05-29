@@ -14,6 +14,9 @@
 #include "vtkObjectFactory.h"
 #include "vtkImageUnPacker.h"
 #include "vtkImageData.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
+#include "vtkStreamingDemandDrivenPipeline.h"
 
 vtkStandardNewMacro(vtkImageUnPacker);
 
@@ -54,6 +57,8 @@ void vtkImageUnPacker::PrintSelf(ostream& os, vtkIndent indent)
 int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
 //----------------------------------------------------------------------------
 {
+	 vtkInformation* outInfo = outInfoVec->GetInformationObject(0);
+
 	// Here information on the image are read and set in the Output cache.
 	
 	if (ReadImageInformation(this->GetInput()))
@@ -61,8 +66,9 @@ int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vt
 		vtkGenericWarningMacro("Problems extracting the image information. ");
 	}
 
-	GetOutput()->SetWholeExtent(GetDataExtent());
-	GetOutput()->SetUpdateExtent(GetDataExtent());
+	outInfo->Set(vtkStreamingDemandDrivenPipeline::WHOLE_EXTENT(), GetDataExtent(), 6);
+	outInfo->Set(vtkStreamingDemandDrivenPipeline::UPDATE_EXTENT(), GetDataExtent(), 6);
+
 	GetOutput()->SetScalarType(GetDataScalarType());
 	GetOutput()->SetNumberOfScalarComponents(GetNumberOfScalarComponents());
 }

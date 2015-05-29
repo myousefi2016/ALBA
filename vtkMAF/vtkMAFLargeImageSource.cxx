@@ -59,6 +59,8 @@ int vtkMAFLargeImageSource::RequestData( vtkInformation *vtkNotUsed(request), vt
 
 	// call ExecuteData
 	this->ExecuteData( output );
+
+	return 1;
 }
 
 

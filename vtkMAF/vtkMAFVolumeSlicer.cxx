@@ -147,7 +147,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
 //----------------------------------------------------------------------------
 {
   if (GetInput()==NULL)
-    return;
+    return 1;
   for (int i = 0; i < this->GetNumberOfOutputs(); i++) 
   {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) 
@@ -240,6 +240,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
     {
     }
   }
+  return 1;
 }
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicer::ExecuteData(vtkDataObject *outputData) 

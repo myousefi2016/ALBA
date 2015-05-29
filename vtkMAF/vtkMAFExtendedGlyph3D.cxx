@@ -112,7 +112,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
   if (!input)
     {
     vtkErrorMacro(<<"No input");
-    return;
+    return 1;
     }
 
   pd = input->GetPointData();
@@ -144,7 +144,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
     vtkDebugMacro(<<"No points to glyph!");
     pts->Delete();
     trans->Delete();
-    return;
+    return 1;
     }
 
   // Check input for consistency
@@ -174,7 +174,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
       vtkErrorMacro(<<"Indexing on but don't have data to index with");
       pts->Delete();
       trans->Delete();
-      return;
+      return 1;
       }
     else
       {
@@ -587,6 +587,8 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
   output->Squeeze();
   trans->Delete();
   pts->Delete();
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------
@@ -598,8 +600,9 @@ int vtkMAFExtendedGlyph3D::RequestInformation(vtkInformation *vtkNotUsed(request
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("Missing input");
-    return;
+    return 1;
     }
+	return 1;
 }
 
 

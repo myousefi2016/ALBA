@@ -35,6 +35,8 @@
 #include "vtkFloatArray.h"
 #include "vtkDoubleArray.h"
 #include "vtkStructuredPointsWriter.h"
+#include "vtkAlgorithm.h"
+#include "vtkInformation.h"
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
@@ -81,10 +83,10 @@ int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNot
 {
   vtkDataSet* input = NULL;
   if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0)
-    return; // No input or no output
+    return 1; // No input or no output
 
   if ((NumberOfComponents = input->GetPointData()->GetNumberOfComponents()) == 0)
-    return; // Nothing to display
+    return 1; // Nothing to display
 
   input->GetBounds(Bounds);
 
@@ -127,7 +129,7 @@ int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNot
     {
       OutputDataType = VTK_IMAGE_DATA;
       NumberOfPieces = 0;
-      return;
+      return 1;
     }
 
     SliceDimensions[0] = InputDimensions[AxisX];
@@ -211,7 +213,7 @@ int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNot
     {
       OutputDataType = VTK_IMAGE_DATA;
       NumberOfPieces = 0;
-      return;
+      return 1;
     }
     SliceDimensions[0] = InputDimensions[AxisX];
     SliceDimensions[1] = InputDimensions[AxisY];

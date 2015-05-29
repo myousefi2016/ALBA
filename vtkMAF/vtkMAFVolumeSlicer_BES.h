@@ -115,22 +115,9 @@ public:
   void SetTrilinearInterpolation(bool on){m_TriLinearInterpolationOn = on;};
 #pragma endregion Attributes
 
-
-  void SetOutput(vtkImageData *data) { 
-    vtkDataSetSource::SetOutput(data); 
-  }
-  
-  void SetOutput(vtkPolyData  *data) { 
-    vtkDataSetSource::SetOutput(data); 
-  }
-
-  /**
-  specify the image to be used for texturing output polydata object*/
-  void SetTexture(vtkImageData *data) {
-    this->SetNthInput(1, (vtkDataObject*)data);
-  };
+	 
   vtkImageData *GetTexture() { 
-    return vtkImageData::SafeDownCast(this->Inputs[1]);
+    return vtkImageData::SafeDownCast(this->GetInputDataObject(0,0));
   };
 
   /** 

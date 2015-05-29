@@ -809,7 +809,7 @@ void vtkMAFLargeImageData::PrintSelf(ostream& os, vtkIndent indent)
 void vtkMAFLargeImageData::UpdateData()
 {
 	//this should update the providers information
-	this->vtkDataObject::UpdateData();
+	//this->vtkDataObject::UpdateData();
 	
 	//check if the snapshot requires to be updated
 	unsigned long mtime = this->GetMTime();
@@ -891,9 +891,6 @@ void vtkMAFLargeImageData::UpdateData()
 	}
 
 	output->SetExtent(outExtent);
-	output->SetWholeExtent(outExtent);
-	output->SetUpdateExtentToWholeExtent();
-	//we have set a new Extent for the output snapshot
 
 	//now we must update origin and spacing
 	double sp[3], origin[3];

@@ -248,7 +248,7 @@ int vtkMAFAddScalarsFilter::RequestData( vtkInformation *vtkNotUsed(request), vt
   else{
     // error: unknown mode
     scalars->Delete() ;
-    return ;
+    return 1;
   }
 
 
@@ -278,12 +278,14 @@ int vtkMAFAddScalarsFilter::RequestData( vtkInformation *vtkNotUsed(request), vt
   else{
     // error: unknown mode
     scalars->Delete() ;
-    return ;
+    return 1;
   }
 
 
   // clean up and exit
   scalars->Delete() ;
+
+	return 1;
 }
 
 

@@ -110,6 +110,8 @@ int vtkMAFMeshCutter::RequestData( vtkInformation *vtkNotUsed(request), vtkInfor
 
   // Run the cutter
   CreateSlice() ;
+
+	return 1;
 }
 
 

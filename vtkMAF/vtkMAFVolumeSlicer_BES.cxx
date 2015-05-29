@@ -206,7 +206,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 {
   vtkDataSet* input;
   if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0)
-    return; //nothing to cut, or we have no output -> exit
+    return 1; //nothing to cut, or we have no output -> exit
   
   this->NumComponents = input->GetPointData()->GetScalars()->GetNumberOfComponents();  
 
@@ -257,7 +257,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
     if (gridData == NULL)
     {
       vtkDebugMacro("Invalid input for vtkMAFVolumeSlicer_BES");      
-      return;
+      return 1;
     }
 
     //rectilinear grid
@@ -391,6 +391,8 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
       output->SetOrigin(this->GlobalPlaneOrigin);
     }
   }
+
+	return 1;
 }
 
 //------------------------------------------------------------------------

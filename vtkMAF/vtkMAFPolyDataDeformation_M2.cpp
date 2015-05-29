@@ -635,7 +635,7 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
   if (input == NULL)
   {
     vtkErrorMacro(<< "Invalid input for vtkMAFPolyDataDeformation_M2.");
-    return;   //we have no input
+    return 1;   //we have no input
   }
 
   //check output
@@ -644,7 +644,7 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
     SetOutput(vtkPolyData::New());
 
   //copy input to output
-  Superclass::RequestInformation(request,inputVector,outInfoVec);  
+  return Superclass::RequestInformation(request,inputVector,outInfoVec);  
 }
 
 //------------------------------------------------------------------------
