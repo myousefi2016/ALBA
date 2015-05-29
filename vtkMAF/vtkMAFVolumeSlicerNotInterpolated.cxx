@@ -399,6 +399,13 @@ int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNot
   // y * InputDimensions[0] + z * InputDimensions[1] * InputDimensions[0] + BaseIndex for SLICE_X
 }
 
+int vtkMAFVolumeSlicerNotInterpolated::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
+	return 1;
+}
+
+
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicerNotInterpolated::AddOutputsAttributes(int dimension, double spacing, int** dimensions, double** spacings, int size)
 //----------------------------------------------------------------------------

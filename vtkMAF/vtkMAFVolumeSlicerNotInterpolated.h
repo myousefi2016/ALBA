@@ -19,7 +19,7 @@
 
 #include "vtkImageData.h"
 #include "mafConfigure.h"
-#include "vtkDataSetToImageFilter.h"
+#include "vtkImageAlgorithm.h"
 #include "vtkRectilinearGrid.h"
 
 #define MAX_NUMBER_OF_PIECES 20
@@ -27,7 +27,7 @@
 class vtkDoubleArray;
 
 //----------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFVolumeSlicerNotInterpolated : public vtkDataSetToImageFilter
+class MAF_EXPORT vtkMAFVolumeSlicerNotInterpolated : public vtkImageAlgorithm
 //----------------------------------------------------------------------------
 {
 public:
@@ -44,10 +44,8 @@ public:
   static vtkMAFVolumeSlicerNotInterpolated *New();
 
   /** RTTI Macro */
-  vtkTypeMacro(vtkMAFVolumeSlicerNotInterpolated, vtkDataSetToImageFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicerNotInterpolated, vtkImageAlgorithm);
 
-  /** Set the slicer output */
-  inline void SetOutput(vtkImageData * data) {vtkImageSource::SetOutput(data);};
 
   /** Set the slice origin */
   vtkSetVector3Macro(Origin,double);
@@ -79,6 +77,8 @@ protected:
   unmodified from the input to the output.*/
   virtual int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
 
+	int FillInputPortInformation(int, vtkInformation *info);
+	
    /**
    This method is the one that should be used by subclasses, right now the 
    default implementation is to call the backwards compatibility method */
