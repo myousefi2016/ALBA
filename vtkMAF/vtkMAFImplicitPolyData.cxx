@@ -48,7 +48,7 @@ void vtkMAFImplicitPolyData::SetInput(vtkPolyData *input)
 		  this->Tri->PassVertsOff();
 		  this->Tri->PassLinesOff();
     }
-	  this->Tri->SetInput( input );
+	  this->Tri->SetInputData( input );
     this->Tri->Update();
 
     this->Input = this->Tri->GetOutput();

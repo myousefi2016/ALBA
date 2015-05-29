@@ -91,7 +91,7 @@ vtkMAFOrientationMarkerWidget::vtkMAFOrientationMarkerWidget()
   tcoord->SetCoordinateSystemToDisplay();
 
   vtkPolyDataMapper2D *mapper = vtkPolyDataMapper2D::New();
-  mapper->SetInput( this->Outline );
+  mapper->SetInputData( this->Outline );
   mapper->SetTransformCoordinate( tcoord );
 
   this->OutlineActor = vtkActor2D::New();

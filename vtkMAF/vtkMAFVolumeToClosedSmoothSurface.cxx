@@ -124,11 +124,11 @@ vtkPolyData * vtkMAFVolumeToClosedSmoothSurface::GetOutput( int level /*= 0*/, v
     transform->Scale(scale);
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFilter;
     transformFilter->SetTransform(transform);
-    transformFilter->SetInput(polydata);
+    transformFilter->SetInputData(polydata);
     transformFilter->Update();
 
     //Taubin Smooth filter apply
-    smoothFilter->SetInput(transformFilter->GetOutput());
+    smoothFilter->SetInputConnection(transformFilter->GetOutputPort());
     smoothFilter->SetFeatureAngle(30.0);
     smoothFilter->SetBoundarySmoothing(0);
     smoothFilter->SetNonManifoldSmoothing(0);
@@ -136,7 +136,6 @@ vtkPolyData * vtkMAFVolumeToClosedSmoothSurface::GetOutput( int level /*= 0*/, v
     smoothFilter->SetNumberOfIterations(10);
     smoothFilter->SetPassBand(0.1);
     smoothFilter->Update();
-    smoothFilter->GetOutput()->Update();
 
     //Re-Transforming smoothed output in [-1,1],[-1,1],[-1,1] 
     //To remove filter scaling/traslation artifact
@@ -148,7 +147,7 @@ vtkPolyData * vtkMAFVolumeToClosedSmoothSurface::GetOutput( int level /*= 0*/, v
     transform2->Scale(scale);
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFilter2;
     transformFilter2->SetTransform(transform2);
-    transformFilter2->SetInput(smoothFilter->GetOutput());
+    transformFilter2->SetInputConnection(smoothFilter->GetOutputPort());
     transformFilter2->Update();
 
 
@@ -163,7 +162,7 @@ vtkPolyData * vtkMAFVolumeToClosedSmoothSurface::GetOutput( int level /*= 0*/, v
     transform3->Translate(traslation);
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFilter3;
     transformFilter3->SetTransform(transform3);
-    transformFilter3->SetInput(transformFilter2->GetOutput());
+    transformFilter3->SetInputConnection(transformFilter2->GetOutputPort());
     transformFilter3->Update();
 
     polydata->DeepCopy(transformFilter3->GetOutput());
@@ -257,8 +256,6 @@ void vtkMAFVolumeToClosedSmoothSurface::Update()
       vtkImageData *inputVolume;
       
       inputVolume=vtkImageData::SafeDownCast(this->GetInput());
-      inputVolume->UpdateData();
-      inputVolume->Update();
 
       // Stores Input Bounds
       inputVolume->GetBounds(InputBounds);
@@ -296,8 +293,6 @@ void vtkMAFVolumeToClosedSmoothSurface::Update()
       vtkDataArray *inputXCoord,*inputYCoord,*inputZCoord;
 
       inputVolume=vtkRectilinearGrid::SafeDownCast(this->GetInput());
-      inputVolume->UpdateData();
-      inputVolume->Update();
 
       // Stores Input Bounds
       inputVolume->GetBounds(InputBounds);
@@ -403,8 +398,7 @@ void vtkMAFVolumeToClosedSmoothSurface::Update()
     {
       //setting new dimensions and update
       BorderVolumeID->SetDimensions(newDimension);
-      BorderVolumeID->Update();
-      BorderVolumeID->UpdateData();
+
       //set input is need for superclass execution 
       SetInput(BorderVolumeID);
     }
@@ -412,8 +406,7 @@ void vtkMAFVolumeToClosedSmoothSurface::Update()
     {
       //setting new dimensions and update
       BorderVolumeRG->SetDimensions(newDimension);
-      BorderVolumeRG->Update();
-      BorderVolumeRG->UpdateData();
+
       //set input is need for superclass execution 
       SetInput(BorderVolumeRG);
     }

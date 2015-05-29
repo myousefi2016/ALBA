@@ -225,7 +225,7 @@ void vtkMAFHistogram::HistogramCreate()
   coordinate->SetCoordinateSystemToNormalizedDisplay();
 
   vtkPolyDataMapper2D *mapper2d = vtkPolyDataMapper2D::New();
-  mapper2d->SetInput(Glyph->GetOutput());
+  mapper2d->SetInputConnection(Glyph->GetOutputPort());
   mapper2d->SetTransformCoordinate(coordinate);
   mapper2d->ScalarVisibilityOff();
   
@@ -244,7 +244,7 @@ void vtkMAFHistogram::HistogramCreate()
   Line1->Update();
 
   vtkPolyDataMapper2D *mapperLine1 = vtkPolyDataMapper2D::New();
-  mapperLine1->SetInput(Line1->GetOutput());
+  mapperLine1->SetInputConnection(Line1->GetOutputPort());
 
   Line1Actor = vtkActor2D::New();
   Line1Actor->SetMapper(mapperLine1);
@@ -256,7 +256,7 @@ void vtkMAFHistogram::HistogramCreate()
   Line2->Update();
 
   vtkPolyDataMapper2D *mapperLine2 = vtkPolyDataMapper2D::New();
-  mapperLine2->SetInput(Line2->GetOutput());
+  mapperLine2->SetInputConnection(Line2->GetOutputPort());
 
   Line2Actor = vtkActor2D::New();
   Line2Actor->SetMapper(mapperLine2);
@@ -276,7 +276,6 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
   ImageData->SetDimensions(InputData->GetNumberOfTuples(),1,1);
   ImageData->SetScalarType(InputData->GetDataType());
   ImageData->GetPointData()->SetScalars(InputData);
-  ImageData->Update();
   ImageData->GetScalarRange(sr);
   double srw = sr[1]-sr[0]+1;
 
@@ -300,7 +299,7 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
     NumberOfBins = ( srw > 500 ) ? 500 : srw ; 
   }
 
-  Accumulate->SetInput(ImageData);
+  Accumulate->SetInputData(ImageData);
   Accumulate->SetComponentOrigin(sr[0],0,0);  
   Accumulate->SetComponentExtent(0,NumberOfBins,0,0,0,0);
   Accumulate->SetComponentSpacing(srw/NumberOfBins,0,0); // bins maps all the Scalars Range
@@ -337,12 +336,12 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
     }
   }
 
-  ChangeInfo->SetInput(Accumulate->GetOutput());
+  ChangeInfo->SetInputConnection(Accumulate->GetOutputPort());
   ChangeInfo->SetOutputSpacing(1.0/NumberOfBins,1,1);  // Histogram width = 1
   ChangeInfo->Update();
 
   LogScale->SetConstant(LogScaleConstant);
-  LogScale->SetInput(ChangeInfo->GetOutput());
+  LogScale->SetInputConnection(ChangeInfo->GetOutputPort());
   LogScale->Update();
 
   if (LogHistogram)
@@ -353,11 +352,11 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
 //       if (mean < 0) mean = -mean;
 //       ScaleFactor = .5 / log(1 + mean);
 //     }
-    Glyph->SetInput(LogScale->GetOutput());
+    Glyph->SetInputConnection(LogScale->GetOutputPort());
   }
   else
   {
-    Glyph->SetInput(ChangeInfo->GetOutput());
+    Glyph->SetInputConnection(ChangeInfo->GetOutputPort());
   }
   Glyph->SetScaleFactor(ScaleFactor);
 

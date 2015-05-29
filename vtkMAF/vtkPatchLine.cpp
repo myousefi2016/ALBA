@@ -34,7 +34,7 @@ void vtkPatchLine::ExecuteData(vtkDataObject *output)
 	
 	//Remove duplicate points etc.
 	vtkMAFSmartPointer<vtkCleanPolyData> cleaner;
-	cleaner->SetInput(source.GetPointer());
+	cleaner->SetInputData(source.GetPointer());
 	cleaner->Update();  
 	source = cleaner->GetOutput();	
 	//source->Register(NULL); - not needed, reference is added by SmartPointer

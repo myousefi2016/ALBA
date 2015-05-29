@@ -23,6 +23,7 @@
 #include "vtkPoints.h"
 #include "vtkDataArray.h"
 #include "vtkSmartPointer.h"
+#include "vtkSetGet.h"
 
 
 vtkStandardNewMacro(vtkMAFLargeImageData);
@@ -1083,8 +1084,7 @@ void vtkMAFLargeImageDataUpdate1(vtkMAFLargeImageData *self, vtkImageData *data,
 	void* ptr = NULL;
 	switch (this->GetScalarType())
 	{
-		vtkTemplateMacro3(vtkMAFLargeImageDataUpdate1, this, 
-			(vtkImageData*)this->Snapshot, (VTK_TT *)(ptr));
+		vtkTemplateMacro(vtkMAFLargeImageDataUpdate1(this, (vtkImageData*)this->Snapshot, (VTK_TT *)(ptr)));
 
 	default:
 		vtkErrorMacro(<< "UpdateFromFile: Unknown data type");

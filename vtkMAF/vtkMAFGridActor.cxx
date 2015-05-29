@@ -124,7 +124,7 @@ void vtkMAFGridActor::GridCreate()
 
   vtkPolyDataMapper *g_pdm = vtkPolyDataMapper::New();
   g_pdm->ImmediateModeRenderingOn();
-  g_pdm->SetInput(g_grid);
+  g_pdm->SetInputData(g_grid);
 
   vtkProperty *g_p = vtkProperty::New();
   g_p->SetColor(DEFAULT_GRID_COLOR,DEFAULT_GRID_COLOR,DEFAULT_GRID_COLOR);
@@ -159,7 +159,7 @@ void vtkMAFGridActor::GridCreate()
 	a1->SetPoint1(0,0,0);
 	a1->SetPoint2(GridSize,0,0);
   vtkPolyDataMapper *a1_pdm = vtkPolyDataMapper::New();
-  a1_pdm->SetInput(a1->GetOutput());
+  a1_pdm->SetInputConnection(a1->GetOutputPort());
   a1_pdm->ImmediateModeRenderingOn();
   Axis1 = vtkActor::New();
   Axis1->SetMapper(a1_pdm);
@@ -173,7 +173,7 @@ void vtkMAFGridActor::GridCreate()
 	a2->SetPoint1(0,0,0);
 	a2->SetPoint2(0,GridSize,0);
   vtkPolyDataMapper *a2_pdm = vtkPolyDataMapper::New();
-  a2_pdm->SetInput(a2->GetOutput());
+  a2_pdm->SetInputConnection(a2->GetOutputPort());
   a2_pdm->ImmediateModeRenderingOn();
   Axis2 = vtkActor::New();
   Axis2->SetMapper(a2_pdm);

@@ -148,7 +148,7 @@ void vtkMAFTextOrientator::OrientatorCreate()
   TextSourceLeft->Update();
 
   TextSourceLeftMapper = vtkPolyDataMapper2D::New();
-  TextSourceLeftMapper->SetInput(TextSourceLeft->GetOutput());
+  TextSourceLeftMapper->SetInputConnection(TextSourceLeft->GetOutputPort());
   
   TextSourceLeftActor = vtkActor2D::New();
   TextSourceLeftActor->SetMapper(TextSourceLeftMapper);
@@ -162,7 +162,7 @@ void vtkMAFTextOrientator::OrientatorCreate()
   TextSourceDown->Update();
 
   TextSourceDownMapper = vtkPolyDataMapper2D::New();
-  TextSourceDownMapper->SetInput(TextSourceDown->GetOutput());
+  TextSourceDownMapper->SetInputConnection(TextSourceDown->GetOutputPort());
 
   TextSourceDownActor = vtkActor2D::New();
   TextSourceDownActor->SetMapper(TextSourceDownMapper);
@@ -176,7 +176,7 @@ void vtkMAFTextOrientator::OrientatorCreate()
   TextSourceRight->Update();
 
   TextSourceRightMapper = vtkPolyDataMapper2D::New();
-  TextSourceRightMapper->SetInput(TextSourceRight->GetOutput());
+  TextSourceRightMapper->SetInputConnection(TextSourceRight->GetOutputPort());
 
   TextSourceRightActor = vtkActor2D::New();
   TextSourceRightActor->SetMapper(TextSourceRightMapper);
@@ -190,7 +190,7 @@ void vtkMAFTextOrientator::OrientatorCreate()
   TextSourceUp->Update();
 
   TextSourceUpMapper = vtkPolyDataMapper2D::New();
-  TextSourceUpMapper->SetInput(TextSourceUp->GetOutput());
+  TextSourceUpMapper->SetInputConnection(TextSourceUp->GetOutputPort());
 
   TextSourceUpActor = vtkActor2D::New();
   TextSourceUpActor->SetMapper(TextSourceUpMapper);
@@ -365,29 +365,28 @@ void vtkMAFTextOrientator::SetScale(double multiple)
   vtkTransformPolyDataFilter *tpdf = vtkTransformPolyDataFilter::New();
   tpdf->SetTransform(transform);
   //left
-  tpdf->SetInput(TextSourceLeft->GetOutput());
+  tpdf->SetInputData(TextSourceLeft->GetOutput());
   tpdf->Update();
   
   TextSourceLeft->GetOutput()->DeepCopy(tpdf->GetOutput());
-  TextSourceLeft->GetOutput()->Update();
+  
   //down
-  tpdf->SetInput(TextSourceDown->GetOutput());
+  tpdf->SetInputConnection(TextSourceDown->GetOutputPort());
   tpdf->Update();
   
   TextSourceDown->GetOutput()->DeepCopy(tpdf->GetOutput());
-  TextSourceDown->GetOutput()->Update();
+  
   //right
-  tpdf->SetInput(TextSourceRight->GetOutput());
+  tpdf->SetInputConnection(TextSourceRight->GetOutputPort());
   tpdf->Update();
 
   TextSourceRight->GetOutput()->DeepCopy(tpdf->GetOutput());
-  TextSourceRight->GetOutput()->Update();
+  
   //up
-  tpdf->SetInput(TextSourceUp->GetOutput());
+  tpdf->SetInputConnection(TextSourceUp->GetOutputPort());
   tpdf->Update();
 
   TextSourceUp->GetOutput()->DeepCopy(tpdf->GetOutput());
-  TextSourceUp->GetOutput()->Update();
 
   tpdf->Delete();
   transform->Delete();

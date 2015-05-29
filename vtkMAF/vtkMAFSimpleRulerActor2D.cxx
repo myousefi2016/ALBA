@@ -78,7 +78,7 @@ vtkMAFSimpleRulerActor2D::vtkMAFSimpleRulerActor2D()
   a->SetPoint1(10,10,10);
   a->SetPoint1(10,10,10);
   vtkPolyDataMapper2D *a_pdm = vtkPolyDataMapper2D::New();
-  a_pdm->SetInput(a->GetOutput());
+  a_pdm->SetInputConnection(a->GetOutputPort());
   this->SetMapper(a_pdm); 
   this->PickableOff();
   a->Delete();
@@ -234,7 +234,7 @@ void vtkMAFSimpleRulerActor2D::RulerCreate()
 	tick_pd->SetLines(tick_cell);
 
   vtkPolyDataMapper2D *tick_pdm = vtkPolyDataMapper2D::New();
-  tick_pdm->SetInput(tick_pd);
+  tick_pdm->SetInputData(tick_pd);
 
   vtkProperty2D *tick_p = vtkProperty2D::New();
   tick_p->SetColor(1,0,0);
@@ -263,7 +263,7 @@ void vtkMAFSimpleRulerActor2D::RulerCreate()
   axis_pd->SetLines(axis_cell);
 
   vtkPolyDataMapper2D *axis_pdm = vtkPolyDataMapper2D::New();
-  axis_pdm->SetInput(axis_pd);
+  axis_pdm->SetInputData(axis_pd);
 
   vtkProperty2D *axis_p = vtkProperty2D::New();
   axis_p->SetColor(1,0.0,0.0);

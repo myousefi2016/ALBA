@@ -31,7 +31,7 @@ vtkStandardNewMacro(vtkHoleConnectivity);
 vtkHoleConnectivity::vtkHoleConnectivity(vtkPolyData *input,vtkIdType ID)
 //----------------------------------------------------------------------------
 {
-	this->SetInput(input);
+	this->SetInputData(input);
 	PointID = ID;
 }
 //----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInf
 	vtkPolyData *input = this->GetInput();
 
 	vtkPolyDataConnectivityFilter *connectivityFilter = vtkPolyDataConnectivityFilter::New();
-	connectivityFilter->SetInput(input);
+	connectivityFilter->SetInputConnection(this->GetOutputPort());
 	connectivityFilter->SetExtractionModeToClosestPointRegion ();
 	connectivityFilter->SetClosestPoint(Point);
 	connectivityFilter->Modified();

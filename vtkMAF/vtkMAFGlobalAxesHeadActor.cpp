@@ -71,7 +71,7 @@ vtkMAFGlobalAxesHeadActor::vtkMAFGlobalAxesHeadActor()
 
   vtkPolyDataMapper *headMapper = vtkPolyDataMapper::New();
   this->HeadActor = vtkActor::New();
-  headMapper->SetInput( this->HeadReader->GetOutput() );
+  headMapper->SetInputConnection( this->HeadReader->GetOutputPort() );
   this->HeadActor->SetMapper( headMapper );
   this->HeadActor->SetVisibility(1);
   headMapper->Delete();
@@ -262,12 +262,11 @@ void vtkMAFGlobalAxesHeadActor::SetInitialPose(vtkMatrix4x4* initMatrix)
   transformer = vtkTransformPolyDataFilter::New();
 
   initTransform->SetMatrix(initMatrix);
-  transformer->SetInput(data);
+  transformer->SetInputData(data);
   transformer->SetTransform(initTransform);
   transformer->Update();
 
   data->DeepCopy(transformer->GetOutput());
-  data->Update();
   data->Modified();
   ((vtkPolyDataMapper*)this->HeadActor->GetMapper())->Update();
   ((vtkPolyDataMapper*)this->HeadActor->GetMapper())->Modified();

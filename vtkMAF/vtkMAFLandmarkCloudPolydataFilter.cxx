@@ -114,7 +114,7 @@ int vtkMAFLandmarkCloudPolydataFilter::AddLandmark(int ptId)
   sphere->SetPhiResolution(m_PhiRes) ;
 
   vtkMAFAddScalarsFilter* addScalars = vtkMAFAddScalarsFilter::New() ;
-  addScalars->SetInput(sphere->GetOutput()) ;
+  addScalars->SetInputConnection(sphere->GetOutputPort()) ;
 
   m_SphereList.push_back(sphere) ;
   m_AddScalarsList.push_back(addScalars) ;

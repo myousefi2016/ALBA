@@ -3712,8 +3712,8 @@ void vtkMAFPolyDataNavigator::MergePoints(vtkPolyData *polydata, vtkIdList *idsI
 
   // use vtkCleanPolydata to remove unused points
   vtkCleanPolyData *clean = vtkCleanPolyData::New() ;
-  clean->SetInput(polydata) ;
-  clean->GetOutput()->Update() ;
+  clean->SetInputData(polydata) ;
+  clean->Update();
   polydata->DeepCopy(clean->GetOutput()) ;
   clean->Delete() ;
 

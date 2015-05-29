@@ -59,7 +59,7 @@ int vtkMAFClipSurfaceBoundingBox::RequestData( vtkInformation *vtkNotUsed(reques
 	double scale_factor=2*sqrt(vtkMath::Distance2BetweenPoints(p1,p2));
 
 	vtkLinearExtrusionFilter *extrusionFilter = vtkLinearExtrusionFilter::New();
-	extrusionFilter->SetInput(mask);
+	extrusionFilter->SetInputData(mask);
 	extrusionFilter->SetScaleFactor(scale_factor);
 	extrusionFilter->Modified();
 	extrusionFilter->Update();
@@ -68,7 +68,7 @@ int vtkMAFClipSurfaceBoundingBox::RequestData( vtkInformation *vtkNotUsed(reques
 	implicitPolyData->SetInput(extrusionFilter->GetOutput());
 
 	vtkClipPolyData *clipFilter = vtkClipPolyData::New();
-	clipFilter->SetInput(input);
+	clipFilter->SetInputData(input);
 	clipFilter->SetGenerateClipScalars(0);
 	clipFilter->SetClipFunction(implicitPolyData);
 	clipFilter->SetInsideOut(ClipInside);

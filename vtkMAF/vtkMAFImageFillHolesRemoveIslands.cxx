@@ -77,13 +77,12 @@ int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(r
 {
   // get input
   vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
+
 
   // prepare output
   vtkStructuredPoints *output = this->GetOutput();
   output->DeepCopy(input);
-  output->UpdateData();
-  output->Update();
+
 
   int recognitionSquareEdge = EdgeSize + 2; // Number of pixels of the recognition square
 
@@ -92,7 +91,7 @@ int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(r
   
   // Flood fill external region of the shape to allow fill big holes inside the shape
   vtkMAFBinaryImageFloodFill *flood_fill = vtkMAFBinaryImageFloodFill::New();
-  flood_fill->SetInput(input);
+  flood_fill->SetInputData(input);
   flood_fill->Update();
 
   // get flood fill scalars
@@ -186,7 +185,6 @@ int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(r
   output->GetPointData()->Update();
   output->GetPointData()->Modified();
   flood_fill->Delete();
-  output->UpdateData();
-  output->Update();
+ 
   this->SetOutput(output);
 }
