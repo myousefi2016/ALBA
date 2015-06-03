@@ -57,10 +57,17 @@ vtkMAFProjectRG::vtkMAFProjectRG()
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-  vtkRectilinearGrid *input=this->GetInput();
-  vtkRectilinearGrid *output=this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkRectilinearGrid  *input = vtkRectilinearGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkRectilinearGrid *output = vtkRectilinearGrid::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+
   int dims[3], outDims[3], wholeExtent[6];
   
   if (this->GetInput() == NULL)
@@ -68,7 +75,7 @@ int vtkMAFProjectRG::RequestInformation(vtkInformation *request, vtkInformationV
     vtkErrorMacro("Missing input");
     return 1;
     }
-  this->vtkRectilinearGridAlgorithm::RequestInformation(request,inputVector,outInfoVec);
+  this->vtkRectilinearGridAlgorithm::RequestInformation(request,inputVector,outputVector);
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
@@ -113,10 +120,14 @@ int vtkMAFProjectRG::RequestData( vtkInformation *vtkNotUsed(request), vtkInform
   int i, j, k, dims[3], outDims[3], dim, idx, newIdx;  
   int sliceSize, outSize, jOffset, kOffset;
   float I;
- 
-  vtkRectilinearGrid 	*input	=(vtkRectilinearGrid *)this->GetInput();
-  vtkRectilinearGrid 	*output	=(vtkRectilinearGrid *)this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
+	// Initialize some frequently used values.
+	vtkRectilinearGrid  *input = vtkRectilinearGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkRectilinearGrid *output = vtkRectilinearGrid::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+ 
   vtkDataArray 			*XCoordinates, *YCoordinates, *ZCoordinates;
 
   vtkPointData 			*pd		=input->GetPointData();

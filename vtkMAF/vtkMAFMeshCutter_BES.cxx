@@ -109,7 +109,14 @@ unsigned long vtkMAFMeshCutter_BES::GetMTime()
 int vtkMAFMeshCutter_BES::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  vtkUnstructuredGrid* input = this->GetInput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkUnstructuredGrid  *input = vtkUnstructuredGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   if (LastInput != input || LastInputTimeStamp != input->GetMTime())
   {
     // Make a copy of the input data and build links
@@ -153,7 +160,7 @@ int vtkMAFMeshCutter_BES::RequestData( vtkInformation *vtkNotUsed(request), vtkI
   }
 
   // Set pointer to output
-  Polydata = this->GetOutput() ;
+  Polydata = output;
 
   // Make sure the cutter is cleared of previous data before you run it !
   Initialize() ;
@@ -163,6 +170,8 @@ int vtkMAFMeshCutter_BES::RequestData( vtkInformation *vtkNotUsed(request), vtkI
   
   // Run the cutter
   CreateSlice() ;  
+
+	return 1;
 }
 
 

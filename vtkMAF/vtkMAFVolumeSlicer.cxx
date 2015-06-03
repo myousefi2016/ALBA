@@ -143,7 +143,7 @@ unsigned long int vtkMAFVolumeSlicer::GetMTime()
   return time;
 }
 //----------------------------------------------------------------------------
-int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   if (GetInput()==NULL)

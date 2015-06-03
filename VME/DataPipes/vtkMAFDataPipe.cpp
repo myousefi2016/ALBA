@@ -36,6 +36,8 @@
 #include "vtkErrorCode.h"
 #include "vtkAlgorithm.h"
 #include "vtkExecutive.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 //------------------------------------------------------------------------------
 vtkStandardNewMacro(vtkMAFDataPipe)
 //------------------------------------------------------------------------------
@@ -127,7 +129,7 @@ void vtkMAFDataPipe::UpdateInformation()
 }
 
 //------------------------------------------------------------------------------
-int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
   this->SetErrorCode( vtkErrorCode::NoError );
@@ -155,14 +157,22 @@ int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVe
     }
   } 
   
- Superclass::RequestInformation(request, inputVector, outInfoVec);
+ Superclass::RequestInformation(request, inputVector, outputVector);
 }
 
 //------------------------------------------------------------------------------
 int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  if (GetInput())
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataObject  *input = vtkDataObject::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  if (input)
   {
     if(m_DataPipe->IsA("mafDataPipeCustom"))
       m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_UPDATE));

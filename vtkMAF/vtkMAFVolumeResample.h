@@ -92,7 +92,7 @@ protected:
   vtkMAFVolumeResample();
   ~vtkMAFVolumeResample();
 
-  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
   void ExecuteData(vtkDataObject *output);
   
   void ExecuteData(vtkImageData *output);

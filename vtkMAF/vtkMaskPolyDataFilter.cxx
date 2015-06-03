@@ -77,9 +77,16 @@ vtkMaskPolyDataFilter::~vtkMaskPolyDataFilter()
 //------------------------------------------------------------------------------
 int vtkMaskPolyDataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataSet *output = vtkDataSet::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
 	int i,j,k, abortExecute=0;
-	vtkDataSet *output = this->GetOutput();
-	vtkDataSet *input = this->GetInput();
+
 	int numPts=input->GetNumberOfPoints();
 	vtkPointData *inPointData=input->GetPointData(), *outPointData=output->GetPointData();
 	vtkCellData *inCellData=input->GetCellData(), *outCellData=output->GetCellData();

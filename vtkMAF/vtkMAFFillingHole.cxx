@@ -2802,9 +2802,7 @@ void vtkMAFFillingHole::InitMesh()
   CVertex *pVertex;
   CTriangle *pTriangle;
   vtkIdList *ptids;
-
-  InputMesh = this->GetInput();
-  OutputMesh = this->GetOutput();
+	 
 
   NumOfTriangle = InputMesh->GetNumberOfCells();
   NumOfVertex = InputMesh->GetNumberOfPoints();
@@ -2902,7 +2900,17 @@ void vtkMAFFillingHole::BuildPatchOutput()
 int vtkMAFFillingHole::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {  
-  //InitManifoldMesh();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	InputMesh = input;
+	OutputMesh = output;
+
   InitMesh();
   BuildMesh();
   if(FillingHoles == 0)
@@ -2943,4 +2951,6 @@ int vtkMAFFillingHole::RequestData( vtkInformation *vtkNotUsed(request), vtkInfo
   }
   DoneMesh();
   ClearMesh();
+
+	return 1;
 }

@@ -48,11 +48,16 @@ vtkMAFPoissonSurfaceReconstruction::~vtkMAFPoissonSurfaceReconstruction()
 int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet *input= this->GetInput();
-  vtkPolyData *output = this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	  
 
   // ghost cell stuff
-  unsigned char  updateLevel = (unsigned char)(output->GetUpdateGhostLevel());
   unsigned char  *cellGhostLevels = NULL;
 
   // make sure output is initialized
@@ -76,7 +81,7 @@ int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFPoissonSurfaceReconstruction::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFPoissonSurfaceReconstruction::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   if (this->GetInput() == NULL)

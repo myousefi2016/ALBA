@@ -133,7 +133,7 @@ protected:
   void operator=(const vtkMAFProjectRG&);
 
   /** Update dimensions and whole extents */
-  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec);
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
   /** Execute the projection and fill output scalars */
   int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 

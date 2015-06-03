@@ -54,10 +54,10 @@ void vtkImageUnPacker::PrintSelf(ostream& os, vtkIndent indent)
 
 //----------------------------------------------------------------------------
 // This method returns the largest data that can be generated.
-int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-	 vtkInformation* outInfo = outInfoVec->GetInformationObject(0);
+	 vtkInformation* outInfo = outputVector->GetInformationObject(0);
 
 	// Here information on the image are read and set in the Output cache.
 	

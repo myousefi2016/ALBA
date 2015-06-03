@@ -102,7 +102,7 @@ int	vtkMAFDistanceFilter::RequestUpdateExtent( vtkInformation *request, vtkInfor
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 }
 

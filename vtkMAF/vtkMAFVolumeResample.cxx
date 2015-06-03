@@ -127,7 +127,7 @@ void vtkMAFVolumeResample::SetVolumeAxisY(double axis[3]) {
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec) 
+int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector) 
 {
   for (int i = 0; i < this->GetNumberOfOutputs(); i++) {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) {
@@ -286,7 +286,7 @@ int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInfor
 
 
   vtkDataObject *input = this->GetInput();
-  input->SetUpdateExtentToWholeExtent();
+  this->SetUpdateExtentToWholeExtent();
   }
 
 

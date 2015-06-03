@@ -72,11 +72,19 @@ unsigned long vtkMAFHalfTubeRemoval::GetMTime()
 //------------------------------------------------------------------------------
 int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   vtkDebugMacro(<< "Executing vtkMAFHalfTubeRemoval Filter") ;
 
   // pointers to input and output
-  m_Input = this->GetInput() ;
-  m_Output = this->GetOutput() ;
+  m_Input = input;
+  m_Output = output;
 
   m_Output->DeepCopy(m_Input) ;
 
@@ -86,8 +94,7 @@ int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtk
   vtkMAFPolyDataNavigator* nav = vtkMAFPolyDataNavigator::New() ;
   vtkIdList* cellsToRemove = vtkIdList::New() ;
 
-  m_CenterLine->Update() ;
-
+  
   for (int i = 0 ;  i < m_Output->GetNumberOfCells() ;  i++){
     // get position of cell
     double x[3] ;

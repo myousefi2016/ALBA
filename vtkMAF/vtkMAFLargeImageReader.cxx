@@ -164,7 +164,7 @@ vtkMAFLargeImageReader::~vtkMAFLargeImageReader()
 
 // By default, UpdateInformation calls this method to copy information
 // unmodified from the input to the output.
-/*virtual*/ int vtkMAFLargeImageReader::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+/*virtual*/ int vtkMAFLargeImageReader::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {	
 	//default computation of output extent
 	vtkMAFLargeImageData *output = this->GetOutput();	

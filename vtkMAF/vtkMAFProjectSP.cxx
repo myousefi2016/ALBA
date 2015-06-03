@@ -57,10 +57,16 @@ vtkMAFProjectSP::vtkMAFProjectSP()
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-  vtkImageData *input=this->GetInput();
-  vtkStructuredPoints *output=this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkImageData  *input = vtkImageData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   int dims[3], outDims[3], wholeExtent[6];
   
   if (this->GetInput() == NULL)
@@ -68,7 +74,7 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
     vtkErrorMacro("Missing input");
     return 1;
     }
-  this->vtkMAFStructuredPointsAlgorithm::RequestInformation(request, inputVector,outInfoVec);
+  this->vtkMAFStructuredPointsAlgorithm::RequestInformation(request, inputVector,outputVector);
 
   input->GetWholeExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
@@ -110,7 +116,7 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
 }
 
 //----------------------------------------------------------------------------
-int vtkMAFProjectSP::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
+int vtkMAFProjectSP::RequestData( vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   int dims[3], outDims[3];
   double origin[3], ar[3], outOrigin[3]={0.0,0.0,0.0}, outAR[3];
@@ -119,10 +125,15 @@ int vtkMAFProjectSP::RequestData( vtkInformation *vtkNotUsed(request), vtkInform
   int sliceSize, jOffset, kOffset;
   float I;
 
-  vtkStructuredPoints *input=(vtkStructuredPoints *)this->GetInput();
-  vtkStructuredPoints *output=(vtkStructuredPoints *)this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
-  output->AllocateScalars();
+	// Initialize some frequently used values.
+	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  output->AllocateScalars(request);
 
   vtkPointData        *pd     =input->GetPointData();
   vtkPointData        *outPD  =output->GetPointData();

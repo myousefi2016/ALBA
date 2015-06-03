@@ -93,14 +93,22 @@ int vtkMAFMeshCutter::FillInputPortInformation(int, vtkInformation *info)
 int vtkMAFMeshCutter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkUnstructuredGrid  *input = vtkUnstructuredGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   // Make a copy of the input data and buil links
   // Can't just set a pointer because BuildLinks() would change the input.
   UnstructGrid->Initialize() ;
-  UnstructGrid->DeepCopy(this->GetInput()) ;
+  UnstructGrid->DeepCopy(input) ;
   UnstructGrid->BuildLinks() ;
 
   // Set pointer to output
-  Polydata = this->GetOutput() ;
+  Polydata = output ;
 
   // Make sure the cutter is cleared of previous data before you run it !
   Initialize() ;

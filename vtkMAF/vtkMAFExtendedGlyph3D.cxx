@@ -75,6 +75,14 @@ vtkMAFExtendedGlyph3D::~vtkMAFExtendedGlyph3D()
 //------------------------------------------------------------------------------
 int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   vtkPointData *pd;
   vtkDataArray *inScalars;
   vtkDataArray *inVectors;
@@ -97,9 +105,9 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
   vtkIdType ptIncr, cellId;
   int haveVectors, haveNormals;
   double scalex,scaley,scalez, den;
-  vtkPolyData *output = this->GetOutput();
+  
   vtkPointData *outputPD = output->GetPointData();
-  vtkDataSet *input = this->GetInput();
+  
   int numberOfSources = this->GetNumberOfSources();
   vtkPolyData *defaultSource = NULL;
   vtkIdTypeArray *pointIds=0;
@@ -595,7 +603,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
 // Since indexing determines size of outputs, EstimatedWholeMemorySize is
 // truly an estimate.  Ignore Indexing (although for a best estimate we
 // should average the size of the sources instead of using 0).
-int vtkMAFExtendedGlyph3D::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outInfoVec)
+int vtkMAFExtendedGlyph3D::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   if (this->GetInput() == NULL)
     {

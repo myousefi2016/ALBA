@@ -44,9 +44,9 @@ public:
 	vtkTypeMacro(vtkMAFClipSurfaceBoundingBox,vtkObject);
 
   /** Set the polydata with which clip is performed.*/
-	void SetMask(vtkPolyData *mask) {this->SetNthInput(1, mask);};
+	void SetMask(vtkPolyData *mask) {this->SetInputData(1, mask);};
   /** Retrieve the mask polydata.*/
-	vtkPolyData *GetMask() { return (vtkPolyData *)(this->Inputs[1]);};
+	vtkPolyData *GetMask() { return (vtkPolyData *)(this->GetInput(1));};
 
   /** Set macro for ClipInside.*/
 	vtkSetMacro(ClipInside,int);

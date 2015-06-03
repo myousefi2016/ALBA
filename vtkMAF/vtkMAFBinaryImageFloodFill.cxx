@@ -67,10 +67,15 @@ vtkMAFBinaryImageFloodFill::~vtkMAFBinaryImageFloodFill()
 int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  // get input
-  vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
+	// Initialize some frequently used values.
+	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  
   // Get the image dimensions based on input
   int dims[3];
   input->GetDimensions(dims);
@@ -109,12 +114,9 @@ int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request)
   }
   
   // prepare output
-  vtkStructuredPoints *output = this->GetOutput();
   output->DeepCopy(intermediate_output);
-  output->UpdateData();
-  output->Update();
-  this->SetOutput(output);
-  intermediate_output->Delete();
+
+	intermediate_output->Delete();
 	
 	return 1;
 }

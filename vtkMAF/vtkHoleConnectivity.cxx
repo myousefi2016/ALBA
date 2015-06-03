@@ -43,8 +43,13 @@ vtkHoleConnectivity::~vtkHoleConnectivity()
 int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-	vtkPolyData *output = this->GetOutput();
-	vtkPolyData *input = this->GetInput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
 	vtkPolyDataConnectivityFilter *connectivityFilter = vtkPolyDataConnectivityFilter::New();
 	connectivityFilter->SetInputConnection(this->GetOutputPort());
@@ -56,6 +61,8 @@ int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInf
 	output->DeepCopy(vtkPolyData::SafeDownCast(connectivityFilter->GetOutput()));
 
 	connectivityFilter->Delete();
+
+	return 1;
 }
 //----------------------------------------------------------------------------
 void vtkHoleConnectivity::PrintSelf(ostream& os, vtkIndent indent)

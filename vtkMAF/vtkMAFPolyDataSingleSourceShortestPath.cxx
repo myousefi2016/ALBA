@@ -75,8 +75,13 @@ unsigned long vtkMAFPolyDataSingleSourceShortestPath::GetMTime()
 
 int vtkMAFPolyDataSingleSourceShortestPath::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-	vtkPolyData *input = this->GetInput();
-	vtkPolyData *output = this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 	
 	vtkDebugMacro(<< "vtkMAFPolyDataSingleSourceShortestPath finding shortest path");
 	
@@ -85,7 +90,8 @@ int vtkMAFPolyDataSingleSourceShortestPath::RequestData( vtkInformation *vtkNotU
 	ShortestPath(this->StartVertex, this->EndVertex);
 	
 	TraceShortestPath(input, output, this->StartVertex, this->EndVertex);
-	
+
+	return 1;
 }
 
 void vtkMAFPolyDataSingleSourceShortestPath::Init()

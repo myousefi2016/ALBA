@@ -100,14 +100,19 @@ void vtkMAFCellsFilter::SetMarkedOpacity(double opacity)
 // Perform cell removal
 int vtkMAFCellsFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-  if (!this->IsInitialized)
-    {
-    this->Initialize();
-    }
-    
-  vtkPolyData *input = this->GetInput();
-  vtkPolyData *output = this->GetOutput();
-  
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	if (!this->IsInitialized)
+	{
+		this->Initialize();
+	}
+	    
   // num of cells that will be in the output
   vtkIdType numCells = this->CellIdList->GetNumberOfIds();
   // dont know how many points... cant be more than the input
