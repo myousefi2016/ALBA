@@ -72,8 +72,8 @@ public:
 
   /**
   Specify the polygonal dataset to perform the masking.*/
-  void SetMask(vtkPolyData *mask) {this->SetNthInput(1, mask);};
-  vtkPolyData *GetMask() { return (vtkPolyData *)(this->Inputs[1]);};
+  void SetMask(vtkPolyData *mask) {this->SetInputData(1, mask);};
+  vtkPolyData *GetMask();
 
   /**
   Set / get the fill value*/

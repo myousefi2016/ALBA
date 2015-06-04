@@ -89,7 +89,6 @@ int vtkMAFPolyDataMirror::RequestData( vtkInformation *vtkNotUsed(request), vtkI
   intermediate->SetLines(input->GetLines());
   intermediate->SetPolys(input->GetPolys());
   intermediate->SetStrips(input->GetStrips());
-	intermediate->Update();
 
   vtkPointData *pd=input->GetPointData(), *outPD=intermediate->GetPointData();
   outPD->PassData(pd);

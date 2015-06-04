@@ -639,7 +639,7 @@ void vtkMAFExtendedGlyph3D::SetSource(int id, vtkPolyData *pd)
     vtkErrorMacro("Bad index " << id << " for source.");
     return;
     }
-  this->vtkProcessObject::SetNthInput(id + 1, pd);
+  this->SetInputData(id,pd);
 }
 
 // Get a pointer to a source object at a specified table location.
@@ -652,7 +652,7 @@ vtkPolyData *vtkMAFExtendedGlyph3D::GetSource(int id)
     }
   else
     {
-    return (vtkPolyData *)this->Inputs[id+1];
+    return (vtkPolyData *)this->GetInput(id+1);
     }
 }
 

@@ -195,9 +195,8 @@ void vtkMAFHalfTubeRemoval::SetRemovalModeBack()
 //------------------------------------------------------------------------------
 void vtkMAFHalfTubeRemoval::SetViewingPositionAuto(double pos[3], double focus[3], double upVector[3])
 {
-  m_Input = this->GetInput() ;
-  m_Input->Update() ;
-
+  m_Input = vtkPolyData::SafeDownCast(this->GetInput());
+  
   if (m_CenterLine == NULL){
     std::cout << "vtkMAFHalfTubeRemoval: undefined center line\n" ;
     assert(false) ;

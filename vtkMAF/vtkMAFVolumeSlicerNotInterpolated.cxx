@@ -37,6 +37,7 @@
 #include "vtkStructuredPointsWriter.h"
 #include "vtkAlgorithm.h"
 #include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
@@ -81,8 +82,13 @@ vtkMAFVolumeSlicerNotInterpolated::~vtkMAFVolumeSlicerNotInterpolated()
 int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet* input = NULL;
-  if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0)
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	if (input == NULL || this->GetNumberOfOutputs() == 0)
     return 1; // No input or no output
 
   if ((NumberOfComponents = input->GetPointData()->GetNumberOfComponents()) == 0)
@@ -451,11 +457,10 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
   int jStart = 0;
   for(int idx = 0; idx < NumberOfPieces; idx++) // iterate over pieces
   {
-    vtkDataSet* input = NULL;
-    if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0 && OutputDataType == VTK_IMAGE_DATA)
+    vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
+    if (input == NULL || this->GetNumberOfOutputs() == 0 && OutputDataType == VTK_IMAGE_DATA)
       return; // No input or no output
 
-    input->Update();
     vtkDataArray * inputScalars = input->GetPointData()->GetScalars();
 
     // Fill variables for scalar index recognition
@@ -612,7 +617,6 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       OutputRectilinearGrid->GetCellData()->Update();
 
       OutputRectilinearGrid->Modified();
-      OutputRectilinearGrid->Update();
     }
     else
     {
@@ -635,7 +639,6 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       scalars->Delete();
 
       output->Modified();
-      output->Update();
     }
   }
 }

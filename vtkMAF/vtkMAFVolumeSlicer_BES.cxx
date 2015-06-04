@@ -195,7 +195,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
 
   vtkDataObject *input = this->GetInput();
-  input->SetUpdateExtentToWholeExtent();
+  this->SetUpdateExtentToWholeExtent();
 }
 
 //----------------------------------------------------------------------------
@@ -204,8 +204,8 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 /*virtual*/ int vtkMAFVolumeSlicer_BES::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet* input;
-  if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0)
+  vtkDataSet* input=vtkPolyData::SafeDownCast(GetInput());
+  if (input == NULL || this->GetNumberOfOutputs() == 0)
     return 1; //nothing to cut, or we have no output -> exit
   
   this->NumComponents = input->GetPointData()->GetScalars()->GetNumberOfComponents();  
@@ -295,7 +295,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
         output->SetDimensions(dims);
       }
       output->SetWholeExtent(output->GetExtent());
-      output->SetUpdateExtentToWholeExtent();
+      this->SetUpdateExtentToWholeExtent();
 
 
       //if the cut should fill the whole output, we will need to get intersections
@@ -402,7 +402,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 void vtkMAFVolumeSlicer_BES::ExecuteDataHotFix(vtkDataObject *outputData)
 //------------------------------------------------------------------------
 {
-  vtkDataSet* input = this->GetInput(); 
+  vtkDataSet* input = vtkDataSet::SafeDownCast(this->GetInput()); 
   vtkImageData* output = vtkImageData::SafeDownCast(outputData);
   if (input == NULL || output == NULL)
     return;
@@ -468,7 +468,6 @@ void vtkMAFVolumeSlicer_BES::ExecuteDataHotFix(vtkDataObject *outputData)
   vtkImageData* texture = this->GetTexture();
   if (texture != NULL) 
   {
-    texture->Update();
     memcpy(this->GlobalPlaneOrigin, texture->GetOrigin(), sizeof(this->GlobalPlaneOrigin));
   }
   else
@@ -704,7 +703,7 @@ void vtkMAFVolumeSlicer_BES::ExecuteDataHotFix(vtkDataObject *outputData)
   }
 
   //prepare input (preprocessing)
-  vtkDataSet* input = this->GetInput();
+  vtkDataSet* input = vtkDataSet::SafeDownCast(this->GetInput());
   vtkDataArray* pScalars = input->GetPointData()->GetScalars();
 
   const void *inputPointer  = pScalars->GetVoidPointer(0);    

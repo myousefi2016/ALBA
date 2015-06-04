@@ -141,7 +141,7 @@ vtkStructuredPoints *vtkMAFBinaryImageFloodFill::FloodFill(vtkStructuredPoints *
   // must cast the image before pass it to the itk pipeline
   vtkMAFSmartPointer<vtkImageCast> caster;
   caster->SetOutputScalarTypeToUnsignedChar();
-  caster->SetInput(input);
+  caster->SetInputData(input);
   caster->Update();
 
   // Convert vtk image to itk
@@ -231,7 +231,6 @@ void vtkMAFBinaryImageFloodFill::ComputeItkSeed()
 {
   // get input
   vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
 
   // Get the image dimensions based on input
   int dims[3];

@@ -24,6 +24,8 @@ vtkStandardNewMacro(vtkMAFPolyDataDeformation_M1);
 
 #include "mafMemDbg.h"
 #include "mafDbg.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
 #pragma region //Nested Classes
 //Returns length of the edge. 
@@ -610,9 +612,13 @@ void vtkMAFPolyDataDeformation_M1::PrintSelf(ostream& os, vtkIndent indent)
 /*virtual*/int vtkMAFPolyDataDeformation_M1::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------
 {
-  //check input
-  vtkPolyData* input = GetInput();
-  if (input == NULL)
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	if (input == NULL)
   {
     vtkErrorMacro(<< "Invalid input for vtkMAFPolyDataDeformation_M1.");
     return 1;   //we have no input
@@ -638,7 +644,7 @@ void vtkMAFPolyDataDeformation_M1::PrintSelf(ostream& os, vtkIndent indent)
 /*virtual*/void vtkMAFPolyDataDeformation_M1::ExecuteData(vtkDataObject *output)
 {
   //check whether output is valid
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   if (input == NULL)
     return;
 
@@ -2199,7 +2205,7 @@ void vtkMAFPolyDataDeformation_M1
 
 
 
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
 
   CSkeletonVertex* pSkelVert1 = pEdge->Verts[0]; 
   CSkeletonVertex* pSkelVert2 = pEdge->Verts[1];
@@ -2371,7 +2377,7 @@ typedef struct vtkMAFPolyDataDeformation_M1::JOIN_VERTEX
 void vtkMAFPolyDataDeformation_M1::ComputeMeshParametrization()
 //------------------------------------------------------------------------
 { 
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
 
   //points that belong to an edge of one curve that si connected to 
   //another edge of another curve must be influenced by both edges
@@ -2718,7 +2724,7 @@ double vtkMAFPolyDataDeformation_M1::ComputeInputMeshAvgEdgeLength()
   double dblEdgeLen = 0.0;
   int nEdges = 0;
 
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   input->BuildCells();  //just for sure
 
   int nCells = input->GetNumberOfCells();

@@ -218,7 +218,7 @@ void vtkMAFContourVolumeMapper::SetInput(vtkDataSet *input)
   double b[2];
   input->GetScalarRange(b);
   MAXScalar=b[1];
-  this->vtkProcessObject::SetNthInput(0, input);
+  this->SetInputData(input);
 }
 
 
@@ -750,7 +750,7 @@ void vtkMAFContourVolumeMapper::InitializeRender(bool setup, vtkRenderer *render
     this->ViewportDimensions[1] = viewport[3];
 
     // transformation
-    this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositePerspectiveTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
+    this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositeProjectionTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
     volume->GetMatrix(this->VolumeMatrix);
     vtkMatrix4x4::Multiply4x4(this->TransformMatrix, this->VolumeMatrix, this->TransformMatrix);
     this->VolumeMatrix->Transpose();

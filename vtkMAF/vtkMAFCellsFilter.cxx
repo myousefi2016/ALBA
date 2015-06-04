@@ -127,6 +127,7 @@ int vtkMAFCellsFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInfo
     // Copy unremoved cells to the output... 
     output->CopyCells(input, this->CellIdList);
   
+		return 1;
 }
 
 void vtkMAFCellsFilter::Initialize()
@@ -137,11 +138,8 @@ void vtkMAFCellsFilter::Initialize()
   // matter if the user lets the vtk pipeline execute once first and heads
   // into the event loop like the filter was intended to do originally.
   
-  // This also gets around the problem when the user is in the event
-  // loop but some filter has been modified upstream, changing the data.
-  this->GetInput()->Update();
   
-  vtkIdType numCells = this->GetInput()->GetNumberOfCells();
+  vtkIdType numCells = vtkPolyData::SafeDownCast(this->GetInput())->GetNumberOfCells();
   this->CellIdList->SetNumberOfIds(numCells);
   
   for (vtkIdType i=0; i < numCells; i++)

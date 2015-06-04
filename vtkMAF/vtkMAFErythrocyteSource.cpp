@@ -27,7 +27,7 @@ vtkMAFErythrocyteSource::vtkMAFErythrocyteSource(void)
 {
   this->Radius = 0.1;
   this->ThetaResolution = this->PhiResolution = 8;
-	this->SetNumberOfInputConnections(0);
+	this->SetNumberOfInputPorts(0);
 }
 
 

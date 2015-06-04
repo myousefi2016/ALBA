@@ -79,7 +79,6 @@ unsigned long vtkMAFImplicitPolyData::GetMTime()
 
   if ( this->Input != NULL )
   {
-    this->Input->Update ();
     inputMTime = this->Input->GetMTime();
     mTime = ( inputMTime > mTime ? inputMTime : mTime );
   }

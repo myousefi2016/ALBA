@@ -487,7 +487,6 @@ int vtkMAFXYPlotActor::RenderOpaqueGeometry(vtkViewport *viewport)
     for (mtime=0, this->InputList->InitTraversal(); 
          (ds = this->InputList->GetNextItem()); )
       {
-      ds->Update();
       dsMtime = ds->GetMTime();
       if ( dsMtime > mtime )
         {
@@ -501,7 +500,6 @@ int vtkMAFXYPlotActor::RenderOpaqueGeometry(vtkViewport *viewport)
     for (mtime=0, this->DataObjectInputList->InitTraversal(); 
          (dobj = this->DataObjectInputList->GetNextItem()); )
       {
-      dobj->Update();
       dsMtime = dobj->GetMTime();
       if ( dsMtime > mtime )
         {
@@ -726,8 +724,8 @@ int vtkMAFXYPlotActor::RenderOpaqueGeometry(vtkViewport *viewport)
           this->TitleTextProperty);
         }
 
-      vtkAxisActor2D::SetFontSize(viewport, 
-                                  this->TitleMapper, 
+      vtkAxisActor2D::SetMultipleFontSize(viewport, 
+                                  &this->TitleMapper,1, 
                                   size, 
                                   1.0,
                                   stringSize);
@@ -1629,13 +1627,11 @@ void vtkMAFXYPlotActor::PlaceAxes(vtkViewport *viewport, int *size,
   // Estimate the padding around the X and Y axes
   tprop->ShallowCopy(axisX->GetTitleTextProperty());
   textMapper->SetInput(axisX->GetTitle());
-  vtkAxisActor2D::SetFontSize(
-    viewport, textMapper, size, fontFactorX, titleSizeX);
+  vtkAxisActor2D::SetMultipleFontSize(  viewport, &textMapper,1, size, fontFactorX, titleSizeX);
 
   tprop->ShallowCopy(axisY->GetTitleTextProperty());
   textMapper->SetInput(axisY->GetTitle());
-  vtkAxisActor2D::SetFontSize(
-    viewport, textMapper, size, fontFactorY, titleSizeY);
+  vtkAxisActor2D::SetMultipleFontSize(  viewport, &textMapper,1, size, fontFactorY, titleSizeY);
 
   // At this point the thing to do would be to actually ask the Y axis
   // actor to return the largest label.
@@ -1644,16 +1640,14 @@ void vtkMAFXYPlotActor::PlaceAxes(vtkViewport *viewport, int *size,
   sprintf(str2, axisY->GetLabelFormat(), axisY->GetAdjustedRange()[1]);
   tprop->ShallowCopy(axisY->GetLabelTextProperty());
   textMapper->SetInput(strlen(str1) > strlen(str2) ? str1 : str2);
-  vtkAxisActor2D::SetFontSize(
-    viewport, textMapper, size, labelFactorY * fontFactorY, labelSizeY);
+  vtkAxisActor2D::SetMultipleFontSize(  viewport, &textMapper,1, size, labelFactorY * fontFactorY, labelSizeY);
 
   // We do only care of the height of the label in the X axis, so let's
   // use the min for example
   sprintf(str1, axisX->GetLabelFormat(), axisX->GetAdjustedRange()[0]);
   tprop->ShallowCopy(axisX->GetLabelTextProperty());
   textMapper->SetInput(str1);
-  vtkAxisActor2D::SetFontSize(
-    viewport, textMapper, size, labelFactorX * fontFactorX, labelSizeX);
+  vtkAxisActor2D::SetMultipleFontSize(  viewport, &textMapper,1, size, labelFactorX * fontFactorX, labelSizeX);
 
   tickOffsetX = axisX->GetTickOffset();
   tickOffsetY = axisY->GetTickOffset();
@@ -1875,7 +1869,6 @@ void vtkMAFXYPlotActor::GenerateClipPlanes(int *pos, int *pos2)
 double vtkMAFXYPlotActor::ComputeGlyphScale(int i, int *pos, int *pos2)
 {
   vtkPolyData *pd=this->LegendActor->GetEntrySymbol(i);
-  pd->Update();
   double length=pd->GetLength();
   double sf = this->GlyphSize * sqrt((double)(pos[0]-pos2[0])*(pos[0]-pos2[0]) + 
                                     (pos[1]-pos2[1])*(pos[1]-pos2[1])) / length;

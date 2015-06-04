@@ -83,10 +83,12 @@ int vtkMAFLandmarkCloudPolydataFilter::RequestData( vtkInformation *vtkNotUsed(r
   // merge individual spheres into one polydata
   vtkAppendPolyData* append = vtkAppendPolyData::New() ;
   for (int i = 0 ;  i < GetNumberOfLandmarks() ;  i++)
-    append->AddInput(m_AddScalarsList[i]->GetOutput()) ;
-  append->GetOutput()->Update() ;
+    append->AddInputData(m_AddScalarsList[i]->GetOutput()) ;
+  append->Update() ;
 
   m_Output->DeepCopy(append->GetOutput()) ;
+
+	return 1;
 }
 
 

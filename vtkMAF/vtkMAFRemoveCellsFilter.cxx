@@ -48,6 +48,24 @@ void vtkMAFRemoveCellsFilter::RemoveMarkedCells()
   this->Modified();
 }
 
+//---------------------------------------------------------------------------
+int vtkMAFRemoveCellsFilter::GetNumberOfDeletedCells()
+{
+	vtkPolyData *input=vtkPolyData::SafeDownCast(this->GetInput());
+	vtkPolyData *output=vtkPolyData::SafeDownCast(this->GetOutput());
+
+	return input->GetNumberOfCells() - output->GetNumberOfCells();
+}
+
+//---------------------------------------------------------------------------
+int vtkMAFRemoveCellsFilter::GetNumberOfRemovedCells()
+{
+	vtkPolyData *input=vtkPolyData::SafeDownCast(this->GetInput());
+	vtkPolyData *output=vtkPolyData::SafeDownCast(this->GetOutput());
+
+	return input->GetNumberOfCells() - output->GetNumberOfCells();
+}
+
 void vtkMAFRemoveCellsFilter::RemoveCell(vtkIdType cellid_at_output)
 {
   vtkIdType cellid_at_input;

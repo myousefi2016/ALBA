@@ -1000,7 +1000,7 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
     double b[2];
     input->GetScalarRange(b);
     m_MAXScalar=b[1];
-    this->vtkProcessObject::SetNthInput(0, input);
+    this->SetInputData(input);
 
 
     const void *dataPointer = input->GetPointData()->GetScalars()->GetVoidPointer(0);
@@ -1945,7 +1945,7 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
       this->ViewportDimensions[1] = viewport[3];
 
       // transformation
-      this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositePerspectiveTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
+      this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositeProjectionTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
       volume->GetMatrix(this->VolumeMatrix);
       vtkMatrix4x4::Multiply4x4(this->TransformMatrix, this->VolumeMatrix, this->TransformMatrix);
       this->VolumeMatrix->Transpose();

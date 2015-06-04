@@ -133,8 +133,7 @@ void vtkMAFAddScalarsFilter::SetColorOfCell(int cellId, double r, double g, doub
     m_UserColors.push_back(newcol) ;
   }
   else{
-    m_Input = this->GetInput() ;
-    m_Input->Update() ;
+    m_Input = vtkPolyData::SafeDownCast(this->GetInput());
     vtkIdList* idlist = vtkIdList::New() ;
     m_Input->GetCellPoints(cellId, idlist) ;
     for (int j = 0 ;  j < idlist->GetNumberOfIds() ;  j++){

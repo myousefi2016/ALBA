@@ -21,6 +21,9 @@
 
 #include "assert.h"
 #include "vtkDataSetAlgorithm.h"
+#include "vtkExecutive.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 vtkStandardNewMacro(vtkMAFVolumeSlicer);
 
@@ -162,7 +165,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
         output->SetDimensions(dims);
       }
       output->SetWholeExtent(output->GetExtent());
-      output->SetUpdateExtentToWholeExtent();
+      this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) 
       { // select spacing
@@ -243,19 +246,26 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
   return 1;
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::ExecuteData(vtkDataObject *outputData) 
-//----------------------------------------------------------------------------
-{  
-  this->NumComponents = this->GetInput()->GetPointData()->GetScalars()->GetNumberOfComponents();
+int vtkMAFVolumeSlicer::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+{ 
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  this->NumComponents = input->GetPointData()->GetScalars()->GetNumberOfComponents();
 
   this->PrepareVolume();
 
-  if (vtkImageData::SafeDownCast(outputData))
-    this->ExecuteData((vtkImageData*)outputData);
-  else if (vtkPolyData::SafeDownCast(outputData))
-    this->ExecuteData((vtkPolyData*)outputData);
+  if (vtkImageData::SafeDownCast(output))
+    this->RequestData((vtkImageData*)output);
+  else if (vtkPolyData::SafeDownCast(output))
+    this->RequestData((vtkPolyData*)output);
   
-  outputData->Modified();
+  output->Modified();
 }
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicer::PrepareVolume() 
@@ -340,10 +350,10 @@ int	vtkMAFVolumeSlicer::RequestUpdateExtent( vtkInformation *request, vtkInforma
 	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
 
   vtkDataObject *input = this->GetInput();
-  input->SetUpdateExtentToWholeExtent();
+  this->SetUpdateExtentToWholeExtent();
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::ExecuteData(vtkPolyData *output) 
+void vtkMAFVolumeSlicer::RequestData(vtkPolyData *output) 
 //----------------------------------------------------------------------------
 {
   output->Reset();
@@ -351,7 +361,6 @@ void vtkMAFVolumeSlicer::ExecuteData(vtkPolyData *output)
   // define the plane
   if (this->GetTexture()) 
   {
-    this->GetTexture()->Update();
     memcpy(this->GlobalPlaneOrigin, this->GetTexture()->GetOrigin(), sizeof(this->GlobalPlaneOrigin));
   }
 
@@ -411,11 +420,8 @@ void vtkMAFVolumeSlicer::ExecuteData(vtkPolyData *output)
   {
     vtkImageData *texture = this->GetTexture();
     int extent[6];
-    assert(texture->GetSource() != this);
-    texture->UpdateInformation();
-    texture->GetWholeExtent(extent);
-    if (extent[0] >= extent[1])
-      texture->GetExtent(extent);
+    
+    texture->GetExtent(extent);
     size[0] = extent[1] - extent[0] + 1;
     size[1] = extent[3] - extent[2] + 1;
     texture->GetSpacing(spacing);
@@ -504,7 +510,7 @@ void vtkMAFVolumeSlicer::ExecuteData(vtkPolyData *output)
   tsObj->Delete();
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::ExecuteData(vtkImageData *outputObject) 
+void vtkMAFVolumeSlicer::RequestData(vtkImageData *outputObject) 
 //----------------------------------------------------------------------------
 {
   int extent[6];
@@ -775,6 +781,12 @@ void vtkMAFVolumeSlicer::CalculateTextureCoordinates(const float point[3], const
 		ts[0] =  tx / (size[0] * spacing[0]);
 		ts[1] = -ty / (size[1] * spacing[1]);
 	}
+
+vtkImageData * vtkMAFVolumeSlicer::GetTexture()
+{
+	return (vtkImageData *)(this->GetExecutive()->GetInputData(1,0));
+}
+
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicer::SetSliceTransform(vtkLinearTransform *trans)
 //----------------------------------------------------------------------------

@@ -38,6 +38,8 @@ vtkStandardNewMacro(vtkMAFPolyDataDeformation_M2);
 
 #include "mafMemDbg.h"
 #include "mafDbg.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
 #pragma region //Nested Classes
 
@@ -630,8 +632,12 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
 /*virtual*/int vtkMAFPolyDataDeformation_M2::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------
 {
-  //check input
-  vtkPolyData* input = GetInput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   if (input == NULL)
   {
     vtkErrorMacro(<< "Invalid input for vtkMAFPolyDataDeformation_M2.");
@@ -653,7 +659,7 @@ void vtkMAFPolyDataDeformation_M2::PrintSelf(ostream& os, vtkIndent indent)
 /*virtual*/void vtkMAFPolyDataDeformation_M2::ExecuteData(vtkDataObject *output)
 {
   //check whether output is valid
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   if (input == NULL)
     return;
 
@@ -2062,7 +2068,7 @@ double vtkMAFPolyDataDeformation_M2::GetDistance( vtkIdType nPtStartId,
 //------------------------------------------------------------------------
 {
   const static double dblStep = 0.01;   //constant sampling
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
 
   double ptStart[3];
   input->GetPoint(nPtStartId, ptStart);
@@ -2157,7 +2163,7 @@ double vtkMAFPolyDataDeformation_M2::GetPathLength(vtkIdType nPtFrom,
                                       vtkIdType nPtTo, double dblMaxDist)
 //------------------------------------------------------------------------
 {
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   int nPoints = input->GetNumberOfPoints();
 
   //initialize path distance
@@ -2328,7 +2334,7 @@ void vtkMAFPolyDataDeformation_M2
 void vtkMAFPolyDataDeformation_M2::ComputeMeshParametrization()
 //------------------------------------------------------------------------
 { 
-  vtkPolyData* input = GetInput();      
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   int nCount = (int)SuperSkeleton->m_pOC_Skel->m_Edges.size();
   for (int i = 0; i < nCount; i++)
   {
@@ -2721,7 +2727,7 @@ double vtkMAFPolyDataDeformation_M2::ComputeInputMeshAvgEdgeLength()
   double dblEdgeLen = 0.0;
   int nEdges = 0;
 
-  vtkPolyData* input = GetInput();
+  vtkPolyData* input = vtkPolyData::SafeDownCast(GetInput());
   input->BuildCells();  //just for sure
 
   int nCells = input->GetNumberOfCells();

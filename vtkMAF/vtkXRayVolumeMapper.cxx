@@ -516,7 +516,7 @@ void vtkXRayVolumeMapper::Render(vtkRenderer *renderer, vtkVolume *volume) {
 
   // prepare the transformation
   volume->GetMatrix(this->VolumeMatrix);
-  this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositePerspectiveTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
+  this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositeProjectionTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
   vtkMatrix4x4::Multiply4x4(this->TransformMatrix, this->VolumeMatrix, this->TransformMatrix);
   this->VolumeMatrix->Transpose();
   glMatrixMode(GL_MODELVIEW);
@@ -760,7 +760,7 @@ void vtkXRayVolumeMapper::Render(vtkRenderer *renderer, vtkVolume *volume) {
 
 
 void vtkXRayVolumeMapper::SetInput(vtkDataSet *input) {
-  this->vtkProcessObject::SetNthInput(0, input);
+  this->SetInputData(input);
   ResetTextures();
   }
 
@@ -867,10 +867,7 @@ bool vtkXRayVolumeMapper::PrepareTextures(bool force) {
   else if (this->NumberOfTextures[0] > 0 && this->NumberOfTextures[1] > 0 && this->NumberOfTextures[2] > 0)
     return true; // nothing to do
 
-  // check the data
-  if (this->GetInput() && this->GetInput()->GetDataReleased())
-    this->GetInput()->Update(); // ensure that the data is loaded
-  if (!this->IsDataValid(true))
+	if (!this->IsDataValid(true))
     return false;
 
   vtkImageData       *imageData = vtkImageData::SafeDownCast(this->GetInput());

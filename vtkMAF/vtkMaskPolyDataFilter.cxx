@@ -49,6 +49,8 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkCellLocator.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 vtkStandardNewMacro(vtkMaskPolyDataFilter);
 
@@ -273,13 +275,17 @@ void vtkMaskPolyDataFilter::PrintSelf(ostream& os, vtkIndent indent)
 
 }
 
+vtkPolyData * vtkMaskPolyDataFilter::GetMask()
+{
+	return (vtkPolyData *)(this->GetExecutive()->GetInputData(1,0));
+}
+
 void vtkMaskPolyDataFilter::InitCurrentSliceMask()
 {
 	//Creating current slice mask
 	vtkNEW(CurrentSliceMask);
 	//init data by coping mask data
 	CurrentSliceMask->DeepCopy(Mask);
-	CurrentSliceMask->Update();
 	//allocating memory for id conversion table
 	IdConversionTable= new vtkIdType[Mask->GetNumberOfPoints()];
 }
@@ -362,5 +368,4 @@ void vtkMaskPolyDataFilter::UpdateCurrentSliceMask(double z)
 	CurrentSliceMask->SetPoints(new_points);
 	vtkDEL(new_points);
 
-	CurrentSliceMask->Update();
 }

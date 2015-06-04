@@ -34,7 +34,7 @@ vtkMAFPolyDataNormals::vtkMAFPolyDataNormals()
 	//then reuse already calculated normal vectors, otherwise, perform full calculation
 	unsigned long tm = this->GetMTime();	
 	
-	vtkPolyData* input = this->GetInput();
+	vtkPolyData* input = vtkPolyData::SafeDownCast(this->GetInput());
 	if (input->GetPoints() != NULL) {
 		tm += input->GetPoints()->GetMTime();
 	}

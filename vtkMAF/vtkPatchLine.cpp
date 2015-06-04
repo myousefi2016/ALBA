@@ -30,7 +30,6 @@ vtkStandardNewMacro(vtkPatchLine);
 void vtkPatchLine::ExecuteData(vtkDataObject *output)
 {	
 	vtkSmartPointer<vtkPolyData> source = this->GetInput();
-	source->Update();
 	
 	//Remove duplicate points etc.
 	vtkMAFSmartPointer<vtkCleanPolyData> cleaner;

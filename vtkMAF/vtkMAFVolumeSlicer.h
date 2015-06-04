@@ -79,14 +79,11 @@ public:
   Set/get auto-spacing feature. In this mode the image spacing is selected automatically to fit the whole slice*/
   vtkSetMacro( AutoSpacing, int );
   vtkGetMacro( AutoSpacing, int );
-
-  void SetOutput(vtkImageData *data) { vtkDataSetSource::SetOutput(data); }
-  void SetOutput(vtkPolyData  *data) { vtkDataSetSource::SetOutput(data); }
-
+	 
   /**
   specify the image to be used for texturing output polydata object*/
-  void SetTexture(vtkImageData *data) {this->SetNthInput(1, (vtkDataObject*)data);};
-  vtkImageData *GetTexture() { return vtkImageData::SafeDownCast(this->Inputs[1]);};
+  void SetTexture(vtkImageData *data) {this->SetInputData(1, data);};
+  vtkImageData *GetTexture();
 
   /** 
   Transform slicer plane according to the given transformation before slicing.*/
@@ -99,7 +96,7 @@ public:
   void SetTrilinearInterpolationOff(){TriLinearInterpolationOn = false;};
 
   /** Set tri-linear interpolation */
-  void SetTrilinearInterpolation(bool on){TriLinearInterpolationOn = on;this->ExecuteData(this->GetOutput(0));};
+  void SetTrilinearInterpolation(bool on){TriLinearInterpolationOn = on;};
 
 protected:
   vtkMAFVolumeSlicer();
@@ -108,11 +105,12 @@ protected:
   unsigned long int GetMTime();
 
   int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
-  void ExecuteData(vtkDataObject *output);
+	
+	int RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
   
   // different implementations for polydata and imagedata
-  void ExecuteData(vtkPolyData *output);
-  void ExecuteData(vtkImageData *output);
+  void RequestData(vtkPolyData *output);
+  void RequestData(vtkImageData *output);
 
 	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 

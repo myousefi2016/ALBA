@@ -284,10 +284,8 @@ int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInfor
 {
 	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
 
-
-  vtkDataObject *input = this->GetInput();
   this->SetUpdateExtentToWholeExtent();
-  }
+}
 
 
 //----------------------------------------------------------------------------
@@ -298,11 +296,12 @@ void vtkMAFVolumeResample::ExecuteData(vtkImageData *outputObject)
   outputObject->SetExtent(extent);
   //outputObject->SetNumberOfScalarComponents(1);
   outputObject->AllocateScalars();
+	vtkDataSet *input =	vtkDataSet::SafeDownCast(this->GetInput());
   
-  const void *inputPointer  = this->GetInput()->GetPointData()->GetScalars()->GetVoidPointer(0);
+  const void *inputPointer  = input->GetPointData()->GetScalars()->GetVoidPointer(0);
   const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);
   
-  switch (this->GetInput()->GetPointData()->GetScalars()->GetDataType()) 
+  switch (input->GetPointData()->GetScalars()->GetDataType()) 
   {
     case VTK_CHAR: //---------------------------------------------
       switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 

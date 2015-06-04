@@ -21,6 +21,7 @@
 #include "vtkMAFDistanceFilter.h"
 
 #include "assert.h"
+#include "vtkExecutive.h"
 
 
 vtkStandardNewMacro(vtkMAFDistanceFilter);
@@ -64,16 +65,14 @@ vtkMAFDistanceFilter::~vtkMAFDistanceFilter() {
 void vtkMAFDistanceFilter::SetSource(vtkDataSet *data)
 //----------------------------------------------------------------------------
 {
-  this->SetNthInput(1, (vtkDataObject*)data);
+  this->SetInputData(1, data);
 }
 
 //----------------------------------------------------------------------------
 vtkDataSet *vtkMAFDistanceFilter::GetSource()
 //----------------------------------------------------------------------------
 {
-  if(this->GetNumberOfInputs() < 2)
-    return NULL;
-  return (vtkDataSet *)(this->Inputs[1]);
+	return (vtkDataSet *)(this->GetExecutive()->GetInputData(1,0));
 }
 //----------------------------------------------------------------------------
 unsigned long int vtkMAFDistanceFilter::GetMTime() 
@@ -98,12 +97,16 @@ int	vtkMAFDistanceFilter::RequestUpdateExtent( vtkInformation *request, vtkInfor
 
   vtkDataObject *source = this->GetSource();
   if (source)
-    source->SetUpdateExtentToWholeExtent();
+    this->SetUpdateExtentToWholeExtent();
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------
 int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+
+	return 1;
 }
 
 

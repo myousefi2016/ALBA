@@ -1862,7 +1862,7 @@ void vtkMAFAdaptiveVolumeMapper::SetInput(vtkDataSet *input)
     return;
   this->ReleaseData();
   this->ClearCaches();
-  this->vtkProcessObject::SetNthInput(0, input);
+  this->SetInputData(input);
   this->MTime.Modified();
   this->DataPreprocessed = false;
 }
