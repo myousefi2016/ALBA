@@ -631,7 +631,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       output->SetOrigin(SlicePieceOrigins[idx][0],SlicePieceOrigins[idx][1],SlicePieceOrigins[idx][2]);
 
       // Set the image scalars
-      output->SetScalarType(inputScalars->GetDataType());
+      output->AllocateScalars(inputScalars->GetDataType(),3);
       output->GetPointData()->RemoveArray("SCALARS");
       output->GetPointData()->SetScalars(scalars);
       output->GetPointData()->SetActiveScalars("SCALARS");

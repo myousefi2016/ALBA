@@ -343,39 +343,34 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::Update()
     vtkDataArray *scalarsOutput = NULL;
     switch(OutputScalarType)
     {
+		Output->AllocateScalars(OutputScalarType,inputIM->GetNumberOfPoints());
     case VTK_DOUBLE:
       {
-        Output->SetScalarTypeToDouble();
         scalarsOutput = vtkDoubleArray::New();
       }
       break;
     case VTK_FLOAT:
       {
-        Output->SetScalarTypeToFloat();
         scalarsOutput = vtkFloatArray::New();
       }
       break;
     case VTK_UNSIGNED_SHORT:
       {
-        Output->SetScalarTypeToUnsignedShort();
         scalarsOutput = vtkUnsignedShortArray::New();
       }
       break;
     case VTK_SHORT:
       {
-        Output->SetScalarTypeToShort();
         scalarsOutput = vtkShortArray::New();
       }
       break;
     case VTK_CHAR:
       {
-        Output->SetScalarTypeToChar();
         scalarsOutput = vtkCharArray::New();
       }
       break;
     case VTK_UNSIGNED_CHAR:
       {
-        Output->SetScalarTypeToUnsignedChar();
         scalarsOutput = vtkUnsignedCharArray::New();
       }
       break;
@@ -394,7 +389,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::Update()
       double newProgress = (double)i/inputIM->GetPointData()->GetScalars()->GetNumberOfTuples();
       if (newProgress > progress + 0.01)
       {
-      	this->UpdateProgress(newProgress);
+      	//this->UpdateProgress(newProgress);
         progress = newProgress;
       }
 

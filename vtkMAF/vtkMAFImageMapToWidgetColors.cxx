@@ -50,7 +50,7 @@ void vtkMAFImageMapToWidgetColors::ExecuteData(vtkDataObject *output)
 
   // prepare gradients
   int extent[6];
-  output->GetExtent(extent);
+  outData->GetExtent(extent);
   const int sx = extent[1] - extent[0] + 1, sy = extent[3] - extent[2] + 1, sz = extent[5] - extent[4] + 1;
   const int newCacheSize = sx * sy * sz;
   bool  newCache = false;
@@ -66,8 +66,9 @@ void vtkMAFImageMapToWidgetColors::ExecuteData(vtkDataObject *output)
   if (newCache || this->GradientCacheMTime < this->GetInput()->GetMTime() || memcmp(this->GradientExtent, extent, sizeof(extent)) != 0) 
   {
     memcpy(this->GradientExtent, extent, sizeof(extent));
-    void *inPtr = this->GetInput()->GetScalarPointerForExtent(this->GradientExtent);
-    switch (this->GetInput()->GetScalarType()) 
+		vtkImageData *input=vtkImageData::SafeDownCast(this->GetInput());
+    void *inPtr = input->GetScalarPointerForExtent(this->GradientExtent);
+    switch (input->GetScalarType()) 
     {
       case VTK_CHAR:
         this->UpdateGradientCache((char*)inPtr);
@@ -94,7 +95,7 @@ void vtkMAFImageMapToWidgetColors::ExecuteData(vtkDataObject *output)
 //----------------------------------------------------------------------------
 template<class T> void vtkMAFImageMapToWidgetColors::UpdateGradientCache(T *dataPointer) 
 {
-  vtkImageData *imageData = this->GetInput();
+  vtkImageData *imageData = vtkImageData::SafeDownCast(this->GetInput());
 
   int inDims[3], outDims[3] = { this->GradientExtent[1] - this->GradientExtent[0] + 1, this->GradientExtent[3] - this->GradientExtent[2] + 1, this->GradientExtent[5] - this->GradientExtent[4] + 1};
   imageData->GetDimensions(inDims);
@@ -156,8 +157,7 @@ unsigned long vtkMAFImageMapToWidgetColors::GetMTime()
 //----------------------------------------------------------------------------
 void vtkMAFImageMapToWidgetColors::ExecuteInformation(vtkImageData *inData, vtkImageData *outData) 
 {
-  outData->SetScalarType(VTK_UNSIGNED_CHAR);
-  outData->SetNumberOfScalarComponents(3);
+  outData->AllocateScalars(VTK_UNSIGNED_CHAR,3);
 }
 
 //----------------------------------------------------------------------------

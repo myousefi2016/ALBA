@@ -27,7 +27,7 @@ class MAF_EXPORT vtkPatchLine : public vtkPolyDataAlgorithm
 
 public:		
 	/** execute method */
-	/*virtual*/ void ExecuteData(vtkDataObject *output);
+	int RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
 protected:  
 	vtkPatchLine() {};

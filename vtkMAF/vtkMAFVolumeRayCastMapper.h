@@ -19,19 +19,19 @@
 #define vtkMAFVolumeRayCastMapper_h__
 
 #include "mafConfigure.h"
-#include "vtkOpenGLVolumeRayCastMapper.h"
+#include "vtkOpenGLGPUVolumeRayCastMapper.h"
 
 class vtkRenderer;
 class vtkVolume;
 
-class MAF_EXPORT vtkMAFVolumeRayCastMapper : public vtkOpenGLVolumeRayCastMapper
+class MAF_EXPORT vtkMAFVolumeRayCastMapper : public vtkOpenGLGPUVolumeRayCastMapper
 {
 protected:
   unsigned long LastCheckSum;   //<Here is stored CheckSum used to detect if Casting needs to be reexecuted
 
 public:
   static vtkMAFVolumeRayCastMapper *New();
-  vtkTypeMacro(vtkMAFVolumeRayCastMapper, vtkOpenGLVolumeRayCastMapper);	
+  vtkTypeMacro(vtkMAFVolumeRayCastMapper, vtkOpenGLGPUVolumeRayCastMapper);	
 
 public:
   // WARNING: INTERNAL METHOD - NOT INTENDED FOR GENERAL USE

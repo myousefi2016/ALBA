@@ -22,20 +22,29 @@ See the COPYINGS file for license details
 #include "vtkMath.h"
 #include "vtkPolyLine.h"
 #include <list>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 #pragma warning(pop)
 
 
 vtkStandardNewMacro(vtkPatchLine);
 
-void vtkPatchLine::ExecuteData(vtkDataObject *output)
+int vtkPatchLine::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 {	
-	vtkPolyData *source = vtkPolyData::SafeDownCast(this->GetInput());
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 	
 	//Remove duplicate points etc.
 	vtkMAFSmartPointer<vtkCleanPolyData> cleaner;
-	cleaner->SetInputData(source.GetPointer());
+	cleaner->SetInputData(input);
 	cleaner->Update();  
-	source = cleaner->GetOutput();	
+	vtkPolyData* source = cleaner->GetOutput();
+	
 	//source->Register(NULL); - not needed, reference is added by SmartPointer
 	cleaner->SetOutput(NULL);
 	
@@ -44,7 +53,7 @@ void vtkPatchLine::ExecuteData(vtkDataObject *output)
 		vtkSmartPointer<vtkPolyData> newLine = vtkPolyData::SafeDownCast(output);
 		newLine->SetPoints(source->GetPoints());
 		newLine->SetLines(source->GetLines());
-		return;
+		return 1;
 	}
 	
 	vtkSmartPointer<vtkCellArray> origLines = source->GetLines();
@@ -139,4 +148,5 @@ void vtkPatchLine::ExecuteData(vtkDataObject *output)
 	delete[] endVerticesArray;
 	delete[] segments;
 
+	return 1;
 }

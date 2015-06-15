@@ -909,8 +909,7 @@ void vtkMAFLargeImageData::UpdateData()
 	output->SetSpacing(sp);		
 
 	//set scalar type, number of components and we are ready
-	output->SetScalarType(this->ScalarType);
-	output->SetNumberOfScalarComponents(this->NumberOfScalarComponents);
+	output->AllocateScalars(this->ScalarType,this->NumberOfScalarComponents);
 }
 
 #pragma region READING_TEMPLATES
@@ -929,7 +928,7 @@ void vtkMAFLargeImageDataUpdate2(vtkMAFLargeImageData *self, vtkImageData *data,
 
 	//Get the output extent (the sampled) and increments in the output data
 	int outExtent[6], outIncr[3];	
-	data->GetWholeExtent(outExtent);	
+	data->GetExtent(outExtent);	
 	data->GetIncrements(outIncr);
 
 	//adjust the output pointer outPtr2 
@@ -1064,8 +1063,7 @@ void vtkMAFLargeImageDataUpdate1(vtkMAFLargeImageData *self, vtkImageData *data,
 	outPtr = data->GetScalarPointer();
 	switch (data->GetScalarType())
 	{
-		vtkTemplateMacro4(vtkMAFLargeImageDataUpdate2, self, data, inPtr, 
-			(VTK_TT *)(outPtr));
+		vtkTemplateMacro(vtkMAFLargeImageDataUpdate2( self, data, inPtr, (VTK_TT *)(outPtr) ) );
 	default:
 		vtkGenericWarningMacro("Update1: Unknown data type\n");
 	}  

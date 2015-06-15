@@ -274,7 +274,7 @@ void vtkMAFHistogram::HistogramUpdate(vtkRenderer *ren)
 
   double sr[2];
   ImageData->SetDimensions(InputData->GetNumberOfTuples(),1,1);
-  ImageData->SetScalarType(InputData->GetDataType());
+  ImageData->AllocateScalars(InputData->GetDataType(),1);
   ImageData->GetPointData()->SetScalars(InputData);
   ImageData->GetScalarRange(sr);
   double srw = sr[1]-sr[0]+1;
