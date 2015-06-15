@@ -54,7 +54,7 @@ void vtkImageUnPacker::PrintSelf(ostream& os, vtkIndent indent)
 
 //----------------------------------------------------------------------------
 // This method returns the largest data that can be generated.
-int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
+int vtkImageUnPacker::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
 	 vtkInformation* outInfo = outputVector->GetInformationObject(0);
@@ -69,8 +69,10 @@ int vtkImageUnPacker::RequestInformation(vtkInformation *vtkNotUsed(request), vt
 	outInfo->Set(vtkStreamingDemandDrivenPipeline::WHOLE_EXTENT(), GetDataExtent(), 6);
 	outInfo->Set(vtkStreamingDemandDrivenPipeline::UPDATE_EXTENT(), GetDataExtent(), 6);
 
-	GetOutput()->SetScalarType(GetDataScalarType());
-	GetOutput()->SetNumberOfScalarComponents(GetNumberOfScalarComponents());
+	GetOutput()->SetScalarType(GetDataScalarType(),request);
+	GetOutput()->SetNumberOfScalarComponents(GetNumberOfScalarComponents(),request);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

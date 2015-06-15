@@ -93,9 +93,9 @@ protected:
   ~vtkMAFVolumeResample();
 
   int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
-  void ExecuteData(vtkDataObject *output);
+  int RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector );
   
-  void ExecuteData(vtkImageData *output);
+  void RequestData(vtkInformation* request, vtkImageData *output);
 
 	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 

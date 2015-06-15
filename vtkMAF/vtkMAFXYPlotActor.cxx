@@ -1143,11 +1143,11 @@ void vtkMAFXYPlotActor::ComputeDORange(double xrange[2], double yrange[2],
         {
         if ( this->DataObjectPlotMode == VTK_XYPLOT_ROW )
           {
-          x = field->GetComponent(this->XComponent->GetValue(doNum), ptId);
+						x = field->GetArray(this->XComponent->GetValue(doNum))->GetTuple(ptId)[0];
           }
         else //if ( this->DataObjectPlotMode == VTK_XYPLOT_COLUMN )
           {
-          x = field->GetComponent(ptId, this->XComponent->GetValue(doNum));
+						field->GetArray(this->XComponent->GetValue(ptId))->GetTuple(doNum)[0];
           }
         if ( ptId == 0 )
           {
@@ -1204,11 +1204,11 @@ void vtkMAFXYPlotActor::ComputeDORange(double xrange[2], double yrange[2],
       {
       if ( this->DataObjectPlotMode == VTK_XYPLOT_ROW )
         {
-        y = field->GetComponent(this->YComponent->GetValue(doNum), ptId);
+					y = field->GetArray(this->YComponent->GetValue(doNum))->GetTuple(ptId)[0];
         }
       else //if ( this->DataObjectPlotMode == VTK_XYPLOT_COLUMN )
         {
-        y = field->GetComponent(ptId, this->YComponent->GetValue(doNum));
+					y = field->GetArray(this->YComponent->GetValue(ptId))->GetTuple(doNum)[0];
         }
       if ( y < yrange[0] )
         {
@@ -1460,13 +1460,13 @@ void vtkMAFXYPlotActor::CreatePlotData(int *pos, int *pos2, double xRange[2],
         {
         if ( this->DataObjectPlotMode == VTK_XYPLOT_ROW )
           {
-          x[0] = field->GetComponent(this->XComponent->GetValue(doNum),ptId);
-          xyz[1] = field->GetComponent(this->YComponent->GetValue(doNum),ptId);
+          x[0] = field->GetArray(this->XComponent->GetValue(doNum))->GetTuple(ptId)[0];
+          xyz[1] = field->GetArray(this->YComponent->GetValue(doNum))->GetTuple(ptId)[0];
           }
         else //if ( this->DataObjectPlotMode == VTK_XYPLOT_COLUMN )
           {
-          x[0] = field->GetComponent(ptId, this->XComponent->GetValue(doNum));
-          xyz[1] = field->GetComponent(ptId, this->YComponent->GetValue(doNum));
+          x[0] = field->GetArray(this->XComponent->GetValue(ptId))->GetTuple(doNum)[0];
+          xyz[1] = field->GetArray(this->YComponent->GetValue(ptId))->GetTuple(doNum)[0];
           }
 
         switch (this->XValues)

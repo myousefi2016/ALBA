@@ -17,10 +17,11 @@
 //----------------------------------------------------------------------------
 // Include:
 //----------------------------------------------------------------------------
+#include "windows.h"
 #include "vtkMAFFixTopology.h"
 #include "vtkMAFPoissonSurfaceReconstruction.h"
 
-#include "float.h"
+
 #include "vtkObjectFactory.h"
 #include "vtkTriangleFilter.h"
 #include "vtkPolyDataNormals.h"
@@ -80,4 +81,5 @@ int vtkMAFFixTopology::RequestData( vtkInformation *vtkNotUsed(request), vtkInfo
   points_with_normal->Delete();
   triangle_mesh->Delete();
 
+	return 1;
 }

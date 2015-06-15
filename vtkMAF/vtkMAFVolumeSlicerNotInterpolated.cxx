@@ -88,7 +88,7 @@ int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNot
 	// Initialize some frequently used values.
 	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
 
-	if (input == NULL || this->GetNumberOfOutputs() == 0)
+	if (input == NULL || this->GetNumberOfOutputPorts() == 0)
     return 1; // No input or no output
 
   if ((NumberOfComponents = input->GetPointData()->GetNumberOfComponents()) == 0)
@@ -458,7 +458,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
   for(int idx = 0; idx < NumberOfPieces; idx++) // iterate over pieces
   {
     vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
-    if (input == NULL || this->GetNumberOfOutputs() == 0 && OutputDataType == VTK_IMAGE_DATA)
+    if (input == NULL || this->GetNumberOfOutputPorts() == 0 && OutputDataType == VTK_IMAGE_DATA)
       return; // No input or no output
 
     vtkDataArray * inputScalars = input->GetPointData()->GetScalars();

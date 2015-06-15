@@ -1836,7 +1836,7 @@ void vtkMAFPolyDataDeformation_M2::ComputeSeparatingPlane(CSkeletonVertex* pVert
 void vtkMAFPolyDataDeformation_M2::ComputeROI(CSkeletonEdge* pEdge)
 //------------------------------------------------------------------------
 {  
-  vtkPoints* input = GetInput()->GetPoints();
+  vtkPoints* input = vtkPolyData::SafeDownCast(GetInput())->GetPoints();
   int nPoints = input->GetNumberOfPoints();
   
   pEdge->m_ROI.clear();           //clear previous data (if present)
@@ -1893,7 +1893,7 @@ void vtkMAFPolyDataDeformation_M2::RefineCurveROIs()
   cellLocator->SetDataSet(vtkDataSet::SafeDownCast(GetInput()));
   cellLocator->Update();
   
-  vtkPoints* input = GetInput()->GetPoints();
+  vtkPoints* input = vtkPolyData::SafeDownCast(GetInput())->GetPoints();
   int nPoints = input->GetNumberOfPoints(); 
 
   //number of edges to which points are mapped at present

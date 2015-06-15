@@ -399,6 +399,5 @@ void vtkMAFLargeDataSet::PrintSelf(ostream& os, vtkIndent indent)
 	os << indent << "  Memory limit: " << this->GetMemoryLimit() << "\n";	
 
 	os << indent << "Compute Time: " <<this->ComputeTime.GetMTime() << "\n";
-	os << indent << "Release Data: " << (this->ReleaseDataFlag ? "On\n" : "Off\n");
 }
 

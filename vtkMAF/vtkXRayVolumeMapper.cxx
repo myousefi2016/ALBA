@@ -899,7 +899,7 @@ bool vtkXRayVolumeMapper::PrepareTextures(bool force) {
   int dims[3], extent[6];
   if (imageData) {
     double dataSpacing[3];
-    imageData->GetWholeExtent(extent);
+    imageData->GetExtent(extent);
     imageData->GetDimensions(dims);
     imageData->GetOrigin(this->DataOrigin);
     imageData->GetSpacing(dataSpacing);
@@ -911,7 +911,7 @@ bool vtkXRayVolumeMapper::PrepareTextures(bool force) {
       }
     }
   else {
-    gridData->GetWholeExtent(extent);
+    gridData->GetExtent(extent);
     gridData->GetDimensions(dims);
     this->DataOrigin[0] = gridData->GetXCoordinates()->GetTuple(0)[0];
     this->DataOrigin[1] = gridData->GetYCoordinates()->GetTuple(0)[0];

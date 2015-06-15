@@ -143,13 +143,13 @@ protected:
   /**
   This method is the one that should be used by subclasses, right now the 
   default implementation is to call the backwards compatibility method */
-  /*virtual*/void ExecuteData(vtkDataObject *output);
+	/*virtual*/	int RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** Create geometry for the slice. */
-  virtual void ExecuteData(vtkPolyData *output);
+  virtual void RequestData(vtkInformation *request,vtkPolyData *output);
 
   /** Create texture for the slice. */
-  virtual void ExecuteData(vtkImageData *output);
+  virtual void RequestData(vtkInformation *request,vtkImageData *output);
 
 
   /** Prepares internal data structure for the given input data.
@@ -172,7 +172,7 @@ protected:
   /** BES: 15.12.2008 - when using mafOpCrop in mafViewOrthoSlice, the input
   dimensions change between ExecuteInformation and ExecuteData 
   This routine is supposed to be called from ExecuteData and it fixes this problem */
-  void ExecuteDataHotFix(vtkDataObject *outputData);
+  void RequestDataHotFix(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** Calculates the coordinates for the given point and texture denoted by its size and spacing.
   Texture is considered to have an origin at GlobalPlaneOrigin, to be oriented according to GlobalPlaneAxisX

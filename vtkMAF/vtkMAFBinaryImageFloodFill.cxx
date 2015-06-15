@@ -189,7 +189,6 @@ vtkStructuredPoints *vtkMAFBinaryImageFloodFill::FloodFill(vtkStructuredPoints *
   itk2Vtk->Update();
 
   vtkStructuredPoints *output = vtkStructuredPoints::New();
-  output->CopyInformation(input);
   output->CopyStructure(input);
   output->DeepCopy(itk2Vtk->GetOutput());
 

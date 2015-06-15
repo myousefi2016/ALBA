@@ -71,12 +71,11 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
   }
   else
   {
-    error = TRUE;
+    error = true;
     return;
   }
 
   vtkImageData *inputIM = Input;
-  inputIM->Update();
 
   int dims[3],dimsBordered[3];
   inputIM->GetDimensions(dims);
@@ -85,7 +84,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
   //Check if the index no excede the max value
   if (index > dims[0]*dims[1]*dims[2] )
   {
-    error = TRUE;
+    error = true;
     return;
   }
 
@@ -97,7 +96,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
 
   if( x>dims[0] || y>dims[1] || z>dims[2] )
   {
-    error = TRUE;
+    error = true;
     // mafLogMessage("Error in the computing of the coordinates!");
     return;
   }
@@ -108,7 +107,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
 
   if( xBordered>dims[0] || yBordered>dims[1] || zBordered>dims[2] )
   {
-    error = TRUE;
+    error = true;
     // mafLogMessage("Error in the computing of the coordinates!");
     return;
   }
@@ -116,7 +115,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
   //Check if the index isn't a point at the border of the ImBordered
   if (zBordered==0 || zBordered==dimsBordered[2]-1 || yBordered==0 || yBordered==dimsBordered[1]-1 || xBordered==0 || xBordered==dimsBordered[0]-1)
   {
-    error = TRUE;
+    error = true;
     return;
   }
 
@@ -153,7 +152,7 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::ComputeIndexNearstPoints(int index
   indexNearest[24] = value+(dimsBordered[0]*(yBordered+1))+xBordered-1;
   indexNearest[25] = value+(dimsBordered[0]*(yBordered-1))+xBordered+1;
 
-  error = FALSE;
+  error = false;
 }
 //----------------------------------------------------------------------------
 double vtkMAFRegionGrowingLocalGlobalThreshold::ComputeStandardDeviation(int index, int indexNearest[26] , double mean, int &error, vtkImageData *imBordered)
@@ -166,7 +165,7 @@ double vtkMAFRegionGrowingLocalGlobalThreshold::ComputeStandardDeviation(int ind
   }
   else
   {
-    error = TRUE;
+    error = true;
     return 0.0;
   }
 
@@ -182,7 +181,7 @@ double vtkMAFRegionGrowingLocalGlobalThreshold::ComputeStandardDeviation(int ind
   stdDev /= 26;
   stdDev = sqrt(stdDev);
 
-  error = FALSE;
+  error = false;
 
   return stdDev;
 }
@@ -197,7 +196,7 @@ double vtkMAFRegionGrowingLocalGlobalThreshold::ComputeMeanValue(int index, int 
   }
   else
   {
-    error = TRUE;
+    error = true;
     return 0.0;
   }
 
@@ -213,7 +212,7 @@ double vtkMAFRegionGrowingLocalGlobalThreshold::ComputeMeanValue(int index, int 
 
   means /= 26;
 
-  error = FALSE;
+  error = false;
   return means;
 }
 //----------------------------------------------------------------------------
@@ -221,7 +220,6 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::BorderCreate(vtkImageData *imToApp
 //----------------------------------------------------------------------------
 {
   vtkImageData *inputIM = Input;
-  inputIM->Update();
 
   int scalarsType = inputIM->GetScalarType();
   vtkDataArray *scalars = inputIM->GetPointData()->GetScalars();
@@ -248,7 +246,6 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::BorderCreate(vtkImageData *imToApp
 
   imWithBorder->SetDimensions(dimsBordered);
   imWithBorder->SetSpacing(spacing);
-  imWithBorder->Update();
 
   vtkDataArray *scalarsBordered = NULL;
   switch(scalarsType)
@@ -326,13 +323,10 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::BorderCreate(vtkImageData *imToApp
     }
   }
 
-
   scalarsBordered->SetName("Scalars");
 
   imWithBorder->GetPointData()->AddArray(scalarsBordered);
   imWithBorder->GetPointData()->SetActiveScalars("Scalars");
-
-  imWithBorder->Update();
 
   scalarsBordered->Delete();
 }
@@ -341,10 +335,8 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::Update()
 //----------------------------------------------------------------------------
 {
   vtkImageData *inputIM = Input;
-  inputIM->Update();
-
   Output->CopyStructure(Input);
-  Output->Update();
+
 
   if (inputIM->GetPointData()->GetScalars())
   {
@@ -410,22 +402,22 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::Update()
 
       if (scalarValue > LowerThreshold && scalarValue < UpperThreshold)
       {
-        int error = FALSE;
+        int error = false;
         int indexNearest[26];
         double mean = 0.0;
         double stdDev = 0.0;
         ComputeIndexNearstPoints(i,indexNearest,error,imBordered);
-        if (error == TRUE)
+        if (error == true)
         {
           return;
         }
         mean = ComputeMeanValue(i,indexNearest,error,imBordered);
-        if (error == TRUE)
+        if (error == true)
         {
           return;
         }
         stdDev = ComputeStandardDeviation(i,indexNearest,mean,error,imBordered);
-        if (error == TRUE)
+        if (error == true)
         {
           return;
         }
@@ -455,7 +447,6 @@ void vtkMAFRegionGrowingLocalGlobalThreshold::Update()
 
     Output->GetPointData()->SetScalars(scalarsOutput);
     Output->GetPointData()->GetScalars()->Modified();
-    Output->Update();
 
     imBordered->Delete();
     scalarsOutput->Delete();

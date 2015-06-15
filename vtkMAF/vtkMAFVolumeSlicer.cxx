@@ -151,7 +151,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
 {
   if (GetInput()==NULL)
     return 1;
-  for (int i = 0; i < this->GetNumberOfOutputs(); i++) 
+  for (int i = 0; i < this->GetNumberOfOutputPorts(); i++) 
   {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) 
     {
@@ -164,7 +164,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
         dims[2] = 1;
         output->SetDimensions(dims);
       }
-      output->SetWholeExtent(output->GetExtent());
+      
       this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) 
@@ -246,7 +246,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
   return 1;
 }
 //----------------------------------------------------------------------------
-int vtkMAFVolumeSlicer::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+int vtkMAFVolumeSlicer::RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 { 
 	// get the info objects
 	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
@@ -261,11 +261,13 @@ int vtkMAFVolumeSlicer::RequestData(vtkInformation *vtkNotUsed(request),	vtkInfo
   this->PrepareVolume();
 
   if (vtkImageData::SafeDownCast(output))
-    this->RequestData((vtkImageData*)output);
+    this->RequestData(request,(vtkImageData*)output);
   else if (vtkPolyData::SafeDownCast(output))
-    this->RequestData((vtkPolyData*)output);
+    this->RequestData(request,(vtkPolyData*)output);
   
   output->Modified();
+
+	return 1;
 }
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicer::PrepareVolume() 
@@ -351,9 +353,11 @@ int	vtkMAFVolumeSlicer::RequestUpdateExtent( vtkInformation *request, vtkInforma
 
   vtkDataObject *input = this->GetInput();
   this->SetUpdateExtentToWholeExtent();
+
+	return 1;
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::RequestData(vtkPolyData *output) 
+void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkPolyData *output) 
 //----------------------------------------------------------------------------
 {
   output->Reset();
@@ -510,19 +514,18 @@ void vtkMAFVolumeSlicer::RequestData(vtkPolyData *output)
   tsObj->Delete();
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::RequestData(vtkImageData *outputObject) 
+void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkImageData *outputObject) 
 //----------------------------------------------------------------------------
 {
-  int extent[6];
-  outputObject->GetWholeExtent(extent);
-  outputObject->SetExtent(extent);
-  outputObject->SetNumberOfScalarComponents(this->NumComponents);
-  outputObject->AllocateScalars();
+  outputObject->SetNumberOfScalarComponents(this->NumComponents,request);
+  outputObject->AllocateScalars(request);
   
-  const void *inputPointer  = this->GetInput()->GetPointData()->GetScalars()->GetVoidPointer(0);
+	vtkPolyData *inputPD = vtkPolyData::SafeDownCast(this->GetInput());
+
+  const void *inputPointer  = inputPD->GetPointData()->GetScalars()->GetVoidPointer(0);
   const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);
   
-  switch (this->GetInput()->GetPointData()->GetScalars()->GetDataType()) 
+  switch (inputPD->GetPointData()->GetScalars()->GetDataType()) 
   {
     case VTK_CHAR: //---------------------------------------------
       switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 

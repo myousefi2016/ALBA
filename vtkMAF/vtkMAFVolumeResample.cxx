@@ -20,6 +20,8 @@
 #include "vtkMAFVolumeResample.h"
 
 #include "assert.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
 vtkStandardNewMacro(vtkMAFVolumeResample);
 
@@ -129,7 +131,7 @@ void vtkMAFVolumeResample::SetVolumeAxisY(double axis[3]) {
 //----------------------------------------------------------------------------
 int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector) 
 {
-  for (int i = 0; i < this->GetNumberOfOutputs(); i++) {
+  for (int i = 0; i < this->GetNumberOfOutputPorts(); i++) {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) {
       vtkImageData *output = (vtkImageData*)this->GetOutput(i);
       
@@ -141,7 +143,6 @@ int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request)
       //  dims[2] = 1;
       //  output->SetDimensions(dims);
       //  }
-      output->SetWholeExtent(output->GetExtent());
       this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) { // select spacing
@@ -197,17 +198,26 @@ int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request)
     else {
       }
     }
-  }
+
+	return 1;
+}
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ExecuteData(vtkDataObject *outputData) {
+int vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector ){
+	// get the info objects
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   this->PrepareVolume();
 
-  if (vtkImageData::SafeDownCast(outputData))
-    this->ExecuteData((vtkImageData*)outputData);
+  if (vtkImageData::SafeDownCast(output))
+    this->RequestData(request,(vtkImageData*)output);
   
-  outputData->Modified();
-  }
+  output->Modified();
+	return 1;
+}
 
 //----------------------------------------------------------------------------
 void vtkMAFVolumeResample::PrepareVolume() {
@@ -285,17 +295,17 @@ int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInfor
 	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
 
   this->SetUpdateExtentToWholeExtent();
+	
+	return 1;
 }
 
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ExecuteData(vtkImageData *outputObject) 
+void vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkImageData *outputObject) 
 {
-  int extent[6];
-  outputObject->GetWholeExtent(extent);
-  outputObject->SetExtent(extent);
+
   //outputObject->SetNumberOfScalarComponents(1);
-  outputObject->AllocateScalars();
+  outputObject->AllocateScalars(request);
 	vtkDataSet *input =	vtkDataSet::SafeDownCast(this->GetInput());
   
   const void *inputPointer  = input->GetPointData()->GetScalars()->GetVoidPointer(0);

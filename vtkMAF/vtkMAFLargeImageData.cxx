@@ -824,7 +824,7 @@ void vtkMAFLargeImageData::UpdateData()
       )
 		{
 			this->ExecuteSnapshotInformation();
-			output->AllocateScalars();
+			output->AllocateScalars(NULL);
 			this->ExecuteSnapshotData();
 			
 			this->Snapshot->Modified();

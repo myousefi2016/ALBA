@@ -1544,8 +1544,6 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
       return true; // nothing to do
 
     // check the data
-    if (this->GetInput() && this->GetInput()->GetDataReleased())
-      this->GetInput()->Update(); // ensure that the data is loaded
     if (!this->IsDataValid(true))
       return false;
 

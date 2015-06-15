@@ -106,11 +106,11 @@ protected:
 
   int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 	
-	int RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+	int RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
   
   // different implementations for polydata and imagedata
-  void RequestData(vtkPolyData *output);
-  void RequestData(vtkImageData *output);
+  void RequestData(vtkInformation *request, vtkPolyData *output);
+  void RequestData(vtkInformation *request, vtkImageData *output);
 
 	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 

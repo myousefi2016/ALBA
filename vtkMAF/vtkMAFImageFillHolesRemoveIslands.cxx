@@ -189,5 +189,5 @@ int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(r
   output->GetPointData()->Modified();
   flood_fill->Delete();
  
-  this->SetOutput(output);
+	return 1;
 }

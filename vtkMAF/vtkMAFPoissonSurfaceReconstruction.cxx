@@ -17,12 +17,12 @@
 //----------------------------------------------------------------------------
 // Include:
 //----------------------------------------------------------------------------
+#include <windows.h>
 #include "vtkMAFPoissonSurfaceReconstruction.h"
 
 #include "vtkObjectFactory.h"
 #include "vtkFloatArray.h"
 #include "vtkMath.h"
-#include "float.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
 
@@ -78,6 +78,8 @@ int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(
   vtk_psr_output = output;
 
   PSR_main();
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------
@@ -87,8 +89,8 @@ int vtkMAFPoissonSurfaceReconstruction::RequestInformation(vtkInformation *vtkNo
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("No Input");
-    return;
     }
+	return 1;
 }
 
 //----------------------------------------------------------------------------
@@ -114,19 +116,20 @@ int	vtkMAFPoissonSurfaceReconstruction::RequestUpdateExtent( vtkInformation *req
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("No Input");
-    return;
+    return 1;
     }
-  piece = output->GetUpdatePiece();
-  numPieces = output->GetUpdateNumberOfPieces();
-  ghostLevels = output->GetUpdateGhostLevel();
+  piece = GetOutput()->GetPiece();
+  numPieces = GetOutput()->GetNumberOfPieces();
+  ghostLevels = GetOutput()->GetGhostLevel();
   
   if (numPieces > 1)
     {
     ++ghostLevels;
     }
 
-  this->GetInput()->SetUpdateExtent(piece, numPieces, ghostLevels);
-  this->GetInput()->RequestExactExtentOn();
+  this->SetUpdateExtent(piece, numPieces, ghostLevels);
+
+	return 1;
 }
 
 

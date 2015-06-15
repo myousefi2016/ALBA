@@ -50,7 +50,7 @@ void vtkMAFImageMapToWidgetColors::ExecuteData(vtkDataObject *output)
 
   // prepare gradients
   int extent[6];
-  output->GetUpdateExtent(extent);
+  output->GetExtent(extent);
   const int sx = extent[1] - extent[0] + 1, sy = extent[3] - extent[2] + 1, sz = extent[5] - extent[4] + 1;
   const int newCacheSize = sx * sy * sz;
   bool  newCache = false;

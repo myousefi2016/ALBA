@@ -116,7 +116,7 @@ void vtkMAFCollisionDetectionFilter::SetInput(int idx, vtkPolyData *input)
     }
     
   // Ask the superclass to connect the input.
-  this->SetNthInputConnection(idx, 0, input? input->GetProducerPort() : 0);
+  this->SetInputData(idx, input);
 }
 
 

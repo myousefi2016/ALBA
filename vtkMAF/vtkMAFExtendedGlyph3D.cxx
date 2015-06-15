@@ -143,7 +143,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
     inGhostLevels = ((vtkUnsignedCharArray*)temp)->GetPointer(0);
     }
 
-  requestedGhostLevel = output->GetUpdateGhostLevel();
+  requestedGhostLevel = output->GetGhostLevel();
   
   
   numPts = input->GetNumberOfPoints();
@@ -210,7 +210,7 @@ int vtkMAFExtendedGlyph3D::RequestData( vtkInformation *vtkNotUsed(request), vtk
     defaultPointIds[1] = 1;
     defaultSource->SetPoints(defaultPoints);
     defaultSource->InsertNextCell(VTK_LINE, 2, defaultPointIds);
-    defaultSource->SetUpdateExtent(0, 1, 0);
+    this->SetUpdateExtent(0, 1, 0);
     this->SetSource(defaultSource);
     defaultSource->Delete();
     defaultSource = NULL;
@@ -752,12 +752,11 @@ int	vtkMAFExtendedGlyph3D::RequestUpdateExtent( vtkInformation *request, vtkInfo
   outPd = this->GetOutput();
   if (this->GetSource())
     {
-    this->GetSource()->SetUpdateExtent(0, 1, 0);
+    this->SetUpdateExtent(0, 1, 0);
     }
-  this->GetInput()->SetUpdateExtent(outPd->GetUpdatePiece(),
-                                    outPd->GetUpdateNumberOfPieces(),
-                                    outPd->GetUpdateGhostLevel());
-  this->GetInput()->RequestExactExtentOn();
-
+  this->SetUpdateExtent(outPd->GetPiece(),
+                                    outPd->GetNumberOfPieces(),
+                                    outPd->GetGhostLevel());
+  
 	return 1;
 }

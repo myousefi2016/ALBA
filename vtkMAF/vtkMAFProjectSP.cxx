@@ -76,7 +76,7 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
     }
   this->vtkMAFStructuredPointsAlgorithm::RequestInformation(request, inputVector,outputVector);
 
-  input->GetWholeExtent( wholeExtent );
+  input->GetExtent( wholeExtent );
   dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
   dims[1] = wholeExtent[3] - wholeExtent[2] + 1;
   dims[2] = wholeExtent[5] - wholeExtent[4] + 1;
@@ -106,8 +106,8 @@ int vtkMAFProjectSP::RequestInformation(vtkInformation *request, vtkInformationV
   wholeExtent[5] = outDims[2] - 1;
   
   
-  output->SetWholeExtent( wholeExtent );
-  output->SetUpdateExtent( wholeExtent );   // cosi funziona - Silvano & Robez
+  output->SetExtent( wholeExtent );
+  this->SetUpdateExtent( wholeExtent );   // cosi funziona - Silvano & Robez
 
 
   vtkDebugMacro(<<"Whole Extent is " << wholeExtent[1] << " " << wholeExtent[3] << " " << wholeExtent[5]);
@@ -170,8 +170,8 @@ int vtkMAFProjectSP::RequestData( vtkInformation *request, vtkInformationVector 
     outAR[2] = 1;
   }
   
-  output->SetScalarType(input->GetScalarType());
-  output->SetNumberOfScalarComponents(input->GetNumberOfScalarComponents());
+  output->SetScalarType(input->GetScalarType(),request);
+  output->SetNumberOfScalarComponents(input->GetNumberOfScalarComponents(),request);
   output->SetDimensions(outDims);
   output->SetSpacing(outAR);
   output->SetOrigin(outOrigin);
@@ -245,6 +245,8 @@ int vtkMAFProjectSP::RequestData( vtkInformation *request, vtkInformationVector 
       } 
     break;
   } 
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

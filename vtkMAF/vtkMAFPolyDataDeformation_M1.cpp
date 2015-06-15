@@ -1665,7 +1665,8 @@ void vtkMAFPolyDataDeformation_M1::ComputeLFS(CSkeletonVertex* pOC)
 void vtkMAFPolyDataDeformation_M1::ComputeROI(CSkeletonEdge* pEdge)
 //------------------------------------------------------------------------
 {
-  vtkPoints* input = GetInput()->GetPoints();
+
+	vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
   int nPoints = input->GetNumberOfPoints();
   
   pEdge->m_ROI.clear();           //clear previous data (if present)
@@ -1696,7 +1697,7 @@ void vtkMAFPolyDataDeformation_M1::ComputeROI(CSkeletonEdge* pEdge)
 void vtkMAFPolyDataDeformation_M1::RefineCurveROIs(vtkCellLocator* locator)
 //------------------------------------------------------------------------
 {
-  vtkPoints* input = GetInput()->GetPoints();
+  vtkPoints* input = vtkPolyData::SafeDownCast(GetInput())->GetPoints();
   int nPoints = input->GetNumberOfPoints(); 
 
   //number of edges to which points are mapped at present
@@ -1984,7 +1985,7 @@ bool vtkMAFPolyDataDeformation_M1::CheckSelfIntersection(CSkeletonEdge* pEdge1, 
   //that contain all projected points
   double rk[2] = {0.0, 0.0};
 
-  vtkPoints* input = GetInput()->GetPoints();
+  vtkPoints* input = vtkPolyData::SafeDownCast(GetInput())->GetPoints();
   CSkeletonEdge* pCurEdge = pEdge1;
   for (int i = 0; i < 2; i++)
   {
