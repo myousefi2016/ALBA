@@ -102,8 +102,8 @@ mafViewSlice::mafViewSlice(wxString label /* =  */, int camera_position /* = CAM
   m_LastSliceNormal[0] = m_LastSliceNormal[1] = m_LastSliceNormal[2] = 0.0;
 
   // Added by Losi 11.25.2009
-  m_EnableGPU=FALSE;
-  m_TrilinearInterpolationOn = TRUE;
+  m_EnableGPU=false;
+  m_TrilinearInterpolationOn = true;
   m_TextureInterpolate = textureInterpolate;
 
 }

@@ -353,7 +353,7 @@ void mafOpImporterLandmark::ReadWithoutTag()
   long counter = 0; 
   long progress = 0;
 
-  bool exception = FALSE;
+  bool exception = false;
   
   // select right type of character separation
   wxChar separation_char;

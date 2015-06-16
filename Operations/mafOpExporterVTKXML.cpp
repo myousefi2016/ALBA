@@ -60,7 +60,7 @@ mafOp(label)
 	m_ABSMatrixFlag = 0;
 
 	m_FileDir = "";//mafGetApplicationDirectory().c_str();
-  m_ForceUnsignedShortScalarOutputForStructuredPoints = FALSE;
+  m_ForceUnsignedShortScalarOutputForStructuredPoints = false;
 }
 //----------------------------------------------------------------------------
 mafOpExporterVTKXML::~mafOpExporterVTKXML()

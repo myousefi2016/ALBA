@@ -58,7 +58,7 @@ mafOp(label)
   m_File    = "";
   m_CurrentVme = NULL;
   m_CurrentTime = -1;
-  m_SubTreeExportMeter = FALSE;
+  m_SubTreeExportMeter = false;
 
   m_ExportRadio = VME_ALL_METERS;
   m_Meters.clear();
@@ -217,7 +217,7 @@ void mafOpExporterMeters::ExportTypeOfMeters()
 {
   //must be a cicle in all vme of a msf
   mafNodeIterator *iter = NULL;
-  if(m_SubTreeExportMeter == TRUE)
+  if(m_SubTreeExportMeter == true)
   {
     iter = m_Input->NewIterator();
   }

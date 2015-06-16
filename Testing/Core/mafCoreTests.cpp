@@ -87,7 +87,7 @@ IMPLEMENT_APP(TestApp)
 bool TestApp::OnInit()
 //--------------------------------------------------------------------------------
 {
-	return TRUE;
+	return true;
 }
 //--------------------------------------------------------------------------------
 int TestApp::OnExit()
@@ -149,7 +149,7 @@ bool RemoveDir(const char *dirName)
 		wxRemoveFile(filenameArray.Item(index));
 	}
 
-	bool result = TRUE;
+	bool result = true;
 
 	result = wxRmdir(dirName);
 	if (result == false)

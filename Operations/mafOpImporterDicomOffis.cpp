@@ -307,19 +307,19 @@ mafOp(label)
 
 	m_CurrentSlice = VTK_INT_MAX;
 
-	m_ResampleFlag = FALSE;
+	m_ResampleFlag = false;
 
-	m_DiscardPosition = FALSE;
+	m_DiscardPosition = false;
 
-	m_RescaleTo16Bit = FALSE;
+	m_RescaleTo16Bit = false;
 
 	m_ApplyRotation = false;
 
 	m_SelectedReferenceSystem = mafDicomSlice::ID_RS_XY;
 	m_GlobalReferenceSystem = mafDicomSlice::ID_RS_XY;
-	m_SwapReferenceSystem = FALSE;
-	m_SwapAllReferenceSystem = FALSE;
-	m_ApplyToAllReferenceSystem = FALSE;
+	m_SwapReferenceSystem = false;
+	m_SwapAllReferenceSystem = false;
+	m_ApplyToAllReferenceSystem = false;
 
 	m_TotalDicomRange[0]=0;
 	m_TotalDicomRange[1]=1;
@@ -394,7 +394,7 @@ void mafOpImporterDicomOffis::OpRun()
 		{	
 			bool useDefaultFolder = false;
 			wxString lastDicomDir = "";
-			if (((mafGUIDicomSettings*)GetSetting())->GetUseDefaultDicomFolder() == TRUE && ((mafGUIDicomSettings*)GetSetting())->GetDefaultDicomFolder() != "UNEDFINED_DicomFolder")
+			if (((mafGUIDicomSettings*)GetSetting())->GetUseDefaultDicomFolder() == true && ((mafGUIDicomSettings*)GetSetting())->GetDefaultDicomFolder() != "UNEDFINED_DicomFolder")
 			{
 
 				lastDicomDir = ((mafGUIDicomSettings*)GetSetting())->GetDefaultDicomFolder().GetCStr();
@@ -508,7 +508,7 @@ int mafOpImporterDicomOffis::RunWizard()
 				}
 
 				//rescale to 16 bit all the rest of the dataset
-				if(m_RescaleTo16Bit == TRUE && m_HighBit == 11)
+				if(m_RescaleTo16Bit == true && m_HighBit == 11)
 				{
 					int i=0, size = m_SelectedSeriesSlicesList->size();
 
@@ -618,7 +618,7 @@ void mafOpImporterDicomOffis::Destroy()
 	std::map<std::vector<mafString>,medDicomSeriesSliceList*>::iterator it;
 	for ( it=m_SeriesIDToSlicesListMap.begin() ; it != m_SeriesIDToSlicesListMap.end(); it++ )
 	{
-		m_SeriesIDToSlicesListMap[(*it).first]->DeleteContents(TRUE);
+		m_SeriesIDToSlicesListMap[(*it).first]->DeleteContents(true);
 		delete m_SeriesIDToSlicesListMap[(*it).first];
 	}
 
@@ -888,7 +888,7 @@ int mafOpImporterDicomOffis::BuildOutputVMEImagesFromDicomCineMRI()
 		int tsImageId = GetSliceIDInSeries(ts, probeHeigthId);
 		if (tsImageId == -1) 
 		{
-			assert(FALSE);
+			assert(false);
 		}
 
 		mafDicomSlice *element0;
@@ -1386,7 +1386,7 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicom()
 		m_Volume->SetAbsMatrix(boxPose->GetMatrix());
 	//}
 
-	if(m_ResampleFlag == TRUE)
+	if(m_ResampleFlag == true)
 	{
 		ResampleVolume();
 	}
@@ -1578,7 +1578,7 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 		int tsImageId = GetSliceIDInSeries(ts, probeHeigthId);
 		if (tsImageId == -1) 
 		{
-			assert(FALSE);
+			assert(false);
 		}
 		mafDicomSlice *element0;
 		element0 = (mafDicomSlice *)m_SelectedSeriesSlicesList->Item(tsImageId)->GetData();
@@ -1769,7 +1769,7 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 		m_Volume->SetDataByDetaching(rg_out,tsDouble);
 		m_Volume->Update();
 
-		if(m_ResampleFlag == TRUE)
+		if(m_ResampleFlag == true)
 		{
 			ResampleVolume();
 		}
@@ -2189,7 +2189,7 @@ void mafOpImporterDicomOffis::CreateLoadPage()
 	m_LoadGuiUnderCenter = new mafGUI(this);
 	m_Showspacing = 0;
 	m_LoadGuiCenter = new mafGUI(this);
-	if(((mafGUIDicomSettings*)GetSetting())->GetShowAdvancedOptionSorting() == TRUE)
+	if(((mafGUIDicomSettings*)GetSetting())->GetShowAdvancedOptionSorting() == true)
 	{
 		wxString choices[3] = {_("X"),_("Y"),_("Z")};
 		m_LoadGuiCenter->Radio(ID_SORT_AXIS,_("Sort type:"),&m_SortAxes,3,choices);
@@ -2198,7 +2198,7 @@ void mafOpImporterDicomOffis::CreateLoadPage()
 		m_LoadGuiCenter->Label("");
 	}
 
-	m_SliceScannerLoadPage=m_LoadGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_CurrentSlice,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+	m_SliceScannerLoadPage=m_LoadGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_CurrentSlice,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 	m_SliceScannerLoadPage->SetPageSize(1);
 	if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 	{
@@ -2245,13 +2245,13 @@ int wxCALLBACK _myCompareFunction(long item1, long item2, long WXUNUSED(sortData
 void mafOpImporterDicomOffis::CreateCropPage()
 	//----------------------------------------------------------------------------
 {
-	m_ZCrop = ((mafGUIDicomSettings*)GetSetting())->EnableZCrop() != FALSE;
+	m_ZCrop = ((mafGUIDicomSettings*)GetSetting())->EnableZCrop() != false;
 	m_CropPage = new mafGUIWizardPageNew(m_Wizard,medUSEGUI|medUSERWI,m_ZCrop);
 	m_CropPage->SetListener(this);
 	m_CropGuiLeft = new mafGUI(this);
 	m_CropGuiCenter = new mafGUI(this);
 
-	m_SliceScannerCropPage=m_CropGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+	m_SliceScannerCropPage=m_CropGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 	m_SliceScannerCropPage->SetPageSize(1);
 	if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 	{
@@ -2287,7 +2287,7 @@ void mafOpImporterDicomOffis::CreateBuildPage()
 	m_BuildGuiUnderLeft = new mafGUI(this);
 	m_BuildGuiCenter = new mafGUI(this);
 
-	m_SliceScannerBuildPage=m_BuildGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+	m_SliceScannerBuildPage=m_BuildGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 	m_SliceScannerBuildPage->SetPageSize(1);
 
 	m_TimeScannerBuildPage=m_BuildGuiLeft->Slider(ID_SCAN_TIME,_("time "),&m_CurrentTime,0,VTK_INT_MAX);
@@ -2385,7 +2385,7 @@ void mafOpImporterDicomOffis::CreateReferenceSystemPage()
 	m_ReferenceSystemGuiUnderLeft = new mafGUI(this);
 	//m_ReferenceSystemGuiCenter = new mafGUI(this);
 
-	m_SliceScannerReferenceSystemPage=m_ReferenceSystemGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+	m_SliceScannerReferenceSystemPage=m_ReferenceSystemGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,VTK_INT_MAX,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 	m_SliceScannerReferenceSystemPage->SetPageSize(1);
 
 	m_TimeScannerReferenceSystemPage=m_ReferenceSystemGuiLeft->Slider(ID_SCAN_TIME,_("time "),&m_CurrentTime,0,VTK_INT_MAX);
@@ -3809,8 +3809,8 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 
 	if(!this->m_TestMode)
 	{
-		enableScalarTolerance = ((mafGUIDicomSettings*)GetSetting())->EnableScalarTolerance() != FALSE;
-		enablePercentageTolerance = ((mafGUIDicomSettings*)GetSetting())->EnablePercentageTolerance() != FALSE;
+		enableScalarTolerance = ((mafGUIDicomSettings*)GetSetting())->EnableScalarTolerance() != false;
+		enablePercentageTolerance = ((mafGUIDicomSettings*)GetSetting())->EnablePercentageTolerance() != false;
 
 		if (enableScalarTolerance)
 			scalarTolerance = ((mafGUIDicomSettings*)GetSetting())->GetScalarTolerance();
@@ -4771,7 +4771,7 @@ void mafOpImporterDicomOffis::ResetStructure()
 	std::map<std::vector<mafString>,medDicomSeriesSliceList*>::iterator it;
 	for ( it=m_SeriesIDToSlicesListMap.begin() ; it != m_SeriesIDToSlicesListMap.end(); it++ )
 	{
-		m_SeriesIDToSlicesListMap[(*it).first]->DeleteContents(TRUE);
+		m_SeriesIDToSlicesListMap[(*it).first]->DeleteContents(true);
 		delete m_SeriesIDToSlicesListMap[(*it).first];
 	}
 
@@ -4804,7 +4804,7 @@ void mafOpImporterDicomOffis::ResetSliders()
 		m_LoadPage->RemoveGuiLowerLeft(m_LoadGuiLeft);
 		delete m_LoadGuiLeft;
 		m_LoadGuiLeft = new mafGUI(this);
-		m_SliceScannerLoadPage=m_LoadGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+		m_SliceScannerLoadPage=m_LoadGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 		m_SliceScannerLoadPage->SetPageSize(1);
 		if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 		{
@@ -4820,7 +4820,7 @@ void mafOpImporterDicomOffis::ResetSliders()
 		m_CropPage->RemoveGuiLowerLeft(m_CropGuiLeft);
 		delete m_CropGuiLeft;
 		m_CropGuiLeft = new mafGUI(this);
-		m_SliceScannerCropPage=m_CropGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+		m_SliceScannerCropPage=m_CropGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 		m_SliceScannerCropPage->SetPageSize(1);
 		if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 		{
@@ -4837,7 +4837,7 @@ void mafOpImporterDicomOffis::ResetSliders()
 		m_BuildPage->RemoveGuiLowerLeft(m_BuildGuiLeft);
 		delete m_BuildGuiLeft;
 		m_BuildGuiLeft = new mafGUI(this);
-		m_SliceScannerBuildPage=m_BuildGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+		m_SliceScannerBuildPage=m_BuildGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 		m_SliceScannerBuildPage->SetPageSize(1);
 		if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 		{
@@ -4853,7 +4853,7 @@ void mafOpImporterDicomOffis::ResetSliders()
 		m_ReferenceSystemPage->RemoveGuiLowerLeft(m_ReferenceSystemGuiLeft);
 		delete m_ReferenceSystemGuiLeft;
 		m_ReferenceSystemGuiLeft = new mafGUI(this);
-		m_SliceScannerReferenceSystemPage=m_ReferenceSystemGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != FALSE);
+		m_SliceScannerReferenceSystemPage=m_ReferenceSystemGuiLeft->Slider(ID_SCAN_SLICE,_("slice #"),&m_CurrentSlice,0,m_NumberOfSlices-1,"",((mafGUIDicomSettings*)GetSetting())->EnableNumberOfSlice() != false);
 		m_SliceScannerReferenceSystemPage->SetPageSize(1);
 		if(((mafGUIDicomSettings*)GetSetting())->EnableNumberOfTime())
 		{
@@ -5018,7 +5018,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 		probe->GetOutput()->GetBounds(m_SliceBounds);
 
 		//rescale to 16 bit
-		if(m_RescaleTo16Bit == TRUE && m_HighBit == 11)
+		if(m_RescaleTo16Bit == true && m_HighBit == 11)
 		{
 			RescaleTo16Bit(slice->GetVTKImageData());
 		}
@@ -5027,7 +5027,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 	else 
 	{
 		//rescale to 16 bit
-		if(m_RescaleTo16Bit == TRUE && m_HighBit == 11)
+		if(m_RescaleTo16Bit == true && m_HighBit == 11)
 		{
 			RescaleTo16Bit(slice->GetVTKImageData());
 		}
@@ -5299,7 +5299,7 @@ void mafOpImporterDicomOffis::ResampleVolume()
 				resampler->Update();
 
 				outputSPData->SetSource(NULL);
-				if(m_DiscardPosition == TRUE)
+				if(m_DiscardPosition == true)
 				{
 					outputSPData->SetOrigin(0,0,0);
 				}

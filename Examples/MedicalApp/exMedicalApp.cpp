@@ -400,7 +400,7 @@ bool exMedicalApp::OnInit()
 	app_stamp = "OPEN_ALL_DATA";
 	m_Logic->SetApplicationStamp(app_stamp);
 	m_Logic->Init(0,NULL); // calls FileNew - which create the root
-	return TRUE;
+	return true;
 }
 //--------------------------------------------------------------------------------
 int exMedicalApp::OnExit()

@@ -229,7 +229,7 @@ bool mafGUIValidator::Copy(const mafGUIValidator& val)
   m_WidgetData.iValue = val.m_WidgetData.iValue;
   m_WidgetData.sValue = val.m_WidgetData.sValue;
 
-  return TRUE;
+  return true;
 }
 //----------------------------------------------------------------------------
 mafGUIValidator::mafGUIValidator(mafObserver* listener, int mid, wxStaticText *win,mafString* var) //String
@@ -742,7 +742,7 @@ bool mafGUIValidator::TransferToWindow(void)
       m_TextCtrl->Refresh();
     break;
   }
-  return TRUE;
+  return true;
 }
 /*//----------------------------------------------------------------------------
 float mafGUIValidator::RoundValue(float f_in)
@@ -904,7 +904,7 @@ bool mafGUIValidator::TransferFromWindow(void)
 			*m_ColorVar = m_TextCtrl->GetBackgroundColour();
     break;
   }
-  return TRUE;
+  return true;
 }
 //----------------------------------------------------------------------------
 void mafGUIValidator::OnChar(wxKeyEvent& event)

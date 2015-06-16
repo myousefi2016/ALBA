@@ -71,7 +71,7 @@ int medOpImporterVTK::ImportVTK()
   vtkMAFSmartPointer<vtkDataSetReader> reader;
   reader->SetFileName(m_File);
 
-  int canRead=TRUE;
+  int canRead=true;
   vtkDataReader *preader = NULL;
   // workaround to avoid double reading
   switch (reader->ReadOutputType())

@@ -249,7 +249,7 @@ void vtkMAFExtendedGlyph3DTest::CreatePointsSet()
 //   pts->InsertNextPoint(0,0,1);
 
   m_Points->SetPoints(pts);
-  m_Points->Update();
+  
 
   pts->Delete();
 
@@ -313,14 +313,14 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaling()
   scalars->SetName("SCALARS");
 
   m_Points->GetPointData()->SetScalars(scalars);
-  m_Points->Update();
+  
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
   filter->ScalingOff();
   filter->Update();
 
-  CPPUNIT_ASSERT( filter->GetScaling() == FALSE );
+  CPPUNIT_ASSERT( filter->GetScaling() == false );
 
   CPPUNIT_ASSERT( filter->GetOutput()->GetScalarRange()[0] == scalars->GetRange()[0] );
   CPPUNIT_ASSERT( filter->GetOutput()->GetScalarRange()[1] == scalars->GetRange()[1] );
@@ -341,7 +341,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaling()
   filter->ScalingOn();
   filter->Update();
 
-  CPPUNIT_ASSERT( filter->GetScaling() == TRUE );
+  CPPUNIT_ASSERT( filter->GetScaling() == true );
 
   m_RenWin->Render();
 
@@ -373,7 +373,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaleFactor()
   scalars->SetName("SCALARS");
 
   m_Points->GetPointData()->SetScalars(scalars);
-  m_Points->Update();
+  
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -421,7 +421,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetRange()
 
   m_Points->GetPointData()->AddArray(scalars);
   m_Points->GetPointData()->SetActiveScalars("SCALARS");
-  m_Points->Update();
+  
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -444,7 +444,6 @@ void vtkMAFExtendedGlyph3DTest::TestSetGeneratePointIds()
   vtkSphereSource *sphere = vtkSphereSource::New();
   sphere->Update();
 
-  m_Points->Update();
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -465,8 +464,6 @@ void vtkMAFExtendedGlyph3DTest::TestSetPointIdsName()
 
   vtkSphereSource *sphere = vtkSphereSource::New();
   sphere->Update();
-
-  m_Points->Update();
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -497,7 +494,6 @@ void vtkMAFExtendedGlyph3DTest::TestSetScalarVisibility()
 
   m_Points->GetPointData()->AddArray(scalars);
   m_Points->GetPointData()->SetActiveScalars("SCALARS");
-  m_Points->Update();
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -507,7 +503,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScalarVisibility()
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
   mapper->SetInput(filter->GetOutput());
-  mapper->SetScalarVisibility(TRUE);
+  mapper->SetScalarVisibility(true);
   mapper->SetScalarModeToUsePointData();
   mapper->SetScalarRange(filter->GetOutput()->GetScalarRange()[0],filter->GetOutput()->GetScalarRange()[1]);
   mapper->Update();
@@ -548,7 +544,6 @@ void vtkMAFExtendedGlyph3DTest::TestSetOrient()
 
   m_Points->GetPointData()->AddArray(normals);
   m_Points->GetPointData()->SetActiveNormals("NORMALS");
-  m_Points->Update();
 
   vtkDataArray *n = m_Points->GetPointData()->GetNormals();
 
@@ -598,7 +593,6 @@ void vtkMAFExtendedGlyph3DTest::TestSetClamping()
 
   m_Points->GetPointData()->AddArray(scalars);
   m_Points->GetPointData()->SetActiveScalars("SCALARS");
-  m_Points->Update();
 
   filter->SetSource(sphere->GetOutput());
   filter->SetInput(m_Points);
@@ -614,7 +608,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetClamping()
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
   mapper->SetInput(filter->GetOutput());
-  mapper->SetScalarVisibility(TRUE);
+  mapper->SetScalarVisibility(true);
   mapper->SetScalarModeToUsePointData();
   mapper->SetScalarRange(filter->GetOutput()->GetScalarRange()[0],filter->GetOutput()->GetScalarRange()[1]);
   mapper->Update();

@@ -290,7 +290,7 @@ void vtkMAFProfilingActorTest::TestPrintSelf()
 {
   vtkMAFProfilingActor *actor;
   actor = vtkMAFProfilingActor::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(2));
   actor->Delete();
 }
 //--------------------------------------------------

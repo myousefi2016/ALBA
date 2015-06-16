@@ -623,7 +623,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       vtkImageData *output = this->GetOutput(idx);
       if (output == NULL)
       {
-        this->Outputs[idx] = output = vtkImageData::New();
+        output = vtkImageData::New();
       }
       // Prepare and generate output image
       output->SetSpacing(spacing[0],spacing[1],spacing[2]);

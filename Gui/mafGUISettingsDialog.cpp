@@ -53,7 +53,7 @@ mafGUISettingsDialog::mafGUISettingsDialog(wxString dialog_title)
 {  
   #include <pic/FOLDER.xpm>
   mafPictureFactory::GetPictureFactory()->Add("FOLDER", FOLDER_xpm);
-  wxImageList *tree_images = new wxImageList(20,20,FALSE,1);
+  wxImageList *tree_images = new wxImageList(20,20,false,1);
   tree_images->Add(mafPictureFactory::GetPictureFactory()->GetBmp("FOLDER"));
 
   m_Dialog = new mafGUIDialog(dialog_title);

@@ -275,7 +275,7 @@ const char *mafOpImporterMSF::ZIPOpen(mafString m_File)
     delete zfileStream;
   }
 
-  zip_fs->ChangePathTo(m_TmpDir.GetCStr(), TRUE);
+  zip_fs->ChangePathTo(m_TmpDir.GetCStr(), true);
   cppDEL(zip_fs);
 
   if (m_MSFFile == "")

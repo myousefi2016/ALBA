@@ -141,7 +141,7 @@ void vtkMAFContourVolumeMapperTest::TestRectilinearGrid()
 
   mapper->SetEnableContourAnalysis(CleanModel);
 
-  renderer->GetActiveCamera()->SetViewAngle(vtkMath::RadiansToDegrees() * 2.f * atan(renWin->GetSize()[1] * 0.27 / (2.f * 700.f)));
+  renderer->GetActiveCamera()->SetViewAngle(vtkMath::DegreesFromRadians(2.f * atan(renWin->GetSize()[1] * 0.27 / (2.f * 700.f))));
   renderer->GetActiveCamera()->SetEyeAngle(2.5);
   renderer->ResetCamera();
   vtkCamera *camera = renderer->GetActiveCamera();
@@ -263,7 +263,7 @@ void vtkMAFContourVolumeMapperTest::TestImageData()
 
   mapper->SetEnableContourAnalysis(CleanModel);
 
-  renderer->GetActiveCamera()->SetViewAngle(vtkMath::RadiansToDegrees() * 2.f * atan(renWin->GetSize()[1] * 0.27 / (2.f * 700.f)));
+  renderer->GetActiveCamera()->SetViewAngle(vtkMath::DegreesFromRadians(2.f * atan(renWin->GetSize()[1] * 0.27 / (2.f * 700.f))));
   renderer->GetActiveCamera()->SetEyeAngle(2.5);
   renderer->ResetCamera();
   vtkCamera *camera = renderer->GetActiveCamera();

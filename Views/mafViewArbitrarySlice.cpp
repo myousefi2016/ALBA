@@ -125,7 +125,7 @@ mafViewArbitrarySlice::mafViewArbitrarySlice(wxString label, bool show_ruler)
 
 	m_TypeGizmo = GIZMO_TRANSLATE;
 
-	m_TrilinearInterpolationOn = TRUE;
+	m_TrilinearInterpolationOn = true;
 }
 //----------------------------------------------------------------------------
 mafViewArbitrarySlice::~mafViewArbitrarySlice()
@@ -766,7 +766,7 @@ void mafViewArbitrarySlice::OnEventThis(mafEventBase *maf_event)
 			}
 		case ID_TRILINEAR_INTERPOLATION_ON:
 			{
-				m_Slicer->SetTrilinearInterpolation(m_TrilinearInterpolationOn == TRUE);
+				m_Slicer->SetTrilinearInterpolation(m_TrilinearInterpolationOn == true);
 				mafEventMacro(mafEvent(this, CAMERA_UPDATE));
 
 			}

@@ -104,8 +104,8 @@ mafViewRXCT::mafViewRXCT(wxString label)
   m_Border=1;
 
   // Added by Losi 11.25.2009
-  m_EnableGPU=FALSE;
-  m_TrilinearInterpolationOn = TRUE;
+  m_EnableGPU=false;
+  m_TrilinearInterpolationOn = true;
 }
 //----------------------------------------------------------------------------
 mafViewRXCT::~mafViewRXCT()

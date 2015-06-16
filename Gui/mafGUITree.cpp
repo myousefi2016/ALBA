@@ -57,7 +57,7 @@ mafGUITree::mafGUITree( wxWindow* parent,wxWindowID id, bool CloseButton, bool H
   int w = bmp.GetWidth();
   int h = bmp.GetHeight();
 
-  m_NodeImages = new wxImageList(w,h,FALSE,4);
+  m_NodeImages = new wxImageList(w,h,false,4);
   m_NodeImages->Add(bmp);
   m_NodeImages->Add(mafPictureFactory::GetPictureFactory()->GetBmp("NODE_RED"));
   m_NodeImages->Add(mafPictureFactory::GetPictureFactory()->GetBmp("NODE_BLUE"));

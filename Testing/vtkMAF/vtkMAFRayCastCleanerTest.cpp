@@ -76,7 +76,7 @@ void vtkMAFRayCastCleanerTest::TestFilter()
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=filter->GetOutput();
+  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));
@@ -146,7 +146,7 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=filter->GetOutput();
+  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));

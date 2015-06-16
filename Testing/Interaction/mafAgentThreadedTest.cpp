@@ -56,11 +56,11 @@ void mafAgentThreadedTest::TestSetGetThreaded()
 {
   mafAgentThreaded *agentThreaded = mafAgentThreaded::New(); 
   bool threaded = agentThreaded->GetThreaded();
-  CPPUNIT_ASSERT(threaded == TRUE);
+  CPPUNIT_ASSERT(threaded == true);
 
-  agentThreaded->SetThreaded(FALSE);
+  agentThreaded->SetThreaded(false);
   threaded = agentThreaded->GetThreaded();
-  CPPUNIT_ASSERT(threaded == FALSE);
+  CPPUNIT_ASSERT(threaded == false);
 
   mafDEL(agentThreaded);
 }

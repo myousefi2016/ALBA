@@ -274,7 +274,7 @@ int mafVMEItem::InternalRestore(mafStorageElement *node)
     &&node->RestoreVectorN("Bounds",m_Bounds.m_Bounds,6)==MAF_OK \
     &&node->RestoreObject("TagArray",m_TagArray)==MAF_OK)
   {
-    m_Crypting = (crypting=="true"||crypting=="True"||crypting=="TRUE")?true:false;
+    m_Crypting = (crypting=="true"||crypting=="True"||crypting=="true")?true:false;
 
     // DATA is restored only on demand when is on Default mode
     return MAF_OK;

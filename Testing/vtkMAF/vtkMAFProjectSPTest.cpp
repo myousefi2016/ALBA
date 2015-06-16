@@ -56,7 +56,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToX()
   double spacing[3] = {1. ,1. ,1.};
   image->SetDimensions(dimension);
   image->SetSpacing(spacing);
-  image->SetScalarTypeToFloat();
+  image->AllocateScalars(VTK_FLOAT,1);
 
   int i = 0;
   int size = dimension[0] * dimension[1] * dimension[2];
@@ -69,7 +69,6 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToX()
   }
   array->Modified();
   image->GetPointData()->SetScalars(array);
-  image->Update();
   
   // calculate projection over three base axis
   // the xy planes are:
@@ -110,7 +109,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToX()
   filter->Update();
 
   //check Control
-  vtkStructuredPoints *projectedImage = filter->GetOutput();
+  vtkStructuredPoints *projectedImage = vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   for(int j=0;j<dimension[1]*dimension[2];j++)
   {
     float value1 = arrayControl->GetTuple1(j);
@@ -131,7 +130,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToY()
   double spacing[3] = {1. ,1. ,1.};
   image->SetDimensions(dimension);
   image->SetSpacing(spacing);
-  image->SetScalarTypeToFloat();
+  image->AllocateScalars(VTK_FLOAT,1);
 
   int i = 0;
   int size = dimension[0] * dimension[1] * dimension[2];
@@ -144,7 +143,6 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToY()
   }
   array->Modified();
   image->GetPointData()->SetScalars(array);
-  image->Update();
 
   // calculate projection over three base axis
   // the xy planes are:
@@ -182,7 +180,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToY()
   filter->Update();
 
   //check Control
-  vtkStructuredPoints *projectedImage = filter->GetOutput();
+  vtkStructuredPoints *projectedImage = vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   for(int j=0;j<dimension[0]*dimension[2];j++)
   {
     float value1 = arrayControl->GetTuple1(j);
@@ -202,7 +200,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToZ()
   double spacing[3] = {1. ,1. ,1.};
   image->SetDimensions(dimension);
   image->SetSpacing(spacing);
-  image->SetScalarTypeToFloat();
+  image->AllocateScalars(VTK_FLOAT,1);
 
   int i = 0;
   int size = dimension[0] * dimension[1] * dimension[2];
@@ -215,7 +213,6 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToZ()
   }
   array->Modified();
   image->GetPointData()->SetScalars(array);
-  image->Update();
 
   // calculate projection over three base axis
   // the xy planes are:
@@ -256,7 +253,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToZ()
   filter->Update();
 
   //check Control
-  vtkStructuredPoints *projectedImage = filter->GetOutput();
+  vtkStructuredPoints *projectedImage = vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   for(int j=0;j<dimension[0]*dimension[1];j++)
   {
     float value1 = arrayControl->GetTuple1(j);
@@ -273,7 +270,7 @@ void vtkMAFProjectSPTest::TestPrintSelf()
   vtkMAFSmartPointer<vtkMAFProjectSP> filter;
   filter->SetProjectionModeToX();
   std::cout;
-  filter->PrintSelf(cout, 2);
+  filter->PrintSelf(cout, vtkIndent(2));
   
   
 }

@@ -584,7 +584,7 @@ const char *mafVMEManager::ZIPOpen(mafString filename)
     delete zfileStream;
   }
   
-  m_FileSystem->ChangePathTo(m_TmpDir.GetCStr(), TRUE);
+  m_FileSystem->ChangePathTo(m_TmpDir.GetCStr(), true);
 
   
   if (m_MSFFile == "") // msf file not extracted

@@ -36,38 +36,38 @@ mafGUISettings(Listener, label)
 {
 	// m_Dictionary = "";
 
-  m_CheckNameCompositor[ID_PATIENT_NAME] = TRUE;
-  m_CheckNameCompositor[ID_BIRTHDATE] = FALSE;
-  m_CheckNameCompositor[ID_NUM_SLICES] = TRUE;
-  m_CheckNameCompositor[ID_DESCRIPTION] = TRUE; 
-  m_CheckNameCompositor[ID_SERIES] = TRUE;
+  m_CheckNameCompositor[ID_PATIENT_NAME] = true;
+  m_CheckNameCompositor[ID_BIRTHDATE] = false;
+  m_CheckNameCompositor[ID_NUM_SLICES] = true;
+  m_CheckNameCompositor[ID_DESCRIPTION] = true; 
+  m_CheckNameCompositor[ID_SERIES] = true;
 
-	m_CheckOnOff[0] = m_CheckOnOff[1] = m_CheckOnOff[2] = m_CheckOnOff[3] = m_CheckOnOff[4] = m_CheckOnOff[5] = m_CheckOnOff[6] = m_CheckOnOff[7] = TRUE;
+	m_CheckOnOff[0] = m_CheckOnOff[1] = m_CheckOnOff[2] = m_CheckOnOff[3] = m_CheckOnOff[4] = m_CheckOnOff[5] = m_CheckOnOff[6] = m_CheckOnOff[7] = true;
 
-  m_CheckOnOffVmeType[0] = m_CheckOnOffVmeType[2] = TRUE;
-  m_CheckOnOffVmeType[1] = FALSE;
+  m_CheckOnOffVmeType[0] = m_CheckOnOffVmeType[2] = true;
+  m_CheckOnOffVmeType[1] = false;
 
-	m_AutoCropPos = FALSE;
-	m_EnableNumberOfSlice = TRUE;
-	m_EnableNumberOfTime = TRUE; 
-  m_EnableChangeSide = FALSE;
-  m_EnableDiscardPosition = FALSE;
-  m_EnableResampleVolume = FALSE;
-  m_EnableRescaleTo16Bit = FALSE;
-  m_VisualizePosition = FALSE;
-  m_EnableZCrop =  TRUE;
-  m_AutoVMEType = FALSE;
-  m_PercentageTolerance = FALSE;
-  m_ScalarTolerance = FALSE;
+	m_AutoCropPos = false;
+	m_EnableNumberOfSlice = true;
+	m_EnableNumberOfTime = true; 
+  m_EnableChangeSide = false;
+  m_EnableDiscardPosition = false;
+  m_EnableResampleVolume = false;
+  m_EnableRescaleTo16Bit = false;
+  m_VisualizePosition = false;
+  m_EnableZCrop =  true;
+  m_AutoVMEType = false;
+  m_PercentageTolerance = false;
+  m_ScalarTolerance = false;
   m_OutputType = 0;
   m_ScalarDistanceTolerance = 0.3;
   m_PercentageDistanceTolerance = 88;
   m_LastDicomDir = "UNEDFINED_m_LastDicomDir";
   m_Step = ID_1X;
   m_OutputNameType = TRADITIONAL;
-  m_ShowAdvancedOptionOfSorting = TRUE;
+  m_ShowAdvancedOptionOfSorting = true;
   m_DicomFolder = "UNEDFINED_DicomFolder";
-  m_UseDefaultDicomFolder = FALSE;
+  m_UseDefaultDicomFolder = false;
 
   m_DCM_ImagePositionPatientchoice = 0;
 
@@ -156,11 +156,11 @@ void mafGUIDicomSettings::CreateGui()
   m_Gui->Divider(1);
 
 	m_Gui->Update();
-  m_Gui->Enable(ID_DICOM_FOLDER,(m_UseDefaultDicomFolder==TRUE));
-  m_Gui->Enable(ID_VME_TYPE,!(m_AutoVMEType==TRUE));
-  m_Gui->Enable(ID_SETTING_VME_TYPE,(m_AutoVMEType==TRUE));
-  m_Gui->Enable(ID_SCALAR_TOLERANCE,(m_ScalarTolerance==TRUE));
-  m_Gui->Enable(ID_PERCENTAGE_TOLERANCE,(m_PercentageTolerance==TRUE));
+  m_Gui->Enable(ID_DICOM_FOLDER,(m_UseDefaultDicomFolder==true));
+  m_Gui->Enable(ID_VME_TYPE,!(m_AutoVMEType==true));
+  m_Gui->Enable(ID_SETTING_VME_TYPE,(m_AutoVMEType==true));
+  m_Gui->Enable(ID_SCALAR_TOLERANCE,(m_ScalarTolerance==true));
+  m_Gui->Enable(ID_PERCENTAGE_TOLERANCE,(m_PercentageTolerance==true));
 }
 //----------------------------------------------------------------------------
 void mafGUIDicomSettings::EnableItems()
@@ -169,11 +169,11 @@ void mafGUIDicomSettings::EnableItems()
 	//m_Gui->Enable(ID_DICTONARY,true); Remove dictionary selection (Losi 25.11.2009)
   if (m_Gui)
   {
-    m_Gui->Enable(ID_DICOM_FOLDER,(m_UseDefaultDicomFolder==TRUE));
-	  m_Gui->Enable(ID_VME_TYPE,!(m_AutoVMEType==TRUE));
-    m_Gui->Enable(ID_SETTING_VME_TYPE,(m_AutoVMEType==TRUE));
-	  m_Gui->Enable(ID_SCALAR_TOLERANCE,(m_ScalarTolerance==TRUE));
-	  m_Gui->Enable(ID_PERCENTAGE_TOLERANCE,(m_PercentageTolerance==TRUE));
+    m_Gui->Enable(ID_DICOM_FOLDER,(m_UseDefaultDicomFolder==true));
+	  m_Gui->Enable(ID_VME_TYPE,!(m_AutoVMEType==true));
+    m_Gui->Enable(ID_SETTING_VME_TYPE,(m_AutoVMEType==true));
+	  m_Gui->Enable(ID_SCALAR_TOLERANCE,(m_ScalarTolerance==true));
+	  m_Gui->Enable(ID_PERCENTAGE_TOLERANCE,(m_PercentageTolerance==true));
 	  m_Gui->Update();
   }
 }
@@ -316,7 +316,7 @@ void mafGUIDicomSettings::OnEvent(mafEventBase *maf_event)
   case ID_SCALAR_DISTANCE_TOLERANCE:
     {
       m_Config->Write("EnableScalarDistance",m_ScalarTolerance);
-      m_PercentageTolerance = FALSE;
+      m_PercentageTolerance = false;
       m_Config->Write("EnablePercentageDistance",m_PercentageTolerance);
     }
     break;
@@ -328,7 +328,7 @@ void mafGUIDicomSettings::OnEvent(mafEventBase *maf_event)
   case ID_PERCENTAGE_DISTANCE_TOLERANCE:
     {
       m_Config->Write("EnablePercentageDistance",m_PercentageTolerance);
-      m_ScalarTolerance = FALSE;
+      m_ScalarTolerance = false;
       m_Config->Write("EnableScalarDistance",m_ScalarTolerance);
     }
     break;

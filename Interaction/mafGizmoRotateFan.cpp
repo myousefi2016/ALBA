@@ -412,7 +412,7 @@ double mafGizmoRotateFan::PointPickedToStartTheta(double xp, double yp, double z
 	  }
 	  break;
   }
-  double startThetaDeg = startThetaRad * vtkMath::RadiansToDegrees();
+  double startThetaDeg =   vtkMath::DegreesFromRadians(startThetaRad);
   return ((startThetaDeg > 0) ? startThetaDeg : (360 + startThetaDeg));  
 }
 //----------------------------------------------------------------------------

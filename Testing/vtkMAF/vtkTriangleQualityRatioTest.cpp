@@ -78,10 +78,7 @@ void vtkTriangleQualityRatioTest::QualityTestValues()
 	pointId[0] = 6;
 	pointId[1] = 7;
 	pointId[2] = 8;
-	cellArray->InsertNextCell(3 , pointId);
-
-	dataset->Update();
-	
+	cellArray->InsertNextCell(3 , pointId);	
 
 	vtkTriangleQualityRatio *tqr = vtkTriangleQualityRatio::New();
 	tqr->SetInput(dataset);

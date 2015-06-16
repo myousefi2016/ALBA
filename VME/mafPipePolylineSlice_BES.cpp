@@ -100,7 +100,7 @@ mafPipePolylineSlice_BES::mafPipePolylineSlice_BES()
 
   m_PolydataToPolylineFilter = NULL;
 
-  m_RoiEnable = FALSE;
+  m_RoiEnable = false;
   m_ROI[0] = m_ROI[2] = m_ROI[4] = VTK_DOUBLE_MIN;
   m_ROI[1] = m_ROI[3] = m_ROI[5] = VTK_DOUBLE_MAX;
 

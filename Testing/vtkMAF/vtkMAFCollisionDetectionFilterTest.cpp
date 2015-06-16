@@ -104,7 +104,7 @@ void vtkMAFCollisionDetectionFilterTest::Test()
 
   vtkMAFSmartPointer<vtkPolyData> output0;
   output0->DeepCopy(filter->GetOutput(0));
-  output0->Update();
+ 
   vtkMAFSmartPointer<vtkDoubleArray> contactScalars;
   contactScalars->SetName("CONTACT");
   contactScalars->SetNumberOfTuples(filter->GetOutput(0)->GetNumberOfCells());
@@ -165,7 +165,7 @@ void vtkMAFCollisionDetectionFilterTest::setUp()
 void vtkMAFCollisionDetectionFilterTest::tearDown()
 //-------------------------------------------------------------------------
 {
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
   vtkDEL(m_Renderer);
   vtkDEL(m_RenderWindow);
   vtkDEL(m_RenderWindowInteractor);

@@ -60,8 +60,6 @@ void vtkMAFPolyDataMirrorTest::setUp()
 	pointId[2] = 2;
 	cellArray->InsertNextCell(3 , pointId);
 
-	m_TestPolyData->Update();
-
 	vtkDEL(points);
 	vtkDEL(cellArray);
 }

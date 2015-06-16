@@ -173,7 +173,7 @@ void mafGUIVMEChooserTree::InitializeImageList()
   // create the ImageList 
   //int mw = sw+w; 
   //int mh = (sh>h) ? sh : h;
-  wxImageList *imgs = new wxImageList(w,h,FALSE,num_icons);
+  wxImageList *imgs = new wxImageList(w,h,false,num_icons);
 
   for(int i=0; i<num_types; i++)
   {
@@ -234,7 +234,7 @@ void mafGUIVMEChooserTree::InitializeImageListMulti()
   // create the ImageList 
   int mw = sw+w; 
   int mh = (sh>h) ? sh : h;
-  wxImageList *imgs = new wxImageList(mw,mh,FALSE,num_icons);
+  wxImageList *imgs = new wxImageList(mw,mh,false,num_icons);
 
   for(int i=0; i<num_types; i++)
   {

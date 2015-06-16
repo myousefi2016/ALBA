@@ -137,10 +137,10 @@ public:
   void SetTrilinearInterpolation(int on){m_TrilinearInterpolationOn = on; UpdateSlice();};
 
   /** Set tri-linear interpolation to off */
-  void SetTrilinearInterpolationOff(){SetTrilinearInterpolation(FALSE);};
+  void SetTrilinearInterpolationOff(){SetTrilinearInterpolation(false);};
 
   /** Set tri-linear interpolation to on */
-  void SetTrilinearInterpolationOn(){SetTrilinearInterpolation(TRUE);};
+  void SetTrilinearInterpolationOn(){SetTrilinearInterpolation(true);};
 
   void UpdateSlice();
 

@@ -57,7 +57,6 @@
 #include "vtkMAFRegionGrowingLocalGlobalThresholdTest.h"
 #include "vtkImageUnPackerTest.h"
 #include "vtkPackedImageTest.h"
-#include "vtkMAFVolumeRayCastMapperTest.h"
 #include "vtkXRayVolumeMapperTest.h"
 #include "vtkMAFVolumeTextureMapper2DTest.h"
 #include "vtkMAFDataArrayDescriptorTest.h"
@@ -160,7 +159,6 @@ int
 	runner.addTest(vtkMAFRegionGrowingLocalGlobalThresholdTest::suite());
 	runner.addTest(vtkImageUnPackerTest::suite());
 	runner.addTest(vtkPackedImageTest::suite());
-	runner.addTest(vtkMAFVolumeRayCastMapperTest::suite());
 	runner.addTest(vtkXRayVolumeMapperTest::suite());
 	runner.addTest(vtkMAFVolumeTextureMapper2DTest::suite());
 	runner.addTest(vtkMAFDataArrayDescriptorTest::suite());

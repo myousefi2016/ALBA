@@ -140,7 +140,7 @@ mafGUIMDIFrame::mafGUIMDIFrame(const wxString& title, const wxPoint& pos, const 
   Centre();
 
 #ifdef __WIN32__
-  ((wxWindow *)this)->DragAcceptFiles(TRUE);
+  ((wxWindow *)this)->DragAcceptFiles(true);
 #endif
 
   wxIconBundle ib;
@@ -269,10 +269,10 @@ void mafGUIMDIFrame::CreateStatusbar()
   // Paolo 10 Jul 2006: due to position correctly the progress bar.
 	wxRect pr;
   m_frameStatusBar->GetFieldRect(4,pr);
-  m_Busy=FALSE;
+  m_Busy=false;
 	m_Gauge = new wxGauge(m_frameStatusBar, -1, 100,pr.GetPosition(),pr.GetSize(),wxGA_SMOOTH);
 	m_Gauge->SetForegroundColour( *wxRED );
-  m_Gauge->Show(FALSE);
+  m_Gauge->Show(false);
 }
 
 #ifdef __WIN32__
@@ -413,9 +413,9 @@ void mafGUIMDIFrame::Busy()
 {
   SetStatusText("Busy",2);
   SetStatusText("",3);
-  m_Gauge->Show(TRUE);
+  m_Gauge->Show(true);
   m_Gauge->SetValue(0);
-  Refresh(FALSE);
+  Refresh(false);
 }
 //-----------------------------------------------------------
 void mafGUIMDIFrame::Ready()
@@ -423,8 +423,8 @@ void mafGUIMDIFrame::Ready()
 {
   SetStatusText("",2);
   SetStatusText("",3);
-  m_Gauge->Show(FALSE);
-  Refresh(FALSE);
+  m_Gauge->Show(false);
+  Refresh(false);
 }
 //-----------------------------------------------------------
 void mafGUIMDIFrame::ProgressBarShow()

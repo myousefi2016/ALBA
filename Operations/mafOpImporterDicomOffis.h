@@ -463,7 +463,7 @@ public:
 		m_DcmCardiacNumberOfImages = -1;
 		m_Data = NULL;
 		m_ReferenceSystem = ID_RS_XY;
-		SetSwapReferenceSystem(FALSE);
+		SetSwapReferenceSystem(false);
 	};
 
 	/** overloaded constructor */
@@ -502,7 +502,7 @@ public:
 		}
 
 		SetReferenceSystem(referenceSystem);
-		SetSwapReferenceSystem(FALSE);
+		SetSwapReferenceSystem(false);
 	};
 
 	/** destructor */
@@ -635,9 +635,9 @@ public:
 	/** Set if reference system is swapped */
 	void SetSwapReferenceSystem(int swap)
 	{
-		if(swap != FALSE)
+		if(swap != false)
 		{
-			swap = TRUE;
+			swap = true;
 		}
 		m_SwapReferenceSystem = swap;
 	};

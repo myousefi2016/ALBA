@@ -183,7 +183,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_POLYLINE_SPLINE_MODE)
     {
-      pipePolyline->SetSplineMode(TRUE);
+      pipePolyline->SetSplineMode(true);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
 
       pipePolyline->GetAssemblyFront()->GetActors(actorList);
@@ -200,7 +200,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_TUBE)
     {
-      pipePolyline->SetSplineMode(FALSE);
+      pipePolyline->SetSplineMode(false);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
       pipePolyline->SetRepresentation(mafPipePolyline::TUBE);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_POLYLINE_REPRESENTATION));
@@ -219,7 +219,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_TUBE_SPLINE_MODE)
     {
-      pipePolyline->SetSplineMode(TRUE);
+      pipePolyline->SetSplineMode(true);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
 
       pipePolyline->GetAssemblyFront()->GetActors(actorList);
@@ -255,7 +255,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_TUBE_CAPPING)
     {
-      pipePolyline->SetTubeCapping(TRUE);
+      pipePolyline->SetTubeCapping(true);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_TUBE_CAPPING));
 
       pipePolyline->GetAssemblyFront()->GetActors(actorList);
@@ -308,7 +308,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_GLYPH_UNCONNECTED)
     {
-      pipePolyline->SetSplineMode(FALSE);
+      pipePolyline->SetSplineMode(false);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
       pipePolyline->SetRepresentation(mafPipePolyline::GLYPH_UNCONNECTED);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_POLYLINE_REPRESENTATION));
@@ -327,7 +327,7 @@ void mafPipePolylineTest::TestPipeExecution()
     }
     else if(i == TEST_GLYPH_SPLINE_MODE)
     {
-      pipePolyline->SetSplineMode(TRUE);
+      pipePolyline->SetSplineMode(true);
       pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
       pipePolyline->SetRadius(1.0);
       pipePolyline->SetGlyphResolution(10.0);

@@ -87,7 +87,7 @@ void mafOpOpenExternalFile::OpRun()
 	{
     command2execute.Replace("/", "\\");
     mafLogMessage( _T("Executing command: '%s'"), command2execute.c_str() );
-		m_Pid = wxExecute(command2execute); //,FALSE
+		m_Pid = wxExecute(command2execute); //,false
 		cppDEL(filetype);
 		mafEventMacro(mafEvent(this,OP_RUN_OK));
 	}

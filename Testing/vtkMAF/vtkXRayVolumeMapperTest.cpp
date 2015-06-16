@@ -180,7 +180,7 @@ void vtkXRayVolumeMapperTest::TestReduceColorReduction()
 	volumeMapper->SetInput(vtkImageData::SafeDownCast(Importer->GetOutput()));
 	volumeMapper->ReduceColorResolutionOn();
 
-	CPPUNIT_ASSERT(volumeMapper->GetReduceColorResolution() == TRUE);
+	CPPUNIT_ASSERT(volumeMapper->GetReduceColorResolution() == true);
 
 	volumeMapper->SetCroppingRegionPlanes(0, 1, 0, 1, 0, 1);
 	volumeMapper->Update();	
@@ -355,7 +355,7 @@ void vtkXRayVolumeMapperTest::TestPerspectiveCorrection()
 
 
 	volumeMapper->PerspectiveCorrectionOn();
-	CPPUNIT_ASSERT(volumeMapper->GetPerspectiveCorrection() == TRUE);
+	CPPUNIT_ASSERT(volumeMapper->GetPerspectiveCorrection() == true);
 
 	volumeMapper->SetCroppingRegionPlanes(0, 1, 0, 1, 0, 1);
 	volumeMapper->Update();	
@@ -469,7 +469,7 @@ void vtkXRayVolumeMapperTest::TestEnableAutoLOD()
 	volumeMapper->SetInput(vtkImageData::SafeDownCast(Importer->GetOutput()));
 
 	volumeMapper->EnableAutoLODOn();
-	CPPUNIT_ASSERT(volumeMapper->GetEnableAutoLOD() == TRUE);
+	CPPUNIT_ASSERT(volumeMapper->GetEnableAutoLOD() == true);
 
 	volumeMapper->SetCroppingRegionPlanes(0, 1, 0, 1, 0, 1);
 	volumeMapper->Update();	

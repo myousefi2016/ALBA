@@ -46,7 +46,7 @@ mafGUIListCtrl::mafGUIListCtrl( wxWindow* parent,wxWindowID id, bool CloseButton
    
   m_Listener = NULL;
 
-  m_Images = new wxImageList(15,15,FALSE,4);
+  m_Images = new wxImageList(15,15,false,4);
   m_Images->Add(mafPictureFactory::GetPictureFactory()->GetBmp("NODE_YELLOW"));
   m_Images->Add(mafPictureFactory::GetPictureFactory()->GetBmp("NODE_GRAY"));
   m_Images->Add(mafPictureFactory::GetPictureFactory()->GetBmp("NODE_RED"));

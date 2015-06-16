@@ -77,7 +77,7 @@ mafGUINamedPanel::mafGUINamedPanel( wxWindow* parent,wxWindowID id,bool CloseBut
 		  m_TopSizer->Add(b,0,wxRIGHT,2);
 	  }
 
-    m_Top->SetAutoLayout( TRUE );
+    m_Top->SetAutoLayout( true );
     m_Top->SetSizer( m_TopSizer );
 	  m_TopSizer->Fit(m_Top);
 	  m_TopSizer->SetSizeHints(m_Top);
@@ -87,7 +87,7 @@ mafGUINamedPanel::mafGUINamedPanel( wxWindow* parent,wxWindowID id,bool CloseBut
   
   SetTitleColor(&m_Color);
 
-  this->SetAutoLayout( TRUE );
+  this->SetAutoLayout( true );
   this->SetSizer( m_Sizer );
   m_Sizer->Fit(this);
   m_Sizer->SetSizeHints(this);

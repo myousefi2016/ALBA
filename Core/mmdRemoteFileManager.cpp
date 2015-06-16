@@ -144,7 +144,7 @@ int mmdRemoteFileManager::DownloadRemoteFile(mafString remote_filename, mafStrin
     if (m_EnableCertificateAuthentication)
     {
       curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYHOST, 0);
-      curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYPEER, false);
     }
 
     m_Result = curl_easy_perform(m_Curl);
@@ -209,8 +209,8 @@ int mmdRemoteFileManager::UploadLocalFile(mafString local_filename, mafString re
     auth += m_Pwd;
     curl_easy_reset(m_Curl);
     curl_easy_setopt(m_Curl, CURLOPT_URL, remote_filename.GetCStr());
-    curl_easy_setopt(m_Curl, CURLOPT_NOPROGRESS, FALSE);
-    curl_easy_setopt(m_Curl, CURLOPT_UPLOAD, TRUE);
+    curl_easy_setopt(m_Curl, CURLOPT_NOPROGRESS, false);
+    curl_easy_setopt(m_Curl, CURLOPT_UPLOAD, true);
     curl_easy_setopt(m_Curl, CURLOPT_READFUNCTION,FileUpload);
     curl_easy_setopt(m_Curl, CURLOPT_READDATA, m_LocalStream);
     curl_easy_setopt(m_Curl, CURLOPT_INFILESIZE_LARGE,(curl_off_t)m_FileInfo.st_size);
@@ -225,9 +225,9 @@ int mmdRemoteFileManager::UploadLocalFile(mafString local_filename, mafString re
         if (m_EnableCertificateAuthentication)
         {
           curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYHOST, 0);
-          curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+          curl_easy_setopt(m_Curl, CURLOPT_SSL_VERIFYPEER, false);
         }
-        curl_easy_setopt(m_Curl, CURLOPT_PUT, TRUE);
+        curl_easy_setopt(m_Curl, CURLOPT_PUT, true);
       }
     }
 

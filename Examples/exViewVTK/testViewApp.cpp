@@ -80,7 +80,7 @@ bool testViewApp::OnInit()
 
   m_Logic->Show();
   m_Logic->Init(0,NULL); // calls FileNew - which create the root
-  return TRUE;
+  return true;
 }
 //--------------------------------------------------------------------------------
 int testViewApp::OnExit()

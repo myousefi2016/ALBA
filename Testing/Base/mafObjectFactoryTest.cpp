@@ -265,7 +265,7 @@ void mafObjectFactoryTest::TestDisable()
   for ( std::list<bool>::iterator i = listFlag.begin(); i != listFlag.end(); ++i )
   {
     bool val=(*i);
-    CPPUNIT_ASSERT(val==FALSE);
+    CPPUNIT_ASSERT(val==false);
   }
 
   mafObjectFactory::UnRegisterAllFactories();

@@ -162,7 +162,7 @@ bool exInteractionApp::OnInit()
 
   m_logic->Show();
   m_logic->Init(0,NULL); // calls FileNew - which create the root
-  return TRUE;
+  return true;
 }
 //--------------------------------------------------------------------------------
 int exInteractionApp::OnExit()

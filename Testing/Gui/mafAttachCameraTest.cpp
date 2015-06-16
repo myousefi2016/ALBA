@@ -85,18 +85,18 @@ void mafAttachCameraTest::TestRenderStuff()
 void mafAttachCameraTest::TestEnableDisableAttachCamera()
 {
   mafAttachCamera *attachCamera=new mafAttachCamera(NULL, NULL, NULL);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == FALSE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == false);
   attachCamera->EnableAttachCamera();
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == TRUE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == true);
   cppDEL(attachCamera);
 }
 
 void mafAttachCameraTest::TestSetGetEnableAttachCamera()
 {
   mafAttachCamera *attachCamera=new mafAttachCamera(NULL, NULL, NULL);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == FALSE);
-  attachCamera->SetEnableAttachCamera(TRUE);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == TRUE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == false);
+  attachCamera->SetEnableAttachCamera(true);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == true);
   cppDEL(attachCamera);
 }
 

@@ -94,17 +94,17 @@ public:
   virtual vtkMAFAssembly *GetAssemblyFront(){return m_AssemblyFront;};
   virtual vtkMAFAssembly *GetAssemblyBack(){return m_AssemblyBack;};
 
-  void SetEdgeVisibilityOn(){m_EdgeVisibility = TRUE;};
-  void SetEdgeVisibilityOff(){m_EdgeVisibility = FALSE;};
+  void SetEdgeVisibilityOn(){m_EdgeVisibility = true;};
+  void SetEdgeVisibilityOff(){m_EdgeVisibility = false;};
 
-  void SetNormalVisibilityOn(){m_NormalVisibility = TRUE;};
-  void SetNormalVisibilityOff(){m_NormalVisibility = FALSE;};
+  void SetNormalVisibilityOn(){m_NormalVisibility = true;};
+  void SetNormalVisibilityOff(){m_NormalVisibility = false;};
 
-  void SetScalarVisibilityOn(){m_ScalarVisibility = TRUE;};
-  void SetScalarVisibilityOff(){m_ScalarVisibility = FALSE;};
+  void SetScalarVisibilityOn(){m_ScalarVisibility = true;};
+  void SetScalarVisibilityOff(){m_ScalarVisibility = false;};
 
-  void SetUseVtkPropertyOn(){m_UseVTKProperty = TRUE;};
-  void SetUseVtkPropertyOff(){m_UseVTKProperty = FALSE;};
+  void SetUseVtkPropertyOn(){m_UseVTKProperty = true;};
+  void SetUseVtkPropertyOff(){m_UseVTKProperty = false;};
 
 protected:
   vtkPolyDataMapper	      *m_Mapper;

@@ -120,7 +120,7 @@ mafPipeVolumeSlice::mafPipeVolumeSlice()
 
 	m_ShowSlider = true;
 	m_ShowTICKs	 = false;
-  m_TrilinearInterpolationOn = FALSE;
+  m_TrilinearInterpolationOn = false;
 }
 //----------------------------------------------------------------------------
 void mafPipeVolumeSlice::InitializeSliceParameters(int direction, bool show_vol_bbox, bool show_bounds)
@@ -762,13 +762,13 @@ void mafPipeVolumeSlice::UpdateSlice()
   {
     if (m_SlicerImage[i] != NULL)
     {
-      m_SlicerImage[i]->SetTrilinearInterpolation(m_TrilinearInterpolationOn == TRUE);
+      m_SlicerImage[i]->SetTrilinearInterpolation(m_TrilinearInterpolationOn == true);
       m_SlicerImage[i]->Update();
     }
 
     if (m_SlicerPolygonal[i] != NULL)
     {
-      //m_SlicerPolygonal[i]->SetTrilinearInterpolation(m_TrilinearInterpolationOn == TRUE);
+      //m_SlicerPolygonal[i]->SetTrilinearInterpolation(m_TrilinearInterpolationOn == true);
       m_SlicerPolygonal[i]->Update();
     }
   }    

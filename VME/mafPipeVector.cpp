@@ -199,12 +199,12 @@ void mafPipeVector::UpdateProperty(bool fromTag)
   double pointCop[3];
   m_Data->GetPoint(0,pointCop);
 
-  if (m_UseSphere == TRUE)
+  if (m_UseSphere == true)
   {
     m_Sphere->SetCenter(pointCop);
   }
   
-  if (m_UseArrow == TRUE)
+  if (m_UseArrow == true)
   {
     double pointForce[3];
     m_Data->GetPoint(1,pointForce);
@@ -324,7 +324,7 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
       break;
       case ID_USE_ARROW:
-        if (m_UseArrow == FALSE)
+        if (m_UseArrow == false)
         {
           m_Apd->RemoveInput(m_ArrowTip->GetOutput());
           m_Apd->Update();
@@ -338,7 +338,7 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
       break;
       case ID_USE_SPHERE:
-        if (m_UseSphere == FALSE)
+        if (m_UseSphere == false)
         {
           m_Apd->RemoveInput(m_Sphere->GetOutput());
           m_Apd->Update();
@@ -352,7 +352,7 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
       break;
       case ID_USE_BUNCH:
-        if (m_UseBunch == TRUE)
+        if (m_UseBunch == true)
         {
           m_Gui->Update();
           AllVector();
@@ -378,7 +378,7 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
       break;
       case ID_ALL_BUNCH:
-        if (m_AllBunch == TRUE)
+        if (m_AllBunch == true)
         {
           m_Bunch->RemoveAllInputs();
           m_Interval = m_TimeVector.size();

@@ -135,7 +135,7 @@ void mafGUIContextualMenu::ShowContextualMenu(wxFrame *child, mafView *view, boo
     }
   }
 #endif
-  //this->Append(CONTEXTUAL_MENU_EXTERNAL_INTERNAL_VIEW, "External", "Switch view visualization between external/internal", TRUE);
+  //this->Append(CONTEXTUAL_MENU_EXTERNAL_INTERNAL_VIEW, "External", "Switch view visualization between external/internal", true);
   //this->FindItem(CONTEXTUAL_MENU_EXTERNAL_INTERNAL_VIEW)->Check(m_ViewActive->IsExternal());
 	this->AppendSeparator();
 	this->Append(CONTEXTUAL_MENU_SAVE_AS_IMAGE, _("Save as Image"));
@@ -264,7 +264,7 @@ void mafGUIContextualMenu::OnContextualViewMenu(wxCommandEvent& event)
       //m_ViewActive->HideGui();
       mafEventMacro(mafEvent(this,VIEW_CREATED,m_ViewActive));
       m_ChildViewActive->Destroy();
-      m_ViewActive->m_frame->Show(TRUE);
+      m_ViewActive->m_frame->Show(true);
       //m_ViewActive->ShowGui();
       return;
     }

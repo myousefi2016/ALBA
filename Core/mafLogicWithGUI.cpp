@@ -118,7 +118,7 @@ void mafLogicWithGUI::Show()
 //----------------------------------------------------------------------------
 {
   m_AppTitle = m_Win->GetTitle().c_str();
-	m_Win->Show(TRUE);
+	m_Win->Show(true);
 }
 //----------------------------------------------------------------------------
 void mafLogicWithGUI::ShowSplashScreen()

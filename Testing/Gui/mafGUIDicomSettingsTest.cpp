@@ -89,23 +89,23 @@ void mafGUIDicomSettingsTest::TestAutoCropPosition()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int autoCropPosition = settings->AutoCropPosition();
-  m_Result = autoCropPosition == FALSE;
+  m_Result = autoCropPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("AutoCropPos",TRUE);
+  config->Write("AutoCropPos",true);
   settings->InitializeSettings();
   autoCropPosition = settings->AutoCropPosition();
-  m_Result = autoCropPosition == TRUE;
+  m_Result = autoCropPosition == true;
 
   TEST_RESULT;
 
-  config->Write("AutoCropPos",FALSE);
+  config->Write("AutoCropPos",false);
   settings->InitializeSettings();
   autoCropPosition = settings->AutoCropPosition();
-  m_Result = autoCropPosition == FALSE;
+  m_Result = autoCropPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -114,17 +114,17 @@ void mafGUIDicomSettingsTest::TestAutoCropPosition()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_AUTO_POS_CROP);
 
-  settings->m_AutoCropPos = TRUE;
+  settings->m_AutoCropPos = true;
   settings->OnEvent(&e);
   config->Read("AutoCropPos",&autoCropPosition);
-  m_Result = autoCropPosition == TRUE;
+  m_Result = autoCropPosition == true;
 
   TEST_RESULT;
 
-  settings->m_AutoCropPos = FALSE;
+  settings->m_AutoCropPos = false;
   settings->OnEvent(&e);
   config->Read("AutoCropPos",&autoCropPosition);
-  m_Result = autoCropPosition == FALSE;
+  m_Result = autoCropPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -144,23 +144,23 @@ void mafGUIDicomSettingsTest::TestEnableNumberOfTime()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableNumberOfTime = settings->EnableNumberOfTime();
-  m_Result = enableNumberOfTime == TRUE;
+  m_Result = enableNumberOfTime == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableTimeBar",FALSE);
+  config->Write("EnableTimeBar",false);
   settings->InitializeSettings();
   enableNumberOfTime = settings->EnableNumberOfTime();
-  m_Result = enableNumberOfTime == FALSE;
+  m_Result = enableNumberOfTime == false;
 
   TEST_RESULT;
 
-  config->Write("EnableTimeBar",TRUE);
+  config->Write("EnableTimeBar",true);
   settings->InitializeSettings();
   enableNumberOfTime = settings->EnableNumberOfTime();
-  m_Result = enableNumberOfTime == TRUE;
+  m_Result = enableNumberOfTime == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -169,17 +169,17 @@ void mafGUIDicomSettingsTest::TestEnableNumberOfTime()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_ENALBLE_TIME_BAR);
 
-  settings->m_EnableNumberOfTime = FALSE;
+  settings->m_EnableNumberOfTime = false;
   settings->OnEvent(&e);
   config->Read("EnableTimeBar",&enableNumberOfTime);
-  m_Result = enableNumberOfTime == FALSE;
+  m_Result = enableNumberOfTime == false;
 
   TEST_RESULT;
 
-  settings->m_EnableNumberOfTime = TRUE;
+  settings->m_EnableNumberOfTime = true;
   settings->OnEvent(&e);
   config->Read("EnableTimeBar",&enableNumberOfTime);
-  m_Result = enableNumberOfTime == TRUE;
+  m_Result = enableNumberOfTime == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -199,23 +199,23 @@ void mafGUIDicomSettingsTest::TestEnableNumberOfSlice()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableNumberOfSlice = settings->EnableNumberOfSlice();
-  m_Result = enableNumberOfSlice == TRUE;
+  m_Result = enableNumberOfSlice == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableNumberOfSlice",FALSE);
+  config->Write("EnableNumberOfSlice",false);
   settings->InitializeSettings();
   enableNumberOfSlice = settings->EnableNumberOfSlice();
-  m_Result = enableNumberOfSlice == FALSE;
+  m_Result = enableNumberOfSlice == false;
 
   TEST_RESULT;
 
-  config->Write("EnableNumberOfSlice",TRUE);
+  config->Write("EnableNumberOfSlice",true);
   settings->InitializeSettings();
   enableNumberOfSlice = settings->EnableNumberOfSlice();
-  m_Result = enableNumberOfSlice == TRUE;
+  m_Result = enableNumberOfSlice == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -224,17 +224,17 @@ void mafGUIDicomSettingsTest::TestEnableNumberOfSlice()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_ENALBLE_NUMBER_OF_SLICE);
 
-  settings->m_EnableNumberOfSlice = FALSE;
+  settings->m_EnableNumberOfSlice = false;
   settings->OnEvent(&e);
   config->Read("EnableNumberOfSlice",&enableNumberOfSlice);
-  m_Result = enableNumberOfSlice == FALSE;
+  m_Result = enableNumberOfSlice == false;
 
   TEST_RESULT;
 
-  settings->m_EnableNumberOfSlice = TRUE;
+  settings->m_EnableNumberOfSlice = true;
   settings->OnEvent(&e);
   config->Read("EnableNumberOfSlice",&enableNumberOfSlice);
-  m_Result = enableNumberOfSlice == TRUE;
+  m_Result = enableNumberOfSlice == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -309,23 +309,23 @@ void mafGUIDicomSettingsTest::TestEnableChangeSide()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableChageSide = settings->EnableChangeSide();
-  m_Result = enableChageSide == FALSE;
+  m_Result = enableChageSide == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableSide",TRUE);
+  config->Write("EnableSide",true);
   settings->InitializeSettings();
   enableChageSide = settings->EnableChangeSide();
-  m_Result = enableChageSide == TRUE;
+  m_Result = enableChageSide == true;
 
   TEST_RESULT;
 
-  config->Write("EnableSide",FALSE);
+  config->Write("EnableSide",false);
   settings->InitializeSettings();
   enableChageSide = settings->EnableChangeSide();
-  m_Result = enableChageSide == FALSE;
+  m_Result = enableChageSide == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -334,17 +334,17 @@ void mafGUIDicomSettingsTest::TestEnableChangeSide()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_SIDE);
 
-  settings->m_EnableChangeSide = TRUE;
+  settings->m_EnableChangeSide = true;
   settings->OnEvent(&e);
   config->Read("EnableSide",&enableChageSide);
-  m_Result = enableChageSide == TRUE;
+  m_Result = enableChageSide == true;
 
   TEST_RESULT;
 
-  settings->m_EnableChangeSide = FALSE;
+  settings->m_EnableChangeSide = false;
   settings->OnEvent(&e);
   config->Read("EnableSide",&enableChageSide);
-  m_Result = enableChageSide == FALSE;
+  m_Result = enableChageSide == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -364,23 +364,23 @@ void mafGUIDicomSettingsTest::TestEnableDiscardPosition()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableDiscardPosition = settings->EnableDiscardPosition();
-  m_Result = enableDiscardPosition == FALSE;
+  m_Result = enableDiscardPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableDiscardPosition",TRUE);
+  config->Write("EnableDiscardPosition",true);
   settings->InitializeSettings();
   enableDiscardPosition = settings->EnableDiscardPosition();
-  m_Result = enableDiscardPosition == TRUE;
+  m_Result = enableDiscardPosition == true;
 
   TEST_RESULT;
 
-  config->Write("EnableDiscardPosition",FALSE);
+  config->Write("EnableDiscardPosition",false);
   settings->InitializeSettings();
   enableDiscardPosition = settings->EnableDiscardPosition();
-  m_Result = enableDiscardPosition == FALSE;
+  m_Result = enableDiscardPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -389,17 +389,17 @@ void mafGUIDicomSettingsTest::TestEnableDiscardPosition()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_DISCARD_ORIGIN);
 
-  settings->m_EnableDiscardPosition = TRUE;
+  settings->m_EnableDiscardPosition = true;
   settings->OnEvent(&e);
   config->Read("EnableDiscardPosition",&enableDiscardPosition);
-  m_Result = enableDiscardPosition == TRUE;
+  m_Result = enableDiscardPosition == true;
 
   TEST_RESULT;
 
-  settings->m_EnableDiscardPosition = FALSE;
+  settings->m_EnableDiscardPosition = false;
   settings->OnEvent(&e);
   config->Read("EnableDiscardPosition",&enableDiscardPosition);
-  m_Result = enableDiscardPosition == FALSE;
+  m_Result = enableDiscardPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -419,23 +419,23 @@ void mafGUIDicomSettingsTest::TestEnableResampleVolume()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableResampleVolume = settings->EnableResampleVolume();
-  m_Result = enableResampleVolume == FALSE;
+  m_Result = enableResampleVolume == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableResampleVolume",TRUE);
+  config->Write("EnableResampleVolume",true);
   settings->InitializeSettings();
   enableResampleVolume = settings->EnableResampleVolume();
-  m_Result = enableResampleVolume == TRUE;
+  m_Result = enableResampleVolume == true;
 
   TEST_RESULT;
 
-  config->Write("EnableResampleVolume",FALSE);
+  config->Write("EnableResampleVolume",false);
   settings->InitializeSettings();
   enableResampleVolume = settings->EnableResampleVolume();
-  m_Result = enableResampleVolume == FALSE;
+  m_Result = enableResampleVolume == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -444,17 +444,17 @@ void mafGUIDicomSettingsTest::TestEnableResampleVolume()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_RESAMPLE_VOLUME);
 
-  settings->m_EnableResampleVolume = TRUE;
+  settings->m_EnableResampleVolume = true;
   settings->OnEvent(&e);
   config->Read("EnableResampleVolume",&enableResampleVolume);
-  m_Result = enableResampleVolume == TRUE;
+  m_Result = enableResampleVolume == true;
 
   TEST_RESULT;
 
-  settings->m_EnableResampleVolume = FALSE;
+  settings->m_EnableResampleVolume = false;
   settings->OnEvent(&e);
   config->Read("EnableResampleVolume",&enableResampleVolume);
-  m_Result = enableResampleVolume == FALSE;
+  m_Result = enableResampleVolume == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -474,23 +474,23 @@ void mafGUIDicomSettingsTest::TestEnableRescaleTo16Bit()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableRescaleTo16Bit = settings->EnableRescaleTo16Bit();
-  m_Result = enableRescaleTo16Bit == FALSE;
+  m_Result = enableRescaleTo16Bit == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableRescaleTo16Bit",TRUE);
+  config->Write("EnableRescaleTo16Bit",true);
   settings->InitializeSettings();
   enableRescaleTo16Bit = settings->EnableRescaleTo16Bit();
-  m_Result = enableRescaleTo16Bit == TRUE;
+  m_Result = enableRescaleTo16Bit == true;
 
   TEST_RESULT;
 
-  config->Write("EnableRescaleTo16Bit",FALSE);
+  config->Write("EnableRescaleTo16Bit",false);
   settings->InitializeSettings();
   enableRescaleTo16Bit = settings->EnableRescaleTo16Bit();
-  m_Result = enableRescaleTo16Bit == FALSE;
+  m_Result = enableRescaleTo16Bit == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -499,17 +499,17 @@ void mafGUIDicomSettingsTest::TestEnableRescaleTo16Bit()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_RESCALE_TO_16_BIT);
 
-  settings->m_EnableRescaleTo16Bit = TRUE;
+  settings->m_EnableRescaleTo16Bit = true;
   settings->OnEvent(&e);
   config->Read("EnableRescaleTo16Bit",&enableRescaleTo16Bit);
-  m_Result = enableRescaleTo16Bit == TRUE;
+  m_Result = enableRescaleTo16Bit == true;
 
   TEST_RESULT;
 
-  settings->m_EnableRescaleTo16Bit = FALSE;
+  settings->m_EnableRescaleTo16Bit = false;
   settings->OnEvent(&e);
   config->Read("EnableRescaleTo16Bit",&enableRescaleTo16Bit);
-  m_Result = enableRescaleTo16Bit == FALSE;
+  m_Result = enableRescaleTo16Bit == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -529,23 +529,23 @@ void mafGUIDicomSettingsTest::TestEnableVisualizationPosition()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableVisualizationPosition = settings->EnableVisualizationPosition();
-  m_Result = enableVisualizationPosition == FALSE;
+  m_Result = enableVisualizationPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableVisualizationPosition",TRUE);
+  config->Write("EnableVisualizationPosition",true);
   settings->InitializeSettings();
   enableVisualizationPosition = settings->EnableVisualizationPosition();
-  m_Result = enableVisualizationPosition == TRUE;
+  m_Result = enableVisualizationPosition == true;
 
   TEST_RESULT;
 
-  config->Write("EnableVisualizationPosition",FALSE);
+  config->Write("EnableVisualizationPosition",false);
   settings->InitializeSettings();
   enableVisualizationPosition = settings->EnableVisualizationPosition();
-  m_Result = enableVisualizationPosition == FALSE;
+  m_Result = enableVisualizationPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -554,17 +554,17 @@ void mafGUIDicomSettingsTest::TestEnableVisualizationPosition()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_ENABLE_POS_INFO);
 
-  settings->m_VisualizePosition = TRUE;
+  settings->m_VisualizePosition = true;
   settings->OnEvent(&e);
   config->Read("EnableVisualizationPosition",&enableVisualizationPosition);
-  m_Result = enableVisualizationPosition == TRUE;
+  m_Result = enableVisualizationPosition == true;
 
   TEST_RESULT;
 
-  settings->m_VisualizePosition = FALSE;
+  settings->m_VisualizePosition = false;
   settings->OnEvent(&e);
   config->Read("EnableVisualizationPosition",&enableVisualizationPosition);
-  m_Result = enableVisualizationPosition == FALSE;
+  m_Result = enableVisualizationPosition == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -584,23 +584,23 @@ void mafGUIDicomSettingsTest::TestEnableZCrop()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableZCrop = settings->EnableZCrop();
-  m_Result = enableZCrop == TRUE;
+  m_Result = enableZCrop == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableZCrop",FALSE);
+  config->Write("EnableZCrop",false);
   settings->InitializeSettings();
   enableZCrop = settings->EnableZCrop();
-  m_Result = enableZCrop == FALSE;
+  m_Result = enableZCrop == false;
 
   TEST_RESULT;
 
-  config->Write("EnableZCrop",TRUE);
+  config->Write("EnableZCrop",true);
   settings->InitializeSettings();
   enableZCrop = settings->EnableZCrop();
-  m_Result = enableZCrop == TRUE;
+  m_Result = enableZCrop == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -609,17 +609,17 @@ void mafGUIDicomSettingsTest::TestEnableZCrop()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_Z_CROP);
 
-  settings->m_EnableZCrop = FALSE;
+  settings->m_EnableZCrop = false;
   settings->OnEvent(&e);
   config->Read("EnableZCrop",&enableZCrop);
-  m_Result = enableZCrop == FALSE;
+  m_Result = enableZCrop == false;
 
   TEST_RESULT;
 
-  settings->m_EnableZCrop = TRUE;
+  settings->m_EnableZCrop = true;
   settings->OnEvent(&e);
   config->Read("EnableZCrop",&enableZCrop);
-  m_Result = enableZCrop == TRUE;
+  m_Result = enableZCrop == true;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -639,23 +639,23 @@ void mafGUIDicomSettingsTest::TestEnableScalarTolerance()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enableScalarTolerance = settings->EnableScalarTolerance();
-  m_Result = enableScalarTolerance == FALSE;
+  m_Result = enableScalarTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableScalarDistance",TRUE);
+  config->Write("EnableScalarDistance",true);
   settings->InitializeSettings();
   enableScalarTolerance = settings->EnableScalarTolerance();
-  m_Result = enableScalarTolerance == TRUE;
+  m_Result = enableScalarTolerance == true;
 
   TEST_RESULT;
 
-  config->Write("EnableScalarDistance",FALSE);
+  config->Write("EnableScalarDistance",false);
   settings->InitializeSettings();
   enableScalarTolerance = settings->EnableScalarTolerance();
-  m_Result = enableScalarTolerance == FALSE;
+  m_Result = enableScalarTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -664,17 +664,17 @@ void mafGUIDicomSettingsTest::TestEnableScalarTolerance()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_SCALAR_DISTANCE_TOLERANCE);
 
-  settings->m_ScalarTolerance = TRUE;
+  settings->m_ScalarTolerance = true;
   settings->OnEvent(&e);
   config->Read("EnableScalarDistance",&enableScalarTolerance);
-  m_Result = enableScalarTolerance == TRUE;
+  m_Result = enableScalarTolerance == true;
 
   TEST_RESULT;
 
-  settings->m_ScalarTolerance = FALSE;
+  settings->m_ScalarTolerance = false;
   settings->OnEvent(&e);
   config->Read("EnableScalarDistance",&enableScalarTolerance);
-  m_Result = enableScalarTolerance == FALSE;
+  m_Result = enableScalarTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -749,23 +749,23 @@ void mafGUIDicomSettingsTest::TestEnablePercentageTolerance()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int enablePercentageTolerance = settings->EnablePercentageTolerance();
-  m_Result = enablePercentageTolerance == FALSE;
+  m_Result = enablePercentageTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnablePercentageDistance",TRUE);
+  config->Write("EnablePercentageDistance",true);
   settings->InitializeSettings();
   enablePercentageTolerance = settings->EnablePercentageTolerance();
-  m_Result = enablePercentageTolerance == TRUE;
+  m_Result = enablePercentageTolerance == true;
 
   TEST_RESULT;
 
-  config->Write("EnablePercentageDistance",FALSE);
+  config->Write("EnablePercentageDistance",false);
   settings->InitializeSettings();
   enablePercentageTolerance = settings->EnableScalarTolerance();
-  m_Result = enablePercentageTolerance == FALSE;
+  m_Result = enablePercentageTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -774,17 +774,17 @@ void mafGUIDicomSettingsTest::TestEnablePercentageTolerance()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_PERCENTAGE_DISTANCE_TOLERANCE);
 
-  settings->m_PercentageTolerance = TRUE;
+  settings->m_PercentageTolerance = true;
   settings->OnEvent(&e);
   config->Read("EnablePercentageDistance",&enablePercentageTolerance);
-  m_Result = enablePercentageTolerance == TRUE;
+  m_Result = enablePercentageTolerance == true;
 
   TEST_RESULT;
 
-  settings->m_PercentageTolerance = FALSE;
+  settings->m_PercentageTolerance = false;
   settings->OnEvent(&e);
   config->Read("EnablePercentageDistance",&enablePercentageTolerance);
-  m_Result = enablePercentageTolerance == FALSE;
+  m_Result = enablePercentageTolerance == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -859,23 +859,23 @@ void mafGUIDicomSettingsTest::TestAutoVMEType()
   //Test default value
   //////////////////////////////////////////////////////////////////////////
   int autoVMEType = settings->AutoVMEType();
-  m_Result = autoVMEType == FALSE;
+  m_Result = autoVMEType == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("AutoVMEType",TRUE);
+  config->Write("AutoVMEType",true);
   settings->InitializeSettings();
   autoVMEType = settings->AutoVMEType();
-  m_Result = autoVMEType == TRUE;
+  m_Result = autoVMEType == true;
 
   TEST_RESULT;
 
-  config->Write("AutoVMEType",FALSE);
+  config->Write("AutoVMEType",false);
   settings->InitializeSettings();
   autoVMEType = settings->AutoVMEType();
-  m_Result = autoVMEType == FALSE;
+  m_Result = autoVMEType == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -884,17 +884,17 @@ void mafGUIDicomSettingsTest::TestAutoVMEType()
   mafEvent e;
   e.SetId(mafGUIDicomSettings::ID_AUTO_VME_TYPE);
 
-  settings->m_AutoVMEType = TRUE;
+  settings->m_AutoVMEType = true;
   settings->OnEvent(&e);
   config->Read("AutoVMEType",&autoVMEType);
-  m_Result = autoVMEType == TRUE;
+  m_Result = autoVMEType == true;
 
   TEST_RESULT;
 
-  settings->m_AutoVMEType = FALSE;
+  settings->m_AutoVMEType = false;
   settings->OnEvent(&e);
   config->Read("AutoVMEType",&autoVMEType);
-  m_Result = autoVMEType == FALSE;
+  m_Result = autoVMEType == false;
 
   TEST_RESULT;
   //////////////////////////////////////////////////////////////////////////
@@ -985,37 +985,37 @@ void mafGUIDicomSettingsTest::TestEnableToRead()
   //////////////////////////////////////////////////////////////////////////
   //Test read value
   //////////////////////////////////////////////////////////////////////////
-  config->Write("EnableReadCT",FALSE);
+  config->Write("EnableReadCT",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("CT");
   TEST_RESULT;
 
-  config->Write("EnableReadCR",FALSE);
+  config->Write("EnableReadCR",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("CR");
   TEST_RESULT;
 
-  config->Write("EnableReadOT",FALSE);
+  config->Write("EnableReadOT",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("OT");
   TEST_RESULT;
 
-  config->Write("EnableReadXA",FALSE);
+  config->Write("EnableReadXA",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("XA");
   TEST_RESULT;
 
-  config->Write("EnableReadMI",FALSE);
+  config->Write("EnableReadMI",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("MR");
   TEST_RESULT;
 
-  config->Write("EnableReadSC",FALSE);
+  config->Write("EnableReadSC",false);
   settings->InitializeSettings();
   m_Result = !settings->EnableToRead("SC");
   TEST_RESULT;
 
-	config->Write("EnableReadRF",FALSE);
+	config->Write("EnableReadRF",false);
 	settings->InitializeSettings();
 	m_Result = !settings->EnableToRead("RF");
 	TEST_RESULT;

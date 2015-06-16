@@ -93,8 +93,8 @@ mafViewOrthoSlice::mafViewOrthoSlice(wxString label)
   m_CanPlugVisualPipes=true;
 
   // Added by Losi 11.25.2009
-  m_EnableGPU=FALSE;
-  m_TrilinearInterpolationOn = TRUE;
+  m_EnableGPU=false;
+  m_TrilinearInterpolationOn = true;
 
 }
 //----------------------------------------------------------------------------

@@ -63,7 +63,7 @@ bool exVMEManApp::OnInit()
 
   m_logic->Show();
   m_logic->Init(0,NULL);
-  return TRUE;
+  return true;
 }
 //--------------------------------------------------------------------------------
 int exVMEManApp::OnExit()

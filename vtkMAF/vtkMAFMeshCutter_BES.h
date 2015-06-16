@@ -15,8 +15,8 @@
 =========================================================================*/
 
 
-#ifndef __vtkMAFMeshCutter_h
-#define __vtkMAFMeshCutter_h
+#ifndef __vtkMAFMeshCutter_BES_h
+#define __vtkMAFMeshCutter_BES_h
 
 //---------------------------------------------
 // includes:

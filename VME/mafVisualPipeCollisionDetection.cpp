@@ -327,7 +327,7 @@ void mafVisualPipeCollisionDetection::UpdatePipeline(bool force /* = false */)
           {
             int value = (int)array0->GetTuple1(i);
             double test = arrayToExclude0->GetTuple1(value);
-            if (arrayToExclude0->GetTuple1(value) == TRUE)
+            if (arrayToExclude0->GetTuple1(value) == true)
             {
               //contactScalars0->SetTuple1(value,0.0);
               exclude = true;
@@ -336,7 +336,7 @@ void mafVisualPipeCollisionDetection::UpdatePipeline(bool force /* = false */)
           if (arrayToExclude1)
           {
             int value = (int)array1->GetTuple1(i);
-            if (arrayToExclude1->GetTuple1(value) == TRUE)
+            if (arrayToExclude1->GetTuple1(value) == true)
             {
               exclude = true;
             }
@@ -379,7 +379,7 @@ void mafVisualPipeCollisionDetection::UpdatePipeline(bool force /* = false */)
             if (arrayToExclude0)
             {
               int value = (int)array0->GetTuple1(i);
-              if (arrayToExclude0->GetTuple1(value) == TRUE)
+              if (arrayToExclude0->GetTuple1(value) == true)
               {
                 //contactScalars0->SetTuple1(value,0.0);
                 exclude = true;
@@ -388,7 +388,7 @@ void mafVisualPipeCollisionDetection::UpdatePipeline(bool force /* = false */)
             if (arrayToExclude1)
             {
               int value = (int)array1->GetTuple1(i);
-              if (arrayToExclude1->GetTuple1(value) == TRUE)
+              if (arrayToExclude1->GetTuple1(value) == true)
               {
                 exclude = true;
               }

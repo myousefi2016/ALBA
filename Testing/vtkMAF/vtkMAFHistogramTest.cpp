@@ -185,8 +185,8 @@ void vtkMAFHistogramTest::TestHistogramLogaritmicProperties()
   actor->LabelVisibilityOn();
   actor->SetLabel("TEST LOGARITMIC PROPERTIES");
 
-  actor->SetLogHistogram(TRUE);
-  actor->SetLogScaleConstant(TRUE);
+  actor->SetLogHistogram(true);
+  actor->SetLogScaleConstant(true);
 
   RenderData(actor);
   actor->Delete();
@@ -391,7 +391,7 @@ void vtkMAFHistogramTest::TestPrintSelf()
 {
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }
 //--------------------------------------------------

@@ -80,7 +80,6 @@ void vtkMAFPolyDataToSinglePolyLineTest::TestConversion()
     }
   }
 
-  polyOriginal->Update();
 
   vtkMAFSmartPointer<vtkMAFPolyDataToSinglePolyLine> psp;
   psp->SetInput(polyOriginal);

@@ -91,7 +91,6 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToX()
   }
   array->Modified();
   rg->GetPointData()->SetScalars(array);
-  rg->Update();
   
   // calculate projection over three base axis
   // the xy planes are:
@@ -188,7 +187,6 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToY()
   }
   array->Modified();
   rg->GetPointData()->SetScalars(array);
-  rg->Update();
 
   // calculate projection over three base axis
   // the xy planes are:
@@ -281,7 +279,6 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToZ()
   }
   array->Modified();
   rg->GetPointData()->SetScalars(array);
-  rg->Update();
 
   // calculate projection over three base axis
   // the xy planes are:
@@ -339,7 +336,7 @@ void vtkMAFProjectRGTest::TestPrintSelf()
   vtkMAFSmartPointer<vtkMAFProjectRG> filter;
   filter->SetProjectionModeToX();
   std::cout;
-  filter->PrintSelf(cout, 2);
+  filter->PrintSelf(cout, vtkIndent(2));
   
   
 }

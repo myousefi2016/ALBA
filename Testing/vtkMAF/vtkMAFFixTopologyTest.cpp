@@ -90,14 +90,12 @@ void vtkMAFFixTopologyTest::TestExecute()
    // put points and cells in polydata
    polydata->SetPoints(points);
    polydata->SetPolys(lines);
-   polydata->Update();
 
    vtkMAFSmartPointer<vtkMAFFixTopology> fixTopology;
    fixTopology->SetInput(polydata);
    fixTopology->Update();
 
    vtkPolyData *outputFixTopology = fixTopology->GetOutput();
-   outputFixTopology->Update();
 
    vtkMAFSmartPointer<vtkTriangleFilter> triangleFilter;
    triangleFilter->SetInput(polydata);
@@ -109,10 +107,7 @@ void vtkMAFFixTopologyTest::TestExecute()
    poissonSurfaceReconstructionFilter->SetInput(polyDataNormalsFilter->GetOutput());
    poissonSurfaceReconstructionFilter->Update();
 
-   poissonSurfaceReconstructionFilter->GetOutput()->Update();
-
    vtkPolyData *outputPipeLine = poissonSurfaceReconstructionFilter->GetOutput();
-   outputPipeLine->Update();
 
    //Check if the two results are equals
    CPPUNIT_ASSERT(outputPipeLine->GetNumberOfPoints() == outputFixTopology->GetNumberOfPoints());

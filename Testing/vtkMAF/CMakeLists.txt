@@ -3,7 +3,7 @@ PROJECT (vtkMAF_TEST)
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(vtkMAF vtkGraphics vtkRendering mafCommon)
+  LINK_LIBRARIES(vtkMAF vtkGraphics vtkRendering)
 ENDIF (MAF_BUILD_MAFDLL)
 
 #ADD_EXECUTABLE(vtkMAFTest vtkMAFTest.cxx)
@@ -51,7 +51,6 @@ SET(PROJECT_SRCS
 	vtkMAFRegionGrowingLocalGlobalThresholdTest.h vtkMAFRegionGrowingLocalGlobalThresholdTest.cpp
 	vtkImageUnPackerTest.h vtkImageUnPackerTest.cpp
 	vtkPackedImageTest.h vtkPackedImageTest.cpp
-	vtkMAFVolumeRayCastMapperTest.h vtkMAFVolumeRayCastMapperTest.cpp
 	vtkXRayVolumeMapperTest.h vtkXRayVolumeMapperTest.cpp
 	vtkMAFVolumeTextureMapper2DTest.h vtkMAFVolumeTextureMapper2DTest.cpp
 	vtkMAFDataArrayDescriptorTest.h vtkMAFDataArrayDescriptorTest.cpp

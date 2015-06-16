@@ -74,9 +74,9 @@ void mafReferenceCountedTest::TestRegister()
   // create an object on the Heap with reference count set to 1 and set
   // its flag reference to the "flag" variable.
   mafReferenceCounted *obj=CreateSmartObject(flag);
-  CPPUNIT_ASSERT(flag==TRUE);
+  CPPUNIT_ASSERT(flag==true);
   obj->UnRegister(0);
-  CPPUNIT_ASSERT(flag==FALSE);
+  CPPUNIT_ASSERT(flag==false);
 }
 //----------------------------------------------------------------------------
 void mafReferenceCountedTest::TestGetReferenceCount()
@@ -89,7 +89,7 @@ void mafReferenceCountedTest::TestGetReferenceCount()
   CPPUNIT_ASSERT(obj->GetReferenceCount()==10);
   obj->SetReferenceCount(1);
   obj->Delete();
-  CPPUNIT_ASSERT(flag==FALSE);
+  CPPUNIT_ASSERT(flag==false);
 }
 //----------------------------------------------------------------------------
 void mafReferenceCountedTest::TestDelete()
@@ -102,6 +102,6 @@ void mafReferenceCountedTest::TestDelete()
   obj->Delete();
   CPPUNIT_ASSERT(obj->GetReferenceCount()==1);
   obj->Delete();
-  CPPUNIT_ASSERT(flag==FALSE);
+  CPPUNIT_ASSERT(flag==false);
 
 }

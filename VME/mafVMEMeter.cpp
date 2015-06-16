@@ -559,7 +559,7 @@ void mafVMEMeter::InternalUpdate()
       s = vtkMath::Dot(v1,v2);
       if(vn1 != 0 && vn2 != 0)
       {
-        m_Angle = acos(s / (vn1 * vn2)) * vtkMath::RadiansToDegrees();
+        m_Angle = vtkMath::DegreesFromRadians(acos(s / (vn1 * vn2)));
         if(GetMeterMeasureType() == mafVMEMeter::RELATIVE_MEASURE)
           m_Angle -= GetMeterAttributes()->m_InitMeasure;
       }
@@ -981,7 +981,7 @@ void mafVMEMeter::OnEvent(mafEventBase *maf_event)
           m_HistogramRWI->SetSize(0,0,width,height);
 
           m_HistogramDialog->SetSize(x_init,y_init,width,height);
-          m_HistogramDialog->Show(FALSE);
+          m_HistogramDialog->Show(false);
         }
         
         GenerateHistogram(m_GenerateHistogram);

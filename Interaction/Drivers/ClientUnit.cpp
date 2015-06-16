@@ -40,9 +40,9 @@ ClientUnit::ClientUnit()
   m_sock->SetNotify(wxSOCKET_CONNECTION_FLAG |
                     wxSOCKET_INPUT_FLAG |
                     wxSOCKET_LOST_FLAG);
-  m_sock->Notify(TRUE);
+  m_sock->Notify(true);
 
-  m_busy = FALSE;
+  m_busy = false;
 }
 //----------------------------------------------------------------------------
 ClientUnit::~ClientUnit() 
@@ -59,7 +59,7 @@ bool ClientUnit::ConnectClient(wxIPV4address &addr)
 //----------------------------------------------------------------------------
 {
   mafLogMessage(_("\nTrying to connect (timeout = 10 sec) ...\n"));
-  m_sock->Connect(addr, FALSE);
+  m_sock->Connect(addr, false);
   m_sock->WaitOnConnect(10);
 
   bool status = m_sock->IsConnected();
@@ -88,7 +88,7 @@ void ClientUnit::SendMessageToServer(mafString &cmd)
   char *msg1;
   size_t len;
 
-  m_busy = TRUE;
+  m_busy = true;
 
   // Here we use ReadMsg and WriteMsg to send messages with
   // a header with size information. Also, the reception is
@@ -104,7 +104,7 @@ void ClientUnit::SendMessageToServer(mafString &cmd)
   m_sock->Write(msg1, len);
   m_sock->Discard();
 
-  m_busy = FALSE;
+  m_busy = false;
 }
 //----------------------------------------------------------------------------
 void ClientUnit::OnSocketEvent(wxSocketEvent& event)
@@ -133,7 +133,7 @@ void ClientUnit::ReadMessageFromServer(wxSocketBase *sock)
 {
 #define MAX_MSG_SIZE 256
 
-  m_busy = TRUE;
+  m_busy = true;
   char *msg = new char[MAX_MSG_SIZE];
   wxUint32 len;
 
@@ -151,7 +151,7 @@ void ClientUnit::ReadMessageFromServer(wxSocketBase *sock)
   }
 
   delete[] msg;
-  m_busy = FALSE;
+  m_busy = false;
 
 #undef MAX_MSG_SIZE
 }

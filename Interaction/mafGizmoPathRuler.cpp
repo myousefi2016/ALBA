@@ -126,10 +126,10 @@ void mafGizmoPathRuler::BuildGizmos()
     VMEGizmoName += gizmoID;
    
     // create a gizmo for each tick
-    int visibility = FALSE;
+    int visibility = false;
     if(gizmoID == 0 || gizmoID == m_TicksNumber/2 || gizmoID == m_TicksNumber-1)
     {
-      visibility = TRUE;
+      visibility = true;
     }
     mafGizmoPath *gp = new mafGizmoPath(m_InputVME, this, VMEGizmoName.c_str(), visibility );
 
@@ -317,7 +317,7 @@ void mafGizmoPathRuler::SetGizmoLabelsVisibility(bool value)
     if(m_GizmoPathVector[gizmoID]->GetOutput() == NULL) continue;
     if(gizmoID != 0 && gizmoID != m_TicksNumber/2 && gizmoID != m_TicksNumber-1)
     {
-      m_GizmoPathVector[gizmoID]->GetOutput()->SetTextVisibility(FALSE);
+      m_GizmoPathVector[gizmoID]->GetOutput()->SetTextVisibility(false);
     }
     else
       m_GizmoPathVector[gizmoID]->GetOutput()->SetTextVisibility(value);
@@ -328,7 +328,7 @@ void mafGizmoPathRuler::ResetLabelsVisibility()
 {
   for (int gizmoID = 0; gizmoID < m_GizmoPathVector.size();gizmoID++)
   {
-    m_GizmoPathVector[gizmoID]->GetOutput()->SetTextVisibility(FALSE);
+    m_GizmoPathVector[gizmoID]->GetOutput()->SetTextVisibility(false);
   }
 }
 

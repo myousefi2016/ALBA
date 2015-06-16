@@ -68,7 +68,6 @@ void vtkMAFRGSliceAccumulateTest::TestSetSlice()
   scalar1->SetName("scalar");
   slice1->GetPointData()->AddArray(scalar1);
   slice1->GetPointData()->SetActiveScalars("scalar");
-  slice1->Update();
 
   vtkMAFSmartPointer<vtkImageData> slice2;
   slice2->SetOrigin(0.0,0.0,2.0);
@@ -83,7 +82,6 @@ void vtkMAFRGSliceAccumulateTest::TestSetSlice()
   scalar2->SetName("scalar");
   slice2->GetPointData()->AddArray(scalar2);
   slice2->GetPointData()->SetActiveScalars("scalar");
-  slice2->Update();
 
 
   vtkMAFSmartPointer<vtkImageData> slice3;
@@ -99,7 +97,6 @@ void vtkMAFRGSliceAccumulateTest::TestSetSlice()
   scalar3->SetName("scalar");
   slice3->GetPointData()->AddArray(scalar3);
   slice3->GetPointData()->SetActiveScalars("scalar");
-  slice3->Update();
 
   vtkMAFSmartPointer<vtkMAFRGSliceAccumulate> accumulate;
   accumulate->SetNumberOfSlices(3);
@@ -110,7 +107,6 @@ void vtkMAFRGSliceAccumulateTest::TestSetSlice()
 
   vtkRectilinearGrid *output = accumulate->GetOutput();
   //output->DeepCopy(accumulate->GetOutput());
-  output->Update();
 
   output->GetPointData()->Update();
 
@@ -152,7 +148,6 @@ void vtkMAFRGSliceAccumulateTest::TestAddSlice()
   scalar1->SetName("scalar");
   slice1->GetPointData()->AddArray(scalar1);
   slice1->GetPointData()->SetActiveScalars("scalar");
-  slice1->Update();
 
   vtkMAFSmartPointer<vtkImageData> slice2;
   slice2->SetOrigin(0.0,0.0,2.0);
@@ -167,7 +162,6 @@ void vtkMAFRGSliceAccumulateTest::TestAddSlice()
   scalar2->SetName("scalar");
   slice2->GetPointData()->AddArray(scalar2);
   slice2->GetPointData()->SetActiveScalars("scalar");
-  slice2->Update();
 
 
   vtkMAFSmartPointer<vtkImageData> slice3;
@@ -183,7 +177,6 @@ void vtkMAFRGSliceAccumulateTest::TestAddSlice()
   scalar3->SetName("scalar");
   slice3->GetPointData()->AddArray(scalar3);
   slice3->GetPointData()->SetActiveScalars("scalar");
-  slice3->Update();
 
   vtkMAFSmartPointer<vtkMAFRGSliceAccumulate> accumulate;
   //accumulate->SetNumberOfSlices(3);
@@ -194,7 +187,6 @@ void vtkMAFRGSliceAccumulateTest::TestAddSlice()
 
   vtkRectilinearGrid *output = accumulate->GetOutput();
   //output->DeepCopy(accumulate->GetOutput());
-  output->Update();
 
   output->GetPointData()->Update();
 

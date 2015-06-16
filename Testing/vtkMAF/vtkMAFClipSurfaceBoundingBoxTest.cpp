@@ -89,23 +89,23 @@ void vtkMAFClipSurfaceBoundingBoxTest::TestSetGetClipInside()
 //--------------------------------------------------
 {
   vtkMAFSmartPointer<vtkMAFClipSurfaceBoundingBox> filter;
-  filter->SetClipInside(TRUE);
+  filter->SetClipInside(true);
 
-  CPPUNIT_ASSERT(filter->GetClipInside() == TRUE);  
-  filter->SetClipInside(FALSE);
-  CPPUNIT_ASSERT(filter->GetClipInside() == FALSE);  
+  CPPUNIT_ASSERT(filter->GetClipInside() == true);  
+  filter->SetClipInside(false);
+  CPPUNIT_ASSERT(filter->GetClipInside() == false);  
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecutionClipInsideOff()
 //--------------------------------------------------
 {
-  TestExecution(FALSE);
+  TestExecution(false);
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecutionClipInsideOn()
 //--------------------------------------------------
 {
-  TestExecution(TRUE);
+  TestExecution(true);
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecution(int clipInside)

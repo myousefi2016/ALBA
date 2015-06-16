@@ -124,9 +124,9 @@ mafPipeVolumeSlice_BES::mafPipeVolumeSlice_BES()
 
 	m_ShowSlider = true;
 	m_ShowTICKs	 = false;
-  m_EnableGPU = FALSE;
+  m_EnableGPU = false;
   m_Interpolate = true;
-  m_TrilinearInterpolationOn = TRUE;
+  m_TrilinearInterpolationOn = true;
 }
 //----------------------------------------------------------------------------
 void mafPipeVolumeSlice_BES::InitializeSliceParameters(int direction, bool show_vol_bbox, bool show_bounds/* =false */, bool interpolate/* =true */)

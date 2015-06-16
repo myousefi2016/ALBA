@@ -1344,7 +1344,7 @@ mafGUI* mafNode::CreateGui()
   m_Gui = new mafGUI(this);
   
   mafString type_name = GetTypeName();
-  if((*GetMAFExpertMode()) == TRUE) 
+  if((*GetMAFExpertMode()) == true) 
     m_Gui->Button(ID_PRINT_INFO, type_name, "", "Print node debug information");
   
   m_Gui->String(ID_NAME,"name :", &m_Name);

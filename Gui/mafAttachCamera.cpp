@@ -257,12 +257,12 @@ mafObserver * mafAttachCamera::GetListener()
 
 void mafAttachCamera::EnableAttachCamera()
 {
-  m_EnableAttachCamera = TRUE;
+  m_EnableAttachCamera = true;
 }
 
 void mafAttachCamera::DisableAttachCamera()
 {
-  m_EnableAttachCamera = FALSE;
+  m_EnableAttachCamera = false;
 }
 
 int mafAttachCamera::GetEnableAttachCamera()

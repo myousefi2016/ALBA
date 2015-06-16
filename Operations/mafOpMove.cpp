@@ -80,7 +80,7 @@ mafOpMove::mafOpMove(const wxString &label) :
 mafOpTransformInterface(label)
 //----------------------------------------------------------------------------
 {
-  m_EnableScaling = FALSE;
+  m_EnableScaling = false;
   m_OpType = OPTYPE_OP;
   m_Canundo = true;
 

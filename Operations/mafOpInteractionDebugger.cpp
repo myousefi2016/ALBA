@@ -150,7 +150,7 @@ void mafOpInteractionDebugger::OnEvent(mafEventBase *maf_event)
         {
           OnChooseConstrainVme(vme);
 
-          assert(TRUE);
+          assert(true);
         }
       }
       break;

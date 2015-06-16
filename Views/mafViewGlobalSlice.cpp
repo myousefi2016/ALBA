@@ -130,7 +130,7 @@ mafViewGlobalSlice::mafViewGlobalSlice(wxString label, int camera_position, bool
 	m_BoundsOutlineActor.clear();
 	m_BoundsOutlineMapper.clear();
 
-  m_TrilinearInterpolationOn = TRUE;
+  m_TrilinearInterpolationOn = true;
 }
 //----------------------------------------------------------------------------
 mafViewGlobalSlice::~mafViewGlobalSlice()

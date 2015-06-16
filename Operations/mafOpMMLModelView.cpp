@@ -64,7 +64,7 @@ mafOpMMLModelView::mafOpMMLModelView( vtkRenderWindow *rw, vtkRenderer *ren, vtk
 	m_PSlicesm = vtkMatrix4x4::New();
 
 	//
-	m_ScalingOccured = FALSE;
+	m_ScalingOccured = false;
 
 	//
 	m_PRenderer = ren;

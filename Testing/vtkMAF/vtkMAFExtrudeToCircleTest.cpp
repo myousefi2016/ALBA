@@ -149,7 +149,7 @@ void vtkMAFExtrudeToCircleTest::CreateTestData()
   cyl->SetRadius(1.0) ;
   cyl->SetCapping(0) ;
 
-  cyl->GetOutput()->Update() ;
+  cyl->Update() ;
   m_testData = vtkPolyData::New() ;
   m_testData->DeepCopy(cyl->GetOutput()) ;
 
@@ -227,7 +227,7 @@ void vtkMAFExtrudeToCircleTest::TestExtrusion()
   ETC->SetInput(CPD->GetOutput()) ;
   double direc[3] = {0.0, -1.0, 0.0} ;
   ETC->SetDirection(direc) ;
-  ETC->GetOutput()->Update() ;
+  ETC->Update() ;
   m_extrusion = vtkPolyData::New() ;
   m_extrusion->DeepCopy(ETC->GetOutput()) ;
 

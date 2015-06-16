@@ -272,13 +272,13 @@ mafOpSegmentation::mafOpSegmentation(const wxString &label) : mafOp(label)
   m_OldAutomaticThreshold = MAXINT;
   m_OldAutomaticUpperThreshold = MAXINT;
 
-  m_RemovePeninsulaRegions = FALSE;
+  m_RemovePeninsulaRegions = false;
 
   m_OLdWindowingLow = -1;
   m_OLdWindowingLow = -1;
 
-  m_GlobalFloodFill = FALSE;
-  m_FloodErease = FALSE;
+  m_GlobalFloodFill = false;
+  m_FloodErease = false;
 
   m_ManualSegmentationTools  = 0;
   m_ManualBucketActions = 0;
@@ -952,7 +952,7 @@ void mafOpSegmentation::FloodFill(vtkIdType seed)
   UndoBrushPreview();
 
   int center = seed;
-  if(m_GlobalFloodFill == TRUE)
+  if(m_GlobalFloodFill == true)
   {
     UndoRedoState urs;
     urs.dataArray = vtkUnsignedCharArray::New();
@@ -998,7 +998,7 @@ void mafOpSegmentation::FloodFill(vtkIdType seed)
     vtkMAFSmartPointer <vtkImageClip> clipper;
     clipper->SetInput(dummy);
     clipper->SetOutputWholeExtent(ext);
-    clipper->SetClipData(TRUE);
+    clipper->SetClipData(true);
     clipper->Update();
     vtkImageData *clippedDummy = clipper->GetOutput();
     clippedDummy->Update();
@@ -1285,7 +1285,7 @@ bool mafOpSegmentation::ApplyRefinementFilter2(vtkStructuredPoints *inputImage, 
   vtkMAFImageFillHolesRemoveIslands *filter = vtkMAFImageFillHolesRemoveIslands::New();
   filter->SetInput(inputImage);
   filter->SetEdgeSize(m_RefinementRegionsSize);
-  filter->SetRemovePeninsulaRegions(m_RemovePeninsulaRegions == TRUE);
+  filter->SetRemovePeninsulaRegions(m_RemovePeninsulaRegions == true);
   if(m_RefinementSegmentationAction == ID_REFINEMENT_HOLES_FILL)
   {
     filter->SetAlgorithmToFillHoles();
@@ -1309,7 +1309,7 @@ int mafOpSegmentation::ApplyFloodFill(vtkImageData *inputImage, vtkImageData *ou
   filter->SetInput(inputImage);
   filter->SetSeed(seed);
   
-  filter->SetFillErase(m_FloodErease == TRUE);
+  filter->SetFillErase(m_FloodErease == true);
 
   filter->Update();
   outputImage->DeepCopy(filter->GetOutput());
@@ -2382,7 +2382,7 @@ void mafOpSegmentation::OnEvent(mafEventBase *maf_event)
       {  
         if(m_ManualSegmentationTools == 1) // bucket
         {
-          m_FloodErease = TRUE;
+          m_FloodErease = true;
           OnEventFloodFill(e);
         }
         else // brush
@@ -2716,7 +2716,7 @@ void mafOpSegmentation::OnEvent(mafEventBase *maf_event)
         {
           if(m_ManualSegmentationTools == 1) // bucket
           {
-            m_FloodErease = FALSE;
+            m_FloodErease = false;
             OnEventFloodFill(e);
           }
           else // brush
@@ -3289,7 +3289,7 @@ void mafOpSegmentation::OnAutomaticSegmentationEvent(mafEvent *e)
 //         OnAutomaticPreview();
       UpdateThresholdRealTimePreview();
       OnEventUpdateThresholdSlice();
-      m_GuiDialog->Enable(ID_BUTTON_NEXT,(m_AutomaticGlobalThreshold==RANGE && m_AutomaticRanges.size()>0)||(m_AutomaticGlobalThreshold == FALSE));
+      m_GuiDialog->Enable(ID_BUTTON_NEXT,(m_AutomaticGlobalThreshold==RANGE && m_AutomaticRanges.size()>0)||(m_AutomaticGlobalThreshold == false));
     }
     break;
   case ID_AUTOMATIC_UPDATE_RANGE:
@@ -3432,7 +3432,7 @@ void mafOpSegmentation::OnManualSegmentationEvent(mafEvent *e)
 
         EnableSizerContent(m_BucketEditingSizer,true);
         EnableSizerContent(m_BrushEditingSizer,false);
-        m_ManualRangeSlider->Enable(m_GlobalFloodFill==TRUE);
+        m_ManualRangeSlider->Enable(m_GlobalFloodFill==true);
         m_SegmentationOperationsGui[MANUAL_SEGMENTATION]->Update();
         UndoBrushPreview();
         OnEventUpdateManualSlice();
@@ -5356,7 +5356,7 @@ void mafOpSegmentation::OnEventFloodFill(mafEvent *e)
   dims[1] = m_VolumeDimensions[1];
   dims[2] = m_VolumeDimensions[2];
 
-  if(m_GlobalFloodFill != TRUE)
+  if(m_GlobalFloodFill != true)
   {
     dims[m_CurrentSlicePlane] = 1;
     seed[m_CurrentSlicePlane] = 0;

@@ -47,7 +47,7 @@ void vtkHoleConnectivityTest::TestPrintSelf()
 //-------------------------------------------------------------------------
 {
   vtkMAFSmartPointer<vtkHoleConnectivity> hc;  
-  hc->PrintSelf(std::cout, 5);
+  hc->PrintSelf(std::cout, vtkIndent(5));
 }
 //-------------------------------------------------------------------------
 void vtkHoleConnectivityTest::TestGetClassName()

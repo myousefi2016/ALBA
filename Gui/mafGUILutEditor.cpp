@@ -282,7 +282,7 @@ mafGUILutEditor::mafGUILutEditor(wxWindow* parent, wxWindowID id, const wxPoint&
     sizer->Add(sz,0,wxALL, M);
   }
 
-  this->SetAutoLayout( TRUE );
+  this->SetAutoLayout( true );
   this->SetSizer( sizer );
   sizer->Fit(this);
   sizer->SetSizeHints(this);

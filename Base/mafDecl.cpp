@@ -24,7 +24,7 @@
 MAF_ID_IMP(REMOTE_COMMAND_CHANNEL)
 
 
-// int MAFExpertMode = TRUE;
+// int MAFExpertMode = true;
 
 static bool yelding;
 //----------------------------------------------------------------------------
@@ -499,6 +499,6 @@ std::string  mafIdString(int id)
 int* GetMAFExpertMode()
 //----------------------------------------------------------------------------
 {
-  static int MAFExpertMode = TRUE;
+  static int MAFExpertMode = true;
   return &MAFExpertMode;
 }

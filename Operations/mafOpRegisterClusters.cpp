@@ -1134,7 +1134,7 @@ void mafOpRegisterClusters::OnChooseVme(mafNode *vme)
 	m_GuiSetWeights->Update();
 
 	m_Dialog->Add(m_GuiSetWeights,1,wxEXPAND);
-	m_Dialog->SetAutoLayout(TRUE);
+	m_Dialog->SetAutoLayout(true);
 
 	m_Dialog->ShowModal();
 }

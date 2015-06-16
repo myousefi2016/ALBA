@@ -127,11 +127,11 @@ medInteractor2DDistance::medInteractor2DDistance(bool testMode /* = false */)
 	  wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	  sizer->Add(m_HistogramRWI->m_RwiBase,1, wxEXPAND);
 	  m_HistogramDialog->SetSizer(sizer);
-	  m_HistogramDialog->SetAutoLayout(TRUE);
+	  m_HistogramDialog->SetAutoLayout(true);
 	  sizer->Fit(m_HistogramDialog);
 	  
 	  m_HistogramDialog->SetSize(x_init,y_init,width,height);
-		m_HistogramDialog->Show(FALSE);
+		m_HistogramDialog->Show(false);
   }
 
   m_CurrentRenderer  = NULL;

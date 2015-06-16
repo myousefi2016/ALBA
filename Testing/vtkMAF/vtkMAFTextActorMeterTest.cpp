@@ -284,9 +284,9 @@ void vtkMAFTextActorMeterTest::CompareImages(vtkRenderWindow * renwin)
 void vtkMAFTextActorMeterTest::TestPrintSelf()
 //----------------------------------------------------------------------------
 {
-  vtkMAFTextActorMeter *actor;
+	vtkMAFTextActorMeter *actor;
   actor = vtkMAFTextActorMeter::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }
 //--------------------------------------------------

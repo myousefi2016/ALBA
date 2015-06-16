@@ -160,8 +160,8 @@ public:
   void FindVME();
 
   /* Set MAF Expert Mode*/
-  void MAFExpertModeOn(){(*GetMAFExpertMode()) = TRUE;};
-  void MAFExpertModeOff(){(*GetMAFExpertMode())= FALSE;};
+  void MAFExpertModeOn(){(*GetMAFExpertMode()) = true;};
+  void MAFExpertModeOff(){(*GetMAFExpertMode())= false;};
   void SetMAFExpertMode(int value){(*GetMAFExpertMode()) = value;};
 
   /* Set the file extension */

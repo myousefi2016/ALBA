@@ -296,7 +296,7 @@ void mafOpInteractiveClipSurface::OnEventThis(mafEventBase *maf_event)
         {
           OnChooseConstrainVme(vme);
 
-          assert(TRUE);
+          assert(true);
         }
       }
       break;

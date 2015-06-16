@@ -91,7 +91,7 @@ mafVisualPipePolylineGraph::mafVisualPipePolylineGraph()
 
   m_Representation = TUBE;
 
-  m_ShowBranchId = FALSE;
+  m_ShowBranchId = false;
 
 }
 //----------------------------------------------------------------------------
@@ -276,7 +276,7 @@ void mafVisualPipePolylineGraph::ExecutePipe()
 
   vtkNEW(m_ActorBranchId);
   m_ActorBranchId->SetMapper(mapperLabel);
-  m_ActorBranchId->SetVisibility(m_ShowBranchId==TRUE);
+  m_ActorBranchId->SetVisibility(m_ShowBranchId==true);
 }
 //----------------------------------------------------------------------------
 void mafVisualPipePolylineGraph::InitializeFromTag()
@@ -574,7 +574,7 @@ void mafVisualPipePolylineGraph::OnEvent(mafEventBase *maf_event)
     {
     case ID_SHOW_BRANCH_ID:
       {
-        m_ActorBranchId->SetVisibility(m_ShowBranchId==TRUE);
+        m_ActorBranchId->SetVisibility(m_ShowBranchId==true);
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
       }
       break;

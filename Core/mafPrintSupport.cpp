@@ -89,7 +89,7 @@ bool mafPrintout::OnPrintPage(int page)
   if (!dc)    {wxMessageBox("failed to retrieve Printing DC", "Warning"); return false;}
   m_View->Print(dc, m_Margins);  
 
-  return TRUE;
+  return true;
 }
 //----------------------------------------------------------------------------
 void mafPrintout::GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo)
@@ -170,7 +170,7 @@ void mafPrintSupport::OnPrintPreview(mafView *v)
   wxPreviewFrame *frame = new wxPreviewFrame(preview, (wxFrame *)mafGetFrame(), "Print Preview", wxPoint(100, 100), wxSize(600, 650));
   frame->Centre(wxBOTH);
   frame->Initialize();
-  frame->Show(TRUE);
+  frame->Show(true);
 }
 //----------------------------------------------------------------------------
 void mafPrintSupport::OnPrint(mafView *v)
@@ -188,7 +188,7 @@ void mafPrintSupport::OnPrint(mafView *v)
   {
     wxHtmlPrintout printout;
     printout.SetHtmlText(v->GetHTMLText());
-    if (!printer.Print( mafGetFrame(), &printout, TRUE))
+    if (!printer.Print( mafGetFrame(), &printout, true))
     {
       if (wxPrinter::GetLastError() == wxPRINTER_ERROR)
         wxMessageBox("There was a problem printing.\nPerhaps your current printer is not set correctly?", "Printing", wxOK);
@@ -203,7 +203,7 @@ void mafPrintSupport::OnPrint(mafView *v)
   else
   {
     mafPrintout printout(v,margins);
-    if (!printer.Print( mafGetFrame(), &printout, TRUE))
+    if (!printer.Print( mafGetFrame(), &printout, true))
     {
       if (wxPrinter::GetLastError() == wxPRINTER_ERROR)
         wxMessageBox("There was a problem printing.\nPerhaps your current printer is not set correctly?", "Printing", wxOK);
@@ -224,7 +224,7 @@ void mafPrintSupport::OnPrintSetup()
   wxPrintDialogData printDialogData(*m_PrintData);
   wxPrintDialog printerDialog(mafGetFrame(), & printDialogData);
 
-  printerDialog.GetPrintDialogData().SetSetupDialog(TRUE);
+  printerDialog.GetPrintDialogData().SetSetupDialog(true);
   printerDialog.ShowModal();
 
   (*m_PrintData) = printerDialog.GetPrintDialogData().GetPrintData();

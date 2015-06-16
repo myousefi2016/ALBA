@@ -108,7 +108,7 @@ mafPipePolyline::mafPipePolyline()
   m_ScalarsName = NULL;
   m_HalfNumberOfBorders = 0;
 
-  m_TextIdentifierBorderVisibility = FALSE;
+  m_TextIdentifierBorderVisibility = false;
 }
 //----------------------------------------------------------------------------
 void mafPipePolyline::Create(mafSceneNode *n)

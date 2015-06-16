@@ -303,7 +303,7 @@ void mafPipeVolumeSliceNotInterpolated::CreateRectilinearGridMapper()
   m_RectilinearGridMapper->SetLookupTable(m_VolumeLUT);
   m_RectilinearGridMapper->ScalarVisibilityOn();
   m_RectilinearGridMapper->SetScalarModeToUseCellData();
-  m_RectilinearGridMapper->SetUseLookupTableScalarRange(TRUE);
+  m_RectilinearGridMapper->SetUseLookupTableScalarRange(true);
   m_RectilinearGridMapper->SetColorModeToMapScalars();
   m_RectilinearGridMapper->Update();
 }

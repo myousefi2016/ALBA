@@ -135,7 +135,7 @@ mafGUI* mafView::CreateGui()
 
   mafString type_name = GetTypeName();
   
-  if((*GetMAFExpertMode()) == TRUE) 
+  if((*GetMAFExpertMode()) == true) 
     m_Gui->Button(ID_PRINT_INFO, type_name, "", "Print view debug information");
 
   mafEvent buildHelpGui;

@@ -60,8 +60,8 @@ void wsockCloseAll( wsockType *wsock )
         closesocket(wsock->data.msgsock);
     }
     wsock->role = WSOCK_ROLE_NONE;
-    wsock->udpHostInit = FALSE;
-    wsock->data.wsockOpened = FALSE;
+    wsock->udpHostInit = false;
+    wsock->data.wsockOpened = false;
 }
 
 /*****************************************************************************
@@ -78,13 +78,13 @@ void WSAManage( int close )
 
     WORD wVersionRequested; 
     WSADATA wsaData; 
-    int WSALoaded = FALSE;
+    int WSALoaded = false;
     int err; 
     
     if( close && WSALoaded )
     {
         WSACleanup();
-        WSALoaded = FALSE;
+        WSALoaded = false;
         return;
     }
 
@@ -109,7 +109,7 @@ void WSAManage( int close )
             return; 
         } 
         /* The Windows Sockets DLL is acceptable. */ 
-        WSALoaded = TRUE;
+        WSALoaded = true;
     }
 #endif
 }
@@ -160,10 +160,10 @@ void wsockLocalAddress( wsockType *wsock )
 ******************************************************************************/
 void wsockInit( wsockType *wsock )
 {
-    wsock->udpHostInit = FALSE;
+    wsock->udpHostInit = false;
     wsock->role = WSOCK_ROLE_NONE;
 
-    WSAManage(FALSE);
+    WSAManage(false);
     wsockInitConfig( wsock, -1 );
 }
 
@@ -178,11 +178,11 @@ void wsockInit( wsockType *wsock )
 ******************************************************************************/
 static void wsockInitConfig( wsockType *wsock, int type )
 {
-    wsock->data.wsockOpened = FALSE;
+    wsock->data.wsockOpened = false;
     wsock->data.dwRead = 0;
     wsock->data.dwReturned = 0;
 
-    wsock->udpHostInit = FALSE;
+    wsock->udpHostInit = false;
     wsock->socket_type = type;
     wsock->role = WSOCK_ROLE_NONE;
 
@@ -215,7 +215,7 @@ int wsockConfigChannel( SOCKET wsocket )
     /* setup for non-blockin operation */
 #if defined _Windows || defined __WIN32__ || defined WINDOWS || defined WIN32
     {
-    BOOL tndelay_opt = TRUE;
+    BOOL tndelay_opt = true;
     
     if(setsockopt(wsocket, SOL_SOCKET, TCP_NODELAY, 
         (const char *)&tndelay_opt, sizeof(tndelay_opt)) == SOCKET_ERROR) 
@@ -234,13 +234,13 @@ int wsockConfigChannel( SOCKET wsocket )
     if(fcntl(wsocket, F_SETFL, O_NDELAY) < 0)
     {
         perror( "Socket Setup");
-        return FALSE;
+        return false;
     }
 #else
     if(fcntl(wsocket, F_SETFL, FNDELAY) < 0)
     {
         perror( "Socket Setup");
-        return FALSE;
+        return false;
     }
 #endif  
 #endif  
@@ -269,7 +269,7 @@ int wsockBroadcastClientInit( wsockType *wsock, unsigned short networkPort )
             wsockErrorStrings( wsockGetLastError() ));
         return -1;
     }
-    wsock->data.wsockOpened = TRUE;
+    wsock->data.wsockOpened = true;
 
     wsock->data.client.sin_family = AF_INET;
     wsock->data.client.sin_addr.s_addr = htonl ( INADDR_ANY );
@@ -290,7 +290,7 @@ int wsockBroadcastClientInit( wsockType *wsock, unsigned short networkPort )
     }
     wsock->role = WSOCK_ROLE_CLIENT;
 
-    return TRUE;
+    return true;
 }
 
   
@@ -361,7 +361,7 @@ int wsockBroadcastReadByte( wsockType *wsock, char *c )
             
                 printf("\nReceiving data from %s", inet_ntoa(server.sin_addr));
             }
-            wsock->udpHostInit = TRUE;
+            wsock->udpHostInit = true;
         }
         return 1;
     }
@@ -490,7 +490,7 @@ int wsockClientDecodeData( InterSenseTrackerType *tracker )
 
     buf = tracker->wsock.data.cmdbuf;
 
-    if(*buf++ != UDP_START_BYTE) return FALSE;
+    if(*buf++ != UDP_START_BYTE) return false;
 
     switch(*buf--)
     {
@@ -505,10 +505,10 @@ int wsockClientDecodeData( InterSenseTrackerType *tracker )
         }
         if(stationData.CheckSum != cSum)
         {
-           return FALSE;
+           return false;
         }
         if(stationData.StationNum != 
-            MINMAX(1, stationData.StationNum, MAX_NUM_STATIONS)) return FALSE;
+            MINMAX(1, stationData.StationNum, MAX_NUM_STATIONS)) return false;
 
         station = &tracker->station[stationData.StationNum - 1];
 
@@ -524,7 +524,7 @@ int wsockClientDecodeData( InterSenseTrackerType *tracker )
         tracker->hardware = ISD_PRECISION_SERIES;
         tracker->state.hardwareVersion = stationData.Model;
         tracker->station[stationData.StationNum - 1].state = ON;
-        tracker->station[stationData.StationNum - 1].NewData = TRUE;
+        tracker->station[stationData.StationNum - 1].NewData = true;
         
         for(i = 0; i < UDP_MAX_ANALOG_CHANNELS; i++)
         {
@@ -549,10 +549,10 @@ int wsockClientDecodeData( InterSenseTrackerType *tracker )
         {
             cSum += *buf++;
         }
-        if(cameraData.CheckSum != cSum) return FALSE;
+        if(cameraData.CheckSum != cSum) return false;
        
         if(cameraData.StationNum != 
-            MINMAX(1, cameraData.StationNum, MAX_NUM_STATIONS)) return FALSE;
+            MINMAX(1, cameraData.StationNum, MAX_NUM_STATIONS)) return false;
 
         station = &tracker->station[cameraData.StationNum - 1];
 
@@ -569,10 +569,10 @@ int wsockClientDecodeData( InterSenseTrackerType *tracker )
         break;
 
     default:
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 
@@ -675,22 +675,22 @@ BOOL wsockGetStationConfig( InterSenseTrackerType *tracker,
     Station->Prediction     = 0;
     Station->State          = tracker->station[stationNum-1].state;
 
-    Station->TimeStamped = TRUE;
+    Station->TimeStamped = true;
     Station->AngleFormat = ISD_EULER;
     
     if(tracker->state.hardwareVersion == IS900)
     {
-        Station->GetAnalogData = TRUE;
-        Station->GetButtons = TRUE;
-        Station->GetCameraDataRaw = TRUE;
-        Station->GetCameraDataComputed = FALSE;
+        Station->GetAnalogData = true;
+        Station->GetButtons = true;
+        Station->GetCameraDataRaw = true;
+        Station->GetCameraDataComputed = false;
     }
     else
     {
-        Station->GetAnalogData = FALSE;
-        Station->GetButtons = FALSE;
-        Station->GetCameraDataRaw = FALSE;
-        Station->GetCameraDataComputed = FALSE;
+        Station->GetAnalogData = false;
+        Station->GetButtons = false;
+        Station->GetCameraDataRaw = false;
+        Station->GetCameraDataComputed = false;
     }
 
     return PASS;

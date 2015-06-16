@@ -445,6 +445,6 @@ void mafVMESlicer::SetTrilinearInterpolation(bool on)
   m_TrilinearInterpolationOn = on;
   if(m_ISlicer)
   {
-    m_ISlicer->SetTrilinearInterpolation(on == TRUE);
+    m_ISlicer->SetTrilinearInterpolation(on == true);
   }
 }

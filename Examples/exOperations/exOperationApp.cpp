@@ -218,7 +218,7 @@ bool exOperationApp::OnInit()
   //user->ShowLoginDialog();
 
   m_Logic->Init(argc,argv); // calls FileNew - which create the root
-  return TRUE;
+  return true;
 }
 //--------------------------------------------------------------------------------
 int exOperationApp::OnExit()

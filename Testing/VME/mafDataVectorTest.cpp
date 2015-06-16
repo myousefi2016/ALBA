@@ -63,14 +63,14 @@ void mafDataVectorTest::TestSetSingleFileMode()
 {
   mafDataVector *dv = new mafDataVector();
 
-  // Default Single File Mode is TRUE
+  // Default Single File Mode is true
   CPPUNIT_ASSERT(dv->GetSingleFileMode() == true);
   
   dv->SetSingleFileMode(false);
 
   CPPUNIT_ASSERT(dv->GetSingleFileMode() == false);
 
-  // If Single File Mode is Modified IsDataModified() Should return TRUE
+  // If Single File Mode is Modified IsDataModified() Should return true
   CPPUNIT_ASSERT(dv->IsDataModified() == true);
 
   cppDEL(dv);
@@ -165,7 +165,7 @@ void mafDataVectorTest::TestSetCrypting()
 {
   mafDataVector *dv = new mafDataVector();
 
-  // Default Crypting Mode is FALSE
+  // Default Crypting Mode is false
   CPPUNIT_ASSERT(dv->GetCrypting() == false);
 
   dv->SetCrypting(true);

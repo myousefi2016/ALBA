@@ -46,10 +46,10 @@ mafOpMML3ContourWidget::mafOpMML3ContourWidget()
 //----------------------------------------------------------------------------
 {
   this->m_OperationID = mafOpMML3ContourWidget::NoOp;
-  this->m_PlaceMode = FALSE; // center mode off
-  this->m_ScalingMode = FALSE; // scaling mode off
-  this->m_RotatingMode = FALSE; // rotating mode off
-  this->m_TranslationMode = FALSE; // translating mode off
+  this->m_PlaceMode = false; // center mode off
+  this->m_ScalingMode = false; // scaling mode off
+  this->m_RotatingMode = false; // rotating mode off
+  this->m_TranslationMode = false; // translating mode off
   this->m_State = mafOpMML3ContourWidget::Start;
   this->EventCallbackCommand->SetCallback(mafOpMML3ContourWidget::ProcessEvents);
 
@@ -1696,10 +1696,10 @@ void mafOpMML3ContourWidget::GetMotionVector(float xyz[3])
 void mafOpMML3ContourWidget::TranslationModeOn()
 //----------------------------------------------------------------------------
 {
-  this->m_PlaceMode = FALSE;
-  this->m_ScalingMode = FALSE ;
-  this->m_RotatingMode = FALSE ;
-  this->m_TranslationMode = TRUE;
+  this->m_PlaceMode = false;
+  this->m_ScalingMode = false ;
+  this->m_RotatingMode = false ;
+  this->m_TranslationMode = true;
 }
 
 
@@ -1708,7 +1708,7 @@ void mafOpMML3ContourWidget::TranslationModeOn()
 void mafOpMML3ContourWidget::TranslationModeOff()
 //----------------------------------------------------------------------------
 {
-  this->m_TranslationMode = FALSE;
+  this->m_TranslationMode = false;
 }
 
 
@@ -1718,10 +1718,10 @@ void mafOpMML3ContourWidget::PlaceModeOn()
 //----------------------------------------------------------------------------
 {
   //this->CenterHandle->VisibilityOn();
-  this->m_PlaceMode = TRUE;
-  this->m_ScalingMode = FALSE ;
-  this->m_RotatingMode = FALSE ;
-  this->m_TranslationMode = FALSE ;
+  this->m_PlaceMode = true;
+  this->m_ScalingMode = false ;
+  this->m_RotatingMode = false ;
+  this->m_TranslationMode = false ;
 }
 
 
@@ -1731,7 +1731,7 @@ void mafOpMML3ContourWidget::PlaceModeOff()
 //----------------------------------------------------------------------------
 {
   //this->CenterHandle->VisibilityOff();
-  this->m_PlaceMode = FALSE;
+  this->m_PlaceMode = false;
 }
 
 
@@ -1742,10 +1742,10 @@ void mafOpMML3ContourWidget::RotationModeOn()
 {
   //this->m_RotationalHandleActor->VisibilityOn();
   //this->Setm_RotationalHandle(50.0, 0.0, 0.0);
-  this->m_PlaceMode = FALSE;
-  this->m_ScalingMode = FALSE ;
-  this->m_RotatingMode = TRUE ;
-  this->m_TranslationMode = FALSE ;
+  this->m_PlaceMode = false;
+  this->m_ScalingMode = false ;
+  this->m_RotatingMode = true ;
+  this->m_TranslationMode = false ;
 }
 
 
@@ -1755,7 +1755,7 @@ void mafOpMML3ContourWidget::RotationModeOff()
 //----------------------------------------------------------------------------
 {
   //this->m_RotationalHandleActor->VisibilityOff();
-  this->m_RotatingMode = FALSE;
+  this->m_RotatingMode = false;
 }
 
 
@@ -1764,10 +1764,10 @@ void mafOpMML3ContourWidget::RotationModeOff()
 void mafOpMML3ContourWidget::ScalingModeOn()
 //----------------------------------------------------------------------------
 {
-  this->m_PlaceMode = FALSE;
-  this->m_ScalingMode = TRUE ;
-  this->m_RotatingMode = FALSE ;
-  this->m_TranslationMode = FALSE ;
+  this->m_PlaceMode = false;
+  this->m_ScalingMode = true ;
+  this->m_RotatingMode = false ;
+  this->m_TranslationMode = false ;
 
   //this->ScalingHandlesOn();
 
@@ -1786,7 +1786,7 @@ void mafOpMML3ContourWidget::ScalingModeOn()
 void mafOpMML3ContourWidget::ScalingModeOff()
 //----------------------------------------------------------------------------
 {
-  this->m_ScalingMode = FALSE;
+  this->m_ScalingMode = false;
 
   //
   //this->ScalingHandlesOff();
