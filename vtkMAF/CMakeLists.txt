@@ -130,8 +130,6 @@ SET(vtkMAF_SRCS
   vtkMAFSubdividePolylines.h
   vtkMAFLandmarkCloudPolydataFilter.cxx
   vtkMAFLandmarkCloudPolydataFilter.h
-  vtkBox.cxx
-  vtkBox.h
   vtkMaskPolyDataFilter.cxx
   vtkMaskPolyDataFilter.h
   vtkHoleConnectivity.cxx
@@ -208,8 +206,6 @@ SET(vtkMAF_SRCS
   vtkMAFVolumeToClosedSmoothSurface.h
   
   ################################
-  vtkBoundingBox.cxx
-  vtkBoundingBox.h
   vtkMAFPastValuesList.cpp
   vtkMAFPastValuesList.h
   vtkMAFStentModelSource.cpp
@@ -235,14 +231,9 @@ SET(vtkMAF_SRCS  ${vtkMAF_SRCS}
 )
 ENDIF (MAF_USE_ITK)
 
-# List the kits from VTK that are needed by this project.
-SET(vtkMAF_LIBS
-  vtkCommon
-  vtkRendering
-  vtkFiltering
-  vtkGraphics
-  vtkHybrid
-)
+find_package(VTK 6.0 REQUIRED NO_MODULE)
+include(${VTK_USE_FILE})
+SET(vtkMAF_LIBS ${VTK_LIBRARIES})
 
 IF(WIN32)
 SET(vtkMAF_LIBS

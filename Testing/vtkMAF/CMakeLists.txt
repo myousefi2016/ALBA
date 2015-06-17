@@ -1,10 +1,16 @@
 PROJECT (vtkMAF_TEST)
 
+find_package(VTK 6.0 REQUIRED NO_MODULE)
+include(${VTK_USE_FILE})
+
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(vtkMAF vtkGraphics vtkRendering)
+  LINK_LIBRARIES(vtkMAF ${VTK_LIBRARIES} mafBase)
 ENDIF (MAF_BUILD_MAFDLL)
+
+
+
 
 #ADD_EXECUTABLE(vtkMAFTest vtkMAFTest.cxx)
 #ADD_EXECUTABLE(testDicom testDicom.cxx)
