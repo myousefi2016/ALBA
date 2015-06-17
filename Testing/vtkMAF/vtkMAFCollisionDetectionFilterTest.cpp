@@ -122,13 +122,13 @@ void vtkMAFCollisionDetectionFilterTest::Test()
   output0->GetCellData()->AddArray(contactScalars);
 
   vtkMAFSmartPointer<vtkPolyDataWriter> w;
-  w->SetInput(output0);
+  w->SetInputConnection(filter->GetOutputPort(0));
   w->SetFileName("test0.vtk");
   w->Write();
 
   return;
 
-  w->SetInput(filter->GetOutput(1));
+  w->SetInputConnection(filter->GetOutputPort(1));
   w->SetFileName("test1.vtk");
   w->Write();
 
@@ -182,7 +182,7 @@ void vtkMAFCollisionDetectionFilterTest::AddPolydataToVisualize(vtkPolyData *dat
 //-------------------------------------------------------------------------
 {
   vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
   mapper->Update();
 
   vtkMAFSmartPointer<vtkActor> actor;
@@ -309,7 +309,7 @@ void vtkMAFCollisionDetectionFilterTest::CompareImages(int index , wxString fold
 
   //write comparing image
   vtkMAFSmartPointer<vtkJPEGWriter> w;
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   wxString imageFile=MAF_DATA_ROOT;
 
   if(!controlStream)
@@ -365,8 +365,8 @@ void vtkMAFCollisionDetectionFilterTest::CompareImages(int index , wxString fold
   vtkImageData *imDataComp = rC->GetOutput();
 
   vtkMAFSmartPointer<vtkImageMathematics> imageMath;
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

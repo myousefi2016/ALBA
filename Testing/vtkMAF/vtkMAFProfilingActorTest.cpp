@@ -207,7 +207,7 @@ void vtkMAFProfilingActorTest::CompareImages(vtkRenderWindow * renwin, int index
 
   //write comparing image
   vtkJPEGWriter *w = vtkJPEGWriter::New();
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   std::string imageFile="";
 
   if(!controlStream)
@@ -265,8 +265,8 @@ void vtkMAFProfilingActorTest::CompareImages(vtkRenderWindow * renwin, int index
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

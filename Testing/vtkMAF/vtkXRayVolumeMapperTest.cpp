@@ -639,7 +639,7 @@ void vtkXRayVolumeMapperTest::CompareImages(int scalarIndex)
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile=MAF_DATA_ROOT;
 
   if(!controlStream)
@@ -697,8 +697,8 @@ void vtkXRayVolumeMapperTest::CompareImages(int scalarIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

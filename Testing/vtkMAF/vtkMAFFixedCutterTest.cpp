@@ -52,7 +52,7 @@ void vtkMAFFixedCutterTest::TestExecute()
   vtkMAFSmartPointer<vtkPlane> plane;
   vtkMAFSmartPointer<vtkCubeSource> cube;
 
-  filter->SetInput((vtkDataSet*)cube->GetOutput());
+  filter->SetInputConnection(cube->GetOutputPort());
   filter->SetCutFunction(plane);
   filter->Update();
 

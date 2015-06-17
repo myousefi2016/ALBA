@@ -475,7 +475,7 @@ bool mafOpImporterRAWVolume::Import()
 	reader->Update();
 
   vtkMAFSmartPointer<vtkImageToStructuredPoints> image_to_sp;
-  image_to_sp->SetInput(reader->GetOutput());
+  image_to_sp->SetInputConnection(reader->GetOutputPort());
   image_to_sp->Update();
 
 	if(m_BuildRectilinearGrid)

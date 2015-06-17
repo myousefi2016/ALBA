@@ -61,7 +61,7 @@ void vtkMAFRemoveCellsFilterTest::RenderData( vtkPolyData *data )
   renderWindowInteractor->SetRenderWindow(renderWindow);
 
   vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
   mapper->ScalarVisibilityOn();
   
   vtkMAFSmartPointer<vtkActor> actor;
@@ -81,7 +81,7 @@ void vtkMAFRemoveCellsFilterTest::TestRemoveMarkedCells()
   sphere->Update();
 
 	vtkMAFSmartPointer<vtkMAFRemoveCellsFilter> rc;
-  rc->SetInput(sphere->GetOutput());
+  rc->SetInputConnection(sphere->GetOutputPort());
   rc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -109,7 +109,7 @@ void vtkMAFRemoveCellsFilterTest::TestMarkCell()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFRemoveCellsFilter> rc;
-  rc->SetInput(sphere->GetOutput());
+  rc->SetInputConnection(sphere->GetOutputPort());
   rc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -134,7 +134,7 @@ void vtkMAFRemoveCellsFilterTest::TestUndoMarks()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFRemoveCellsFilter> rc;
-  rc->SetInput(sphere->GetOutput());
+  rc->SetInputConnection(sphere->GetOutputPort());
   rc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();

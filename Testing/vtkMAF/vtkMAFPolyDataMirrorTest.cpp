@@ -84,7 +84,7 @@ void vtkMAFPolyDataMirrorTest::TestMirrorX()
 //-------------------------------------------------------------------------
 {
 	vtkMAFPolyDataMirror *tqr = vtkMAFPolyDataMirror::New();
-	tqr->SetInput(m_TestPolyData);
+	tqr->SetInputData(m_TestPolyData);
 
 	tqr->SetMirrorXCoordinate(0);
 	CPPUNIT_ASSERT(tqr->GetMirrorXCoordinate() == 0);
@@ -118,7 +118,7 @@ void vtkMAFPolyDataMirrorTest::TestMirrorY()
 //-------------------------------------------------------------------------
 {
 	vtkMAFPolyDataMirror *tqr = vtkMAFPolyDataMirror::New();
-	tqr->SetInput(m_TestPolyData);
+	tqr->SetInputData(m_TestPolyData);
 
 	tqr->SetMirrorYCoordinate(0);
 	CPPUNIT_ASSERT(tqr->GetMirrorYCoordinate() == 0);
@@ -152,7 +152,7 @@ void vtkMAFPolyDataMirrorTest::TestMirrorZ()
 //-------------------------------------------------------------------------
 {
 	vtkMAFPolyDataMirror *tqr = vtkMAFPolyDataMirror::New();
-	tqr->SetInput(m_TestPolyData);
+	tqr->SetInputData(m_TestPolyData);
 
 	tqr->SetMirrorZCoordinate(0);
 	CPPUNIT_ASSERT(tqr->GetMirrorZCoordinate() == 0);
@@ -186,7 +186,7 @@ void vtkMAFPolyDataMirrorTest::TestFlipNormals()
 //-------------------------------------------------------------------------
 {
 	vtkMAFPolyDataMirror *tqr = vtkMAFPolyDataMirror::New();
-	tqr->SetInput(m_TestPolyData);
+	tqr->SetInputData(m_TestPolyData);
 
 	tqr->SetFlipNormals(0);
 	CPPUNIT_ASSERT(tqr->GetFlipNormals() == 0);

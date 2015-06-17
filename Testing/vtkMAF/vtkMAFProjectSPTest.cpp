@@ -104,7 +104,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToX()
   
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectSP> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToX();
   filter->Update();
 
@@ -175,7 +175,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToY()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectSP> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToY();
   filter->Update();
 
@@ -248,7 +248,7 @@ void vtkMAFProjectSPTest::TestExecutionProjectionModeToZ()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectSP> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToZ();
   filter->Update();
 

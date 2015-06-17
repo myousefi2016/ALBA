@@ -65,7 +65,7 @@ void vtkMaskPolyDataFilterTest::TestStructuredPoints()
 	vtkMaskPolyDataFilter *maskPolydataFilter;
 	vtkNEW(maskPolydataFilter);
 
-	maskPolydataFilter->SetInput(volume);
+	maskPolydataFilter->SetInputData(volume);
 	maskPolydataFilter->SetDistance(0.0);
 	maskPolydataFilter->SetFillValue(-5);
 	maskPolydataFilter->SetInsideOut(0);
@@ -138,7 +138,7 @@ void vtkMaskPolyDataFilterTest::TestRectilinearGrid()
 	vtkMaskPolyDataFilter *maskPolydataFilter;
 	vtkNEW(maskPolydataFilter);
 
-	maskPolydataFilter->SetInput(volume);
+	maskPolydataFilter->SetInputData(volume);
 	maskPolydataFilter->SetDistance(0.0);
 	maskPolydataFilter->SetFillValue(-5);
 	maskPolydataFilter->SetInsideOut(0);

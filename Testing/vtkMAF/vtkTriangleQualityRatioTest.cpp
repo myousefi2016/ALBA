@@ -172,7 +172,7 @@ void vtkTriangleQualityRatioTest::RenderData(vtkPolyData *data)
   mapper->UseLookupTableScalarRangeOff();
   mapper->SetScalarRange(reverseLut->GetTableRange());
   mapper->SetLookupTable(reverseLut);
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
 
   vtkMAFSmartPointer<vtkActor> actor;
   actor->SetMapper(mapper);

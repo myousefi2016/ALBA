@@ -151,7 +151,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::TestAlgorithm()
   r->Delete();
 
   vtkMAFImageFillHolesRemoveIslands *filter = vtkMAFImageFillHolesRemoveIslands::New();
-  filter->SetInput(originalImage);
+  filter->SetInputData(originalImage);
   filter->SetEdgeSize(1);
   filter->SetAlgorithm(m_Algorithm);
   filter->Update();
@@ -179,7 +179,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::TestAlgorithm()
   imageTexture->RepeatOff();
   imageTexture->InterpolateOn();
   imageTexture->SetQualityTo32Bit();
-  imageTexture->SetInput(outputImage);
+  imageTexture->SetInputConnection(filter->GetOutputPort());
 
 
   imageTexture->SetLookupTable(imageLUT);
@@ -188,7 +188,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::TestAlgorithm()
   imageTexture->Modified();
 
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(imagePlane->GetOutput());
+  mapper->SetInputConnection(imagePlane->GetOutputPort());
   mapper->ImmediateModeRenderingOff();
 
   vtkActor *actor = vtkActor::New();
@@ -251,7 +251,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::CompareImages(vtkRenderWindow * renw
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile="";
 
   if(!controlStream)
@@ -311,8 +311,8 @@ void vtkMAFImageFillHolesRemoveIslandsTest::CompareImages(vtkRenderWindow * renw
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

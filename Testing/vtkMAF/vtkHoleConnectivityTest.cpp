@@ -90,14 +90,14 @@ void vtkHoleConnectivityTest::TestExecution()
 
 
   vtkMAFSmartPointer<vtkHoleConnectivity> hc;
-  hc->SetInput(preader->GetOutput());
+  hc->SetInputConnection(preader->GetOutputPort());
   double point[3] = {0.,0.,0.};
   hc->SetPoint(point);
 
   hc->Update();
 
   vtkMAFSmartPointer<vtkPolyDataConnectivityFilter> connectivityFilter;
-  connectivityFilter->SetInput(preader->GetOutput());
+  connectivityFilter->SetInputConnection(preader->GetOutputPort());
   connectivityFilter->SetExtractionModeToClosestPointRegion ();
   connectivityFilter->SetClosestPoint(point);
   connectivityFilter->Modified();

@@ -111,7 +111,7 @@ void vtkMAFVolumeTextureMapper2DTest::TestPipeExecution()
 
   vtkMAFVolumeTextureMapper2D *volumeMapper;
   vtkNEW(volumeMapper);
-  volumeMapper->SetInput(vtkImageData::SafeDownCast(Importer->GetOutput()));
+  volumeMapper->SetInputConnection(Importer->GetOutputPort());
 
   volumeMapper->SetMaximumNumberOfPlanes(100);
   volumeMapper->SetTargetTextureSize(512,512);
@@ -223,7 +223,7 @@ void vtkMAFVolumeTextureMapper2DTest::CompareImages(int scalarIndex)
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile=MAF_DATA_ROOT;
 
   if(!controlStream)
@@ -281,8 +281,8 @@ void vtkMAFVolumeTextureMapper2DTest::CompareImages(int scalarIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

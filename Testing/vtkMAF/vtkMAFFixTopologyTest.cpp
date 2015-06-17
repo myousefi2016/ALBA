@@ -92,19 +92,19 @@ void vtkMAFFixTopologyTest::TestExecute()
    polydata->SetPolys(lines);
 
    vtkMAFSmartPointer<vtkMAFFixTopology> fixTopology;
-   fixTopology->SetInput(polydata);
+   fixTopology->SetInputData(polydata);
    fixTopology->Update();
 
    vtkPolyData *outputFixTopology = fixTopology->GetOutput();
 
    vtkMAFSmartPointer<vtkTriangleFilter> triangleFilter;
-   triangleFilter->SetInput(polydata);
+   triangleFilter->SetInputData(polydata);
    triangleFilter->Update();
    vtkMAFSmartPointer<vtkPolyDataNormals> polyDataNormalsFilter;
-   polyDataNormalsFilter->SetInput(triangleFilter->GetOutput());
+   polyDataNormalsFilter->SetInputConnection(triangleFilter->GetOutputPort());
    polyDataNormalsFilter->Update();
    vtkMAFSmartPointer<vtkMAFPoissonSurfaceReconstruction> poissonSurfaceReconstructionFilter;
-   poissonSurfaceReconstructionFilter->SetInput(polyDataNormalsFilter->GetOutput());
+   poissonSurfaceReconstructionFilter->SetInputConnection(polyDataNormalsFilter->GetOutputPort());
    poissonSurfaceReconstructionFilter->Update();
 
    vtkPolyData *outputPipeLine = poissonSurfaceReconstructionFilter->GetOutput();

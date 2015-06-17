@@ -70,7 +70,7 @@ void vtkMAFRayCastCleanerTest::TestFilter()
 
   //creating filter
   vtkMAFSmartPointer<vtkMAFRayCastCleaner> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetModalityToCT();
   filter->Update();
   
@@ -110,7 +110,7 @@ void vtkMAFRayCastCleanerTest::TestFilter()
   outFilename<<"/Test_vtkMAFRayCastCleaner/outputVolume.vtk";
   w->SetFileName(outFilename.GetCStr());
   w->SetFileTypeToBinary();
-  w->SetInput(filter->GetOutput());
+  w->SetInputConnection(filter->GetOutputPort());
   w->Update();
   */
   
@@ -140,7 +140,7 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   
   //creating filter
   vtkMAFSmartPointer<vtkMAFRayCastCleaner> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetModalityToMR();
   filter->Update();
   
@@ -178,7 +178,7 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   outFilename<<"/Test_vtkMAFRayCastCleaner/outputVolumeMR.vtk";
   w->SetFileName(outFilename.GetCStr());
   w->SetFileTypeToBinary();
-  w->SetInput(filter->GetOutput());
+  w->SetInputConnection(filter->GetOutputPort());
   w->Update();
   */
   

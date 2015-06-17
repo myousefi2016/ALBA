@@ -126,7 +126,7 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToX()
   
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectRG> filter;
-  filter->SetInput(rg);
+  filter->SetInputData(rg);
   filter->SetProjectionModeToX();
   filter->Update();
 
@@ -219,7 +219,7 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToY()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectRG> filter;
-  filter->SetInput(rg);
+  filter->SetInputData(rg);
   filter->SetProjectionModeToY();
   filter->Update();
 
@@ -314,7 +314,7 @@ void vtkMAFProjectRGTest::TestExecutionProjectionModeToZ()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectRG> filter;
-  filter->SetInput(rg);
+  filter->SetInputData(rg);
   filter->SetProjectionModeToZ();
   filter->Update();
 

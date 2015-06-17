@@ -82,7 +82,7 @@ void vtkMAFPolyDataToSinglePolyLineTest::TestConversion()
 
 
   vtkMAFSmartPointer<vtkMAFPolyDataToSinglePolyLine> psp;
-  psp->SetInput(polyOriginal);
+  psp->SetInputData(polyOriginal);
   psp->Update();
 
   vtkPolyData *polyResult = psp->GetOutput();

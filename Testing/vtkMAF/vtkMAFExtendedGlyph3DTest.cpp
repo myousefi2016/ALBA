@@ -124,7 +124,7 @@ void vtkMAFExtendedGlyph3DTest::CompareImages()
 
   //write comparing image
   vtkJPEGWriter *w = vtkJPEGWriter::New();
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   std::string imageFile="";
 
   if(!controlStream)
@@ -182,8 +182,8 @@ void vtkMAFExtendedGlyph3DTest::CompareImages()
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 
@@ -316,7 +316,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaling()
   
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->ScalingOff();
   filter->Update();
 
@@ -327,7 +327,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaling()
 
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(filter->GetOutput());
+  mapper->SetInputConnection(filter->GetOutputPort());
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);
 
@@ -376,7 +376,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaleFactor()
   
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->SetScaleFactor(2.0);
   filter->ScalingOn();
   filter->Update();
@@ -385,7 +385,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetScaleFactor()
 
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(filter->GetOutput());
+  mapper->SetInputConnection(filter->GetOutputPort());
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);
 
@@ -424,7 +424,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetRange()
   
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->SetRange(15.0,20.0);
   filter->Update();  
 
@@ -446,7 +446,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetGeneratePointIds()
 
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->GeneratePointIdsOn();
   filter->Update();
 
@@ -466,7 +466,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetPointIdsName()
   sphere->Update();
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->GeneratePointIdsOn();
   filter->SetPointIdsName("TEST");
   filter->Update();
@@ -496,13 +496,13 @@ void vtkMAFExtendedGlyph3DTest::TestSetScalarVisibility()
   m_Points->GetPointData()->SetActiveScalars("SCALARS");
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->ScalarVisibilityOn();
   filter->Update();  
 
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(filter->GetOutput());
+  mapper->SetInputConnection(filter->GetOutputPort());
   mapper->SetScalarVisibility(true);
   mapper->SetScalarModeToUsePointData();
   mapper->SetScalarRange(filter->GetOutput()->GetScalarRange()[0],filter->GetOutput()->GetScalarRange()[1]);
@@ -548,14 +548,14 @@ void vtkMAFExtendedGlyph3DTest::TestSetOrient()
   vtkDataArray *n = m_Points->GetPointData()->GetNormals();
 
   filter->SetSource(arrow->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->SetVectorModeToUseNormal();
   filter->OrientOn();
   filter->Update();  
 
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(filter->GetOutput());
+  mapper->SetInputConnection(filter->GetOutputPort());
   mapper->Update();
 
   vtkActor *actor = vtkActor::New();
@@ -595,7 +595,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetClamping()
   m_Points->GetPointData()->SetActiveScalars("SCALARS");
 
   filter->SetSource(sphere->GetOutput());
-  filter->SetInput(m_Points);
+  filter->SetInputData(m_Points);
   filter->SetRange(15.0,20.0);
   filter->ClampingOn();//Clamping normalize to [0,1] the scale values
   filter->Update();  
@@ -607,7 +607,7 @@ void vtkMAFExtendedGlyph3DTest::TestSetClamping()
 
   // create pipe
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(filter->GetOutput());
+  mapper->SetInputConnection(filter->GetOutputPort());
   mapper->SetScalarVisibility(true);
   mapper->SetScalarModeToUsePointData();
   mapper->SetScalarRange(filter->GetOutput()->GetScalarRange()[0],filter->GetOutput()->GetScalarRange()[1]);

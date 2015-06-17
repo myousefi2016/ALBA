@@ -56,7 +56,7 @@ void vtkMAFFillingHoleTest::TestSetFillAHole()
   r->Update();
 
   vtkMAFSmartPointer<vtkFeatureEdges> fEdge;
-  fEdge->SetInput(r->GetOutput());
+  fEdge->SetInputConnection(r->GetOutputPort());
   fEdge->SetBoundaryEdges(true);
   fEdge->SetManifoldEdges(false);
   fEdge->SetNonManifoldEdges(false);
@@ -68,11 +68,11 @@ void vtkMAFFillingHoleTest::TestSetFillAHole()
   CPPUNIT_ASSERT( fEdge->GetOutput()->GetNumberOfPoints() == 16 );
 
   vtkMAFSmartPointer<vtkMAFFillingHole> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetFillAHole(10);
   filter->Update();
 
-  fEdge->SetInput(filter->GetOutput());
+  fEdge->SetInputConnection(filter->GetOutputPort());
   fEdge->Update();
 
   //The Id of the boundary point set in the filter method isn't an Id of a boundary point of an edge
@@ -82,7 +82,7 @@ void vtkMAFFillingHoleTest::TestSetFillAHole()
   filter->SetFillAHole(0);
   filter->Update();
 
-  fEdge->SetInput(filter->GetOutput());
+  fEdge->SetInputConnection(filter->GetOutputPort());
   fEdge->Update();
 
   //The Id of the boundary point set in the filter method is an Id of a boundary point of an edge
@@ -101,7 +101,7 @@ void vtkMAFFillingHoleTest::TestSetFillAllHole()
   r->Update();
 
   vtkMAFSmartPointer<vtkFeatureEdges> fEdge;
-  fEdge->SetInput(r->GetOutput());
+  fEdge->SetInputConnection(r->GetOutputPort());
   fEdge->SetBoundaryEdges(true);
   fEdge->SetManifoldEdges(false);
   fEdge->SetNonManifoldEdges(false);
@@ -113,11 +113,11 @@ void vtkMAFFillingHoleTest::TestSetFillAllHole()
   CPPUNIT_ASSERT( fEdge->GetOutput()->GetNumberOfPoints() == 16 );
 
   vtkMAFSmartPointer<vtkMAFFillingHole> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetFillAllHole();
   filter->Update();
 
-  fEdge->SetInput(filter->GetOutput());
+  fEdge->SetInputConnection(filter->GetOutputPort());
   fEdge->Update();
 
   //The Id of the boundary point set in the filter method isn't an Id of a boundary point of an edge
@@ -135,7 +135,7 @@ void vtkMAFFillingHoleTest::TestGetLastPatch()
   r->Update();
 
   vtkMAFSmartPointer<vtkFeatureEdges> fEdge;
-  fEdge->SetInput(r->GetOutput());
+  fEdge->SetInputConnection(r->GetOutputPort());
   fEdge->SetBoundaryEdges(true);
   fEdge->SetManifoldEdges(false);
   fEdge->SetNonManifoldEdges(false);
@@ -147,7 +147,7 @@ void vtkMAFFillingHoleTest::TestGetLastPatch()
   CPPUNIT_ASSERT( fEdge->GetOutput()->GetNumberOfPoints() == 16 );
 
   vtkMAFSmartPointer<vtkMAFFillingHole> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetFillAHole(0);
   filter->Update();
 
@@ -158,12 +158,12 @@ void vtkMAFFillingHoleTest::TestGetLastPatch()
   
 
   vtkMAFSmartPointer<vtkAppendPolyData> append;
-  append->SetInput(r->GetOutput());
-  append->AddInput(patch);
+  append->SetInputConnection(r->GetOutputPort());
+  append->AddInputData(patch);
   append->Update();
 
   vtkMAFSmartPointer<vtkCleanPolyData> clean;
-  clean->SetInput(append->GetOutput());
+  clean->SetInputConnection(append->GetOutputPort());
   clean->Update();
 
   CPPUNIT_ASSERT( clean->GetOutput()->GetNumberOfPoints() == filter->GetOutput()->GetNumberOfPoints() );
