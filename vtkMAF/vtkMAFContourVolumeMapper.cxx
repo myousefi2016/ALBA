@@ -42,6 +42,8 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 
 static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCubesTriangleCases::GetCases();
@@ -221,8 +223,47 @@ void vtkMAFContourVolumeMapper::SetInput(vtkDataSet *input)
   this->SetInputData(input);
 }
 
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkDataSet *genericInput )
+{
+	vtkImageData *inputID = vtkImageData::SafeDownCast( genericInput );
+	vtkRectilinearGrid *inputRG = vtkRectilinearGrid::SafeDownCast( genericInput );
 
+	if ( inputID )
+	{
+		this->SetInputData( inputID );
+	}
+	else if (inputRG)
+	{
+		this->SetInputData( inputRG );
+	}
+	else
+	{
+		vtkErrorMacro("The SetInput method of this mapper requires vtkImageData as input");
+	}
+}
 
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkImageData *input )
+{
+	this->SetInputDataInternal(0, input);
+}
+
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkRectilinearGrid *input )
+{
+	this->SetInputDataInternal(0, input);
+}
+
+//------------------------------------------------------------------------------
+vtkDataSet* vtkMAFContourVolumeMapper::GetInput()
+{
+	if (this->GetNumberOfInputConnections(0) < 1)
+	{
+		return 0;
+	}
+	return vtkDataSet::SafeDownCast( this->GetExecutive()->GetInputData(0, 0));
+}
 
 //------------------------------------------------------------------------------
 // This is the first function to be called before Render()
@@ -647,8 +688,10 @@ vtkPolyData *vtkMAFContourVolumeMapper::GetOutput(int level, vtkPolyData *data)
   if (level < 0 || level >= NumberOfLods)
     return NULL;
 
+	vtkDataSet *input = this->GetInput();
+
   // check that volume data is valid
-  if (this->GetInput() == NULL || this->GetInput()->GetPointData() == NULL || this->GetInput()->GetPointData()->GetScalars() == NULL) {
+  if (input == NULL || input->GetPointData() == NULL || input->GetPointData()->GetScalars() == NULL) {
     vtkErrorMacro(<< "No data");
     return NULL;
   }
@@ -3145,8 +3188,5 @@ Polyline2D *ListOfPolyline2D::FindContour(int x, int y, int polylineLengthThresh
 
   return NULL;
 }
-
-
-
 
 

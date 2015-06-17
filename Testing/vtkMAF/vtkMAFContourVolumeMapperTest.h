@@ -39,8 +39,8 @@ class vtkMAFContourVolumeMapperTest : public CPPUNIT_NS::TestFixture
     void tearDown();
 
     CPPUNIT_TEST_SUITE( vtkMAFContourVolumeMapperTest );
-    CPPUNIT_TEST( TestFixture );
-    CPPUNIT_TEST( TestImageData );
+    //CPPUNIT_TEST( TestFixture );
+    //CPPUNIT_TEST( TestImageData );
     CPPUNIT_TEST( TestRectilinearGrid );
     CPPUNIT_TEST_SUITE_END();
 
