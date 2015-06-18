@@ -86,7 +86,7 @@ public:
   vtkGetMacro( AutoSpacing, int );
   vtkBooleanMacro(AutoSpacing, int );
 
-  void SetOutput(vtkImageData *data) { SetOutput(data); }
+	void SetOutput(vtkImageData *data);
 
 protected:
   vtkMAFVolumeResample();

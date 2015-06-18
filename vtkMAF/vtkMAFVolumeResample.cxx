@@ -22,6 +22,8 @@
 #include "assert.h"
 #include "vtkInformationVector.h"
 #include "vtkInformation.h"
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 vtkStandardNewMacro(vtkMAFVolumeResample);
 
@@ -126,6 +128,12 @@ void vtkMAFVolumeResample::SetVolumeAxisY(double axis[3]) {
   //vtkMath::Cross(this->VolumeAxisZ, this->VolumeAxisX, this->VolumeAxisY);
   //vtkMath::Normalize(this->VolumeAxisY);
   this->Modified();
+}
+
+//----------------------------------------------------------------------------
+void vtkMAFVolumeResample::SetOutput(vtkImageData *data)
+{
+	this->GetExecutive()->SetOutputData(0, data);
 }
 
 //----------------------------------------------------------------------------

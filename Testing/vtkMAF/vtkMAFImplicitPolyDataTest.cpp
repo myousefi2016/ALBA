@@ -104,6 +104,7 @@ void vtkMAFImplicitPolyDataTest::TestClipSphere1PolydataWithSphere2PolydataUsedA
   s2->SetPhiResolution (  6 );
   s2->SetCenter( 0, 1, 0 );	// offset position from sphere 1
   s2->SetRadius( 1.0 );
+	s2->Update();
 
   // use sphere 2 polydata as an implicit function
   vtkMAFImplicitPolyData *ip2 = vtkMAFImplicitPolyData::New();
@@ -296,12 +297,14 @@ void vtkMAFImplicitPolyDataTest::TestUnionBetweenTwoPolydata()
   s1->SetPhiResolution (  6 );
   s1->SetCenter( 0, 0, 0 );
   s1->SetRadius( 1.0 );
+	s1->Update();
 
   vtkSphereSource *s2 = vtkSphereSource::New();
   s2->SetThetaResolution( 6 );
   s2->SetPhiResolution (  6 );
   s2->SetCenter( 0.7, 0, 0 );
   s2->SetRadius( 1.0 );
+	s2->Update();
 
   // treat users polydata as an implicit function
   vtkMAFImplicitPolyData *ip1 = vtkMAFImplicitPolyData::New();
