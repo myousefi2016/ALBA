@@ -90,6 +90,7 @@ void vtkMAFHistogramTest::TestHistogramPointRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -118,6 +119,7 @@ void vtkMAFHistogramTest::TestHistogramLineRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -146,6 +148,7 @@ void vtkMAFHistogramTest::TestHistogramBarRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -174,6 +177,7 @@ void vtkMAFHistogramTest::TestHistogramLogaritmicProperties()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -205,6 +209,7 @@ void vtkMAFHistogramTest::TestHistogramScaleFactorColorProperties()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -238,6 +243,7 @@ void vtkMAFHistogramTest::TestHistogramGetAttributesAndUpdateLines()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
