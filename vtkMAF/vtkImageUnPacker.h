@@ -38,7 +38,7 @@ public:
 
   /**
   This method returns the largest data that can be generated.*/
-  int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+  int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
   
   /**
   Set/Get the input object containing the packed image.*/
@@ -101,7 +101,6 @@ protected:
   UnPacks the image into the output buffer. */
   virtual int VtkImageUnPackerUpdate(vtkPackedImage *packed, vtkImageData *data) {return 0;};
  
-  void Execute(vtkImageData *data);
 };
 
 #endif

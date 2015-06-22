@@ -54,12 +54,13 @@ void vtkImageUnPacker::PrintSelf(ostream& os, vtkIndent indent)
 
 //----------------------------------------------------------------------------
 // This method returns the largest data that can be generated.
-int vtkImageUnPacker::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
+int vtkImageUnPacker::RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
 	 vtkInformation* outInfo = outputVector->GetInformationObject(0);
-
-	// Here information on the image are read and set in the Output cache.
+	 vtkImageData *output = vtkImageData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	
+	 // Here information on the image are read and set in the Output cache.
 	
 	if (ReadImageInformation(this->GetInput()))
 	{
@@ -68,20 +69,15 @@ int vtkImageUnPacker::RequestInformation(vtkInformation *request, vtkInformation
 
 	outInfo->Set(vtkStreamingDemandDrivenPipeline::WHOLE_EXTENT(), GetDataExtent(), 6);
 	outInfo->Set(vtkStreamingDemandDrivenPipeline::UPDATE_EXTENT(), GetDataExtent(), 6);
+	
+	output->SetExtent(GetDataExtent());
+	output->AllocateScalars(GetDataScalarType(),GetNumberOfScalarComponents());
 
-	GetOutput()->SetScalarType(GetDataScalarType(),request);
-	GetOutput()->SetNumberOfScalarComponents(GetNumberOfScalarComponents(),request);
+	if (VtkImageUnPackerUpdate(this->Input,output))
+	{
+		vtkErrorMacro("Cannot Unpack Image!");
+	}
 
 	return 1;
 }
 
-//----------------------------------------------------------------------------
-// This function reads an image from a stream.
-void vtkImageUnPacker::Execute(vtkImageData *data)
-//----------------------------------------------------------------------------
-{
-	if (VtkImageUnPackerUpdate(this->Input,data))
-	{
-		vtkErrorMacro("Cannot Unpack Image!");
-	}
-}

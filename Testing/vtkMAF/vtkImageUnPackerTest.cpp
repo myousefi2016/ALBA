@@ -68,7 +68,7 @@ void vtkImageUnPackerTest::TestExecute()
   //The filter update method is empty so the output values are the same of the default values
   for (int i=0;i<6;i++)
   {
-  	CPPUNIT_ASSERT( m_Filter->GetOutput()->GetExtent()[i] == 0 );
+  	CPPUNIT_ASSERT( m_Filter->GetOutput()->GetExtent()[i] <= 0 );
   }
 
   CPPUNIT_ASSERT( m_Filter->GetOutput()->GetScalarType() == VTK_UNSIGNED_CHAR );
