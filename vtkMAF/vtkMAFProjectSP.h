@@ -135,6 +135,7 @@ protected:
 
   /** Update dimensions and whole extents */
   int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
   /** Execute the projection and fill output scalars */
   int RequestData( vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 

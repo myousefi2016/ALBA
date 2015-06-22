@@ -130,7 +130,7 @@ int vtkMAFProjectSP::RequestData( vtkInformation *request, vtkInformationVector 
 	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
 	// Initialize some frequently used values.
-	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkImageData  *input = vtkImageData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
 	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
   output->AllocateScalars(request);

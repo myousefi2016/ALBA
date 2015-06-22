@@ -32,6 +32,6 @@ int vtkMAFStructuredPointsAlgorithm::FillOutputPortInformation(int port, vtkInfo
 //----------------------------------------------------------------------------
 int vtkMAFStructuredPointsAlgorithm::FillInputPortInformation(int port, vtkInformation* info)
 {
-	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkStructuredPoints");
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkImageData");
 	return 1;
 }
