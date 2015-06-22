@@ -81,7 +81,7 @@ void vtkMAFClipSurfaceBoundingBoxTest::TestSetGetMask()
 {
   vtkMAFSmartPointer<vtkMAFClipSurfaceBoundingBox> filter;
   filter->SetMask(m_PlaneMask->GetOutput());
-
+	vtkPolyData *mask=filter->GetMask();
   CPPUNIT_ASSERT(filter->GetMask() == m_PlaneMask->GetOutput());
 }
 //--------------------------------------------------
@@ -190,7 +190,6 @@ void vtkMAFClipSurfaceBoundingBoxTest::RenderData(vtkActorCollection *actorColle
   //renderWindowInteractor->Start();
   CompareImages(renderWindow);
 
-  vtkTimerLog::CleanupLog();
 }
 //----------------------------------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::CompareImages(vtkRenderWindow * renwin)
@@ -299,8 +298,7 @@ void vtkMAFClipSurfaceBoundingBoxTest::CompareImages(vtkRenderWindow * renwin)
   imageMath->GetOutput()->GetPointData()->GetScalars()->GetRange(srR);
 
   CPPUNIT_ASSERT(srR[0] == 0.0 && srR[1] == 0.0);
-  //CPPUNIT_ASSERT(ComparingImagesDetailed(imDataOrig,imDataComp));
-
+  
   // end visualization control
   rO->Delete();
   rC->Delete();

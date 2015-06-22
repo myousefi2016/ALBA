@@ -33,12 +33,13 @@ vtkMAFClipSurfaceBoundingBox::vtkMAFClipSurfaceBoundingBox()
 //-------------------------------------------------------------------------
 {
 	ClipInside = 0;
+	SetNumberOfInputPorts(2);
 }
 //-------------------------------------------------------------------------
 vtkMAFClipSurfaceBoundingBox::~vtkMAFClipSurfaceBoundingBox()
 //-------------------------------------------------------------------------
 {
-	SetMask(NULL);
+	
 }
 //-------------------------------------------------------------------------
 int vtkMAFClipSurfaceBoundingBox::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
