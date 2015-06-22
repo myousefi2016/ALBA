@@ -19,6 +19,8 @@
 #include "vtkMath.h"
 
 #include "mafDbg.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 vtkStandardNewMacro(vtkMAFErythrocyteSource);
@@ -34,14 +36,16 @@ vtkMAFErythrocyteSource::vtkMAFErythrocyteSource(void)
 //------------------------------------------------------------------------
 //This method is the one that should be used by subclasses, right now the 
 //default implementation is to call the backwards compatibility method
-/*virtual*/void vtkMAFErythrocyteSource::ExecuteData(vtkDataObject *output)
+/*virtual*/int vtkMAFErythrocyteSource::RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------
 {
-  vtkPolyData* out_poly = vtkPolyData::SafeDownCast(output);
-  if (out_poly == NULL)
+	vtkInformation* outInfo = outputVector->GetInformationObject(0);
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  if (output == NULL)
   {
     vtkErrorMacro(<< "Output polydata cannot be NULL.");
-    return;
+    return 1;
   }
 
   //the model is based on: 
@@ -284,11 +288,13 @@ vtkMAFErythrocyteSource::vtkMAFErythrocyteSource(void)
         
   cells->Squeeze();
   
-  out_poly->SetPoints(points);
-  out_poly->SetPolys(cells);
+  output->SetPoints(points);
+  output->SetPolys(cells);
 
   points->Delete();
   cells->Delete();
+
+	return 1;
 }
 
 

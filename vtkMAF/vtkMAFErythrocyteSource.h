@@ -63,7 +63,7 @@ protected:
   /**
   This method is the one that should be used by subclasses, right now the 
   default implementation is to call the backwards compatibility method */
-  /*virtual*/void ExecuteData(vtkDataObject *output);
+  /*virtual*/int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   /** Computes Jacobi elliptic functions sn(u,k), cn(u,k) and dn(u,k).
   In order to speedup the computation, parameters are uu = u, emmc = 1-k^2.
