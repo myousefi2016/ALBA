@@ -170,6 +170,7 @@ void vtkMAFVolumeTextureMapper2DTest::TestPipeExecution()
   //m_RenderWindow->Render();
 
   vtkCamera *camera = m_Renderer->GetActiveCamera();
+	m_Renderer->ResetCamera();
   camera->Azimuth(60);
   camera->Elevation(30);
 

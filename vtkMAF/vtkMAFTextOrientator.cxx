@@ -365,7 +365,7 @@ void vtkMAFTextOrientator::SetScale(double multiple)
   vtkTransformPolyDataFilter *tpdf = vtkTransformPolyDataFilter::New();
   tpdf->SetTransform(transform);
   //left
-  tpdf->SetInputData(TextSourceLeft->GetOutput());
+  tpdf->SetInputConnection(TextSourceLeft->GetOutputPort());
   tpdf->Update();
   
   TextSourceLeft->GetOutput()->DeepCopy(tpdf->GetOutput());
