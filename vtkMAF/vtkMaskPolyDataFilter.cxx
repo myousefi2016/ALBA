@@ -59,6 +59,7 @@ vtkStandardNewMacro(vtkMaskPolyDataFilter);
 // generating mask scalars turned off.
 vtkMaskPolyDataFilter::vtkMaskPolyDataFilter(vtkPolyData *mask)
 {
+	this->SetNumberOfInputPorts(2);
 	this->CurrentSliceMask=NULL;
   this->SetMask(mask);
 //  this->GenerateMaskScalars = 0;
@@ -71,7 +72,6 @@ vtkMaskPolyDataFilter::~vtkMaskPolyDataFilter()
 {
 	vtkDEL(this->CurrentSliceMask);
 	delete [] IdConversionTable;
-  this->SetMask(NULL);  
 }
 
 
