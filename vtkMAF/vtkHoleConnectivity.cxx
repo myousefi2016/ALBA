@@ -40,7 +40,7 @@ vtkHoleConnectivity::~vtkHoleConnectivity()
 {  
 }
 //----------------------------------------------------------------------------
-int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+int vtkHoleConnectivity::RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
 	// get the info objects
@@ -51,18 +51,10 @@ int vtkHoleConnectivity::RequestData(vtkInformation *vtkNotUsed(request),	vtkInf
 	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
 	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
-	vtkPolyDataConnectivityFilter *connectivityFilter = vtkPolyDataConnectivityFilter::New();
-	connectivityFilter->SetInputConnection(this->GetOutputPort());
-	connectivityFilter->SetExtractionModeToClosestPointRegion ();
-	connectivityFilter->SetClosestPoint(Point);
-	connectivityFilter->Modified();
-	connectivityFilter->Update();
-
-	output->DeepCopy(vtkPolyData::SafeDownCast(connectivityFilter->GetOutput()));
-
-	connectivityFilter->Delete();
-
-	return 1;
+	this->SetExtractionModeToClosestPointRegion();
+	this->SetClosestPoint(Point);
+		
+	return vtkPolyDataConnectivityFilter::RequestData(request,inputVector,outputVector);
 }
 //----------------------------------------------------------------------------
 void vtkHoleConnectivity::PrintSelf(ostream& os, vtkIndent indent)

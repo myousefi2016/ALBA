@@ -56,7 +56,6 @@
 #include "vtkPolyDataMapper.h"
 #include "vtkOutlineSource.h"
 //#include "vtkColorTransferFunction.h"
-#include "vtkMAFVolumeRayCastMapper.h"
 #include "mafEventSource.h"
 
 //----------------------------------------------------------------------------
