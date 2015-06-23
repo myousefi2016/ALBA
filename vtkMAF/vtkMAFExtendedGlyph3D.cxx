@@ -51,7 +51,8 @@ vtkMAFExtendedGlyph3D::vtkMAFExtendedGlyph3D()
   this->VectorMode = VTK_USE_VECTOR;
   this->Clamping = 0;
   this->IndexMode = VTK_INDEXING_OFF;
-	this->SetNumberOfInputPorts(1);
+	//At least one input, one source
+	this->SetNumberOfInputPorts(2);
 	this->GeneratePointIds = 0;
   this->PointIdsName = NULL;
   this->SetPointIdsName("InputPointIds");
@@ -639,7 +640,7 @@ void vtkMAFExtendedGlyph3D::SetSource(int id, vtkPolyData *pd)
     vtkErrorMacro("Bad index " << id << " for source.");
     return;
     }
-  this->SetInputData(id,pd);
+  this->SetInputData(id + 1, pd);
 }
 
 // Get a pointer to a source object at a specified table location.

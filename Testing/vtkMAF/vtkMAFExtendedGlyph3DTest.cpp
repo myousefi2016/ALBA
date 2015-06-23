@@ -67,7 +67,6 @@ void vtkMAFExtendedGlyph3DTest::tearDown()
 
   m_Points->Delete();
 
-  vtkTimerLog::CleanupLog();
 }
 //-----------------------------------------------------------
 void vtkMAFExtendedGlyph3DTest::TestFixture()
