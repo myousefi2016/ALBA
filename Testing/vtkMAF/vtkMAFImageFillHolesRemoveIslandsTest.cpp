@@ -44,7 +44,6 @@
 #include "vtkJPEGWriter.h"
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
-#include "vtkTimerLog.h"
 
 #include "mafString.h"
 
@@ -91,7 +90,6 @@ void vtkMAFImageFillHolesRemoveIslandsTest::RenderData(vtkActor *actor)
   renderWindow->Delete();
   renderer->Delete();
 
-  vtkTimerLog::CleanupLog();
 }
 
 //------------------------------------------------------------
