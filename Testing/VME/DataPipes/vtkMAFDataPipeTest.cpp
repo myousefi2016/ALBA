@@ -76,7 +76,7 @@ void vtkMAFDataPipeTest::TestSetNthInput()
 	dp->SetNthInput(0, poly0);
 	dp->SetNthInput(1, poly1);
 
-	result = 2 == dp->GetNumberOfInputs();
+	result = 2 == dp->GetNumberOfInputPorts();
 	TEST_RESULT;
 	poly0->Delete();
 	poly1->Delete();

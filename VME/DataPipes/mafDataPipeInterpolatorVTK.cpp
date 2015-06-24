@@ -33,6 +33,7 @@
 #include "mafEventBase.h"
 
 #include <assert.h>
+#include "vtkDataSet.h"
 
 //------------------------------------------------------------------------------
 mafCxxTypeMacro(mafDataPipeInterpolatorVTK)
@@ -65,7 +66,7 @@ vtkDataSet *mafDataPipeInterpolatorVTK::GetVTKData()
 //------------------------------------------------------------------------------
 {
   m_VTKDataPipe->UpdateInformation();
-  vtkDataSet *data = m_VTKDataPipe->GetInput();
+  vtkDataSet *data = vtkDataSet::SafeDownCast(m_VTKDataPipe->GetInput());
   return (data != NULL) ? m_VTKDataPipe->GetOutput() : NULL;
 }
 

@@ -80,7 +80,6 @@ void mafDataPipeCustom::UpdateBounds()
 {
   if (m_VTKDataPipe->GetOutput())
   {
-	  m_VTKDataPipe->GetOutput()->Update();
 	  m_VTKDataPipe->GetOutput()->ComputeBounds();
 	  m_Bounds.DeepCopy(m_VTKDataPipe->GetOutput()->GetBounds());
   }

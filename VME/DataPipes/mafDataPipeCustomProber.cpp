@@ -59,7 +59,7 @@ mafDataPipeCustomProber::mafDataPipeCustomProber()
 
   vtkNEW(m_Normals);
   vtkNEW(m_Prober);
-  m_Prober->SetInput((vtkDataSet *)m_Normals->GetOutput());
+  m_Prober->SetInputConnection(m_Normals->GetOutputPort());
   SetInput(m_Prober->GetOutput());
 }
 
@@ -78,11 +78,11 @@ void mafDataPipeCustomProber::SetSurface(mafNode *surface)
   if (m_Surface)
   {
     vtkDataSet *surf_data = ((mafVME *)m_Surface)->GetOutput()->GetVTKData();
-    m_Normals->SetInput((vtkPolyData *)surf_data);
+    m_Normals->SetInputData((vtkPolyData *)surf_data);
   }
   else
   {
-    m_Normals->SetInput(NULL);
+    m_Normals->SetInputData(NULL);
   }
 }
 //------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ void mafDataPipeCustomProber::PreExecute()
     vtkDataSet *surf_data = surf->GetOutput()->GetVTKData();
     if(vol_data && surf_data)
     {
-      m_Normals->SetInput((vtkPolyData *)surf_data);
+      m_Normals->SetInputData((vtkPolyData *)surf_data);
       m_Normals->ComputePointNormalsOn();
       m_Normals->SplittingOff();
       m_Normals->Update();
