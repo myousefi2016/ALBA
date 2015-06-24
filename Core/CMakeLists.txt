@@ -151,7 +151,7 @@ SET(PROJECT_LIBS mafBase mafIO mafGui mafInteraction mafOperations curl)
 IF (MAF_USE_VTK)
   find_package(VTK 6.0 REQUIRED NO_MODULE)
 	include(${VTK_USE_FILE})
-  LINK_LIBRARIES(mafBase   mafGui ${VTK_LIBRARIES})
+  SET(PROJECT_LIBS ${PROJECT_LIBS} ${VTK_LIBRARIES})
 ENDIF (MAF_USE_VTK)
 
 
