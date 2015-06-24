@@ -212,7 +212,6 @@ void mafVolumeLargeReader::SetOutputRLGDataSet(vtkRectilinearGrid* ds)
 	vtkImageData* input = m_PLevels[m_NCurrentLevel]->GetOutputDataSet();
 
 	output->ShallowCopy(input);
-	output->SetUpdateExtentToWholeExtent();
 
   if (this->IsRectilinearGrid())
   {
@@ -220,7 +219,6 @@ void mafVolumeLargeReader::SetOutputRLGDataSet(vtkRectilinearGrid* ds)
     vtkRectilinearGrid* inputRLG = m_PLevels[m_NCurrentLevel]->GetOutputRLGDataSet();
 
     outputRLG->ShallowCopy(inputRLG);
-    outputRLG->SetUpdateExtentToWholeExtent();
   }
 
 	//get modified VOI for the data (it might change)
