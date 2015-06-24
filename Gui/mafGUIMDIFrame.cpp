@@ -37,8 +37,8 @@
 
 
 #ifdef MAF_USE_VTK //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	#include "vtkAlgorithm.h"
   #include "vtkVersion.h"
-  #include "vtkProcessObject.h"
   #include "vtkViewport.h"
   #include "vtkCommand.h"
 
@@ -56,7 +56,7 @@ class mafGUIMDIFrameCallback : public vtkCommand
       assert(m_Frame);
       if(caller->IsA("vtkProcessObject"))
       {
-        vtkProcessObject *po = (vtkProcessObject*)caller;
+        vtkAlgorithm *po = (vtkAlgorithm*)caller;
 
         if(m_mode==0) // ProgressEvent-Callback
         {
@@ -500,13 +500,13 @@ void mafGUIMDIFrame::BindToProgressBar(vtkObject* vtkobj)
 {
 	if(vtkobj->IsA("vtkViewport")) 
 		BindToProgressBar((vtkViewport*)vtkobj);
-  else if(vtkobj->IsA("vtkProcessObject")) 
-		BindToProgressBar((vtkProcessObject*)vtkobj);
+  else if(vtkobj->IsA("vtkAlgorithm")) 
+		BindToProgressBar((vtkAlgorithm*)vtkobj);
 	else 
     mafLogMessage("wrong vtkObject passed to BindToProgressBar");
 }
 //-----------------------------------------------------------
-void mafGUIMDIFrame::BindToProgressBar(vtkProcessObject* filter)
+void mafGUIMDIFrame::BindToProgressBar(vtkAlgorithm* filter)
 //-----------------------------------------------------------
 {
   filter->AddObserver(vtkCommand::ProgressEvent,m_ProgressCallback);

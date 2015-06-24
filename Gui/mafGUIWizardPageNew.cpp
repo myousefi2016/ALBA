@@ -164,6 +164,7 @@ void mafGUIWizardPageNew::OnEvent(mafEventBase *maf_event)
 void mafGUIWizardPageNew::UpdateWindowing()
 //----------------------------------------------------------------------------
 {
+	double *range;
   double tableRange[2];
   double scalarRange[2];
 
@@ -172,7 +173,9 @@ void mafGUIWizardPageNew::UpdateWindowing()
   vtkActorCollection *actorCollection = m_Rwi->m_RenFront->GetActors();
   actorCollection->InitTraversal();
   actorCollection->GetNextItem();
-  actorCollection->GetNextItem()->GetTexture()->GetLookupTable()->GetTableRange(tableRange);
+  range=actorCollection->GetNextItem()->GetTexture()->GetLookupTable()->GetRange();
+	tableRange[0]=range[0];
+	tableRange[1]=range[1];
 
   actorCollection->InitTraversal();
   actorCollection->GetNextItem();
@@ -218,7 +221,7 @@ void mafGUIWizardPageNew::UpdateActor()
   vtkActorCollection *actorCollection = m_Rwi->m_RenFront->GetActors();
   actorCollection->InitTraversal();
   actorCollection->GetNextItem();
-  actorCollection->GetNextItem()->GetTexture()->GetLookupTable()->SetTableRange(low,hi);
+  actorCollection->GetNextItem()->GetTexture()->GetLookupTable()->SetRange(low,hi);
   m_Rwi->CameraUpdate();
 }
 //--------------------------------------------------------------------------------

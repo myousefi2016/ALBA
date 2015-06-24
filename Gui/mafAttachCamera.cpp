@@ -222,7 +222,7 @@ void mafAttachCamera::PrintSelf( ostream& os)
   os << "m_AttachedVmeMatrix: " << m_AttachedVmeMatrix << std::endl;
   if (m_AttachedVmeMatrix)
   {
-    m_AttachedVmeMatrix->PrintSelf(os, NULL);
+    m_AttachedVmeMatrix->PrintSelf(os, vtkIndent(0));
   }
 
 
@@ -230,7 +230,7 @@ void mafAttachCamera::PrintSelf( ostream& os)
   
   if (m_StartingMatrix)
   {
-    m_StartingMatrix->PrintSelf(os,NULL);
+    m_StartingMatrix->PrintSelf(os,vtkIndent(0));
   }
 
   os << "m_Listener: " << m_Listener << std::endl;

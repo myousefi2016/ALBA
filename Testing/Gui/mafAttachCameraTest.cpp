@@ -153,7 +153,7 @@ void mafAttachCameraTest::CreateTestData()
   axes->SetScaleFactor(2.5);
 
   vtkMAFSmartPointer<vtkTubeFilter> tube;
-  tube->SetInput(axes->GetOutput());
+  tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.1);
   tube->CappingOn();
   tube->SetNumberOfSides(20);
@@ -173,7 +173,7 @@ void mafAttachCameraTest::RenderVMESurface( mafVMESurface *vme )
 {
   vtkDataSetMapper *mapper = vtkDataSetMapper::New();
   mapper->ScalarVisibilityOn();
-  mapper->SetInput(vme->GetOutput()->GetVTKData());
+  mapper->SetInputData(vme->GetOutput()->GetVTKData());
 
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);

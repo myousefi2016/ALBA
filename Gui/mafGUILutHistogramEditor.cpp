@@ -320,8 +320,8 @@ vtkDataArray* mafGUILutHistogramEditor::Resample(vtkDataArray *inDA, vtkDataArra
   outDA->SetTuple1(SUB_SAMPLED_SIZE,inDA->GetRange()[0]);
   outDA->SetTuple1(SUB_SAMPLED_SIZE+1,inDA->GetRange()[1]);
 
-  outDA->ComputeRange(0);
-
+	outDA->GetRange();
+	
   return outDA;
 }
 
