@@ -245,11 +245,11 @@ void mafViewGlobalSlice::InizializePlane()
 
 	vtkOutlineCornerFilter* boundsOutlineBox;
   vtkNEW(boundsOutlineBox);
-	boundsOutlineBox->SetInput(boundsPlane->GetOutput());  
+	boundsOutlineBox->SetInputConnection(boundsPlane->GetOutputPort());  
 
 	vtkPolyDataMapper* boundsOutlineMapper;
   vtkNEW(boundsOutlineMapper);
-	boundsOutlineMapper->SetInput(boundsOutlineBox->GetOutput());
+	boundsOutlineMapper->SetInputConnection(boundsOutlineBox->GetOutputPort());
 
 	vtkProperty* boundsOutlineProperty;
   vtkNEW(boundsOutlineProperty);

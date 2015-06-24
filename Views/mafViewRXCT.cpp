@@ -227,7 +227,6 @@ void mafViewRXCT::VmeShow(mafNode *node, bool show)
 
       // get the VTK volume
       vtkDataSet *data = ((mafVME *)node)->GetOutput()->GetVTKData();
-      data->Update();
       data->GetCenter(center);
       data->GetScalarRange(sr);
       double totalSR[2];

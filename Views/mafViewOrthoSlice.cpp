@@ -737,7 +737,6 @@ void mafViewOrthoSlice::CreateOrthoslicesAndGizmos( mafNode * node )
 	mmaVolumeMaterial *currentVolumeMaterial = ((mafVMEOutputVolume *)m_CurrentVolume->GetOutput())->GetMaterial();
 	double sr[2],vtkDataCenter[3];
 	vtkDataSet *vtkData = m_CurrentVolume->GetOutput()->GetVTKData();
-	vtkData->Update();
 	vtkData->GetCenter(vtkDataCenter);
 	vtkData->GetCenter(m_GizmoHandlePosition);
 	vtkData->GetScalarRange(sr);

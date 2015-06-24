@@ -302,7 +302,6 @@ void mafViewSlice::VmeCreatePipe(mafNode *vme)
         int slice_mode;
         vtkDataSet *data = ((mafVME *)vme)->GetOutput()->GetVTKData();
         assert(data);
-        data->Update();
         switch(m_CameraPositionId)
         {
         case CAMERA_OS_X:
@@ -810,14 +809,14 @@ void mafViewSlice::BorderCreate(double col[3])
   ps->SetPoint2(0, size[1]-1, 0);
 
   vtkOutlineFilter *of = vtkOutlineFilter::New();
-  of->SetInput((vtkDataSet *)ps->GetOutput());
+  of->SetInputConnection(ps->GetOutputPort());
 
   vtkCoordinate *coord = vtkCoordinate::New();
   coord->SetCoordinateSystemToDisplay();
   coord->SetValue(size[0]-1, size[1]-1, 0);
 
   vtkPolyDataMapper2D *pdmd = vtkPolyDataMapper2D::New();
-  pdmd->SetInput(of->GetOutput());
+  pdmd->SetInputConnection(of->GetOutputPort());
   pdmd->SetTransformCoordinate(coord);
 
   vtkProperty2D *pd = vtkProperty2D::New();
