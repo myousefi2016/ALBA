@@ -300,7 +300,7 @@ mafRWI::~mafRWI()
 
 	if(m_RenFront) 
 	{
-		m_RenFront->RemoveAllProps();
+		m_RenFront->RemoveAllViewProps();
 		m_RenderWindow->RemoveRenderer(m_RenFront);
 	}
 	vtkDEL(m_ProfilingActor);
@@ -309,7 +309,7 @@ mafRWI::~mafRWI()
 
 	if(m_RenBack)
 	{
-		m_RenBack->RemoveAllProps();
+		m_RenBack->RemoveAllViewProps();
 		m_RenderWindow->RemoveRenderer(m_RenBack);
 	}
 
@@ -317,7 +317,7 @@ mafRWI::~mafRWI()
 
 	if(m_AlwaysVisibleRenderer)
 	{
-		m_AlwaysVisibleRenderer->RemoveAllProps();
+		m_AlwaysVisibleRenderer->RemoveAllViewProps();
 		m_RenderWindow->RemoveRenderer(m_AlwaysVisibleRenderer);
 	}
 

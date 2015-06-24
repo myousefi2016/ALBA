@@ -127,7 +127,7 @@ int play_tree(mafVMERoot *m_StorageRoot)
       {
         vtkDataSet *vmedata=vme->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
 
         vtkMAFSmartPointer<vtkActor> vmeact;
         vmeact->SetMapper(mapper);

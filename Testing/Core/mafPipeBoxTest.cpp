@@ -112,7 +112,6 @@ void mafPipeBoxTest::TestPipe3DExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -124,7 +123,6 @@ void mafPipeBoxTest::TestPipe3DExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -198,7 +196,6 @@ void mafPipeBoxTest::TestPipe3DSubtreeExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -210,7 +207,6 @@ void mafPipeBoxTest::TestPipe3DSubtreeExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -284,7 +280,6 @@ void mafPipeBoxTest::TestPipe4DExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -362,7 +357,6 @@ void mafPipeBoxTest::TestPipe4DSubtreeExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -381,7 +375,6 @@ void mafPipeBoxTest::TestPipe4DSubtreeExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -471,7 +464,7 @@ void mafPipeBoxTest::CompareImages(char *type)
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile=MAF_DATA_ROOT;
 
   if(!controlStream)
@@ -530,8 +523,8 @@ void mafPipeBoxTest::CompareImages(char *type)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

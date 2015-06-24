@@ -379,7 +379,7 @@ void mafPipeIsosurfaceGPUTest::CompareImages(int imageIndex)
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile=MAF_DATA_ROOT;
 
   if(!controlStream)

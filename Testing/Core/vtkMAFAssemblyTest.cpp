@@ -77,7 +77,7 @@ void vtkMAFAssemblyTest::PrintSelfTest()
 //----------------------------------------------------------------------------
 {
   vtkMAFAssembly *assembly = vtkMAFAssembly::New();
-  assembly->PrintSelf(std::cout, 3);
+  assembly->PrintSelf(std::cout, vtkIndent(3));
   vtkDEL(assembly);
 }
 //----------------------------------------------------------------------------
@@ -235,7 +235,7 @@ void vtkMAFAssemblyTest::RenderOpaqueGeometryTest()
   vtkPolyDataMapper *mapper1;
   vtkNEW(mapper1);
 
-  mapper1->SetInput(sph_source1->GetOutput());
+  mapper1->SetInputConnection(sph_source1->GetOutputPort());
 
   // translucent
   vtkActor *sphere1;
@@ -257,7 +257,7 @@ void vtkMAFAssemblyTest::RenderOpaqueGeometryTest()
   vtkPolyDataMapper *mapper2;
   vtkNEW(mapper2);
 
-  mapper2->SetInput(sph_source2->GetOutput());
+  mapper2->SetInputConnection(sph_source2->GetOutputPort());
 
   // opaque
   vtkActor *sphere2;
@@ -317,7 +317,7 @@ void vtkMAFAssemblyTest::RenderTranslucentGeometry()
   vtkPolyDataMapper *mapper1;
   vtkNEW(mapper1);
 
-  mapper1->SetInput(sph_source1->GetOutput());
+  mapper1->SetInputConnection(sph_source1->GetOutputPort());
 
   // translucent
   vtkActor *sphere1;
@@ -339,7 +339,7 @@ void vtkMAFAssemblyTest::RenderTranslucentGeometry()
   vtkPolyDataMapper *mapper2;
   vtkNEW(mapper2);
 
-  mapper2->SetInput(sph_source2->GetOutput());
+  mapper2->SetInputConnection(sph_source2->GetOutputPort());
 
   // opaque
   vtkActor *sphere2;
@@ -399,7 +399,7 @@ void vtkMAFAssemblyTest::InitPathTraversalTest()
   vtkAssemblyPath *path = assembly->GetNextPath();
 
   CPPUNIT_ASSERT(path->GetNumberOfItems() == 2);
-  CPPUNIT_ASSERT(path->GetFirstNode()->GetProp() == assembly);
+  CPPUNIT_ASSERT(path->GetFirstNode()->GetViewProp() == assembly);
 
   vtkDEL(actor1);
   vtkDEL(actor2);
@@ -437,19 +437,19 @@ void vtkMAFAssemblyTest::GetNextPathTest()
 
   vtkAssemblyPath *path = assembly->GetNextPath();
   path->InitTraversal();
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly);
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly1);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly1);
 
 
   path = assembly->GetNextPath();
   path->InitTraversal();
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly);
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly2);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly2);
 
   path = assembly->GetNextPath();
   path->InitTraversal();
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly);
-  CPPUNIT_ASSERT(path->GetNextNode()->GetProp() == assembly3);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly);
+  CPPUNIT_ASSERT(path->GetNextNode()->GetViewProp() == assembly3);
 
   vtkDEL(actor1);
   vtkDEL(actor2);
@@ -505,7 +505,7 @@ void vtkMAFAssemblyTest::GetBoundsTest()
   vtkPolyDataMapper *mapper1;
   vtkNEW(mapper1);
 
-  mapper1->SetInput(cub_source1->GetOutput());
+  mapper1->SetInputConnection(cub_source1->GetOutputPort());
 
   vtkActor *cube1;
   vtkNEW(cube1);
@@ -528,7 +528,7 @@ void vtkMAFAssemblyTest::GetBoundsTest()
   vtkPolyDataMapper *mapper2;
   vtkNEW(mapper2);
 
-  mapper2->SetInput(cub_source2->GetOutput());
+  mapper2->SetInputConnection(cub_source2->GetOutputPort());
 
   vtkActor *cube2;
   vtkNEW(cube2);
@@ -672,7 +672,7 @@ void vtkMAFAssemblyTest::CompareImages(vtkRenderWindow * renwin, int indexTest)
   //write comparing image
   vtkJPEGWriter *w;
   vtkNEW(w);
-  w->SetInput(w2i->GetOutput());
+  w->SetInputConnection(w2i->GetOutputPort());
   mafString imageFile="";
 
   if(!controlStream)
@@ -732,8 +732,8 @@ void vtkMAFAssemblyTest::CompareImages(vtkRenderWindow * renwin, int indexTest)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

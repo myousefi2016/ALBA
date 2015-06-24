@@ -236,7 +236,6 @@ void mafVMEOutputTest::TestGetVTKData()
   vtkDataSet *dataset = (vtkDataSet*)reader->GetOutput();
 
   surface->SetData(reader->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->Update();
   
   mafVMEOutput *vme_out = surface->GetOutput();

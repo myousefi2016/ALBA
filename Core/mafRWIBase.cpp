@@ -690,7 +690,7 @@ wxBitmap *mafRWIBase::GetImage(int magnification)
 
   //flip it - windows Bitmap are upside-down
   vtkMAFSmartPointer<vtkImageExport> ie;
-  ie->SetInput(w2i->GetOutput());
+  ie->SetInputConnection(w2i->GetOutputPort());
   ie->ImageLowerLeftOff();
   ie->SetExportVoidPointer(buffer);
   ie->Export();
@@ -822,7 +822,7 @@ void mafRWIBase::SaveImage(mafString filename, int magnification , int forceExte
   if (ext == "bmp")
   {
     vtkMAFSmartPointer<vtkBMPWriter> w;
-    w->SetInput(w2i->GetOutput());
+    w->SetInputConnection(w2i->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
 
@@ -872,30 +872,28 @@ void mafRWIBase::SaveImage(mafString filename, int magnification , int forceExte
   else if (ext == "jpg")
   {
     vtkMAFSmartPointer<vtkJPEGWriter> w;
-    w->SetInput(w2i->GetOutput());
+    w->SetInputConnection(w2i->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
   }
   else if (ext == "tiff")
   {
     vtkMAFSmartPointer<vtkTIFFWriter> w;
-    w->SetInput(w2i->GetOutput());
+    w->SetInputConnection(w2i->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
   }
   else if (ext == "ps")
   {
     vtkMAFSmartPointer<vtkPostScriptWriter> w;
-    w->SetInput(w2i->GetOutput());
+    w->SetInputConnection(w2i->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
   }
   else if (ext == "png")
   {
     vtkMAFSmartPointer<vtkPNGWriter> w;
-    w->SetInput(w2i->GetOutput());
-    w->SetPixelPerMeterX(pixelXMeterX);
-    w->SetPixelPerMeterY(pixelXMeterY);
+    w->SetInputConnection(w2i->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
   }
@@ -1068,7 +1066,7 @@ void mafRWIBase::RecursiveSaving(mafString filename, mafViewCompound *v,int magn
       if (extension == "bmp")
       {
         vtkMAFSmartPointer<vtkBMPWriter> w;
-        w->SetInput(w2i->GetOutput());
+        w->SetInputConnection(w2i->GetOutputPort());
         w->SetFileName(temp.c_str());
         w->Write();
 
@@ -1118,30 +1116,28 @@ void mafRWIBase::RecursiveSaving(mafString filename, mafViewCompound *v,int magn
       else if (extension == "jpg")
       {
         vtkMAFSmartPointer<vtkJPEGWriter> w;
-        w->SetInput(w2i->GetOutput());
+        w->SetInputConnection(w2i->GetOutputPort());
         w->SetFileName(temp.c_str());
         w->Write();
       }
       else if (extension == "tiff")
       {
         vtkMAFSmartPointer<vtkTIFFWriter> w;
-        w->SetInput(w2i->GetOutput());
+        w->SetInputConnection(w2i->GetOutputPort());
         w->SetFileName(temp.c_str());
         w->Write();
       }
       else if (extension == "ps")
       {
         vtkMAFSmartPointer<vtkPostScriptWriter> w;
-        w->SetInput(w2i->GetOutput());
+        w->SetInputConnection(w2i->GetOutputPort());
         w->SetFileName(temp.c_str());
         w->Write();
       }
       else if (extension == "png")
       {
         vtkMAFSmartPointer<vtkPNGWriter> w;
-        w->SetInput(w2i->GetOutput());
-        w->SetPixelPerMeterX(pixelXMeterX);
-        w->SetPixelPerMeterY(pixelXMeterY);
+        w->SetInputConnection(w2i->GetOutputPort());
         w->SetFileName(temp.c_str());
         w->Write();
       }
@@ -1260,7 +1256,7 @@ void mafRWIBase::SaveAllImages(mafString filename, mafViewCompound *v, int force
     r->Update();
 
     vtkPNGWriter *w = vtkPNGWriter::New();
-    w->SetInput(r->GetOutput());
+    w->SetInputConnection(r->GetOutputPort());
     w->SetFileName(filename.GetCStr());
     w->Write();
 
@@ -1350,10 +1346,10 @@ void mafRWIBase::EnableStereoMovie(bool enable)
     m_StereoMovieRightEye->SetInput(RenderWindow);
 
     vtkNEW(m_StereoImage);
-    m_StereoImage->AddInput(m_StereoMovieLeftEye->GetOutput());
-    m_StereoImage->AddInput(m_StereoMovieRightEye->GetOutput());
+    m_StereoImage->AddInputConnection(m_StereoMovieLeftEye->GetOutputPort());
+    m_StereoImage->AddInputConnection(m_StereoMovieRightEye->GetOutputPort());
 
     vtkNEW(m_StereoMoviewFrameWriter);
-    m_StereoMoviewFrameWriter->SetInput(m_StereoImage->GetOutput());
+    m_StereoMoviewFrameWriter->SetInputConnection(m_StereoImage->GetOutputPort());
   }
 }
