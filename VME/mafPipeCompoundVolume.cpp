@@ -26,6 +26,7 @@
 #include "vtkPointData.h"
 #include "vtkFieldData.h"
 #include "vtkAbstractArray.h"
+#include "vtkDataArray.h"
 
 
 ///visual pipes for volumes
@@ -86,7 +87,6 @@ mafCxxTypeMacro(mafPipeCompoundVolume);
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
   if (ds != NULL)
   {
-    ds->Update();
 
     vtkPointData* pd = ds->GetPointData();
     if (pd != NULL && pd->GetScalars() != NULL) {
@@ -106,8 +106,7 @@ mafCxxTypeMacro(mafPipeCompoundVolume);
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
   if (ds != NULL)
   {
-    ds->Update();
-
+    
     vtkPointData* pd = ds->GetPointData();
     if (pd != NULL)
     {
@@ -144,7 +143,6 @@ mafCxxTypeMacro(mafPipeCompoundVolume);
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
   if (ds != NULL)
   {
-    ds->Update();
 
     vtkPointData* pd = ds->GetPointData();
     if (pd != NULL)

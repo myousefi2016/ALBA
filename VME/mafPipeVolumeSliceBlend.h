@@ -122,12 +122,12 @@ protected:
 
   vtkMAFVolumeSlicer				 *m_SlicerImage[2][3];
   vtkMAFVolumeSlicer				 *m_SlicerPolygonal[2][3];
-  vtkImageData					 *m_Image[2][3];
+ // vtkImageData					 *m_Image[2][3];
   vtkTexture						 *m_Texture[2][3];
   vtkLookupTable         *m_ColorLUT;
   vtkLookupTable         *m_CustomColorLUT;
   vtkPolyDataMapper			 *m_SliceMapper[2][3];
-  vtkPolyData						 *m_SlicePolydata[2][3];
+ // vtkPolyData						 *m_SlicePolydata[2][3];
   vtkActor               *m_SliceActor[2][3];
 
   vtkOutlineCornerFilter *m_VolumeBox;

@@ -122,12 +122,12 @@ void mafVMESlicerTest::TestBug2454And2524Regression()
 	numPoints = surfaceData->GetNumberOfPoints();
 	CPPUNIT_ASSERT(numPoints == 4);
 
-	slicerMapper->SetInput(surfaceData);
+	slicerMapper->SetInputData(surfaceData);
 
 	vtkMAFSmartPointer<vtkTexture> slicerTexure;
 	vtkImageData *texture = vmeSlicer->GetSurfaceOutput()->GetTexture();
 	CPPUNIT_ASSERT(texture);
-	slicerTexure->SetInput(texture);
+	slicerTexure->SetInputData(texture);
 
 	vtkMAFSmartPointer<vtkActor> slicerActor;
 	slicerActor->SetMapper(slicerMapper);

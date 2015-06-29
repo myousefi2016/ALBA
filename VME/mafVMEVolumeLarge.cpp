@@ -52,6 +52,7 @@ June 9-11, 2008, Manchester, UK, p. 1-8
 #include <stack>
 #include <wx/busyinfo.h>
 #include "vtkMAFSmartPointer.h"
+#include "vtkAlgorithm.h"
 
 #if defined(_DEBUG) && defined(_WIN32)
 //#define _PROFILE_LARGEDATA_UPDATE
@@ -168,7 +169,6 @@ mmaVolumeMaterial *mafVMEVolumeLarge::GetMaterial()
     
     if(GetOutput() && GetOutput()->GetVTKData())
     {
-      GetOutput()->GetVTKData()->Update();
       double sr[2];
       GetOutput()->GetVTKData()->GetScalarRange(sr);
       material->m_ColorLut->SetTableRange(sr);
@@ -199,39 +199,56 @@ mmaVolumeMaterial *mafVMEVolumeLarge::GetMaterial()
   //and ignores new values, thus we will need to force them to register
   //the whole extent of new data
 
-  std::stack<vtkDataObject*> stck;
+  std::stack<vtkDataSet*> stck;
 #ifdef VME_VOLUME_VER1
   vtkDataObject* pLargeData = m_LargeData->GetSnapshot();  
 #else
-  vtkDataObject* pLargeData = 
+  vtkDataSet* pLargeData = 
     m_LargeDataReader->IsRectilinearGrid() ? 
-    (vtkDataObject*)m_LargeDataReader->GetOutputRLGDataSet() :
-    (vtkDataObject*)m_LargeDataReader->GetOutputDataSet();
+    (vtkDataSet*)m_LargeDataReader->GetOutputRLGDataSet() :
+    (vtkDataSet*)m_LargeDataReader->GetOutputDataSet();
 #endif
   
   stck.push(pLargeData);
+	
   while (!stck.empty())
   {
-    vtkDataObject* pDataObj = stck.top();    
+    vtkDataSet* pDataObj = stck.top();    
     stck.pop(); //and remove it from the stack
 
-    int nConsumers = pDataObj->GetNumberOfConsumers();
+		/**
+		TODO VTK6 Find a strategy to get the vtkAlgorithm that need the update extent
+
+		int nConsumers = pDataObj->GetNumberOfConsumers();
+		 */
+		
+		int nConsumers = 0;
+    
     for (int i = 0; i < nConsumers; i++)
     {
       //get the vtkMAFDataPipe object that takes the data as the input  
-      vtkSource* pSource = vtkSource::SafeDownCast(pDataObj->GetConsumer(i));  
+      vtkAlgorithm* pSource = NULL;
+
+			/**
+			TODO VTK6 Find a strategy to get the vtkAlgorithm that need the update extent
+
+			vtkAlgorithm* pSource = vtkAlgorithm::SafeDownCast(pDataObj->GetConsumer(i));   */
+
       if (pSource == NULL)
         continue; //it is not a source
 
       //there is some source, push all its outputs
-      int nOutputs = pSource->GetNumberOfOutputs();
+      int nOutputs = pSource->GetNumberOfOutputPorts();
       for (int j = 0; j < nOutputs; j++) {
-        stck.push(pSource->GetOutputs()[j]);
+        stck.push(vtkDataSet::SafeDownCast(pSource->GetOutputDataObject(j)));
       }
 
       vtkImageClip* pClip = vtkImageClip::SafeDownCast(pSource);
       if (pClip != NULL) { //reset whole extent
-        pClip->SetOutputWholeExtent(pLargeData->GetWholeExtent());
+				if(vtkRectilinearGrid::SafeDownCast(pLargeData))
+					pClip->SetOutputWholeExtent(vtkRectilinearGrid::SafeDownCast(pLargeData)->GetExtent());
+				else
+					pClip->SetOutputWholeExtent(vtkImageData::SafeDownCast(pLargeData)->GetExtent());
       }
 
       //NB. vtkStructuredGridClip and vtkRectilinearGridClip are not supported
@@ -2040,7 +2057,10 @@ void mafVMEVolumeLarge::InverseTransformExtent(double extMm[6], int outUn[6])
 	
 	//dims
 	int wext[6];
-	ds->GetWholeExtent(wext);
+	if(vtkRectilinearGrid::SafeDownCast(ds))
+		vtkRectilinearGrid::SafeDownCast(ds)->GetExtent(wext);
+	else 
+		vtkImageData::SafeDownCast(ds)->GetExtent(wext);
 	m_SampleDimensions = wxString::Format("%d x %d x %d", wext[1] - wext[0] + 1,
 		wext[3] - wext[2] + 1, wext[5] - wext[4] + 1);
 

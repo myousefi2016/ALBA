@@ -107,7 +107,6 @@ void mafVisualPipeVolumeRayCastingTest::TestPipeExecution()
   mafVMEVolumeGray *volume;
   mafNEW(volume);
   volume->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->GetOutput()->Update();
   volume->Update();
 
@@ -256,8 +255,8 @@ void mafVisualPipeVolumeRayCastingTest::CompareImages(int scalarIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

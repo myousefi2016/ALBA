@@ -55,8 +55,9 @@
 #include "vtkOutlineCornerFilter.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkOutlineSource.h"
-//#include "vtkColorTransferFunction.h"
+#include "vtkVolumeRayCastMapper.h"
 #include "mafEventSource.h"
+#include "vtkAlgorithm.h"
 
 //----------------------------------------------------------------------------
 mafCxxTypeMacro(mafPipeVolumeMIP);
@@ -109,7 +110,7 @@ void mafPipeVolumeMIP::Create(mafSceneNode *n)
     m_Box->SetBounds(b);
 
     vtkNEW(m_Mapper);
-    m_Mapper->SetInput(m_Box->GetOutput());
+    m_Mapper->SetInputConnection(m_Box->GetOutputPort());
 
     if(m_Vme->IsAnimated())
       m_Mapper->ImmediateModeRenderingOn();	 //avoid Display-Lists for animated items.
@@ -126,14 +127,13 @@ void mafPipeVolumeMIP::Create(mafSceneNode *n)
 
   vtkImageData *image_data = vtkImageData::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
   assert(image_data);
-  image_data->Update();
   image_data->GetScalarRange(sr);
 
   vtkNEW(m_ResampleFilter);
   double image_data_spacing[3];
   image_data->GetSpacing(image_data_spacing);
   m_ResampleFilter->SetInformationInput(image_data);
-  m_ResampleFilter->SetInput(image_data);
+  m_ResampleFilter->SetInputData(image_data);
   m_ResampleFilter->SetDimensionality(3);
   m_ResampleFilter->SetOutputSpacing(image_data_spacing[0]/m_ResampleFactor,image_data_spacing[1]/m_ResampleFactor,image_data_spacing[2]/m_ResampleFactor);
   m_ResampleFilter->SetAxisMagnificationFactor(0,0.5);
@@ -142,12 +142,12 @@ void mafPipeVolumeMIP::Create(mafSceneNode *n)
   m_ResampleFilter->Update();
 
   vtkNEW(m_Caster);
-  m_Caster->SetInput(m_ResampleFilter->GetOutput());
+  m_Caster->SetInputConnection(m_ResampleFilter->GetOutputPort());
   m_Caster->SetNumberOfThreads(1);
   m_Caster->SetOutputScalarType(VTK_UNSIGNED_SHORT);
   m_Caster->ClampOverflowOn();
   m_Caster->Update();
-
+	
 
   mmaVolumeMaterial *material = ((mafVMEVolume *)m_Vme)->GetMaterial();
 
@@ -172,14 +172,14 @@ void mafPipeVolumeMIP::Create(mafSceneNode *n)
   m_MIPFunction->SetMaximizeMethodToOpacity();
 
   vtkNEW(m_VolumeMapper);
-  m_VolumeMapper->SetInput(m_Caster->GetOutput());
-
+  m_VolumeMapper->SetInputConnection(m_Caster->GetOutputPort());
+	
   m_VolumeMapper->SetVolumeRayCastFunction(m_MIPFunction);
   m_VolumeMapper->SetCroppingRegionPlanes(0, 1, 0, 1, 0, 1);
   m_VolumeMapper->SetImageSampleDistance(1/m_ResampleFactor);
   m_VolumeMapper->SetMaximumImageSampleDistance(10);
   m_VolumeMapper->SetMinimumImageSampleDistance(1/m_ResampleFactor);
-  m_VolumeMapper->SetNumberOfThreads(1);
+  //m_VolumeMapper->SetNumberOfThreads(1);
   m_VolumeMapper->SetSampleDistance(1);
 
   m_VolumeMapper->Update();	
@@ -305,7 +305,6 @@ void mafPipeVolumeMIP::UpdateMIPFromLUT()
 //      m_ColorTransferFunction->AddRGBPoint(p, rgba[0], rgba[1], rgba[2]);
       m_OpacityTransferFunction->AddPoint(p, (double)v/(double)tv);
     }
-    m_OpacityTransferFunction->Update();
     mafEventMacro(mafEvent(this,CAMERA_UPDATE));
   }
 

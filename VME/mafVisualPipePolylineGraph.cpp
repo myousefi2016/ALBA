@@ -129,7 +129,6 @@ void mafVisualPipePolylineGraph::ExecutePipe()
 //----------------------------------------------------------------------------
 {
   m_Vme->Update();
-  m_Vme->GetOutput()->GetVTKData()->Update();
 
   CreateFieldDataControlArrays();
 
@@ -139,7 +138,6 @@ void mafVisualPipePolylineGraph::ExecutePipe()
   poly_output->Update();
   vtkPolyData *data = vtkPolyData::SafeDownCast(poly_output->GetVTKData());
   assert(data);
-  data->Update();
 
   vtkNEW(m_Sphere);
   m_Sphere->SetRadius(m_SphereRadius);
@@ -147,14 +145,14 @@ void mafVisualPipePolylineGraph::ExecutePipe()
   m_Sphere->SetThetaResolution(m_SphereResolution);
 
   vtkNEW(m_Glyph);
-  m_Glyph->SetInput(data);
-  m_Glyph->SetSource(m_Sphere->GetOutput());
+  m_Glyph->SetInputData(data);
+  m_Glyph->SetSourceConnection(m_Sphere->GetOutputPort());
   m_Glyph->SetVectorModeToUseNormal();
   m_Glyph->SetScaleModeToScaleByScalar();
 
   vtkNEW(m_Tube);
   m_Tube->UseDefaultNormalOff();
-  m_Tube->SetInput(data);
+  m_Tube->SetInputData(data);
   m_Tube->SetRadius(m_TubeRadius);
   m_Tube->SetCapping(m_Capping);
   m_Tube->SetNumberOfSides(m_TubeResolution);
@@ -199,33 +197,33 @@ void mafVisualPipePolylineGraph::ExecutePipe()
   if (m_Representation == TUBE)
   {
     m_Tube->Update();
-    m_Mapper->SetInput(m_Tube->GetOutput());
+    m_Mapper->SetInputConnection(m_Tube->GetOutputPort());
   }
   else if (m_Representation == GLYPH)
   {
     m_Glyph->Update();
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(data);
-    apd->AddInput(m_Glyph->GetOutput());
+    apd->AddInputData(data);
+    apd->AddInputConnection(m_Glyph->GetOutputPort());
     apd->Update();
-    m_Mapper->SetInput(apd->GetOutput());
+    m_Mapper->SetInputConnection(apd->GetOutputPort());
     apd->Delete();
   }
   else if (m_Representation == GLYPH_UNCONNECTED)
   {
     m_Glyph->Update();
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(m_Glyph->GetOutput());
+    apd->AddInputConnection(m_Glyph->GetOutputPort());
     apd->Update();
-    m_Mapper->SetInput(m_Glyph->GetOutput());
+    m_Mapper->SetInputConnection(m_Glyph->GetOutputPort());
     apd->Delete();
   }
   else
   {
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(data);
+    apd->AddInputData(data);
     apd->Update();
-    m_Mapper->SetInput(apd->GetOutput());
+    m_Mapper->SetInputConnection(apd->GetOutputPort());
     apd->Delete();
   }
 
@@ -249,10 +247,10 @@ void mafVisualPipePolylineGraph::ExecutePipe()
 
   // selection highlight
   vtkNEW(m_OutlineBox);
-  m_OutlineBox->SetInput(data);  
+  m_OutlineBox->SetInputData(data);  
 
   vtkNEW(m_OutlineMapper);
-  m_OutlineMapper->SetInput(m_OutlineBox->GetOutput());
+  m_OutlineMapper->SetInputConnection(m_OutlineBox->GetOutputPort());
 
   vtkNEW(m_OutlineProperty);
   m_OutlineProperty->SetColor(1,1,1);
@@ -268,10 +266,10 @@ void mafVisualPipePolylineGraph::ExecutePipe()
 
 
   vtkMAFSmartPointer<vtkCellCenters> centers;
-  centers->SetInput(data);
+  centers->SetInputData(data);
   centers->Update();
   vtkMAFSmartPointer<vtkLabeledDataMapper> mapperLabel;
-  mapperLabel->SetInput(centers->GetOutput());
+  mapperLabel->SetInputConnection(centers->GetOutputPort());
   
 
   vtkNEW(m_ActorBranchId);
@@ -452,7 +450,7 @@ void mafVisualPipePolylineGraph::UpdateProperty(bool fromTag)
   if (m_Representation == TUBE)
   {
     m_Tube->Update();
-    m_Mapper->SetInput(m_Tube->GetOutput());
+    m_Mapper->SetInputConnection(m_Tube->GetOutputPort());
   }
   else if (m_Representation == GLYPH)
   {
@@ -466,10 +464,10 @@ void mafVisualPipePolylineGraph::UpdateProperty(bool fromTag)
     m_Glyph->Update();
     m_Glyph->Modified();
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(m_Glyph->GetOutput());
-    apd->AddInput(data);
+    apd->AddInputConnection(m_Glyph->GetOutputPort());
+    apd->AddInputData(data);
     apd->Update();
-    m_Mapper->SetInput(apd->GetOutput());
+    m_Mapper->SetInputConnection(apd->GetOutputPort());
     apd->Delete();
   }
   else if (m_Representation == GLYPH_UNCONNECTED)
@@ -484,17 +482,17 @@ void mafVisualPipePolylineGraph::UpdateProperty(bool fromTag)
     m_Glyph->Update();
     m_Glyph->Modified();
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(m_Glyph->GetOutput());
+    apd->AddInputConnection(m_Glyph->GetOutputPort());
     apd->Update();
-    m_Mapper->SetInput(apd->GetOutput());
+    m_Mapper->SetInputConnection(apd->GetOutputPort());
     apd->Delete();
   }
   else
   {
     vtkAppendPolyData *apd = vtkAppendPolyData::New();
-    apd->AddInput(data);
+    apd->AddInputData(data);
     apd->Update();
-    m_Mapper->SetInput(apd->GetOutput());
+    m_Mapper->SetInputConnection(apd->GetOutputPort());
     apd->Delete();
   }
 }
@@ -680,7 +678,6 @@ void mafVisualPipePolylineGraph::UpdateScalars()
 //----------------------------------------------------------------------------
 {
 
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->Update();
 
   if(m_ActiveScalarType == POINT_TYPE)
@@ -694,7 +691,6 @@ void mafVisualPipePolylineGraph::UpdateScalars()
     m_Vme->GetOutput()->GetVTKData()->GetCellData()->GetScalars()->Modified();
   }
   m_Vme->Modified();
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->Update();
 
 
@@ -717,8 +713,6 @@ void mafVisualPipePolylineGraph::UpdateScalars()
         outputVTK->GetCellData()->GetScalars()->Modified();
       }
       outputVTK->Modified();
-      outputVTK->Update();
-
     }
   }
   m_Vme->Modified();
@@ -731,7 +725,6 @@ void mafVisualPipePolylineGraph::UpdatePipeFromScalars()
 //----------------------------------------------------------------------------
 {
   vtkPolyData *data = vtkPolyData::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
-  data->Update();
   double sr[2];
   if(m_ActiveScalarType == POINT_TYPE)
     data->GetPointData()->GetScalars()->GetRange(sr);
@@ -744,7 +737,9 @@ void mafVisualPipePolylineGraph::UpdatePipeFromScalars()
   m_Table->AddRGBPoint(sr[1],1.0,0.0,0.0);
   m_Table->Build();
 
-  m_Glyph->SelectInputScalars(m_ScalarsName[m_ScalarIndex].c_str());
+	
+	m_Mapper->ColorByArrayComponent(m_ScalarsName[m_ScalarIndex].c_str(),1);
+	//m_Glyph->SelectInputScalars(m_ScalarsName[m_ScalarIndex].c_str());
   m_Glyph->SetRange(sr);
   m_Glyph->Update();
 
@@ -753,6 +748,7 @@ void mafVisualPipePolylineGraph::UpdatePipeFromScalars()
   if(m_ActiveScalarType == CELL_TYPE)
     m_Mapper->SetScalarModeToUseCellData();
 
+	
   m_Mapper->SetLookupTable(m_Table);
   m_Mapper->SetScalarRange(sr);
   m_Mapper->Update();

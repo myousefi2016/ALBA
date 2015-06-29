@@ -90,7 +90,6 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkRectilinearGrid*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -145,7 +144,7 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
     m_RenderWindow->Render();
     CompareImages(camera);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
     delete pipeProjected;
   }
@@ -252,8 +251,8 @@ void mafPipeVolumeProjectedTest::CompareImages(int imageIndex)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

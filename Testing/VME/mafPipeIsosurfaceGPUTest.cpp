@@ -94,7 +94,6 @@ void mafPipeIsosurfaceGPUTest::TestPipeExecutionCountour()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkRectilinearGrid*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -152,7 +151,7 @@ void mafPipeIsosurfaceGPUTest::TestPipeExecutionCountour()
     printf("\n Visualization: \n");
     CompareImages(v + ID_CONTOUR_COMPARING);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     //vtkDEL(actorList);
     delete pipeIso;
   }
@@ -179,7 +178,6 @@ void mafPipeIsosurfaceGPUTest::TestPipeExecutionOpacity()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkRectilinearGrid*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -238,7 +236,7 @@ void mafPipeIsosurfaceGPUTest::TestPipeExecutionOpacity()
     printf("\n Visualization: \n");
     CompareImages(v + ID_OPACITY_COMPARING);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     //vtkDEL(actorList);
     delete pipeIso;
   }
@@ -264,7 +262,6 @@ void mafPipeIsosurfaceGPUTest::TestExtractIsosurface()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkRectilinearGrid*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -324,11 +321,10 @@ void mafPipeIsosurfaceGPUTest::TestExtractIsosurface()
     pipeIso->ExctractIsosurface();
 
     vtkPolyData *isoSurface = vtkPolyData::SafeDownCast(mafVME::SafeDownCast(volumeInput->GetChild(0))->GetOutput()->GetVTKData());
-    isoSurface->Update();
 
     CPPUNIT_ASSERT(isoSurface && isoSurface->GetNumberOfPoints() != 0);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     //vtkDEL(actorList);
     delete pipeIso;
   }
@@ -438,8 +434,8 @@ void mafPipeIsosurfaceGPUTest::CompareImages(int imageIndex)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

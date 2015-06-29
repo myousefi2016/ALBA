@@ -69,7 +69,7 @@ void mafVMEMeshTest::TestSetData()
   //Delaunay3D is used to triangulate the points
   //the output of the filter is an unstructured grid
   vtkMAFSmartPointer<vtkDelaunay3D> triangulation;
-  triangulation->SetInput(pointsToTriangulate);
+  triangulation->SetInputData(pointsToTriangulate);
   triangulation->SetTolerance(0.01);
   triangulation->SetAlpha(0.2);
   triangulation->BoundingTriangulationOff();
@@ -93,8 +93,6 @@ void mafVMEMeshTest::TestSetData()
   vtkDataSet *data = vmeMesh->GetUnstructuredGridOutput()->GetVTKData();
   CPPUNIT_ASSERT(data);
 
-  // update the data... 
-  data->Update();
   // ... otherwise this will fail!
   CPPUNIT_ASSERT_EQUAL(cellsNumber, data->GetNumberOfCells());
 

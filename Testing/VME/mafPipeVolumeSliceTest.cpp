@@ -113,7 +113,6 @@ void mafPipeVolumeSliceTest::TestPipeExecution()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -184,7 +183,7 @@ void mafPipeVolumeSliceTest::TestPipeExecution()
 	    CompareImages(3*direction+i);
 	  }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
     delete pipeSlice;
   }
@@ -294,8 +293,8 @@ void mafPipeVolumeSliceTest::CompareImages(int imageIndex)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

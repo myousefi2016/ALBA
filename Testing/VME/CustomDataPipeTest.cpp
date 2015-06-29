@@ -92,12 +92,12 @@ void mafTestVME::InternalPreUpdate()
   {
     case 0: 
     {
-      dpipe->GetVTKDataPipe()->SetInput(m_Cone->GetOutput());
+      dpipe->GetVTKDataPipe()->SetInputConnection(m_Cone->GetOutputPort());
     }
     break;
     case 1: 
     {
-      dpipe->GetVTKDataPipe()->SetInput(m_Sphere->GetOutput());
+      dpipe->GetVTKDataPipe()->SetInputConnection(m_Sphere->GetOutputPort());
     }
     break;
   }
@@ -131,14 +131,12 @@ void CustomDataPipeTest::CustomDataPipeMainTest()
   CPPUNIT_ASSERT(vme->m_UpdateConunter==0);
 
 
-  surface->Update();
   CPPUNIT_ASSERT(vme->m_PreUpdateConunter==1);
   CPPUNIT_ASSERT(vme->m_UpdateConunter==1);
   CPPUNIT_ASSERT(vme->m_Sphere->GetRadius()==1);
   CPPUNIT_ASSERT(vme->m_Cone->GetRadius()==1);
 
   vme->SetRadius(2);
-  surface->Update();
   CPPUNIT_ASSERT(vme->m_PreUpdateConunter==2);
   CPPUNIT_ASSERT(vme->m_UpdateConunter==2);
 
@@ -147,11 +145,9 @@ void CustomDataPipeTest::CustomDataPipeMainTest()
   CPPUNIT_ASSERT(vme->m_PreUpdateConunter==3);
   CPPUNIT_ASSERT(vme->m_UpdateConunter==2);
   
-  surface->Update();
   CPPUNIT_ASSERT(vme->m_PreUpdateConunter==3);
   CPPUNIT_ASSERT(vme->m_UpdateConunter==3);
   
-  surface->Update();
   CPPUNIT_ASSERT(vme->m_PreUpdateConunter==3);
   CPPUNIT_ASSERT(vme->m_UpdateConunter==3);
   

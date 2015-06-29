@@ -85,7 +85,7 @@ void mafPipeGizmo::Create(mafSceneNode *n)
 	m_Vme->GetEventSource()->AddObserver(this);
 
 	m_Mapper = vtkPolyDataMapper::New();
-	m_Mapper->SetInput(data);
+	m_Mapper->SetInputData(data);
 	m_Mapper->ImmediateModeRenderingOff();
 
 	m_GizmoActor = vtkActor::New();
@@ -128,10 +128,10 @@ void mafPipeGizmo::Create(mafSceneNode *n)
 
 	// selection highlight
 	vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(data);  
+	corner->SetInputData(data);  
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
 	vtkMAFSmartPointer<vtkProperty> corner_props;
 	corner_props->SetColor(1,1,1);

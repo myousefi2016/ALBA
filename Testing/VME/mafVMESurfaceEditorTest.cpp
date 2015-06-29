@@ -78,7 +78,6 @@ void mafVMESurfaceEditorTest::TestSetData()
   importer1->ImportVTK();
   mafSmartPointer<mafVMESurface> surface = mafVMESurface::SafeDownCast(importer1->GetOutput());
   surface->Update();
-  surface->GetOutput()->GetVTKData()->Update();
 
   mafVMESurfaceEditor *editor = NULL;
   mafNEW(editor);
@@ -92,7 +91,6 @@ void mafVMESurfaceEditorTest::TestSetData()
 
   vtkMAFSmartPointer<vtkPolyData> outputPolydata=vtkPolyData::SafeDownCast(editor->GetOutput()->GetVTKData());
   outputPolydata->Modified();
-  outputPolydata->Update();
   int pointsNumberOut = outputPolydata->GetNumberOfPoints();
 
   m_Result = pointsNumberIn == pointsNumberOut;

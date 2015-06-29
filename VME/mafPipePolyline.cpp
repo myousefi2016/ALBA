@@ -122,7 +122,6 @@ void mafPipePolyline::Create(mafSceneNode *n)
 	assert(out_polyline);
 	vtkPolyData *data = vtkPolyData::SafeDownCast(out_polyline->GetVTKData());
 	assert(data);
-	data->Update();
 
 	m_PolylineMaterial = out_polyline->GetMaterial();
 	m_Vme->GetEventSource()->AddObserver(this);
@@ -140,8 +139,8 @@ void mafPipePolyline::Create(mafSceneNode *n)
 	m_Sphere->SetThetaResolution(m_SphereResolution);
 
 	vtkNEW(m_Glyph);
-	m_Glyph->SetInput(data);
-	m_Glyph->SetSource(m_Sphere->GetOutput());
+	m_Glyph->SetInputData(data);
+	m_Glyph->SetSourceConnection(m_Sphere->GetOutputPort());
 	//m_Glyph->NomalizeScalingOn();
 	//m_Glyph->SetScaleModeToScaleByScalar();
   m_Glyph->SetScaleModeToDataScalingOff();
@@ -155,7 +154,7 @@ void mafPipePolyline::Create(mafSceneNode *n)
 
 	vtkNEW(m_Tube);
 	m_Tube->UseDefaultNormalOff();
-	m_Tube->SetInput(data);
+	m_Tube->SetInputData(data);
 	m_Tube->SetRadius(m_TubeRadius);
 	m_Tube->SetCapping(m_Capping);
 	m_Tube->SetNumberOfSides(m_TubeResolution);
@@ -166,7 +165,7 @@ void mafPipePolyline::Create(mafSceneNode *n)
 	if (m_Representation == TUBE)
 	{
 		m_Tube->Update();
-		m_Mapper->SetInput(m_Tube->GetOutput());
+		m_Mapper->SetInputConnection(m_Tube->GetOutputPort());
 	}
 	else if (m_Representation == GLYPH)
 	{
@@ -177,14 +176,14 @@ void mafPipePolyline::Create(mafSceneNode *n)
     {
       vtkPolyData *splinedPolyData;
       splinedPolyData = SplineProcess(data);
-      apd->AddInput(splinedPolyData);
+      apd->AddInputData(splinedPolyData);
     }
     else
-      apd->AddInput(data);
+      apd->AddInputData(data);
 
-		apd->AddInput(m_Glyph->GetOutput());
+		apd->AddInputConnection(m_Glyph->GetOutputPort());
 		apd->Update();
-		m_Mapper->SetInput(apd->GetOutput());
+		m_Mapper->SetInputConnection(apd->GetOutputPort());
 		apd->Delete();
   
 	}
@@ -193,17 +192,17 @@ void mafPipePolyline::Create(mafSceneNode *n)
 		m_Glyph->Update();
 		vtkAppendPolyData *apd = vtkAppendPolyData::New();
 		//apd->AddInput(data);
-		apd->AddInput(m_Glyph->GetOutput());
+		apd->AddInputConnection(m_Glyph->GetOutputPort());
 		apd->Update();
-		m_Mapper->SetInput(m_Glyph->GetOutput());
+		m_Mapper->SetInputConnection(m_Glyph->GetOutputPort());
 		apd->Delete();
 	}
 	else
 	{
 		vtkAppendPolyData *apd = vtkAppendPolyData::New();
-		apd->AddInput(data);
+		apd->AddInputData(data);
 		apd->Update();
-		m_Mapper->SetInput(apd->GetOutput());
+		m_Mapper->SetInputConnection(apd->GetOutputPort());
 		apd->Delete();
 	}
 
@@ -248,10 +247,10 @@ void mafPipePolyline::Create(mafSceneNode *n)
 
 	// selection highlight
 	m_OutlineBox = vtkOutlineCornerFilter::New();
-	m_OutlineBox->SetInput(data);  
+	m_OutlineBox->SetInputData(data);  
 
 	m_OutlineMapper = vtkPolyDataMapper::New();
-	m_OutlineMapper->SetInput(m_OutlineBox->GetOutput());
+	m_OutlineMapper->SetInputConnection(m_OutlineBox->GetOutputPort());
 
 	m_OutlineProperty = vtkProperty::New();
 	m_OutlineProperty->SetColor(1,1,1);
@@ -267,7 +266,7 @@ void mafPipePolyline::Create(mafSceneNode *n)
 
 
   m_BorderMapper = vtkPolyDataMapper::New();
-  m_BorderMapper->SetInput(BorderCreation());
+  m_BorderMapper->SetInputData(BorderCreation());
 
   m_BorderProperty = vtkProperty::New();
   m_BorderProperty->SetColor(1,1,1);
@@ -348,7 +347,8 @@ mafGUI *mafPipePolyline::CreateGui()
     for(int i=0;i<numberOfArrays;i++)
 	    m_ScalarsName[i]=m_Vme->GetOutput()->GetVTKData()->GetPointData()->GetArrayName(i);
 
-	  m_Glyph->SelectInputScalars(m_ScalarsName[m_Scalar].c_str());
+		m_Mapper->ColorByArrayComponent(m_ScalarsName[m_Scalar].c_str(),1);
+	  //m_Glyph->SelectInputScalars(m_ScalarsName[m_Scalar].c_str());
 	  m_Glyph->Modified();
   }
 
@@ -494,7 +494,6 @@ void mafPipePolyline::UpdateScalars()
 
 	mafVMEOutputPolyline *polyline_output = mafVMEOutputPolyline::SafeDownCast(m_Vme->GetOutput());
 	vtkDataSet *data = polyline_output->GetVTKData();
-  data->Update();
 
 	data->GetPointData()->SetActiveScalars(m_ScalarsName[m_Scalar].c_str());
 	polyline_output->Update();
@@ -518,7 +517,6 @@ void mafPipePolyline::UpdateScalars()
 		if(outputVTK)
 		{
 			outputVTK->GetPointData()->SetActiveScalars(m_ScalarsName[m_Scalar].c_str());
-			outputVTK->Update();
 			outputVTK->Modified();
 		}
 	}
@@ -532,7 +530,6 @@ void mafPipePolyline::UpdatePipeFromScalars()
 //----------------------------------------------------------------------------
 {
   mafVMEOutputPolyline *polyline_output = mafVMEOutputPolyline::SafeDownCast(m_Vme->GetOutput());
-  polyline_output->GetVTKData()->Update();
   polyline_output->Update();
 
   vtkPolyData *data = vtkPolyData::SafeDownCast(polyline_output->GetVTKData());
@@ -548,8 +545,9 @@ void mafPipePolyline::UpdatePipeFromScalars()
   m_Table->AddRGBPoint(sr[1],1.0,0.0,0.0);
   m_Table->Build();
 
-  m_Glyph->SelectInputScalars(data->GetPointData()->GetScalars()->GetName());
-  m_Glyph->SetRange(sr);
+  m_Mapper->ColorByArrayComponent(data->GetPointData()->GetScalars()->GetName(),1);
+	//m_Glyph->SelectInputScalars(data->GetPointData()->GetScalars()->GetName());
+	m_Glyph->SetRange(sr);
   m_Glyph->Update();
 
   m_Mapper->SetLookupTable(m_Table);
@@ -566,15 +564,13 @@ void mafPipePolyline::UpdatePipeFromScalars()
 void mafPipePolyline::UpdateData()
 //----------------------------------------------------------------------------
 {
-	m_Vme->GetOutput()->GetVTKData()->Update();
 	m_Vme->Update();
 	mafVMEOutputPolyline *out_polyline = mafVMEOutputPolyline::SafeDownCast(m_Vme->GetOutput());
 	out_polyline->Update();
 	vtkPolyData *data = vtkPolyData::SafeDownCast(out_polyline->GetVTKData());
 	data->Modified();
-	data->Update();
-
-	m_OutlineBox->SetInput(data);
+	
+	m_OutlineBox->SetInputData(data);
 	m_OutlineBox->Update();
 	m_OutlineBox->Modified();
 
@@ -590,13 +586,13 @@ void mafPipePolyline::UpdateData()
       m_Tube->SetRadius(m_TubeRadius);
     }
 
-		m_Tube->SetInput(data);
+		m_Tube->SetInputData(data);
 		m_Tube->Update();
-		m_Glyph->SetInput(data);
+		m_Glyph->SetInputData(data);
 		m_Glyph->Update();
 	}
 	else
-		m_Mapper->SetInput(data);
+		m_Mapper->SetInputData(data);
 }
 //----------------------------------------------------------------------------
 void mafPipePolyline::UpdateProperty(bool fromTag)
@@ -608,7 +604,6 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
 	mafVMEOutputPolyline *out_polyline = mafVMEOutputPolyline::SafeDownCast(m_Vme->GetOutput());
 	out_polyline->Update();
 	vtkPolyData *data = vtkPolyData::SafeDownCast(out_polyline->GetVTKData());
-  data->Update();
 
   if(data->GetNumberOfPoints() <= 0) return;
 
@@ -618,15 +613,14 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
     data = LineProcess(data);
 
 	data->Modified();
-	data->Update();
 
   if(m_Mapper)
   {
 	  if (m_Representation == TUBE)
 	  {
-      m_Tube->SetInput(data);
+      m_Tube->SetInputData(data);
       m_Tube->Update();
-      m_Mapper->SetInput(m_Tube->GetOutput());
+      m_Mapper->SetInputConnection(m_Tube->GetOutputPort());
 	  }
 	  else if (m_Representation == GLYPH)
 	  {
@@ -645,14 +639,14 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
       {
         vtkPolyData *splinedPolyData;
         splinedPolyData = SplineProcess(data);
-        apd->AddInput(splinedPolyData);
+        apd->AddInputData(splinedPolyData);
       }
       else
-        apd->AddInput(data);
+        apd->AddInputData(data);
 
-      apd->AddInput(m_Glyph->GetOutput());
+      apd->AddInputConnection(m_Glyph->GetOutputPort());
 		  apd->Update();
-		  m_Mapper->SetInput(apd->GetOutput());
+		  m_Mapper->SetInputConnection(apd->GetOutputPort());
 		  apd->Delete();
 	  }
 	  else if (m_Representation == GLYPH_UNCONNECTED)
@@ -664,22 +658,22 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
   		
 		  //m_Glyph->SetScaleFactor(m_SphereRadius);
       
-      m_Glyph->SetInput(data);
+      m_Glyph->SetInputData(data);
 		  m_Glyph->Update();
 		  m_Glyph->Modified();
 		  vtkAppendPolyData *apd = vtkAppendPolyData::New();
 		  //apd->AddInput(data);
-		  apd->AddInput(m_Glyph->GetOutput());
+		  apd->AddInputConnection(m_Glyph->GetOutputPort());
 		  apd->Update();
-		  m_Mapper->SetInput(apd->GetOutput());
+		  m_Mapper->SetInputConnection(apd->GetOutputPort());
 		  apd->Delete();
 	  }
 	  else
 	  {
 		  vtkAppendPolyData *apd = vtkAppendPolyData::New();
-		  apd->AddInput(data);
+		  apd->AddInputData(data);
 		  apd->Update();
-		  m_Mapper->SetInput(apd->GetOutput());
+		  m_Mapper->SetInputConnection(apd->GetOutputPort());
 		  apd->Delete();
 	  }
   }
@@ -697,7 +691,7 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
     }
     else
     {
-      m_BorderMapper->SetInput(BorderCreation());
+      m_BorderMapper->SetInputData(BorderCreation());
       m_BorderMapper->Modified();
       m_BorderActor->SetMapper(m_BorderMapper);
       m_BorderActor->VisibilityOn();
@@ -906,11 +900,9 @@ vtkPolyData *mafPipePolyline::SplineProcess(vtkPolyData *polyData)
   }
 
   m_PolyFilteredLine->SetPoints(ptsSplined);
-  m_PolyFilteredLine->Update();
 
   m_PolyFilteredLine->SetLines(cellArray);
   m_PolyFilteredLine->Modified();
-  m_PolyFilteredLine->Update();
 
   vtkDEL(cellArray);
 
@@ -937,7 +929,6 @@ vtkPolyData * mafPipePolyline::LineProcess( vtkPolyData *polyData )
   vtkIdType linePointsNum;
   int evaluedPoints=0;
   int cellID=0;
-  polyData->Update();
   pts=polyData->GetPoints();
   vtkPointData *pointData=polyData->GetPointData();
   int nArray=pointData->GetNumberOfArrays();
@@ -982,11 +973,8 @@ vtkPolyData * mafPipePolyline::LineProcess( vtkPolyData *polyData )
   }
 
   m_PolyFilteredLine->SetPoints(polyData->GetPoints());
-  m_PolyFilteredLine->Update();
-
-  m_PolyFilteredLine->SetLines(cellArray);
+	m_PolyFilteredLine->SetLines(cellArray);
   m_PolyFilteredLine->Modified();
-  m_PolyFilteredLine->Update();
 
   vtkDEL(cellArray);
 
@@ -1021,10 +1009,9 @@ vtkPolyData *mafPipePolyline::BorderCreation()
   assert(out_polyline);
   vtkPolyData *data = vtkPolyData::SafeDownCast(out_polyline->GetVTKData());
   assert(data);
-  data->Update();
 
   vtkNEW(m_BorderData);
-  if(m_BorderData->GetNumberOfInputs() !=0)
+  if(m_BorderData->GetTotalNumberOfInputConnections() !=0)
     m_BorderData->RemoveAllInputs();
 
   //calculate and create the two parallel lines
@@ -1182,15 +1169,13 @@ vtkPolyData *mafPipePolyline::BorderCreation()
     polyUp->SetPoints(temporaryPointsUp);
     polyUp->SetLines(cellArrayUp);
     polyUp->Modified();
-    polyUp->Update();
 
     polyDown->SetPoints(temporaryPointsDown);
     polyDown->SetLines(cellArrayDown);
     polyDown->Modified();
-    polyDown->Update();
 
-    m_BorderData->AddInput(polyUp);
-    m_BorderData->AddInput(polyDown);
+    m_BorderData->AddInputData(polyUp);
+    m_BorderData->AddInputData(polyDown);
     m_BorderData->Update();
   }
 

@@ -92,7 +92,6 @@ void mafVMEOutputPolylineTest::TestUpdate()
   vtkMAFSmartPointer<vtkPolyData> polylineVTK;
   polylineVTK->SetPoints(pts);
   polylineVTK->SetLines(cells);
-  polylineVTK->Update();
 
 
   mafVMEPolyline *polyline;
@@ -101,7 +100,6 @@ void mafVMEOutputPolylineTest::TestUpdate()
   polyline->Modified();
   polyline->Update();
 
-  polyline->GetOutput()->GetVTKData()->Update();
 
   mafVMEOutputPolyline *outputPolyline = mafVMEOutputPolyline::SafeDownCast(polyline->GetOutput());
   outputPolyline->Update();
@@ -141,7 +139,6 @@ void mafVMEOutputPolylineTest::TestCalculateLength()
   vtkMAFSmartPointer<vtkPolyData> polylineVTK;
   polylineVTK->SetPoints(pts);
   polylineVTK->SetLines(cells);
-  polylineVTK->Update();
 
 
   mafVMEPolyline *polyline;
@@ -150,7 +147,6 @@ void mafVMEOutputPolylineTest::TestCalculateLength()
   polyline->Modified();
   polyline->Update();
 
-  polyline->GetOutput()->GetVTKData()->Update();
 
   mafVMEOutputPolyline *outputPolyline = mafVMEOutputPolyline::SafeDownCast(polyline->GetOutput());
   outputPolyline->Update();
@@ -193,7 +189,6 @@ void mafVMEOutputPolylineTest::TestGetPolylineData()
   vtkMAFSmartPointer<vtkPolyData> polylineVTK;
   polylineVTK->SetPoints(pts);
   polylineVTK->SetLines(cells);
-  polylineVTK->Update();
 
 
   mafVMEPolyline *polyline;
@@ -201,8 +196,6 @@ void mafVMEOutputPolylineTest::TestGetPolylineData()
   polyline->SetData(polylineVTK,0.0);
   polyline->Modified();
   polyline->Update();
-
-  polyline->GetOutput()->GetVTKData()->Update();
 
   mafVMEOutputPolyline *outputPolyline = mafVMEOutputPolyline::SafeDownCast(polyline->GetOutput());
   outputPolyline->Update();
@@ -255,7 +248,6 @@ void mafVMEOutputPolylineTest::TestGetMaterial()
   vtkMAFSmartPointer<vtkPolyData> polylineVTK;
   polylineVTK->SetPoints(pts);
   polylineVTK->SetLines(cells);
-  polylineVTK->Update();
 
 
   mafVMEPolyline *polyline;
@@ -263,8 +255,6 @@ void mafVMEOutputPolylineTest::TestGetMaterial()
   polyline->SetData(polylineVTK,0.0);
   polyline->Modified();
   polyline->Update();
-
-  polyline->GetOutput()->GetVTKData()->Update();
 
   mafVMEOutputPolyline *outputPolyline = mafVMEOutputPolyline::SafeDownCast(polyline->GetOutput());
   outputPolyline->Update();

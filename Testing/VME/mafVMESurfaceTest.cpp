@@ -142,7 +142,7 @@ void mafVMESurfaceTest::TestVMESurfaceVisualization()
 
   sphereSurfaceVME->SetData(sphereSource->GetOutput(),-1);
 
-  mapper->SetInput(sphereSurfaceVME->GetSurfaceOutput()->GetVTKData());
+  mapper->SetInputData(sphereSurfaceVME->GetSurfaceOutput()->GetVTKData());
 
   renWin->Render();
   CPPUNIT_ASSERT(true);
@@ -206,7 +206,7 @@ int mafVMESurfaceTest::PlayTree(mafVMERoot *root, bool ignoreVisibleToTraverse)
       {
         vtkDataSet *vmedata=vme->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
 
         vtkMAFSmartPointer<vtkActor> vmeact;
         vmeact->SetMapper(mapper);

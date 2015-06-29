@@ -74,9 +74,9 @@ mafPipeVolumeSlice_BES::mafPipeVolumeSlice_BES()
   {
     m_SlicerPolygonal[i]	= NULL;
     m_SlicerImage[i]			= NULL;
-    m_Image[i]            = NULL;
+    //m_Image[i]            = NULL;
     m_Texture[i]		      = NULL;
-    m_SlicePolydata[i]		= NULL;
+    //m_SlicePolydata[i]		= NULL;
     m_SliceMapper[i]		  = NULL;
     m_SliceActor[i]	      = NULL;
     m_SliceSlider[i]      = NULL;
@@ -202,7 +202,6 @@ void mafPipeVolumeSlice_BES::Create(mafSceneNode *n)
   vtkDataSet *data = m_Vme->GetOutput()->GetVTKData();
   double b[6];
   m_Vme->GetOutput()->Update();
-  data->Update();
   m_Vme->GetOutput()->GetVMELocalBounds(b);
 
   mmaVolumeMaterial *material = m_VolumeOutput->GetMaterial();
@@ -273,10 +272,10 @@ void mafPipeVolumeSlice_BES::Create(mafSceneNode *n)
 	CreateTICKs();
 
   vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(data);
+	corner->SetInputData(data);
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
 	vtkNEW(m_VolumeBoxActor);
 	m_VolumeBoxActor->SetMapper(corner_mapper);
@@ -296,7 +295,7 @@ void mafPipeVolumeSlice_BES::Create(mafSceneNode *n)
 		vtkNEW(m_Box);
 		m_Box->SetBounds(bounds);
 		vtkNEW(m_Mapper);
-		m_Mapper->SetInput(m_Box->GetOutput());
+		m_Mapper->SetInputConnection(m_Box->GetOutputPort());
 		vtkNEW(m_Actor);
 		m_Actor->SetMapper(m_Mapper);
 		m_AssemblyUsed->AddPart(m_Actor);
@@ -328,7 +327,6 @@ void mafPipeVolumeSlice_BES::CreateTICKs()
 	int	counter = 0;
 
 	vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-	vtk_data->Update();
 
 	double bounds[6];
 	vtk_data->GetBounds(bounds);
@@ -399,7 +397,7 @@ void mafPipeVolumeSlice_BES::CreateTICKs()
 
 	//Add tick to scene
 	vtkPolyDataMapper *TickMapper = vtkPolyDataMapper::New();
-	TickMapper->SetInput(CTLinesPD);
+	TickMapper->SetInputData(CTLinesPD);
 
 	vtkProperty	*TickProperty = vtkProperty::New();
 	TickProperty->SetColor(1,0,0);
@@ -430,7 +428,6 @@ void mafPipeVolumeSlice_BES::CreateSlice(int direction)
 	double xspc = 0.33, yspc = 0.33, zspc = 1.0;
 
   vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-  vtk_data->Update();
   if(vtk_data->IsA("vtkImageData") || vtk_data->IsA("vtkStructuredPoints"))
   {
     ((vtkImageData *)vtk_data)->GetSpacing(xspc,yspc,zspc);
@@ -444,21 +441,23 @@ void mafPipeVolumeSlice_BES::CreateSlice(int direction)
 	m_SlicerImage[direction]->SetPlaneAxisY(m_YVector[direction]);
 	m_SlicerPolygonal[direction]->SetPlaneAxisX(m_XVector[direction]);
 	m_SlicerPolygonal[direction]->SetPlaneAxisY(m_YVector[direction]);
-	m_SlicerImage[direction]->SetInput(vtk_data);
-	m_SlicerPolygonal[direction]->SetInput(vtk_data);
+	m_SlicerImage[direction]->SetInputData(vtk_data);
+	m_SlicerPolygonal[direction]->SetInputData(vtk_data);
 //  m_SlicerImage[direction]->SetSliceTransform(m_Vme->GetOutput()->GetAbsTransform()->GetVTKTransform()->GetLinearInverse());
 //  m_SlicerPolygonal[direction]->SetSliceTransform(m_Vme->GetOutput()->GetAbsTransform()->GetVTKTransform()->GetLinearInverse());
   
+	/* 
+	TODO VTK6 check m_Image comments!!! 
 	vtkNEW(m_Image[direction]);
-  m_Image[direction]->SetScalarType(vtk_data->GetPointData()->GetScalars()->GetDataType());
-  //m_Image[direction]->SetScalarTypeToUnsignedChar();
-	m_Image[direction]->SetNumberOfScalarComponents(vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
+	//m_Image[direction]->SetScalarTypeToUnsignedChar();
+	m_Image[direction]->AllocateScalars(vtk_data->GetPointData()->GetScalars()->GetDataType(),vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
   //m_Image[direction]->SetNumberOfScalarComponents(3);
 	m_Image[direction]->SetExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
 	m_Image[direction]->SetSpacing(xspc, yspc, zspc);
 
 	m_SlicerImage[direction]->SetOutput(m_Image[direction]);
-  m_SlicerImage[direction]->SetGPUEnabled(m_EnableGPU);
+  */
+	m_SlicerImage[direction]->SetGPUEnabled(m_EnableGPU);
   m_SlicerImage[direction]->Update();
 
 	vtkNEW(m_Texture[direction]);
@@ -472,18 +471,21 @@ void mafPipeVolumeSlice_BES::CreateSlice(int direction)
     m_Texture[direction]->InterpolateOff();
   }
 	m_Texture[direction]->SetQualityTo32Bit();
-	m_Texture[direction]->SetInput(m_Image[direction]);
+	m_Texture[direction]->SetInputConnection(m_SlicerImage[direction]->GetOutputPort());
   m_Texture[direction]->SetLookupTable(m_ColorLUT);
   m_Texture[direction]->MapColorScalarsThroughLookupTableOn();
 
+	/* 
+	TODO VTK6 check m_SlicePolydata comments!!! 
   vtkNEW(m_SlicePolydata[direction]);
 	m_SlicerPolygonal[direction]->SetOutput(m_SlicePolydata[direction]);
-	m_SlicerPolygonal[direction]->SetTexture(m_Image[direction]);
+	*/
+	m_SlicerPolygonal[direction]->SetInputConnection(m_SlicerImage[direction]->GetOutputPort());
   m_SlicerPolygonal[direction]->SetGPUEnabled(m_EnableGPU);
 	m_SlicerPolygonal[direction]->Update();
 
 	vtkNEW(m_SliceMapper[direction]);
-	m_SliceMapper[direction]->SetInput(m_SlicePolydata[direction]);
+	m_SliceMapper[direction]->SetInputConnection(m_SlicerPolygonal[direction]->GetOutputPort());
 	m_SliceMapper[direction]->ScalarVisibilityOff();
 
 	vtkNEW(m_SliceActor[direction]);
@@ -522,10 +524,10 @@ mafPipeVolumeSlice_BES::~mafPipeVolumeSlice_BES()
     }
     vtkDEL(m_SlicerImage[i]);
 		vtkDEL(m_SlicerPolygonal[i]);
-		vtkDEL(m_Image[i]);
+		//vtkDEL(m_Image[i]);
 		vtkDEL(m_Texture[i]);
 		vtkDEL(m_SliceMapper[i]);
-		vtkDEL(m_SlicePolydata[i]);
+		//vtkDEL(m_SlicePolydata[i]);
 		vtkDEL(m_SliceActor[i]);
 	}
 	vtkDEL(m_VolumeBoxActor);

@@ -3,7 +3,9 @@ PROJECT (mafVME_TEST)
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(mafVME mafDataPipes GPUAPI vtkRendering vtkGraphics) # mafCommon mafOperations)
+	find_package(VTK 6.0 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+	LINK_LIBRARIES(mafVME mafDataPipes GPUAPI ${VTK_LIBRARIES}) 
 ENDIF (MAF_BUILD_MAFDLL)
  
 #-----------------------------------------------------------------------------

@@ -93,9 +93,6 @@ int mafVMEPolyline::SetData(vtkDataSet *data, mafTimeStamp t, int mode)
   assert(data);
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(data);
   
-  if (polydata)
-    polydata->Update();
-
   // check this is a polydata containing only lines
   if (polydata && polydata->GetPolys()->GetNumberOfCells()==0 && \
       polydata->GetStrips()->GetNumberOfCells()==0 && \

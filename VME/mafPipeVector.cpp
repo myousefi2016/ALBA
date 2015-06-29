@@ -94,7 +94,6 @@ void mafPipeVector::Create(mafSceneNode *n)
   assert(out_polyline);
   m_Data = vtkPolyData::SafeDownCast(out_polyline->GetVTKData());
   assert(m_Data);
-  m_Data->Update(); 
 
   m_Vector = mafVMEVector::SafeDownCast(m_Vme);
   m_Vector->GetTimeStamps(m_TimeVector);
@@ -116,11 +115,12 @@ void mafPipeVector::Create(mafSceneNode *n)
 
   m_Sphere->Update();
   m_Apd = vtkAppendPolyData::New();
-  m_Apd->AddInput(m_Data);
-  m_Apd->AddInput(m_Sphere->GetOutput());
-  m_Apd->AddInput(m_ArrowTip->GetOutput());
+	m_Apd->AddInputData(m_Data);
+	//Here AddInputData is used because we need to remove the input
+	m_Apd->AddInputData(m_Sphere->GetOutput());
+  m_Apd->AddInputData(m_ArrowTip->GetOutput());
   m_Apd->Update();
-  m_Mapper->SetInput(m_Apd->GetOutput());
+  m_Mapper->SetInputConnection(m_Apd->GetOutputPort());
  
 
   int renderingDisplayListFlag = m_Vme->IsAnimated() ? 1 : 0;
@@ -141,10 +141,10 @@ void mafPipeVector::Create(mafSceneNode *n)
   m_AssemblyFront->AddPart(m_ActorBunch);
 
   vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-  corner->SetInput(m_Data);  
+  corner->SetInputData(m_Data);  
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-  corner_mapper->SetInput(corner->GetOutput());
+  corner_mapper->SetInputConnection(corner->GetOutputPort());
 
   vtkMAFSmartPointer<vtkProperty> corner_props;
   corner_props->SetColor(1,1,1);
@@ -194,7 +194,6 @@ void mafPipeVector::Select(bool sel)
 void mafPipeVector::UpdateProperty(bool fromTag)
 //----------------------------------------------------------------------------
 { 
-  m_Data->Update();
 
   double pointCop[3];
   m_Data->GetPoint(0,pointCop);
@@ -265,12 +264,12 @@ void mafPipeVector::AllVector(bool fromTag)
       line->SetPoint1(point1);
       line->SetPoint2(point2);
  
-      m_Bunch->AddInput(line->GetOutput());
+      m_Bunch->AddInputConnection(line->GetOutputPort());
     } 
 
-    if (m_Bunch->GetNumberOfInputs() == 0)
+    if (m_Bunch->GetTotalNumberOfInputConnections() == 0)
     {
-      m_MapperBunch->SetInput(m_Bunch->GetOutput());
+      m_MapperBunch->SetInputConnection(m_Bunch->GetOutputPort());
     }
   }
 }
@@ -326,13 +325,13 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
       case ID_USE_ARROW:
         if (m_UseArrow == false)
         {
-          m_Apd->RemoveInput(m_ArrowTip->GetOutput());
+          m_Apd->RemoveInputData(m_ArrowTip->GetOutput());
           m_Apd->Update();
         }
         else
         {
           UpdateProperty();
-          m_Apd->AddInput(m_ArrowTip->GetOutput());
+          m_Apd->AddInputData(m_ArrowTip->GetOutput());
           m_Apd->Update();
         }
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));
@@ -340,13 +339,13 @@ void mafPipeVector::OnEvent(mafEventBase *maf_event)
       case ID_USE_SPHERE:
         if (m_UseSphere == false)
         {
-          m_Apd->RemoveInput(m_Sphere->GetOutput());
+          m_Apd->RemoveInputData(m_Sphere->GetOutput());
           m_Apd->Update();
-        }
-        else
-        {
-          UpdateProperty();
-          m_Apd->AddInput(m_Sphere->GetOutput());
+				}
+				else
+				{
+					UpdateProperty();
+					m_Apd->AddInputData(m_Sphere->GetOutput());
           m_Apd->Update();
         }
         mafEventMacro(mafEvent(this,CAMERA_UPDATE));

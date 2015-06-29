@@ -98,7 +98,6 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
   cloud->AppendLandmark(40.0,0.0,0.0,"fourth");
   //cloud->Close();
 
-  cloud->GetOutput()->GetVTKData()->Update();
   cloud->GetOutput()->Update();
 
 	//Setting standard material to avoid random color selection
@@ -117,14 +116,11 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
   scalars->SetName("scalars");
 
   vtkPolyData *ds = vtkPolyData::SafeDownCast(cloud->GetOutput()->GetVTKData());
-  ds->Update();
   int p = ds->GetNumberOfPoints();
   int c = ds->GetNumberOfCells();
   ds->GetPointData()->SetScalars(scalars);
-  ds->UpdateData();
 
   cloud->GetMaterial();
-  cloud->GetOutput()->GetVTKData()->Update();
   cloud->GetOutput()->Update();
   cloud->Update();
 
@@ -154,7 +150,7 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
 
   CompareImages(0);
 
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
   m_RenderWindow->Render();
 
 
@@ -178,7 +174,7 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
 
   CompareImages(1);
 
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
   m_RenderWindow->Render();
 
   pipe->SetScalarVisibility(false);
@@ -297,8 +293,8 @@ void mafPipeLandmarkCloudTest::CompareImages(int imageIndex)
 
 
   vtkMAFSmartPointer<vtkImageMathematics> imageMath;
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

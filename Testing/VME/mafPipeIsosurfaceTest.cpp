@@ -92,7 +92,6 @@ void mafPipeIsosurfaceTest::TestPipeExecution()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkRectilinearGrid*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -149,7 +148,7 @@ void mafPipeIsosurfaceTest::TestPipeExecution()
     printf("\n Visualization: \n");
     CompareImages(v);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     //vtkDEL(actorList);
     delete pipeIso;
   }
@@ -259,8 +258,8 @@ void mafPipeIsosurfaceTest::CompareImages(int imageIndex)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

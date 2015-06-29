@@ -112,10 +112,9 @@ void mafPipePointSetTest::TestPipeExecution()
   vtkPolyData *polyData = vtkPolyData::New();
   polyData->SetPoints(points);
   //polyData->SetLines(cellArray);
-  polyData->Update();
 
   vtkDelaunay2D *delaunay = vtkDelaunay2D::New();
-  delaunay->SetInput(polyData);
+  delaunay->SetInputData(polyData);
   delaunay->SetAlpha(5);
   delaunay->SetTolerance(2);
   delaunay->Update();
@@ -123,7 +122,6 @@ void mafPipePointSetTest::TestPipeExecution()
   mafVMEPointSet *pointsetInput;
   mafNEW(pointsetInput);
   pointsetInput->SetData(delaunay->GetOutput(),0);
-  pointsetInput->GetOutput()->GetVTKData()->Update();
   pointsetInput->GetOutput()->Update();
 	
 	//Setting standard material to avoid random color selection
@@ -194,7 +192,7 @@ void mafPipePointSetTest::TestPipeExecution()
   
   
 
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
 
   delete pipePointSet;
   delete sceneNode;
@@ -303,8 +301,8 @@ void mafPipePointSetTest::CompareImages(int imageIndex)
 
   vtkImageMathematics *imageMath;
   vtkNEW(imageMath);
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

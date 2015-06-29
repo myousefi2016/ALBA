@@ -57,9 +57,6 @@ int mafVMESurfaceEditor::SetData(vtkDataSet *data, mafTimeStamp t, int mode)
 	assert(data);
 	vtkPolyData *polydata = vtkPolyData::SafeDownCast(data);
 
-	if (polydata)
-		polydata->Update();
-
 	return Superclass::SetData(polydata,t,mode);
 }
 //-------------------------------------------------------------------------

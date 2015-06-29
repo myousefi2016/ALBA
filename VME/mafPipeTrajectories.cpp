@@ -105,7 +105,7 @@ void mafPipeTrajectories::Create(mafSceneNode *n)
   UpdateProperty();
 
   m_Mapper = vtkPolyDataMapper::New();
-  m_Mapper->SetInput(m_Traj->GetOutput());
+  m_Mapper->SetInputConnection(m_Traj->GetOutputPort());
   
   if(m_Vme->IsAnimated())				
     m_Mapper->ImmediateModeRenderingOn();	 //avoid Display-Lists for animated items.
@@ -122,10 +122,10 @@ void mafPipeTrajectories::Create(mafSceneNode *n)
 
   // selection highlight
   m_OutlineBox = vtkOutlineCornerFilter::New();
-  m_OutlineBox->SetInput(m_Traj->GetOutput());  
+  m_OutlineBox->SetInputConnection(m_Traj->GetOutputPort());  
 
   m_OutlineMapper = vtkPolyDataMapper::New();
-  m_OutlineMapper->SetInput(m_OutlineBox->GetOutput());
+  m_OutlineMapper->SetInputConnection(m_OutlineBox->GetOutputPort());
 
   m_OutlineProperty = vtkProperty::New();
   m_OutlineProperty->SetColor(1,1,1);
@@ -281,10 +281,10 @@ void mafPipeTrajectories::UpdateProperty(bool fromTag)
   line->SetLines(cellArray);
   line->Modified();
 
-  m_Traj->AddInput(line);
+  m_Traj->AddInputData(line);
   if (sphere_visibility)
   {
-    m_Traj->AddInput(m_Sphere->GetOutput());
+    m_Traj->AddInputConnection(m_Sphere->GetOutputPort());
   }
   
   m_Traj->Update();

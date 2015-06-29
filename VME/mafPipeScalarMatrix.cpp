@@ -72,7 +72,7 @@ void mafPipeScalarMatrix::Create(mafSceneNode *n)
   tprop->ShadowOn();
 
   vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-  mapper->SetInput((vtkPolyData *)ds);
+  mapper->SetInputData((vtkPolyData *)ds);
   mapper->ScalarVisibilityOn();
   mapper->SetScalarRange(ds->GetScalarRange());
 
@@ -82,7 +82,7 @@ void mafPipeScalarMatrix::Create(mafSceneNode *n)
   m_AssemblyFront->AddPart(m_Actor);
 
   vtkNEW(m_CubeAxes);
-  m_CubeAxes->SetInput(ds);
+  m_CubeAxes->SetInputData(ds);
   m_CubeAxes->SetCamera(m_RenFront->GetActiveCamera());
   m_CubeAxes->SetLabelFormat("%6.4g");
   m_CubeAxes->SetNumberOfLabels(5);

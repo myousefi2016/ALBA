@@ -103,7 +103,6 @@ void mafPipeSurfaceTextured::Create(mafSceneNode *n/*, bool use_axes*/)
   surface_output->Update();
   vtkPolyData *data = vtkPolyData::SafeDownCast(surface_output->GetVTKData());
   assert(data);
-  data->Update();
 
   m_Vme->GetEventSource()->AddObserver(this);
 
@@ -131,12 +130,12 @@ void mafPipeSurfaceTextured::Create(mafSceneNode *n/*, bool use_axes*/)
     }
     else
     {
-      m_Mapper->SetInput(data);
+      m_Mapper->SetInputData(data);
     }
   }
   else
   {
-    m_Mapper->SetInput(data);
+    m_Mapper->SetInputData(data);
   }
   
   m_RenderingDisplayListFlag = m_Vme->IsAnimated() ? 1 : 0;
@@ -151,15 +150,14 @@ void mafPipeSurfaceTextured::Create(mafSceneNode *n/*, bool use_axes*/)
     if (m_SurfaceMaterial->GetMaterialTexture() != NULL)
     {
       vtkImageData *image = m_SurfaceMaterial->GetMaterialTexture();
-      m_Texture->SetInput(image);
+      m_Texture->SetInputData(image);
       image->GetScalarRange(sr);
     }
     else if (m_SurfaceMaterial->GetMaterialTextureID() != -1)
     {
       mafVME *texture_vme = mafVME::SafeDownCast(m_Vme->GetRoot()->FindInTreeById(m_SurfaceMaterial->GetMaterialTextureID()));
-      texture_vme->GetOutput()->GetVTKData()->Update();
       vtkImageData *image = (vtkImageData *)texture_vme->GetOutput()->GetVTKData();
-      m_Texture->SetInput(image);
+      m_Texture->SetInputData(image);
       image->GetScalarRange(sr);
     }
     else
@@ -233,10 +231,10 @@ void mafPipeSurfaceTextured::Create(mafSceneNode *n/*, bool use_axes*/)
 
   // selection highlight
   vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(data);  
+	corner->SetInputData(data);  
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
   vtkMAFSmartPointer<vtkProperty> corner_props;
 	corner_props->SetColor(1,1,1);
@@ -449,10 +447,9 @@ void mafPipeSurfaceTextured::OnEvent(mafEventBase *maf_event)
           m_Gui->Enable(ID_USE_TEXTURE,image != NULL);
           if (image)
           {
-            image->Update();
             m_SurfaceMaterial->SetMaterialTexture(n->GetId());
             m_SurfaceMaterial->m_MaterialType = mmaMaterial::USE_TEXTURE;
-            m_Texture->SetInput(image);
+            m_Texture->SetInputData(image);
             m_Actor->SetTexture(m_Texture);
             mafEventMacro(mafEvent(this,CAMERA_UPDATE));
             m_Gui->Enable(ID_TEXTURE_MAPPING_MODE,true);
@@ -486,33 +483,32 @@ void mafPipeSurfaceTextured::GenerateTextureMapCoordinate()
 //----------------------------------------------------------------------------
 {
   vtkPolyData *data = vtkPolyData::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
-  data->Update();
 
   if (m_SurfaceMaterial->m_TextureMappingMode == mmaMaterial::PLANE_MAPPING)
   {
     vtkMAFSmartPointer<vtkTextureMapToPlane> plane_texture_mapper;
-    plane_texture_mapper->SetInput(data);
+    plane_texture_mapper->SetInputData(data);
     plane_texture_mapper->AutomaticPlaneGenerationOn();
     vtkPolyData *tdata = (vtkPolyData *)plane_texture_mapper->GetOutput();
-    m_Mapper->SetInput(data);
+    m_Mapper->SetInputData(data);
   }
   else if (m_SurfaceMaterial->m_TextureMappingMode == mmaMaterial::CYLINDER_MAPPING)
   {
     vtkMAFSmartPointer<vtkTextureMapToCylinder> cylinder_texture_mapper;
-    cylinder_texture_mapper->SetInput(data);
+    cylinder_texture_mapper->SetInputData(data);
     cylinder_texture_mapper->PreventSeamOff();
-    m_Mapper->SetInput((vtkPolyData *)cylinder_texture_mapper->GetOutput());
+    m_Mapper->SetInputConnection(cylinder_texture_mapper->GetOutputPort());
   }
   else if (m_SurfaceMaterial->m_TextureMappingMode == mmaMaterial::SPHERE_MAPPING)
   {
     vtkMAFSmartPointer<vtkTextureMapToSphere> sphere_texture_mapper;
-    sphere_texture_mapper->SetInput(data);
+    sphere_texture_mapper->SetInputData(data);
     sphere_texture_mapper->PreventSeamOff();
-    m_Mapper->SetInput((vtkPolyData *)sphere_texture_mapper->GetOutput());
+    m_Mapper->SetInputConnection(sphere_texture_mapper->GetOutputPort());
   }
   else
   {
-    m_Mapper->SetInput(data);
+    m_Mapper->SetInputData(data);
   }
 }
 //----------------------------------------------------------------------------

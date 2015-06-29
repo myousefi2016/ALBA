@@ -117,7 +117,6 @@ void mafVMEGenericTest::TestSetData()
 
   vtkMAFSmartPointer<vtkRectilinearGrid> rectilinearGridA;
   rectilinearGridA = (vtkRectilinearGrid*)vmeGeneric->GetOutput()->GetVTKData();
-  rectilinearGridA->Update();
 
   result = true;
   for (int i = 0 ; i < 5; i++)
@@ -135,7 +134,6 @@ void mafVMEGenericTest::TestSetData()
 
   vtkMAFSmartPointer<vtkRectilinearGrid> rectilinearGridB;
   rectilinearGridB = (vtkRectilinearGrid*)vmeGeneric->GetOutput()->GetVTKData();
-  rectilinearGridB->Update();
 
   result = true;
   for (int i = 0 ; i < 5; i++)
@@ -152,7 +150,6 @@ void mafVMEGenericTest::TestSetData()
 
   vtkMAFSmartPointer<vtkRectilinearGrid> rectilinearGridC;
   rectilinearGridC = (vtkRectilinearGrid*)vmeGeneric->GetOutput()->GetVTKData();
-  rectilinearGridC->Update();
 
   result = true;
   for (int i = 0 ; i < 5; i++)

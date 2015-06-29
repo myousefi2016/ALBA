@@ -79,8 +79,6 @@ void mafVMEOutputSurface::SetTexture(vtkImageData *tex)
 vtkImageData *mafVMEOutputSurface::GetTexture()
 //-------------------------------------------------------------------------
 {
-  if (m_VME && m_VME->GetDataPipe() && m_VME->GetDataPipe()->GetVTKData())
-    m_VME->GetDataPipe()->GetVTKData()->UpdateInformation();
   return m_Texture;
 }
 
@@ -128,7 +126,6 @@ void mafVMEOutputSurface::Update()
   if (GetSurfaceData())
   {
     //GetSurfaceData()->Modified();	//BES: 12.9.2012 - I do not see any reason for this except to make troubles during rendering since this forces rerender of everything
-    GetSurfaceData()->Update();
     int num = GetSurfaceData()->GetNumberOfPolys();
     m_NumTriangles = num;
   }

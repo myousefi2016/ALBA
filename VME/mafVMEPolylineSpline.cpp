@@ -106,7 +106,6 @@ int mafVMEPolylineSpline::DeepCopy(mafNode *a)
     if (dpipe)
     {
       dpipe->SetInput(m_Polyline);
-      m_Polyline->Update();
     }
     m_SplineCoefficient = splinePolyline->m_SplineCoefficient;
     m_OrderByAxisMode = splinePolyline->m_OrderByAxisMode;
@@ -192,14 +191,12 @@ void mafVMEPolylineSpline::InternalUpdate() //Multi
 
   vtkMAFSmartPointer<vtkPolyData> poly;
   poly->DeepCopy(polyline);
-  poly->Update();
 
   this->SplinePolyline(poly); // generate a "splined" polyline 
 
   this->OrderPolyline(poly); // create orderer sequence of points and cells
 
   m_Polyline->DeepCopy(poly);
-	m_Polyline->Update();
 
 	Modified();
 }
@@ -355,7 +352,6 @@ void mafVMEPolylineSpline::OrderPolyline(vtkPolyData *polyline)
 
   polyline->SetLines(cellArray);
   polyline->Modified();
-  polyline->Update();
 }
 //-------------------------------------------------------------------------
 void mafVMEPolylineSpline::SplinePolyline(vtkPolyData *polyline)
@@ -399,8 +395,6 @@ void mafVMEPolylineSpline::SplinePolyline(vtkPolyData *polyline)
     OptimizeMinimumSpacingSpline();*/
 
   polyline->SetPoints(m_PointsSplined);
-  polyline->Update();
-
 }
 /*/-------------------------------------------------------------------------
 void mafVMEPolylineSpline::OptimizeMinimumSpacingSpline()
@@ -457,7 +451,6 @@ void mafVMEPolylineSpline::OrderPolylineByAxis(vtkPolyData* polyline, int axis)
 {
   vtkMAFSmartPointer<vtkPolyData> poly;
   poly->DeepCopy(polyline);
-  poly->Update();
 
   vtkMAFSmartPointer<vtkPoints> points;
   points->DeepCopy(poly->GetPoints());
@@ -557,9 +550,6 @@ void mafVMEPolylineSpline::OrderPolylineByAxis(vtkPolyData* polyline, int axis)
 
   poly->SetPoints(newPoints);
   poly->SetLines(newLines);
-  poly->Update();
 
   polyline->DeepCopy(poly);
-  polyline->Update();
-
 }

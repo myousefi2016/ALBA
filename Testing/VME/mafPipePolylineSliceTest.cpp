@@ -161,7 +161,7 @@ void mafPipePolylineSliceTest::TestPipeExecution()
         actor = actorList->GetNextProp();
       }
       CompareImages(i);
-      m_Renderer->RemoveAllProps();
+      m_Renderer->RemoveAllViewProps();
     }
     else if(i == TEST_THICKNESS)
     {
@@ -180,7 +180,7 @@ void mafPipePolylineSliceTest::TestPipeExecution()
       }
       CompareImages(i);
 
-			m_Renderer->RemoveAllProps();
+			m_Renderer->RemoveAllViewProps();
     }
     else if(i == TEST_SPLINE)
     {
@@ -200,7 +200,7 @@ void mafPipePolylineSliceTest::TestPipeExecution()
       }
       CompareImages(i);
 
-			m_Renderer->RemoveAllProps();
+			m_Renderer->RemoveAllViewProps();
     }
   }
 
@@ -305,8 +305,8 @@ void mafPipePolylineSliceTest::CompareImages(int testIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

@@ -439,7 +439,6 @@ void vtkMAFVolumeSlicer_BES::RequestDataHotFix(vtkInformation *request,	vtkInfor
    
     LastPreprocessedInput = NULL; //to force PrepareVolume to reexecute
     vtkMAFVolumeSlicer_BES::RequestInformation(request,	inputVector,outputVector);
-		//TODO CALL RequestInformation(vtkInformation*, vtkInformationVector**, vtkInformationVector* outputVector)
   }
 }
 

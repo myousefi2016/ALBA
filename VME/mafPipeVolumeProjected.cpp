@@ -93,7 +93,6 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 	vtkMAFProjectRG       *RGProjection	= NULL;
 	
   vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-  vtk_data->Update();
 
   double range[2]; // used with lut
 	double bounds[6];
@@ -129,7 +128,7 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 	}
 
 	RXPlaneMapper = vtkPolyDataMapper::New();
-	RXPlaneMapper->SetInput(RXPlane->GetOutput());
+	RXPlaneMapper->SetInputConnection(RXPlane->GetOutputPort());
 
 	RXTexture = vtkTexture::New();
 	RXTexture->SetInterpolate(1);
@@ -139,21 +138,21 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 	{
 		SPProjection = vtkMAFProjectSP::New();
     mafEventMacro(mafEvent(this,BIND_TO_PROGRESSBAR,SPProjection));
-		SPProjection->SetInput(((vtkImageData *)vtk_data)); //BES: 4.11.2008
+		SPProjection->SetInputData(vtk_data); //BES: 4.11.2008
 		if (m_CamPosition == CAMERA_RX_FRONT )
 			SPProjection->SetProjectionModeToY();
 		else
 			SPProjection->SetProjectionModeToX();
 		SPProjection->Update();
 		SPProjection->GetOutput()->GetScalarRange(range);
-		RXTexture->SetInput(SPProjection->GetOutput());
+		RXTexture->SetInputConnection(SPProjection->GetOutputPort());
 	}
 
   if (vtk_data->IsA("vtkRectilinearGrid"))
 	{
 		RGProjection = vtkMAFProjectRG::New();
     mafEventMacro(mafEvent(this,BIND_TO_PROGRESSBAR,RGProjection));
-		RGProjection->SetInput(vtkRectilinearGrid::SafeDownCast(vtk_data));
+		RGProjection->SetInputData(vtk_data);
 		vtkStructuredPoints *SP = vtkStructuredPoints::New();
 		if (m_CamPosition == CAMERA_RX_FRONT)
 			RGProjection->SetProjectionModeToY();
@@ -174,11 +173,11 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 		SP->SetSpacing((x1-x0)/128, (y1-y0)/128, 1);
   
 		vtkProbeFilter *pf = vtkProbeFilter::New();
-		pf->SetInput(SP);
-		pf->SetSource(RGProjection->GetOutput());
+		pf->SetInputData(SP);
+		pf->SetSourceConnection(RGProjection->GetOutputPort());
 		pf->Update();
 		((vtkImageData* )pf->GetOutput())->GetScalarRange(range);
-		RXTexture->SetInput( (vtkImageData* )pf->GetOutput() );
+		RXTexture->SetInputConnection(pf->GetOutputPort() );
 		SP->Delete();
 		pf->Delete();
 	}
@@ -258,7 +257,7 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 
 	//Add tick to scene
   vtkPolyDataMapper *TickMapper = vtkPolyDataMapper::New();
-  TickMapper->SetInput(CTLinesPD);
+  TickMapper->SetInputData(CTLinesPD);
 
 	vtkProperty	*TickProperty = vtkProperty::New();
 	TickProperty->SetColor(1,0,0);
@@ -278,10 +277,10 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 
   // selection pipeline ////////////////////////////////
 	vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(m_Vme->GetOutput()->GetVTKData());
+	corner->SetInputData(m_Vme->GetOutput()->GetVTKData());
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
 	vtkNEW(m_VolumeBoxActor);
 	m_VolumeBoxActor->SetMapper(corner_mapper);

@@ -110,13 +110,11 @@ void mafPipeSurfaceSlice_BESTest::TestCloudClosePipeExecution()
   ldm->GetMaterial();
   ldm->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
 
-  ldm->GetOutput()->GetVTKData()->Update();
   ldm->GetOutput()->Update();
   ldm->Update();
 
   ldm->Close();
 
-  ldm->GetOutput()->GetVTKData()->Update();
   ldm->GetOutput()->Update();
   ldm->Update();
 
@@ -205,7 +203,6 @@ void mafPipeSurfaceSlice_BESTest::TestCloudOpenPipeExecution()
   ldm->GetMaterial();
   ldm->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
 
-  ldm->GetOutput()->GetVTKData()->Update();
   ldm->GetOutput()->Update();
   ldm->Update();
 
@@ -304,7 +301,6 @@ void mafPipeSurfaceSlice_BESTest::TestSurfacePipeExecution()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
@@ -460,8 +456,8 @@ void mafPipeSurfaceSlice_BESTest::CompareImages(int testIndex)
   vtkImageData *imDataComp = rC->GetOutput();
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 
@@ -507,7 +503,6 @@ void mafPipeSurfaceSlice_BESTest::TestSurfacePipeCreation()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
@@ -558,7 +553,6 @@ void mafPipeSurfaceSlice_BESTest::TestSetGetThickness()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;

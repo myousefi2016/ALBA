@@ -83,6 +83,7 @@ public:
   /**
   specify the image to be used for texturing output polydata object*/
   void SetTexture(vtkImageData *data) {this->SetInputData(1, data);};
+	void SetTextureConnection(vtkAlgorithmOutput *connection) {this->SetInputConnection(1, connection);};
   vtkImageData *GetTexture();
 
   /** 

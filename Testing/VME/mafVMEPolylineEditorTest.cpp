@@ -68,7 +68,6 @@ void mafVMEPolylineEditorTest::TestSetData()
   editor->Update();
 
   vtkPolyData *output1 = vtkPolyData::SafeDownCast(editor->GetOutput()->GetVTKData());
-  output1->Update();
 
   int pointsNumberIn,pointsNumberOut;
   pointsNumberIn = input1->GetOutput()->GetNumberOfPoints();

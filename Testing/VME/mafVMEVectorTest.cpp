@@ -83,7 +83,6 @@ void mafVMEVectorTest::TestSetData()
   vtkMAFSmartPointer<vtkPolyData> line;
   line->SetPoints(pts);
   line->SetLines(cells);
-  line->Update();
 
   result = m_VmeVector->SetData(line,0.0) == MAF_OK;
 
@@ -101,7 +100,6 @@ void mafVMEVectorTest::TestSetData()
   vtkMAFSmartPointer<vtkPolyData> line_bad_1;
   line_bad_1->SetPoints(pts_bad_1);
   line_bad_1->SetLines(cells_bad_1);
-  line_bad_1->Update();
 
   result = m_VmeVector->SetData(line_bad_1,0.0) == MAF_ERROR;
 
@@ -124,7 +122,6 @@ void mafVMEVectorTest::TestSetData()
   vtkMAFSmartPointer<vtkPolyData> line_bad_2;
   line_bad_2->SetPoints(pts_bad_2);
   line_bad_2->SetLines(cells_bad_2);
-  line_bad_2->Update();
 
   result = m_VmeVector->SetData(line_bad_2,0.0) == MAF_ERROR;
 
@@ -148,10 +145,8 @@ void mafVMEVectorTest::TestGetModule()
   vtkMAFSmartPointer<vtkPolyData> line;
   line->SetPoints(pts);
   line->SetLines(cells);
-  line->Update();
 
   m_VmeVector->SetData(line,0.0);
-  m_VmeVector->GetOutput()->GetVTKData()->Update();
   m_VmeVector->Update();
 
   result = m_VmeVector->GetModule() == 1.0;

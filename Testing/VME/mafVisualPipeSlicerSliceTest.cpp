@@ -90,7 +90,6 @@ void mafVisualPipeSlicerSliceTest::TestPipeExecution()
 	importer->OpRun();
 
   mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->SetParent(root);
 	volume->Update();
 
@@ -257,8 +256,8 @@ void mafVisualPipeSlicerSliceTest::CompareImages(int scalarIndex)
   vtkImageData *imDataComp = rC->GetOutput();
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

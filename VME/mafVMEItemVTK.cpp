@@ -107,7 +107,7 @@ void mafVMEItemVTK::DeepCopyVmeLarge(mafVMEItem *a)
       vtkDataSetWriter *w;
       vtkNEW(w);
       w->SetFileName("TMP.vtk");
-      w->SetInput(vtk_item->GetData());
+      w->SetInputData(vtk_item->GetData());
       w->SetFileTypeToBinary();
       w->Write();
       vtkDEL(w);
@@ -156,9 +156,6 @@ bool mafVMEItemVTK::Equals(mafVMEItem *a)
 
     vtkDataSet *data1=GetData();
     vtkDataSet *data2=item->GetData();
-
-    data1->Update();
-    data2->Update();
 
     if (data1&&data2)
     {
@@ -233,7 +230,6 @@ void mafVMEItemVTK::SetData(vtkDataSet *data)
       this->SetDataType(data->GetClassName());
 
       double bounds[6];
-      data->Update();
       data->ComputeBounds();
       data->GetBounds(bounds);
       m_Bounds.DeepCopy(bounds);
@@ -265,7 +261,6 @@ void mafVMEItemVTK::UpdateData()
   // pipeline to update.
   if (IsDataModified()&&m_Data.GetPointer())
   {
-    m_Data->Update();
     //this->UpdateBounds();
     return;
   }
@@ -295,7 +290,6 @@ void mafVMEItemVTK::UpdateBounds()
     {
       double bounds[6];
 
-      m_Data->Update();
       //m_Data->Modified();
       m_Data->GetBounds(bounds);
 
@@ -438,8 +432,6 @@ int mafVMEItemVTK::ReadData(mafString &filename, int resolvedURL)
     else
     {
       //BES: 23.5.2008 - detach data from its reader, so we can destroy the reader
-      data->SetSource(NULL);
-
       SetData(data);
       m_IsLoadingData = false;
     }
@@ -588,7 +580,7 @@ int mafVMEItemVTK::InternalStoreData(const char *url)
 
       // this is to catch possible I/O errors
       //unsigned long tag=mflAgent::PlugEventSource(writer,mflMSFWriter::ErrorHandler,this,vtkCommand::ErrorEvent);
-      writer->SetInput(data);
+      writer->SetInputData(data);
       writer->SetFileTypeToBinary();
       writer->SetHeader("# MAF data file - mafVMEItemVTK output\n");
 

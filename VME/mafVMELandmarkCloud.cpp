@@ -1052,7 +1052,6 @@ bool mafVMELandmarkCloud::GetLandmarkVisibility(int idx,mafTimeStamp t)
     polydata = GetPointSetOutput()->GetPointSetData();
     if (polydata)
     {
-      polydata->Update();
       ret = GetLandmarkVisibility(polydata, idx);
     }
     else

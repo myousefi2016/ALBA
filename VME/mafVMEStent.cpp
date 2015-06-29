@@ -1214,7 +1214,6 @@ void mafVMEStent::SetVesselCenterLine(mafNode* node)
     m_CenterLineNodeID = vme->GetId() ;
     m_CenterLineVMEDefined = true ;
     vtkPolyData *polyLine =vtkPolyData::SafeDownCast( vme->GetOutput()->GetVTKData());
-    polyLine->Update();
     SetVesselCenterLine(polyLine);
   }
 }
@@ -1240,7 +1239,6 @@ void mafVMEStent::SetVesselSurface(mafNode* node)
     m_VesselNodeID = vme->GetId() ;
     m_VesselVMEDefined = true ;
     vtkPolyData *polySurface = vtkPolyData::SafeDownCast(vme->GetOutput()->GetVTKData());
-    polySurface->Update();
     SetVesselSurface(polySurface) ;
   }
 }
@@ -2095,7 +2093,6 @@ void mafVMEStent::SetDeployedPolydataVME(mafNode* inputNode)
   m_DeployedPolydataVME = mafVMEPolyline::SafeDownCast(inputNode) ;
   m_DeployedPolydataNodeID = inputNode->GetId() ;
   vtkPolyData *pd = vtkPolyData::SafeDownCast(m_DeployedPolydataVME->GetOutput()->GetVTKData()) ;
-  pd->Update() ;
   SetStentPolyData(pd) ;
   m_DeployedPolydataStatus = DEPLOYED_PD_OK ;
 }

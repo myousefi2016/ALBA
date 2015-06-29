@@ -126,19 +126,16 @@ void mafPipeSurfaceTexturedTest::TestPipeTextureExecution()
 
 	vtkCubeSource *cube = vtkCubeSource::New();
 	cube->Update();
-	cube->GetOutput()->Update();
 
   vtkCylinderSource *cylinder = vtkCylinderSource::New();
   cylinder->SetResolution(64);
   cylinder->Update();
-  cylinder->GetOutput()->Update();
 
 
   vtkSphereSource *sphere = vtkSphereSource::New();
   sphere->SetThetaResolution(64);
   sphere->SetPhiResolution(64);
   sphere->Update();
-  sphere->GetOutput()->Update();
 
   
   surface->SetData((vtkPolyData*)cube->GetOutput(),0.0);
@@ -427,8 +424,8 @@ void mafPipeSurfaceTexturedTest::CompareImages(int scalarIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

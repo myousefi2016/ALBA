@@ -422,9 +422,7 @@ void mafVMEItemVTKTest::TestStoreToArchive()
   itemRead->ReadData(filenameZip);
 
   vtkPolyData *itemReadData = vtkPolyData::SafeDownCast(itemRead->GetData());
-  itemReadData->Update();
   vtkPolyData *itemData = vtkPolyData::SafeDownCast(item->GetData());
-  itemData->Update();
 
   result = itemReadData->GetNumberOfPoints() == itemData->GetNumberOfPoints();
   TEST_RESULT;

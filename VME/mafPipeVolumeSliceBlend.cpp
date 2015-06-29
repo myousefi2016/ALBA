@@ -71,9 +71,9 @@ mafPipeVolumeSliceBlend::mafPipeVolumeSliceBlend()
     {
       m_SlicerPolygonal[j][i]		= NULL;
       m_SlicerImage[j][i]				= NULL;
-      m_Image[j][i]							= NULL;
+      //m_Image[j][i]							= NULL;
       m_Texture[j][i]						= NULL;
-      m_SlicePolydata[j][i]			= NULL;
+      //m_SlicePolydata[j][i]			= NULL;
       m_SliceMapper[j][i]				= NULL;
       m_SliceActor[j][i]				= NULL;
     }
@@ -185,7 +185,6 @@ void mafPipeVolumeSliceBlend::Create(mafSceneNode *n)
   double b[6];
   //Update input data
   m_Vme->GetOutput()->Update();
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->GetOutput()->GetVMELocalBounds(b);
 
   mmaVolumeMaterial *material = ((mafVMEVolume *)m_Vme)->GetMaterial();
@@ -269,10 +268,10 @@ void mafPipeVolumeSliceBlend::Create(mafSceneNode *n)
 
   //Create selection actor
   vtkNEW(m_VolumeBox);
-  m_VolumeBox->SetInput(m_Vme->GetOutput()->GetVTKData());
+  m_VolumeBox->SetInputData(m_Vme->GetOutput()->GetVTKData());
 
   vtkNEW(m_VolumeBoxMapper);
-  m_VolumeBoxMapper->SetInput(m_VolumeBox->GetOutput());
+  m_VolumeBoxMapper->SetInputConnection(m_VolumeBox->GetOutputPort());
 
   vtkNEW(m_VolumeBoxActor);
   m_VolumeBoxActor->SetMapper(m_VolumeBoxMapper);
@@ -292,7 +291,7 @@ void mafPipeVolumeSliceBlend::Create(mafSceneNode *n)
     vtkNEW(m_Box);
     m_Box->SetBounds(bounds);
     vtkNEW(m_Mapper);
-    m_Mapper->SetInput(m_Box->GetOutput());
+    m_Mapper->SetInputConnection(m_Box->GetOutputPort());
     vtkNEW(m_Actor);
     m_Actor->SetMapper(m_Mapper);
     m_AssemblyUsed->AddPart(m_Actor);
@@ -322,7 +321,6 @@ void mafPipeVolumeSliceBlend::CreateSlice(int direction)
   double xspc = 0.33, yspc = 0.33, zspc = 1.0;
 
   vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-  vtk_data->Update();
   if(vtk_data->IsA("vtkImageData") || vtk_data->IsA("vtkStructuredPoints"))
   {
     ((vtkImageData *)vtk_data)->GetSpacing(xspc,yspc,zspc);
@@ -337,33 +335,33 @@ void mafPipeVolumeSliceBlend::CreateSlice(int direction)
     m_SlicerImage[i][direction]->SetPlaneAxisY(m_YVector[direction]);
     m_SlicerPolygonal[i][direction]->SetPlaneAxisX(m_XVector[direction]);
     m_SlicerPolygonal[i][direction]->SetPlaneAxisY(m_YVector[direction]);
-    m_SlicerImage[i][direction]->SetInput(vtk_data);
-    m_SlicerPolygonal[i][direction]->SetInput(vtk_data);
+    m_SlicerImage[i][direction]->SetInputData(vtk_data);
+    m_SlicerPolygonal[i][direction]->SetInputData(vtk_data);
 
+		/** 
     vtkNEW(m_Image[i][direction]);
-    m_Image[i][direction]->SetScalarType(vtk_data->GetPointData()->GetScalars()->GetDataType());
-    m_Image[i][direction]->SetNumberOfScalarComponents(vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
+    m_Image[i][direction]->AllocateScalars(vtk_data->GetPointData()->GetScalars()->GetDataType(),vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
     m_Image[i][direction]->SetExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
     m_Image[i][direction]->SetSpacing(xspc, yspc, zspc);
 
-    m_SlicerImage[i][direction]->SetOutput(m_Image[i][direction]);
+    m_SlicerImage[i][direction]->SetOutput(m_Image[i][direction]); */
     m_SlicerImage[i][direction]->Update();
 
     vtkNEW(m_Texture[i][direction]);
     m_Texture[i][direction]->RepeatOff();
     m_Texture[i][direction]->InterpolateOn();
     m_Texture[i][direction]->SetQualityTo32Bit();
-    m_Texture[i][direction]->SetInput(m_Image[i][direction]);
+    m_Texture[i][direction]->SetInputConnection(m_SlicerImage[i][direction]->GetOutputPort());
     m_Texture[i][direction]->SetLookupTable(m_ColorLUT);
     m_Texture[i][direction]->MapColorScalarsThroughLookupTableOn();
 
-    vtkNEW(m_SlicePolydata[i][direction]);
-    m_SlicerPolygonal[i][direction]->SetOutput(m_SlicePolydata[i][direction]);
-    m_SlicerPolygonal[i][direction]->SetTexture(m_Image[i][direction]);
+    //vtkNEW(m_SlicePolydata[i][direction]);
+    //m_SlicerPolygonal[i][direction]->SetOutput(m_SlicePolydata[i][direction]);
+    m_SlicerPolygonal[i][direction]->SetTextureConnection(m_SlicerImage[i][direction]->GetOutputPort());
     m_SlicerPolygonal[i][direction]->Update();
 
     vtkNEW(m_SliceMapper[i][direction]);
-    m_SliceMapper[i][direction]->SetInput(m_SlicePolydata[i][direction]);
+    m_SliceMapper[i][direction]->SetInputConnection(m_SlicerPolygonal[i][direction]->GetOutputPort());
     m_SliceMapper[i][direction]->ScalarVisibilityOff();
 
     vtkNEW(m_SliceActor[i][direction]);
@@ -406,10 +404,10 @@ mafPipeVolumeSliceBlend::~mafPipeVolumeSliceBlend()
       }
       vtkDEL(m_SlicerImage[j][i]);
       vtkDEL(m_SlicerPolygonal[j][i]);
-      vtkDEL(m_Image[j][i]);
+      //vtkDEL(m_Image[j][i]);
       vtkDEL(m_Texture[j][i]);
       vtkDEL(m_SliceMapper[j][i]);
-      vtkDEL(m_SlicePolydata[j][i]);
+      //vtkDEL(m_SlicePolydata[j][i]);
       vtkDEL(m_SliceActor[j][i]);
     }
   }

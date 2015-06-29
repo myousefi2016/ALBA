@@ -119,12 +119,11 @@ void mafPipeDensityDistance::Create(mafSceneNode *n/*, bool use_axes*/)
   assert(surface_output);
   surface_output->Update();
   vtkPolyData *data = vtkPolyData::SafeDownCast(surface_output->GetVTKData());
-  data->Update();
   assert(data);
 
   m_Vme->GetEventSource()->AddObserver(this);
 
-	m_Normals->SetInput(data);
+	m_Normals->SetInputData(data);
 	m_Normals->ComputePointNormalsOn();
 	m_Normals->SplittingOff();
 	m_Normals->Update();
@@ -132,7 +131,7 @@ void mafPipeDensityDistance::Create(mafSceneNode *n/*, bool use_axes*/)
   if (m_Volume)
   {
 	  m_DistanceFilter->SetSource(((mafVME*)m_Volume)->GetOutput()->GetVTKData());
-	  m_DistanceFilter->SetInput((vtkDataSet *)m_Normals->GetOutput());
+	  m_DistanceFilter->SetInputConnection(m_Normals->GetOutputPort());
 	  m_DistanceFilter->SetMaxDistance(m_MaxDistance);
 	  m_DistanceFilter->SetThreshold(m_FirstThreshold);
 	  m_DistanceFilter->SetDistanceModeToScalar();
@@ -220,35 +219,35 @@ void mafPipeDensityDistance::Create(mafSceneNode *n/*, bool use_axes*/)
 		for (i=m_MaxDistance;i<=4*m_MaxDistance;i++)
 			m_Table->AddRGBPoint(i,m_HiColour.Red()/255.0, m_HiColour.Green()/255.0,	m_HiColour.Blue()/255.0);
 	  
-		m_Mapper->SetInput((vtkPolyData*)m_DistanceFilter->GetOutput());
+		m_Mapper->SetInputConnection(m_DistanceFilter->GetOutputPort());
 
 		//Calculate the areas
 		vtkMAFSmartPointer<vtkMassProperties> mass_all;
-		mass_all->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		mass_all->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		mass_all->Update();
 
 		double total_area = mass_all->GetSurfaceArea();
 
 		vtkMAFSmartPointer<vtkClipPolyData> clipHigh;
-		clipHigh->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		clipHigh->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		clipHigh->SetValue(m_MaxDistance);
 		clipHigh->GenerateClippedOutputOn();
 		clipHigh->Update();
 
 		vtkMAFSmartPointer<vtkClipPolyData> clipMidHight;
-		clipMidHight->SetInput(clipHigh->GetClippedOutput());
+		clipMidHight->SetInputConnection(clipHigh->GetClippedOutputPort());
 		clipMidHight->SetValue(0);
 		clipMidHight->GenerateClippedOutputOn();
 		clipMidHight->Update();
 
 		vtkMAFSmartPointer<vtkClipPolyData> clipMidLow;
-		clipMidLow->SetInput(clipMidHight->GetClippedOutput());
+		clipMidLow->SetInputConnection(clipMidHight->GetClippedOutputPort());
 		clipMidLow->SetValue(-m_MaxDistance);
 		clipMidLow->GenerateClippedOutputOn();
 		clipMidLow->Update();
 
 		vtkMAFSmartPointer<vtkMassProperties> mass_high;
-		mass_high->SetInput(clipHigh->GetOutput());
+		mass_high->SetInputConnection(clipHigh->GetOutputPort());
 		mass_high->Update();
 
 		/*vtkMAFSmartPointer<vtkMassProperties> mass_mid1;
@@ -256,11 +255,11 @@ void mafPipeDensityDistance::Create(mafSceneNode *n/*, bool use_axes*/)
 		mass_mid1->Update();*/
 
 		vtkMAFSmartPointer<vtkMassProperties> mass_mid;
-		mass_mid->SetInput(clipMidLow->GetOutput());
+		mass_mid->SetInputConnection(clipMidLow->GetOutputPort());
 		mass_mid->Update();
 
 		vtkMAFSmartPointer<vtkMassProperties> mass_low;
-		mass_low->SetInput(clipMidLow->GetClippedOutput());
+		mass_low->SetInputConnection(clipMidLow->GetClippedOutputPort());
 		mass_low->Update();
 
 		//double area[4];
@@ -278,7 +277,7 @@ void mafPipeDensityDistance::Create(mafSceneNode *n/*, bool use_axes*/)
   }
   else
   {
-    m_Mapper->SetInput(m_Normals->GetOutput());
+    m_Mapper->SetInputConnection(m_Normals->GetOutputPort());
   }
 	
 	m_Mapper->ScalarVisibilityOn();
@@ -505,7 +504,7 @@ void mafPipeDensityDistance::OnEvent(mafEventBase *maf_event)
           mafVMEOutputSurface *surface_output = mafVMEOutputSurface::SafeDownCast(m_Vme->GetOutput());
 
           m_DistanceFilter->SetSource(((mafVME*)m_Volume)->GetOutput()->GetVTKData());
-	        m_DistanceFilter->SetInput((vtkDataSet *)m_Normals->GetOutput());
+	        m_DistanceFilter->SetInputConnection(m_Normals->GetOutputPort());
           m_DistanceFilter->SetMaxDistance(m_MaxDistance);
 	        m_DistanceFilter->SetThreshold(m_FirstThreshold);
 	        m_DistanceFilter->SetDistanceModeToScalar();
@@ -520,38 +519,38 @@ void mafPipeDensityDistance::OnEvent(mafEventBase *maf_event)
 					for (i=m_MaxDistance;i<=4*m_MaxDistance;i++)
 						m_Table->AddRGBPoint(i,m_HiColour.Red()/255.0, m_HiColour.Green()/255.0,	m_HiColour.Blue()/255.0);
 				  
-					m_Mapper->SetInput((vtkPolyData*)m_DistanceFilter->GetOutput());
+					m_Mapper->SetInputConnection(m_DistanceFilter->GetOutputPort());
 					m_Mapper->Modified();
 
 					//Calculate the areas
 					vtkMAFSmartPointer<vtkMassProperties> mass_all;
-					mass_all->SetInput(m_DistanceFilter->GetPolyDataOutput());
+					mass_all->SetInputConnection(m_DistanceFilter->GetOutputPort());
 					mass_all->Update();
 
 					double total_area = mass_all->GetSurfaceArea();
 
 					vtkMAFSmartPointer<vtkClipPolyData> clipHigh;
-					clipHigh->SetInput(m_DistanceFilter->GetPolyDataOutput());
+					clipHigh->SetInputConnection(m_DistanceFilter->GetOutputPort());
 					clipHigh->SetValue(m_MaxDistance);
 					clipHigh->GenerateClippedOutputOn();
 					clipHigh->Update();
 
 					vtkMAFSmartPointer<vtkClipPolyData> clipMidLow;
-					clipMidLow->SetInput(clipHigh->GetClippedOutput());
+					clipMidLow->SetInputConnection(clipHigh->GetClippedOutputPort());
 					clipMidLow->SetValue(-m_MaxDistance);
 					clipMidLow->GenerateClippedOutputOn();
 					clipMidLow->Update();
 
 					vtkMAFSmartPointer<vtkMassProperties> mass_high;
-					mass_high->SetInput(clipHigh->GetOutput());
+					mass_high->SetInputConnection(clipHigh->GetOutputPort());
 					mass_high->Update();
 
 					vtkMAFSmartPointer<vtkMassProperties> mass_mid;
-					mass_mid->SetInput(clipMidLow->GetOutput());
+					mass_mid->SetInputConnection(clipMidLow->GetOutputPort());
 					mass_mid->Update();
 
 					vtkMAFSmartPointer<vtkMassProperties> mass_low;
-					mass_low->SetInput(clipMidLow->GetClippedOutput());
+					mass_low->SetInputConnection(clipMidLow->GetClippedOutputPort());
 					mass_low->Update();
 
 					m_AreaDistance[0] = (mass_low->GetSurfaceArea() / total_area) * 100.0;
@@ -716,33 +715,33 @@ void mafPipeDensityDistance::UpdatePipeline()
 
 		  //Calculate the areas
 		  vtkMAFSmartPointer<vtkMassProperties> mass_all;
-		  mass_all->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		  mass_all->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		  mass_all->Update();
 
 		  double total_area = mass_all->GetSurfaceArea();
 
 		  vtkMAFSmartPointer<vtkClipPolyData> clipHigh;
-		  clipHigh->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		  clipHigh->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		  clipHigh->SetValue(m_MaxDistance);
 		  clipHigh->GenerateClippedOutputOn();
 		  clipHigh->Update();
 
 		  vtkMAFSmartPointer<vtkClipPolyData> clipMidLow;
-		  clipMidLow->SetInput(clipHigh->GetClippedOutput());
+		  clipMidLow->SetInputConnection(clipHigh->GetClippedOutputPort());
 		  clipMidLow->SetValue(-m_MaxDistance);
 		  clipMidLow->GenerateClippedOutputOn();
 		  clipMidLow->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_high;
-		  mass_high->SetInput(clipHigh->GetOutput());
+		  mass_high->SetInputConnection(clipHigh->GetOutputPort());
 		  mass_high->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_mid;
-		  mass_mid->SetInput(clipMidLow->GetOutput());
+		  mass_mid->SetInputConnection(clipMidLow->GetOutputPort());
 		  mass_mid->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_low;
-		  mass_low->SetInput(clipMidLow->GetClippedOutput());
+		  mass_low->SetInputConnection(clipMidLow->GetClippedOutputPort());
 		  mass_low->Update();
 
 		  m_AreaDistance[0] = (mass_low->GetSurfaceArea() / total_area) * 100.0;
@@ -795,33 +794,33 @@ void mafPipeDensityDistance::UpdatePipeline()
 
 		  //Calculate the areas
 		  vtkMAFSmartPointer<vtkMassProperties> mass_all;
-		  mass_all->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		  mass_all->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		  mass_all->Update();
 
 		  double total_area = mass_all->GetSurfaceArea();
 
 		  vtkMAFSmartPointer<vtkClipPolyData> clipHigh;
-		  clipHigh->SetInput(m_DistanceFilter->GetPolyDataOutput());
+		  clipHigh->SetInputConnection(m_DistanceFilter->GetOutputPort());
 		  clipHigh->SetValue(m_FirstThreshold);
 		  clipHigh->GenerateClippedOutputOn();
 		  clipHigh->Update();
 
 		  vtkMAFSmartPointer<vtkClipPolyData> clipMidLow;
-		  clipMidLow->SetInput(clipHigh->GetClippedOutput());
+		  clipMidLow->SetInputConnection(clipHigh->GetClippedOutputPort());
 		  clipMidLow->SetValue(m_SecondThreshold);
 		  clipMidLow->GenerateClippedOutputOn();
 		  clipMidLow->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_high;
-		  mass_high->SetInput(clipHigh->GetOutput());
+		  mass_high->SetInputConnection(clipHigh->GetOutputPort());
 		  mass_high->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_mid;
-		  mass_mid->SetInput(clipMidLow->GetOutput());
+		  mass_mid->SetInputConnection(clipMidLow->GetOutputPort());
 		  mass_mid->Update();
 
 		  vtkMAFSmartPointer<vtkMassProperties> mass_low;
-		  mass_low->SetInput(clipMidLow->GetClippedOutput());
+		  mass_low->SetInputConnection(clipMidLow->GetClippedOutputPort());
 		  mass_low->Update();
 
 		  m_Area[0] = (mass_low->GetSurfaceArea() / total_area) * 100.0;
@@ -843,7 +842,7 @@ double mafPipeDensityDistance::GetTotalArea()
 {
   //Calculate the areas
   vtkMAFSmartPointer<vtkMassProperties> mass_all;
-  mass_all->SetInput(m_DistanceFilter->GetPolyDataOutput());
+  mass_all->SetInputConnection(m_DistanceFilter->GetOutputPort());
   mass_all->Update();
 
   return mass_all->GetSurfaceArea();
@@ -852,7 +851,7 @@ double mafPipeDensityDistance::GetTotalArea()
 void mafPipeDensityDistance::EnableMAPSFilterOff()
 //----------------------------------------------------------------------------
 {
-  m_Mapper->SetInput(m_Normals->GetOutput());
+  m_Mapper->SetInputConnection(m_Normals->GetOutputPort());
   m_Mapper->Update();
   m_EnableMAPSFilter=false;
   mafEventMacro(mafEvent(this,CAMERA_UPDATE));
@@ -861,7 +860,7 @@ void mafPipeDensityDistance::EnableMAPSFilterOff()
 void mafPipeDensityDistance::EnableMAPSFilterOn()
 //----------------------------------------------------------------------------
 {
-  m_Mapper->SetInput((vtkPolyData*)m_DistanceFilter->GetOutput());
+  m_Mapper->SetInputConnection(m_DistanceFilter->GetOutputPort());
   m_Mapper->Update();
   m_EnableMAPSFilter=true;
   mafEventMacro(mafEvent(this,CAMERA_UPDATE));

@@ -218,7 +218,6 @@ void mafVMELabeledVolume::CopyDataset()
   if (m_VolumeLink)
   {
     vtkDataSet *data = m_VolumeLink->GetOutput()->GetVTKData();
-    data->Update();
     m_Dataset = data->NewInstance();
     m_Dataset->DeepCopy(data);
     ((mafDataPipeCustom *)GetDataPipe())->SetInput(m_Dataset); 
@@ -287,7 +286,6 @@ void mafVMELabeledVolume::UpdateScalars()
   if (m_VolumeLink)
   {
     vtkDataSet *data = m_VolumeLink->GetOutput()->GetVTKData();
-    data->Update();
     m_Dataset->GetPointData()->GetScalars()->DeepCopy(data->GetPointData()->GetScalars());
     m_Dataset->GetPointData()->GetScalars()->Modified();
   }
@@ -746,8 +744,8 @@ void mafVMELabeledVolume::CreateSlicePipeline()
     m_SP->Modified();
 
     // Create a probe filter with the volume as source and a structuredPoints as input
-    m_ProbeFilter->SetSource( sp );
-    m_ProbeFilter->SetInput( m_SP );
+    m_ProbeFilter->SetSourceData( sp );
+    m_ProbeFilter->SetInputData( m_SP );
   }
   else if ( m_Dataset->IsA( "vtkRectilinearGrid" ) )
   {    
@@ -766,13 +764,13 @@ void mafVMELabeledVolume::CreateSlicePipeline()
     m_SP->Modified();
 
     // Create a probe filter with the volume as source and a structuredPoints as input
-    m_ProbeFilter->SetSource( rg );
-    m_ProbeFilter->SetInput( m_SP );
+    m_ProbeFilter->SetSourceData( rg );
+    m_ProbeFilter->SetInputData( m_SP );
   }
 
   // Create a texture with the default m_LookUpTable and with input the probeFilter output
   m_Texture = vtkTexture::New();	
-  m_Texture->SetInput( m_ProbeFilter->GetStructuredPointsOutput() );
+  m_Texture->SetInputConnection( m_ProbeFilter->GetOutputPort() );
   m_Texture->InterpolateOn();
   m_Texture->MapColorScalarsThroughLookupTableOn();//
   m_Texture->SetLookupTable( m_LookUpTable );
@@ -787,7 +785,7 @@ void mafVMELabeledVolume::CreateSlicePipeline()
   planeSource->SetCenter( xCenter, yCenter, m_Slice );
 
   m_SMapper	= vtkPolyDataMapper::New();
-  m_SMapper->SetInput( planeSource->GetOutput() );
+  m_SMapper->SetInputConnection( planeSource->GetOutputPort() );
   vtkDEL( planeSource );
 
   m_ActorSlice= vtkActor::New();

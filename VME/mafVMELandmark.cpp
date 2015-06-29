@@ -101,7 +101,6 @@ int mafVMELandmark::DeepCopy(mafNode *a)
     if (dpipe)
     {
       dpipe->SetInput(m_Polydata);
-      m_Polydata->Update();
     }
 
     return MAF_OK;

@@ -107,13 +107,11 @@ void mafPipeMeterTest::TestPipeExecution()
   ////// Create VME ////////////////////
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);	
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->SetParent(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->SetParent(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
@@ -127,7 +125,6 @@ void mafPipeMeterTest::TestPipeExecution()
   meter->SetMeterLink("StartVME",vmeParametricSurfaceSTART);
   meter->SetMeterLink("EndVME1",vmeParametricSurfaceEND1);
   meter->SetParent(storage->GetRoot());
-  meter->GetOutput()->GetVTKData()->Update();
   meter->Modified();
   meter->Update();
 
@@ -278,8 +275,8 @@ void mafPipeMeterTest::CompareImages(int testIndex)
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

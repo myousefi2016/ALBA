@@ -143,7 +143,6 @@ void mafVMEOutputVolume::Update()
     m_VolumeBounds[2] = "";
     m_VolumeBounds[2] << " zmin: " << wxString::Format("%g",RoundValue(b[4])).c_str() << "   zmax: " << wxString::Format("%g",RoundValue(b[5])).c_str();
     double srange[2];
-    this->GetVTKData()->Update();
     this->GetVTKData()->GetScalarRange(srange);
     m_ScaralRangeString = wxString::Format("min: %6.2f max: %6.2f", srange[0], srange[1]);;
     //m_ScaralRangeString << " min: " << srange[0] << "    max: " << srange[1];

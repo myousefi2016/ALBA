@@ -110,7 +110,7 @@ int mafVMEGizmoTest::PlayTree(mafVMERoot *root, bool ignoreVisibleToTraverse)
       {
         vtkDataSet *vmedata=vme->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
 
         vtkMAFSmartPointer<vtkActor> vmeact;
         vmeact->SetMapper(mapper);
@@ -238,7 +238,7 @@ void mafVMEGizmoTest::TestGizmoVisualizatioAlone()
 
   gizmo->SetData(sphere->GetOutput());
 
-  mapper->SetInput(gizmo->GetSurfaceOutput()->GetVTKData());
+  mapper->SetInputData(gizmo->GetSurfaceOutput()->GetVTKData());
   
   renWin->Render();
   

@@ -140,7 +140,6 @@ void mafPipeMeshSlice_BES::ExecutePipe()
 //----------------------------------------------------------------------------
 {
   m_Vme->Update();
-  m_Vme->GetOutput()->GetVTKData()->Update();
 
   m_Selected = false;
   m_Mapper          = NULL;
@@ -161,7 +160,6 @@ void mafPipeMeshSlice_BES::ExecutePipe()
     assert(mesh_output);
     mesh_output->Update();
     data = vtkUnstructuredGrid::SafeDownCast(mesh_output->GetVTKData());
-    data->Update();
     m_MeshMaterial = mesh_output->GetMaterial();
   }
 
@@ -201,13 +199,12 @@ void mafPipeMeshSlice_BES::ExecutePipe()
   m_VTKTransform->SetInputMatrix(m_Vme->GetAbsMatrixPipe()->GetMatrixPointer());
   m_Plane->SetTransform(m_VTKTransform);
 
-  m_Cutter->SetInput(data);
+  m_Cutter->SetInputData(data);
   m_Cutter->SetCutFunction(m_Plane);
-  m_Cutter->GetOutput()->Update();
   m_Cutter->Update();
 
   vtkNEW(m_NormalFilter);
-  m_NormalFilter->SetInput(m_Cutter->GetOutput());
+  m_NormalFilter->SetInputConnection(m_Cutter->GetOutputPort());
   m_NormalFilter->FlipNormalsOn(); //this is On because off slice of all views have camera position in the bottom 
   m_NormalFilter->Update();
 
@@ -230,7 +227,7 @@ void mafPipeMeshSlice_BES::ExecutePipe()
   m_Table->Build();
 
   m_Mapper = vtkPolyDataMapper::New();
-  m_Mapper->SetInput(m_NormalFilter->GetOutput());
+  m_Mapper->SetInputConnection(m_NormalFilter->GetOutputPort());
   m_Mapper->SetScalarVisibility(m_ScalarMapActive);
   m_Mapper->SetScalarRange(sr);
 
@@ -261,7 +258,7 @@ void mafPipeMeshSlice_BES::ExecutePipe()
     m_Actor->SetProperty(m_MeshMaterial->m_Prop);
 
   vtkNEW(m_MapperWired);
-  m_MapperWired->SetInput(m_NormalFilter->GetOutput());
+  m_MapperWired->SetInputConnection(m_NormalFilter->GetOutputPort());
   m_MapperWired->SetScalarRange(0,0);
   m_MapperWired->ScalarVisibilityOff();
 
@@ -274,10 +271,10 @@ void mafPipeMeshSlice_BES::ExecutePipe()
 
   // selection highlight
   m_OutlineBox = vtkOutlineCornerFilter::New();
-  m_OutlineBox->SetInput(data);  
+  m_OutlineBox->SetInputData(data);  
 
   m_OutlineMapper = vtkPolyDataMapper::New();
-  m_OutlineMapper->SetInput(m_OutlineBox->GetOutput());
+  m_OutlineMapper->SetInputConnection(m_OutlineBox->GetOutputPort());
 
   m_OutlineProperty = vtkProperty::New();
   m_OutlineProperty->SetColor(1,1,1);
@@ -596,7 +593,6 @@ void mafPipeMeshSlice_BES::SetFlipNormalOff()
 void mafPipeMeshSlice_BES::UpdateScalars()
 //----------------------------------------------------------------------------
 {
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->Update();
   
   UpdateVtkPolyDataNormalFilterActiveScalar();
@@ -608,7 +604,6 @@ void mafPipeMeshSlice_BES::UpdateLUTAndMapperFromNewActiveScalars()
 //----------------------------------------------------------------------------
 {
   vtkUnstructuredGrid *data = vtkUnstructuredGrid::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
-  data->Update();
   double sr[2];
 
   mafString activeScalarName = m_ScalarsVTKName[m_ScalarIndex].c_str();
@@ -632,7 +627,7 @@ void mafPipeMeshSlice_BES::UpdateLUTAndMapperFromNewActiveScalars()
   if(m_ActiveScalarType == CELL_TYPE)
     m_Mapper->SetScalarModeToUseCellData();
 
-  m_Mapper->SetInput(m_NormalFilter->GetOutput());
+  m_Mapper->SetInputConnection(m_NormalFilter->GetOutputPort());
   m_Mapper->SetLookupTable(m_Table);
   m_Mapper->UseLookupTableScalarRangeOn();
   if (DEBUG_MODE)
@@ -704,7 +699,6 @@ void mafPipeMeshSlice_BES::UpdateVtkPolyDataNormalFilterActiveScalar()
 {
 
   vtkUnstructuredGrid *data = vtkUnstructuredGrid::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
-  data->Update();
 
   m_NormalFilter->Update();
 
@@ -714,7 +708,6 @@ void mafPipeMeshSlice_BES::UpdateVtkPolyDataNormalFilterActiveScalar()
   {
     mafString activeScalarName = m_ScalarsVTKName[m_ScalarIndex].c_str();
     data->GetPointData()->SetActiveScalars(activeScalarName.GetCStr());
-    data->Update();
 
     int res = pd->GetPointData()->SetActiveScalars(activeScalarName.GetCStr());
     
@@ -735,8 +728,7 @@ void mafPipeMeshSlice_BES::UpdateVtkPolyDataNormalFilterActiveScalar()
   else if(m_ActiveScalarType == CELL_TYPE)
   {
     mafString activeScalarName = m_ScalarsVTKName[m_ScalarIndex].c_str();
-	data->GetPointData()->SetActiveScalars(activeScalarName.GetCStr());
-    data->Update();
+		data->GetPointData()->SetActiveScalars(activeScalarName.GetCStr());
 
     int res = pd->GetCellData()->SetActiveScalars(activeScalarName.GetCStr());
 
@@ -755,6 +747,5 @@ void mafPipeMeshSlice_BES::UpdateVtkPolyDataNormalFilterActiveScalar()
       mafLogMessage(stringStream.str().c_str());
     }
   }
-  m_NormalFilter->GetOutput()->Update();
   m_NormalFilter->Update();
 }

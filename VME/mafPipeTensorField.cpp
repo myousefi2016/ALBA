@@ -80,7 +80,6 @@ void mafPipeTensorField::Create(mafSceneNode *n)
 //------------------------------------------------------------------------
 {
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
-  ds->Update(); //force its update
 }
 
 //------------------------------------------------------------------------

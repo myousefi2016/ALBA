@@ -90,7 +90,7 @@ void mafVMEOutputMeshTest::TestGetUnstructuredGridData()
   //Delaunay3D is used to triangulate the points
   //the output of the filter is an unstructured grid
   vtkMAFSmartPointer<vtkDelaunay3D> triangulation;
-  triangulation->SetInput(pointsToTriangulate);
+  triangulation->SetInputData(pointsToTriangulate);
   triangulation->SetTolerance(0.01);
   triangulation->SetAlpha(0.2);
   triangulation->BoundingTriangulationOff();
@@ -101,7 +101,6 @@ void mafVMEOutputMeshTest::TestGetUnstructuredGridData()
   mafNEW(vmeMesh);
   vmeMesh->SetData(triangulation->GetOutput(), -1);
 
-  vmeMesh->GetOutput()->GetVTKData()->Update();
   vmeMesh->Update();
 
   mafVMEOutputMesh *outputMesh = NULL;
@@ -129,7 +128,7 @@ void mafVMEOutputMeshTest::TestSetGetMaterial()
   //Delaunay3D is used to triangulate the points
   //the output of the filter is an unstructured grid
   vtkMAFSmartPointer<vtkDelaunay3D> triangulation;
-  triangulation->SetInput(pointsToTriangulate);
+  triangulation->SetInputData(pointsToTriangulate);
   triangulation->SetTolerance(0.01);
   triangulation->SetAlpha(0.2);
   triangulation->BoundingTriangulationOff();
@@ -140,7 +139,6 @@ void mafVMEOutputMeshTest::TestSetGetMaterial()
   mafNEW(vmeMesh);
   vmeMesh->SetData(triangulation->GetOutput(), -1);
 
-  vmeMesh->GetOutput()->GetVTKData()->Update();
   vmeMesh->Update();
 
   mafVMEOutputMesh *outputMesh = (mafVMEOutputMesh*)vmeMesh->GetOutput();

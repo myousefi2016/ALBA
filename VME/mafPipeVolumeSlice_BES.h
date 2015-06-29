@@ -190,12 +190,12 @@ protected:
 //BES: 10.4.2008 - vtkVolumeSlicer was replaced by vtkMAFVolumeSlicer
   vtkMAFVolumeSlicer_BES				 *m_SlicerImage[3];
 	vtkMAFVolumeSlicer_BES				 *m_SlicerPolygonal[3];
-	vtkImageData					 *m_Image[3];
+	//vtkImageData					 *m_Image[3];
 	vtkTexture						 *m_Texture[3];
   vtkLookupTable         *m_ColorLUT;
   vtkLookupTable         *m_CustomColorLUT;
   vtkPolyDataMapper			 *m_SliceMapper[3];
-	vtkPolyData						 *m_SlicePolydata[3];
+	//vtkPolyData						 *m_SlicePolydata[3];
   vtkActor               *m_SliceActor[3];
 	
   vtkActor               *m_VolumeBoxActor;

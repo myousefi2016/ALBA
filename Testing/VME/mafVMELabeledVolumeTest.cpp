@@ -80,7 +80,6 @@ void mafVMELabeledVolumeTest::TestVolumeCopy()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(volumeReader->GetOutput(), 0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->ReparentTo(root);
   volume->Update();
 
@@ -90,7 +89,6 @@ void mafVMELabeledVolumeTest::TestVolumeCopy()
 
   //Get the scalar data of the labeled volume 
   vtkDataSet *datasetLabel = labeled->GetOutput()->GetVTKData();
-  datasetLabel->Update();
   vtkRectilinearGrid *recGrid = (vtkRectilinearGrid*) datasetLabel;
   vtkDataArray *labelScalars;
   labelScalars = recGrid->GetPointData()->GetScalars();
@@ -126,7 +124,6 @@ void mafVMELabeledVolumeTest::TestGenerateLabeledVolume()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(volumeReader->GetOutput(), 0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->ReparentTo(root);
   volume->Update();
 
@@ -148,7 +145,6 @@ void mafVMELabeledVolumeTest::TestGenerateLabeledVolume()
 
   //Get the scalar data of the labeled volume 
   vtkDataSet *datasetLabel = labeled->GetOutput()->GetVTKData();
-  datasetLabel->Update();
   vtkRectilinearGrid *recGrid = (vtkRectilinearGrid*) datasetLabel;
   vtkDataArray *labelScalars;
   labelScalars = recGrid->GetPointData()->GetScalars();
@@ -197,7 +193,6 @@ void mafVMELabeledVolumeTest::TestRemoveLabelTag()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(volumeReader->GetOutput(), 0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->ReparentTo(root);
   volume->Update();
 
@@ -214,7 +209,6 @@ void mafVMELabeledVolumeTest::TestRemoveLabelTag()
 
   //Get the scalar data of the labeled volume 
   vtkDataSet *datasetLabel = labeled->GetOutput()->GetVTKData();
-  datasetLabel->Update();
   vtkRectilinearGrid *recGrid = (vtkRectilinearGrid*) datasetLabel;
   vtkDataArray *labelScalars;
   labelScalars = recGrid->GetPointData()->GetScalars();
@@ -251,7 +245,6 @@ void mafVMELabeledVolumeTest::TestSetLabelTag()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(volumeReader->GetOutput(), 0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->ReparentTo(root);
   volume->Update();
 
@@ -279,7 +272,6 @@ void mafVMELabeledVolumeTest::TestSetLabelTag()
 
   //Get the scalar data of the labeled volume 
   vtkDataSet *datasetLabel = labeled->GetOutput()->GetVTKData();
-  datasetLabel->Update();
   vtkRectilinearGrid *recGrid = (vtkRectilinearGrid*) datasetLabel;
   vtkDataArray *labelScalars;
   labelScalars = recGrid->GetPointData()->GetScalars();
@@ -327,7 +319,6 @@ void mafVMELabeledVolumeTest::TestDeepCopy()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(volumeReader->GetOutput(), 0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->ReparentTo(root);
   volume->Update();
 
@@ -351,7 +342,6 @@ void mafVMELabeledVolumeTest::TestDeepCopy()
 
   //Get the scalar data of the labeled volume 
   vtkDataSet *datasetLabel = labeled->GetOutput()->GetVTKData();
-  datasetLabel->Update();
   vtkRectilinearGrid *recGrid = (vtkRectilinearGrid*) datasetLabel;
   vtkDataArray *labelScalars;
   labelScalars = recGrid->GetPointData()->GetScalars();
@@ -371,7 +361,6 @@ void mafVMELabeledVolumeTest::TestDeepCopy()
   //Get the scalar data of the copied labeled volume 
   vtkDataArray *labelCopiedScalars;
   vtkDataSet *datasetLabelCopied = labeledCopied->GetOutput()->GetVTKData();
-  datasetLabelCopied->Update();
   vtkRectilinearGrid *recGridCopied = (vtkRectilinearGrid*) datasetLabelCopied;
   labelCopiedScalars = recGridCopied->GetPointData()->GetScalars();
   labelScalars->Modified();

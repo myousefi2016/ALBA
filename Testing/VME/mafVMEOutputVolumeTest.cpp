@@ -96,12 +96,10 @@ void mafVMEOutputVolumeTest::TestGetStructuredData()
   imageData->SetSpacing(1.,1.,1.);
   imageData->GetPointData()->AddArray(array);
   imageData->GetPointData()->SetActiveScalars("scalars");
-  imageData->UpdateData();
 
   mafVMEVolumeGray *vmeVolume = NULL;
   mafNEW(vmeVolume);
   vmeVolume->SetData(imageData, 0.);
-  vmeVolume->GetOutput()->GetVTKData()->Update();
   vmeVolume->Update();
 
   mafVMEOutputVolume *outputVolume = NULL;
@@ -161,12 +159,10 @@ void mafVMEOutputVolumeTest::TestGetRectilinearData()
 
   rectilinearGrid->GetPointData()->AddArray(array);
   rectilinearGrid->Modified();
-  rectilinearGrid->Update();
 
   mafVMEVolumeGray *vmeVolume = NULL;
   mafNEW(vmeVolume);
   vmeVolume->SetData(rectilinearGrid, 0.);
-  vmeVolume->GetOutput()->GetVTKData()->Update();
   vmeVolume->Update();
 
   mafVMEOutputVolume *outputVolume = NULL;
@@ -208,7 +204,6 @@ void mafVMEOutputVolumeTest::TestGetUnstructuredData()
   mafVMEVolumeGray *vmeVolume = NULL;
   mafNEW(vmeVolume);
   vmeVolume->mafVMEVolume::SetData(aVoxelGrid, 0.);
-  vmeVolume->GetOutput()->GetVTKData()->Update();
   vmeVolume->Update();
 
   mafVMEOutputVolume *outputVolume = NULL;
@@ -240,12 +235,10 @@ void mafVMEOutputVolumeTest::TestSetGetVolumeMaterial()
   imageData->SetSpacing(1.,1.,1.);
   imageData->GetPointData()->AddArray(array);
   imageData->GetPointData()->SetActiveScalars("scalars");
-  imageData->UpdateData();
 
   mafVMEVolumeGray *vmeVolume = NULL;
   mafNEW(vmeVolume);
   vmeVolume->SetData(imageData, 0.);
-  vmeVolume->GetOutput()->GetVTKData()->Update();
   vmeVolume->Update();
 
   mafVMEOutputVolume *outputVolume = vmeVolume->GetVolumeOutput();
@@ -282,12 +275,10 @@ void mafVMEOutputVolumeTest::TestGetVTKDataTypeAsString_Update()
   imageData->SetSpacing(1.,1.,1.);
   imageData->GetPointData()->AddArray(array);
   imageData->GetPointData()->SetActiveScalars("scalars");
-  imageData->UpdateData();
 
   mafVMEVolumeGray *vmeVolume = NULL;
   mafNEW(vmeVolume);
   vmeVolume->SetData(imageData, 0.);
-  vmeVolume->GetOutput()->GetVTKData()->Update();
   vmeVolume->Update();
 
   mafString className = vmeVolume->GetOutput()->GetVTKData()->GetClassName();

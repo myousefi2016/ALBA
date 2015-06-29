@@ -61,13 +61,11 @@ void mafVMEWrappedMeterTest::TestWithGenericVME()
 	//create a parametric surface
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);	
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->SetParent(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND1;
 	mafNEW(vmeParametricSurfaceEND1);	
-	vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND1->SetParent(storage->GetRoot());
 	vmeParametricSurfaceEND1->Update();
 
@@ -83,7 +81,6 @@ void mafVMEWrappedMeterTest::TestWithGenericVME()
 	wrappedMeter->SetMeterLink("StartVME",vmeParametricSurfaceSTART);
 	wrappedMeter->SetMeterLink("EndVME1",vmeParametricSurfaceEND1);
 	wrappedMeter->SetParent(storage->GetRoot());
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 
@@ -120,20 +117,17 @@ void mafVMEWrappedMeterTest::TestWithGenericVMEWithMiddlePoints()
 	//create a parametric surface
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);	
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->SetParent(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND1;
 	mafNEW(vmeParametricSurfaceEND1);	
-	vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND1->SetParent(storage->GetRoot());
 	vmeParametricSurfaceEND1->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceMiddlePoint;
 	mafNEW(vmeParametricSurfaceMiddlePoint);
 	vmeParametricSurfaceMiddlePoint->SetName("MiddlePoint");
-	vmeParametricSurfaceMiddlePoint->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceMiddlePoint->SetParent(storage->GetRoot());
 	vmeParametricSurfaceMiddlePoint->Update();
 
@@ -153,7 +147,6 @@ void mafVMEWrappedMeterTest::TestWithGenericVMEWithMiddlePoints()
 	//wrappedMeter->PushIdVector(vmeParametricSurfaceMiddlePoint->GetId()); //this is for the vector syncronized with the gui widget, that is not used in gui test
 	
 	wrappedMeter->SetParent(storage->GetRoot());
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 
@@ -211,7 +204,6 @@ void mafVMEWrappedMeterTest::TestWithGenericLandmark()
 	wrappedMeter->SetMeterLink("EndVME1",cloud->GetLandmark(1));
 
 	wrappedMeter->SetParent(storage->GetRoot());
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 
@@ -274,7 +266,6 @@ void mafVMEWrappedMeterTest::TestWithGenericLandmarkWithMiddlePoints()
 
 
 	wrappedMeter->SetParent(storage->GetRoot());
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 
@@ -567,19 +558,16 @@ void mafVMEWrappedMeterTest::TestWrappedGeometry()
   //create a parametric surface
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);	
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->SetParent(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->SetParent(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceWrapped;
   mafNEW(vmeParametricSurfaceWrapped);	
-  vmeParametricSurfaceWrapped->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceWrapped->SetParent(storage->GetRoot());
   vmeParametricSurfaceWrapped->Update();
 
@@ -604,7 +592,6 @@ void mafVMEWrappedMeterTest::TestWrappedGeometry()
   wrappedMeter->SetWrappedMode(mafVMEWrappedMeter::AUTOMATED_WRAP);
   wrappedMeter->SetParent(storage->GetRoot());
   
-  wrappedMeter->GetOutput()->GetVTKData()->Update();
   wrappedMeter->Modified();
   wrappedMeter->Update();
 
@@ -631,7 +618,6 @@ void mafVMEWrappedMeterTest::TestWrappedGeometry()
   wrappedMeter2->SetParent(storage->GetRoot());
 
   wrappedMeter2->SetWrapSide(1);
-  wrappedMeter2->GetOutput()->GetVTKData()->Update();
   wrappedMeter2->Modified();
   wrappedMeter2->Update();
 

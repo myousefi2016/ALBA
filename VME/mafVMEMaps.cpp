@@ -246,9 +246,8 @@ void mafVMEMaps::InternalPreUpdate()
   if(!vme)
     return;
   vtkPolyData *data = (vtkPolyData *)vme->GetOutput()->GetVTKData();
-  data->Update();
 
-  m_Normals->SetInput(data);
+  m_Normals->SetInputData(data);
   m_Normals->ComputePointNormalsOn();
   m_Normals->SplittingOff();
   m_Normals->Update();
@@ -270,10 +269,9 @@ void mafVMEMaps::InternalPreUpdate()
     }
 
     vtkDataSet *datasetvol = ((mafVME*)m_Volume)->GetOutput()->GetVTKData();
-    datasetvol->Update();
     m_DistanceFilter->SetDistanceModeToScalar();
     m_DistanceFilter->SetSource(datasetvol);
-    m_DistanceFilter->SetInput((vtkDataSet::SafeDownCast(m_Normals->GetOutput())));
+    m_DistanceFilter->SetInputConnection(m_Normals->GetOutputPort());
     m_DistanceFilter->SetMaxDistance(m_MaxDistance);
     m_DistanceFilter->SetThreshold(m_FirstThreshold);
     m_DistanceFilter->SetInputMatrix(vme->GetOutput()->GetAbsMatrix()->GetVTKMatrix());
@@ -289,8 +287,7 @@ void mafVMEMaps::InternalPreUpdate()
 
     if(polyout = m_DistanceFilter->GetPolyDataOutput())
     {
-      polyout->Update();
-
+      
       scalars->DeepCopy(polyout->GetPointData()->GetScalars());
 
       scalars->SetName("Distance_density");
@@ -301,7 +298,6 @@ void mafVMEMaps::InternalPreUpdate()
       m_PolyData->GetPointData()->SetActiveScalars("Distance_density");
 
       m_PolyData->Modified();
-      m_PolyData->Update();
     }
 
 //     if(polyout)
@@ -331,10 +327,6 @@ void mafVMEMaps::InternalPreUpdate()
 void mafVMEMaps::InternalUpdate()
 //-------------------------------------------------------------------------
 {
-  if (m_PolyData)
-  {
-    m_PolyData->Update();
-  }
 
 }
 
@@ -583,7 +575,6 @@ void mafVMEMaps::UpdateFilter()
   if(!vme)
     return;
   vtkPolyData *data = (vtkPolyData *)vme->GetOutput()->GetVTKData();
-  data->Update();
 
   //m_Normals->SetInput(data);
   //m_Normals->ComputePointNormalsOn();
@@ -607,10 +598,9 @@ void mafVMEMaps::UpdateFilter()
     }
 
     vtkDataSet *datasetvol = ((mafVME*)m_Volume)->GetOutput()->GetVTKData();
-    datasetvol->Update();
     m_DistanceFilter->SetDistanceModeToScalar();
     m_DistanceFilter->SetSource(datasetvol);
-    m_DistanceFilter->SetInput((vtkDataSet::SafeDownCast(m_Normals->GetOutput())));
+    m_DistanceFilter->SetInputConnection(m_Normals->GetOutputPort());
     m_DistanceFilter->SetMaxDistance(m_MaxDistance);
     m_DistanceFilter->SetThreshold(m_FirstThreshold);
     m_DistanceFilter->SetInputMatrix(vme->GetOutput()->GetAbsMatrix()->GetVTKMatrix());
@@ -621,7 +611,6 @@ void mafVMEMaps::UpdateFilter()
 
     if(polyout = m_DistanceFilter->GetPolyDataOutput())
     {
-      polyout->Update();
 
       scalars->DeepCopy(polyout->GetPointData()->GetScalars());
 
@@ -633,7 +622,6 @@ void mafVMEMaps::UpdateFilter()
       m_PolyData->GetPointData()->SetActiveScalars("Distance_density");
 
       m_PolyData->Modified();
-      m_PolyData->Update();
     }
   }
 
