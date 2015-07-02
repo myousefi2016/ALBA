@@ -76,7 +76,6 @@ void mafOpCreateEditSkeletonTest::TestOpRun()
   importer->SetFileName(fileName);
   importer->ImportVTK();
   mafVMEPolylineGraph *graph=mafVMEPolylineGraph::SafeDownCast(importer->GetOutput());
-  graph->GetOutput()->GetVTKData()->Update();
   
   CPPUNIT_ASSERT(graph!=NULL);
   CPPUNIT_ASSERT(graph->GetOutput()->GetVTKData()!=NULL);

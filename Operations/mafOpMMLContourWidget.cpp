@@ -78,7 +78,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_PlaneSource->SetYResolution(4);
   this->m_PlaneOutline = vtkPolyData::New();
   this->m_PlaneOutlineTubes = vtkTubeFilter::New(); // MK
-  this->m_PlaneOutlineTubes->SetInput(this->m_PlaneOutline); // Mk
+  this->m_PlaneOutlineTubes->SetInputData(this->m_PlaneOutline); // Mk
   
   vtkPoints *pts = vtkPoints::New();
   pts->SetNumberOfPoints(4);
@@ -94,7 +94,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   outline->Delete();
   
   this->m_PlaneMapper = vtkPolyDataMapper::New();
-  this->m_PlaneMapper->SetInput(this->m_PlaneSource->GetOutput());
+  this->m_PlaneMapper->SetInputConnection(this->m_PlaneSource->GetOutputPort());
   this->m_PlaneActor = vtkActor::New();
   this->m_PlaneActor->SetMapper(this->m_PlaneMapper);
 
@@ -108,7 +108,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
     this->m_HandleGeometry[i]->SetThetaResolution(16);
     this->m_HandleGeometry[i]->SetPhiResolution(8);
     this->m_HandleMapper[i] = vtkPolyDataMapper::New();
-    this->m_HandleMapper[i]->SetInput(this->m_HandleGeometry[i]->GetOutput());
+    this->m_HandleMapper[i]->SetInputConnection(this->m_HandleGeometry[i]->GetOutputPort());
     this->m_Handle[i] = vtkActor::New();
     this->m_Handle[i]->SetMapper(this->m_HandleMapper[i]);
     }
@@ -125,7 +125,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_RotationalHandleGeometry = vtkSphereSource::New();
   this->m_RotationalHandleGeometry->SetThetaResolution(16);
   this->m_RotationalHandleGeometry->SetPhiResolution(8);
-  this->m_RotationalHandleMapper->SetInput(this->m_RotationalHandleGeometry->GetOutput());
+  this->m_RotationalHandleMapper->SetInputConnection(this->m_RotationalHandleGeometry->GetOutputPort());
   this->m_RotationalHandle = vtkActor::New();
   this->m_RotationalHandle->SetMapper(this->m_RotationalHandleMapper);
 
@@ -138,7 +138,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_CenterHandleGeometry = vtkSphereSource::New();
   this->m_CenterHandleGeometry->SetThetaResolution(16);
   this->m_CenterHandleGeometry->SetPhiResolution(8);
-  this->m_CenterHandleMapper->SetInput(this->m_CenterHandleGeometry->GetOutput());
+  this->m_CenterHandleMapper->SetInputConnection(this->m_CenterHandleGeometry->GetOutputPort());
   this->m_CenterHandle = vtkActor::New();
   this->m_CenterHandle->SetMapper(this->m_CenterHandleMapper);
 
@@ -149,7 +149,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_LineSource = vtkLineSource::New();
   this->m_LineSource->SetResolution(1);
   this->m_LineMapper = vtkPolyDataMapper::New();
-  this->m_LineMapper->SetInput(this->m_LineSource->GetOutput());
+  this->m_LineMapper->SetInputConnection(this->m_LineSource->GetOutputPort());
   this->m_LineActor = vtkActor::New();
   this->m_LineActor->SetMapper(this->m_LineMapper);
 
@@ -157,7 +157,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_ConeSource->SetResolution(12);
   this->m_ConeSource->SetAngle(25.0);
   this->m_ConeMapper = vtkPolyDataMapper::New();
-  this->m_ConeMapper->SetInput(this->m_ConeSource->GetOutput());
+  this->m_ConeMapper->SetInputConnection(this->m_ConeSource->GetOutputPort());
   this->m_ConeActor = vtkActor::New();
   this->m_ConeActor->SetMapper(this->m_ConeMapper);
 
@@ -165,7 +165,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_LineSource2 = vtkLineSource::New();
   this->m_LineSource2->SetResolution(1);
   this->m_LineMapper2 = vtkPolyDataMapper::New();
-  this->m_LineMapper2->SetInput(this->m_LineSource2->GetOutput());
+  this->m_LineMapper2->SetInputConnection(this->m_LineSource2->GetOutputPort());
   this->m_LineActor2 = vtkActor::New();
   this->m_LineActor2->SetMapper(this->m_LineMapper2);
 
@@ -173,7 +173,7 @@ mafOpMMLContourWidget::mafOpMMLContourWidget()
   this->m_ConeSource2->SetResolution(12);
   this->m_ConeSource2->SetAngle(25.0);
   this->m_ConeMapper2 = vtkPolyDataMapper::New();
-  this->m_ConeMapper2->SetInput(this->m_ConeSource2->GetOutput());
+  this->m_ConeMapper2->SetInputConnection(this->m_ConeSource2->GetOutputPort());
   this->m_ConeActor2 = vtkActor::New();
   this->m_ConeActor2->SetMapper(this->m_ConeMapper2);
 
@@ -673,7 +673,7 @@ void mafOpMMLContourWidget::OnLeftButtonDown()
   if ( path != NULL )
     {
     this->m_State = mafOpMMLContourWidget::Moving;
-    this->HighlightHandle(path->GetFirstNode()->GetProp());
+    this->HighlightHandle(path->GetFirstNode()->GetViewProp());
 
 	if (GetScalingMode())
 	{
@@ -712,7 +712,7 @@ void mafOpMMLContourWidget::OnLeftButtonDown()
     path = this->m_PlanePicker->GetPath();
     if ( path != NULL )
       {
-      vtkProp *prop = path->GetFirstNode()->GetProp();
+      vtkProp *prop = path->GetFirstNode()->GetViewProp();
       if (/* prop == this->ConeActor || prop == this->LineActor ||
            prop == this->ConeActor2 || prop == this->LineActor2*/
 		   prop == this->m_RotationalHandle)
@@ -1322,7 +1322,7 @@ void mafOpMMLContourWidget::PlaceWidget(double bds[6])
 
   this->AdjustBounds(bds, bounds, center);
 
-  if (this->Input || this->Prop3D)
+  if (this->GetInput() || this->Prop3D)
     {
     if ( this->m_NormalToYAxis )
       {
@@ -1355,7 +1355,7 @@ void mafOpMMLContourWidget::PlaceWidget(double bds[6])
     }
   
 
-  if (this->Input || this->Prop3D)
+  if (this->GetInput() || this->Prop3D)
     {
     this->InitialLength = sqrt((bounds[1]-bounds[0])*(bounds[1]-bounds[0]) +
                                (bounds[3]-bounds[2])*(bounds[3]-bounds[2]) +
@@ -1383,6 +1383,14 @@ void mafOpMMLContourWidget::PlaceWidget(double bds[6])
   // Set the radius on the sphere handles
   this->SizeHandles();
 }
+
+vtkPolyDataAlgorithm* mafOpMMLContourWidget::GetPolyDataAlgorithm()
+{
+	//TODO VTK6 
+	//manage return value
+	return NULL;
+}
+
 //----------------------------------------------------------------------------
 void mafOpMMLContourWidget::SizeHandles()
 //----------------------------------------------------------------------------
@@ -1427,21 +1435,21 @@ void mafOpMMLContourWidget::SelectRepresentation()
     //this->PlaneOutlineTubes->SetNumberOfSides(6);
 	//this->PlaneMapper->SetInput( this->PlaneOutlineTubes->GetOutput());
 
-    this->m_PlaneMapper->SetInput( this->m_PlaneOutline);
+    this->m_PlaneMapper->SetInputData( this->m_PlaneOutline);
 	this->m_PlaneActor->GetProperty()->SetRepresentationToWireframe();
     }
   else if ( this->m_Representation == VTK_PLANE_SURFACE )
     {
     this->CurrentRenderer->RemoveActor(this->m_PlaneActor);
     this->CurrentRenderer->AddActor(this->m_PlaneActor);
-    this->m_PlaneMapper->SetInput( this->m_PlaneSource->GetOutput() );
+    this->m_PlaneMapper->SetInputConnection( this->m_PlaneSource->GetOutputPort() );
     this->m_PlaneActor->GetProperty()->SetRepresentationToSurface();
     }
   else //( this->Representation == VTK_PLANE_WIREFRAME )
     {
     this->CurrentRenderer->RemoveActor(this->m_PlaneActor);
     this->CurrentRenderer->AddActor(this->m_PlaneActor);
-    this->m_PlaneMapper->SetInput( this->m_PlaneSource->GetOutput() );
+    this->m_PlaneMapper->SetInputConnection( this->m_PlaneSource->GetOutputPort() );
     this->m_PlaneActor->GetProperty()->SetRepresentationToWireframe();
     }
 }

@@ -325,10 +325,13 @@ IF (MAF_USE_ITK)
 ENDIF (MAF_USE_ITK)
 
 # List libraries that are needed by this project.
-SET(PROJECT_LIBS "mafVME" "mafInteraction")
+SET(PROJECT_LIBS mafVME mafInteraction)
 
 IF (MAF_USE_VTK)
-  SET(PROJECT_LIBS ${PROJECT_LIBS} mafCommon vtkCommon vtkMAF)
+	find_package(VTK 6.0 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+
+  SET(PROJECT_LIBS #${PROJECT_LIBS}  ${VTK_LIBRARIES} vtkMAF mafCommon)
 ENDIF (MAF_USE_VTK)
 
 # Create the library.

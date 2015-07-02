@@ -239,9 +239,9 @@ void mafOpFilterVolume::OnSmooth()
 
   vtkMAFSmartPointer<vtkImageGaussianSmooth> smoothFilter;
 	if (m_ApplyDirectlyOnInput)
-    smoothFilter->SetInput(m_InputData);
+    smoothFilter->SetInputData(m_InputData);
   else
-    smoothFilter->SetInput(m_ResultImageData);
+    smoothFilter->SetInputData(m_ResultImageData);
   smoothFilter->SetDimensionality(m_Dimensionality);
   smoothFilter->SetRadiusFactors(m_SmoothRadius);
   smoothFilter->SetStandardDeviations(m_StandardDeviation);
@@ -283,9 +283,9 @@ void mafOpFilterVolume::OnMedian()
 
   vtkMAFSmartPointer<vtkImageMedian3D> medianFilter;
   if (m_ApplyDirectlyOnInput)
-    medianFilter->SetInput(m_InputData);
+    medianFilter->SetInputData(m_InputData);
   else
-    medianFilter->SetInput(m_ResultImageData);
+    medianFilter->SetInputData(m_ResultImageData);
   medianFilter->SetKernelSize(m_KernelSize[0],m_KernelSize[1],m_KernelSize[2]);
   medianFilter->Update();
 

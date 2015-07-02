@@ -62,7 +62,6 @@ void mafOpImporterRAWImagesTest::Test()
 
 	CPPUNIT_ASSERT(VME->IsA("mafVMEVolumeGray"));
 	vtkRectilinearGrid *Data=vtkRectilinearGrid::SafeDownCast(VME->GetOutput()->GetVTKData());
-	Data->UpdateData();
 
 	double sr[2];
 	Data->GetScalarRange(sr);

@@ -79,7 +79,6 @@ void mafOpFlipNormalsTest::TestOpRun()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 
@@ -127,7 +126,6 @@ void mafOpFlipNormalsTest::TestFlipNormals()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 
@@ -138,7 +136,6 @@ void mafOpFlipNormalsTest::TestFlipNormals()
 
   vtkMAFSmartPointer<vtkPolyData> polydataInput;
   polydataInput->DeepCopy(mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData());
-  polydataInput->Update();
 
   flip->SetSeed(0);
   flip->SetDiameter(0.01);
@@ -148,7 +145,6 @@ void mafOpFlipNormalsTest::TestFlipNormals()
 
   vtkMAFSmartPointer<vtkPolyData> polydataOutput;
   polydataOutput->DeepCopy(mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData());
-  polydataOutput->Update();
   
   for (int i=0;i<mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData()->GetNumberOfCells();i++)
   {
@@ -188,7 +184,6 @@ void mafOpFlipNormalsTest::TestModifyAllNormal()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 
@@ -199,7 +194,6 @@ void mafOpFlipNormalsTest::TestModifyAllNormal()
 
   vtkMAFSmartPointer<vtkPolyData> polydataInput;
   polydataInput->DeepCopy(mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData());
-  polydataInput->Update();
 
   flip->SetSeed(0);
   flip->SetDiameter(1);
@@ -210,7 +204,6 @@ void mafOpFlipNormalsTest::TestModifyAllNormal()
 
   vtkMAFSmartPointer<vtkPolyData> polydataOutput;
   polydataOutput->DeepCopy(mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData());
-  polydataOutput->Update();
 
   for (int i=0;i<mafVMESurface::SafeDownCast(flip->GetInput())->GetOutput()->GetVTKData()->GetNumberOfCells();i++)
   {

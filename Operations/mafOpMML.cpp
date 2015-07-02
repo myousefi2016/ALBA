@@ -388,9 +388,9 @@ void mafOpMML::OnRegistrationOK()
 
   // muscle: deformed version
   vtkTransformPolyDataFilter *deformedpd = vtkTransformPolyDataFilter::New();
-  deformedpd->SetInput(m_Model->GetMuscleTransform2PolyDataFilter()->GetOutput());
-  deformedpd->SetTransform(deformedt);
-  deformedpd->Update();
+	deformedpd->SetInputConnection(m_Model->GetMuscleTransform2PolyDataFilter()->GetOutputPort());
+	deformedpd->SetTransform(deformedt);
+	deformedpd->Update();
 
   // vme
   mafSmartPointer<mafVMESurface> vme ;
@@ -770,7 +770,7 @@ void mafOpMML::OnMuscleSelection()
   vtkTransform *transform = vtkTransform::New();
   vtkTransformPolyDataFilter *musclepd = vtkTransformPolyDataFilter::New();
   transform->SetMatrix(m_Surface->GetOutput()->GetAbsMatrix()->GetVTKMatrix());
-  musclepd->SetInput((vtkPolyData*)m_Surface->GetOutput()->GetVTKData());
+  musclepd->SetInputData((vtkPolyData*)m_Surface->GetOutput()->GetVTKData());
   musclepd->SetTransform(transform);
   musclepd->Update();
 
@@ -2747,7 +2747,7 @@ mafRWI* mafOpMML::CreateParameterViewmafRWI(wxString lab, float r, float g, floa
   ts->SetText(lab.c_str());
 
   vtkPolyDataMapper2D *mapper = vtkPolyDataMapper2D::New();
-  mapper->SetInput(ts->GetOutput());
+  mapper->SetInputConnection(ts->GetOutputPort());
 
   vtkActor2D *labactor = vtkActor2D::New();
   labactor->SetMapper(mapper);

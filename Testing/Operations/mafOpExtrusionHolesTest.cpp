@@ -75,7 +75,6 @@ void mafOpExtrusionHolesTest::TestExtractFreeEdge()
 	importer->SetFileName(filename.GetCStr());
 	importer->OpRun();
 	mafVMESurface *cube=mafVMESurface::SafeDownCast(importer->GetOutput());
-	cube->GetOutput()->GetVTKData()->Update();
 	cube->Update();
 
 	mafOpExtrusionHoles *extrusion = new mafOpExtrusionHoles();
@@ -113,13 +112,11 @@ void mafOpExtrusionHolesTest::TestExtrude()
 	importer->SetFileName(filename.GetCStr());
 	importer->OpRun();
 	mafVMESurface *cube=mafVMESurface::SafeDownCast(importer->GetOutput());
-	cube->GetOutput()->GetVTKData()->Update();
 	cube->Update();
 
 	double bounds[6];
 
 	vtkPolyData *polydata = vtkPolyData::SafeDownCast(cube->GetOutput()->GetVTKData());
-	polydata->Update();
 	
 	polydata->GetBounds(bounds);
 
@@ -134,7 +131,6 @@ void mafOpExtrusionHolesTest::TestExtrude()
 	extrusion->Extrude();
 	extrusion->SaveExtrusion();
 	vtkPolyData *resultPolydata=extrusion->GetExtrutedSurface();
-	resultPolydata->Update();
 
 	resultPolydata->GetBounds(bounds);
 

@@ -184,7 +184,7 @@ void mafOpImporterRAWVolume_BES::OpRun()
 	m_Texture->SetLookupTable((vtkLookupTable *)m_LookupTable);	
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-	mapper ->SetInput(m_Plane->GetOutput());
+	mapper ->SetInputConnection(m_Plane->GetOutputPort());
 
 	vtkNEW(m_Actor);
 	m_Actor->SetMapper(mapper);
@@ -587,14 +587,14 @@ void mafOpImporterRAWVolume_BES::UpdateReader()
 
 		UpdateReaderT< vtkMAFLargeImageReader >(m_ReaderLarge);		
 		m_ReaderLarge->GetOutput()->GetSnapshot()->GetScalarRange(range);
-		m_Texture->SetInput((vtkImageData*)m_ReaderLarge->GetOutput()->GetSnapshot());
+		m_Texture->SetInputData((vtkImageData*)m_ReaderLarge->GetOutput()->GetSnapshot());
 	}
 	else
 #endif // VME_VOLUME_LARGE
 	{    
 		UpdateReaderT< vtkImageReader >(m_Reader);
 		m_Reader->GetOutput()-> GetScalarRange(range);
-		m_Texture->SetInput((vtkImageData*)m_Reader->GetOutput());
+		m_Texture->SetInputData((vtkImageData*)m_Reader->GetOutput());
 	}		
 
 	m_LookupTable->SetTableRange(range);
@@ -626,7 +626,6 @@ vtkDataObject* mafOpImporterRAWVolume_BES::ImportT(TR* reader)
 	vtkDataObject* ret = reader->GetOutput();
 	ret->Register(NULL);		//This is here to prevent the deletion
 	reader->SetOutput(NULL);	//Disconnect the reader from the output
-	ret->SetSource(NULL);		//Disconnect the output from the reader
 	return ret;					//Reader should be destroyed here, image should be preserved
 }
 
@@ -788,7 +787,7 @@ bool mafOpImporterRAWVolume_BES::Import()
 #endif
 
 		vtkMAFSmartPointer<vtkImageToStructuredPoints> image_to_sp;
-		image_to_sp->SetInput(img);
+		image_to_sp->SetInputData(img);
 		img->Delete();	//we no longer need img, release it
 
 		image_to_sp->Update();
@@ -796,7 +795,7 @@ bool mafOpImporterRAWVolume_BES::Import()
 		if (m_BuildRectilinearGrid)
 		{
 			// conversion from vtkStructuredPoints to vtkRectilinearGrid
-			vtkMAFSmartPointer<vtkStructuredPoints> structured_data = image_to_sp->GetOutput();	//image_to_sp->Output +1
+			vtkMAFSmartPointer<vtkImageData> structured_data = image_to_sp->GetOutput();	//image_to_sp->Output +1
 			vtkMAFSmartPointer<vtkPointData> data = structured_data->GetPointData();
 			vtkMAFSmartPointer<vtkDataArray> scalars = data->GetScalars();
 

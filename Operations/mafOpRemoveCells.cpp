@@ -311,11 +311,11 @@ void mafOpRemoveCells::CreateSurfacePipeline()
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(((mafVME *)m_Input)->GetOutput()->GetVTKData());
 
   m_Rcf = vtkMAFRemoveCellsFilter::New();
-  m_Rcf->SetInput(polydata);
+  m_Rcf->SetInputData(polydata);
   m_Rcf->Update();
 
   m_PolydataMapper	= vtkPolyDataMapper::New();
-  m_PolydataMapper->SetInput(m_Rcf->GetOutput());
+  m_PolydataMapper->SetInputConnection(m_Rcf->GetOutputPort());
   m_PolydataMapper->ScalarVisibilityOn();
 
   m_PolydataActor = vtkActor::New();

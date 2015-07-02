@@ -336,15 +336,15 @@ void mafOpSmoothSurfaceCells::CreateCellFilters()
 //----------------------------------------------------------------------------
 {
   m_CellFilter = vtkMAFCellsFilter::New();
-  m_CellFilter->SetInput(m_ResultPolydata);
+  m_CellFilter->SetInputData(m_ResultPolydata);
   m_CellFilter->Update();
 
   m_RemoveSelectedCells = vtkMAFRemoveCellsFilter::New();
-  m_RemoveSelectedCells->SetInput(m_ResultPolydata);
+  m_RemoveSelectedCells->SetInputData(m_ResultPolydata);
   m_RemoveSelectedCells->Update();
 
   m_RemoveUnSelectedCells = vtkMAFRemoveCellsFilter::New();
-  m_RemoveUnSelectedCells->SetInput(m_ResultPolydata);
+  m_RemoveUnSelectedCells->SetInputData(m_ResultPolydata);
   m_RemoveUnSelectedCells->Update();
 }
 
@@ -371,7 +371,7 @@ void mafOpSmoothSurfaceCells::CreateSurfacePipeline()
 	  if(m_PolydataMapper	==NULL)
 		  m_PolydataMapper	= vtkPolyDataMapper::New();
 		
-	  m_PolydataMapper->SetInput(m_CellFilter->GetOutput());
+	  m_PolydataMapper->SetInputConnection(m_CellFilter->GetOutputPort());
 		m_PolydataMapper->ScalarVisibilityOn();
 	
 	  if(m_PolydataActor == NULL)
@@ -476,7 +476,6 @@ void mafOpSmoothSurfaceCells::OnEvent(mafEventBase *maf_event)
 		case ID_RESET:
 			{
 				m_ResultPolydata->DeepCopy(m_OriginalPolydata);
-				m_ResultPolydata->Update();
 				DestroyCellFilters();
 				CreateSurfacePipeline();
 				InitializeMesh();
@@ -708,14 +707,12 @@ void mafOpSmoothSurfaceCells::SmoothCells()
 
   vtkMAFSmartPointer<vtkPolyData> toSmoothPolyData;
   toSmoothPolyData->DeepCopy(m_RemoveUnSelectedCells->GetOutput());
-  toSmoothPolyData->Update();
 
   m_RemoveSelectedCells->RemoveMarkedCells();
   m_RemoveSelectedCells->Update();
 
   vtkMAFSmartPointer<vtkPolyData> polyData;
   polyData->DeepCopy(m_RemoveSelectedCells->GetOutput());
-  polyData->Update();
 
 
   /*vtkMAFSmartPointer<vtkLinearSubdivisionFilter> linearSubdivisionFilter;
@@ -726,7 +723,7 @@ void mafOpSmoothSurfaceCells::SmoothCells()
   int num = linearSubdivisionFilter->GetOutput()->GetNumberOfPoints();*/
 
   vtkMAFSmartPointer<vtkSmoothPolyDataFilter> smoothFilter;
-  smoothFilter->SetInput(toSmoothPolyData);
+  smoothFilter->SetInputData(toSmoothPolyData);
   smoothFilter->SetNumberOfIterations(m_SmoothParameterNumberOfInteractions);
   smoothFilter->BoundarySmoothingOff();//always true
   smoothFilter->FeatureEdgeSmoothingOn();
@@ -734,19 +731,18 @@ void mafOpSmoothSurfaceCells::SmoothCells()
   smoothFilter->Update();
 
   vtkMAFSmartPointer<vtkAppendPolyData> appendFilter; 
-  appendFilter->AddInput(smoothFilter->GetOutput());
-  appendFilter->AddInput(polyData);
+  appendFilter->AddInputConnection(smoothFilter->GetOutputPort());
+  appendFilter->AddInputData(polyData);
   appendFilter->Update();
 
   vtkMAFSmartPointer<vtkCleanPolyData> cleanFilter; 
-  cleanFilter->SetInput(appendFilter->GetOutput());
+  cleanFilter->SetInputConnection(appendFilter->GetOutputPort());
   cleanFilter->Update();
 
 
   m_ResultPolydata->DeepCopy(cleanFilter->GetOutput());
 
 	m_ResultPolydata->Modified();
-	m_ResultPolydata->Update();
 
   DestroyCellFilters();
 

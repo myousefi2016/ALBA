@@ -207,7 +207,7 @@ void mafOpEditNormals::OnGenerateNormals()
 	}
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normalFilter;
-	normalFilter->SetInput(m_ResultPolydata);
+	normalFilter->SetInputData(m_ResultPolydata);
 
 	normalFilter->ComputeCellNormalsOn();
 

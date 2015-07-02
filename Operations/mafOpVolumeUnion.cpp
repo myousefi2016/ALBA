@@ -144,7 +144,6 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 	if(m_FirstVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 	{
 	  rgrid_firstvol->DeepCopy(m_FirstVMEVolume->GetVolumeOutput()->GetRectilinearData());
-	  rgrid_firstvol->Update();
 	}
 	//else
 	//{
@@ -163,7 +162,6 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 	if(m_SecondVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 	{
 	  rgrid_secondvol->DeepCopy(m_SecondVMEVolume->GetVolumeOutput()->GetRectilinearData());
-	  rgrid_secondvol->Update();
 	}
 	//else
 	//{
@@ -229,7 +227,6 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 	rgrid_totvol->SetYCoordinates(daVector[1]);
 	rgrid_totvol->SetZCoordinates(daVector[2]);
 
-	rgrid_totvol->Update();
 
 	if(!this->m_TestMode)
 	{
@@ -272,22 +269,20 @@ void mafOpVolumeUnion::BuildVolumeUnion()
       rgrid_firstvolstr->SetOrigin(bounds_firstvol[0],bounds_firstvol[2],bounds_firstvol[4]);
 	  rgrid_firstvolstr->SetSpacing(m_FirstVMEVolume->GetVolumeOutput()->GetStructuredData()->GetSpacing());
 	  rgrid_firstvolstr->GetPointData()->SetScalars(m_FirstVMEVolume->GetVolumeOutput()->GetStructuredData()->GetPointData()->GetScalars());
-	  rgrid_firstvolstr->UpdateData();
-	  rgrid_firstvolstr->Update();
 	}
 
 	
 	// projection of the rgrid_firstvol selected into the rgrid_totvol
 	vtkMAFSmartPointer<vtkProbeFilter> sampleVolume1;
-	sampleVolume1->SetInput(rgrid_totvol);
+	sampleVolume1->SetInputData(rgrid_totvol);
 	//The source is the dataset to probe
 	if(m_FirstVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 	{
-	  sampleVolume1->SetSource(rgrid_firstvol);
+	  sampleVolume1->SetSourceData(rgrid_firstvol);
 	}
 	else
 	{
-		sampleVolume1->SetSource(rgrid_firstvolstr);
+		sampleVolume1->SetSourceData(rgrid_firstvolstr);
 	}
 	sampleVolume1->Update();
 
@@ -333,23 +328,21 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 		rgrid_secondvolstr->SetOrigin(bounds_secondvol[0],bounds_secondvol[2],bounds_secondvol[4]);
 		rgrid_secondvolstr->SetSpacing(m_SecondVMEVolume->GetVolumeOutput()->GetStructuredData()->GetSpacing());
 		rgrid_secondvolstr->GetPointData()->SetScalars(m_SecondVMEVolume->GetVolumeOutput()->GetStructuredData()->GetPointData()->GetScalars());
-		rgrid_secondvolstr->UpdateData();
-		rgrid_secondvolstr->Update();
 
 	}
 	//----
 
 	// projection of the rgrid_secondvol selected into the rgrid_totvol
 	vtkMAFSmartPointer<vtkProbeFilter> sampleVolume2;
-	sampleVolume2->SetInput(rgrid_totvol);
+	sampleVolume2->SetInputData(rgrid_totvol);
 	//The source is the dataset to probe
 	if(m_SecondVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 	{
-	  sampleVolume2->SetSource(rgrid_secondvol);
+	  sampleVolume2->SetSourceData(rgrid_secondvol);
 	}
 	else
 	{
-      sampleVolume2->SetSource(rgrid_secondvolstr);
+      sampleVolume2->SetSourceData(rgrid_secondvolstr);
 	}
 	sampleVolume2->Update();
 
@@ -372,7 +365,6 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 	  m_VolUnionRG->SetXCoordinates(rgrid_totvol->GetXCoordinates());
 	  m_VolUnionRG->SetYCoordinates(rgrid_totvol->GetYCoordinates());
 	  m_VolUnionRG->SetZCoordinates(rgrid_totvol->GetZCoordinates());
-	  m_VolUnionRG->Update();
 	}
 	else
 	{
@@ -380,7 +372,6 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 		m_VolUnionRGstr->SetDimensions(resolution[0],resolution[1],resolution[2]);
 		m_VolUnionRGstr->SetOrigin(m_bounds[0],m_bounds[2],m_bounds[4]);
 		m_VolUnionRGstr->SetSpacing(m_spacingXYZ);
-		m_VolUnionRGstr->Update();
 	}
 
 
@@ -405,12 +396,10 @@ void mafOpVolumeUnion::BuildVolumeUnion()
 	if(m_FirstVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 	{
 	  m_VolUnionRG->GetPointData()->SetScalars(rgarray_VolUnionRG);
-      m_VolUnionRG->Update();
 	}
 	else
 	{
 	  m_VolUnionRGstr->GetPointData()->SetScalars(rgarray_VolUnionRG);
-	  m_VolUnionRGstr->Update();
 	}
 
 	if(!this->m_TestMode)
@@ -438,15 +427,13 @@ void mafOpVolumeUnion::OpDo()
 //----------------------------------------------------------------------------
 {
 	if(m_VolUnionRG || m_VolUnionRGstr) {
-		((mafVMEVolume*)m_Input)->GetOutput()->GetVTKData()->SetUpdateExtentToWholeExtent();
-
 		if(m_FirstVMEVolume->GetOutput()->GetVTKData()->IsA("vtkRectilinearGrid"))
 		{
-		  ((mafVMEVolume*)m_Input)->SetData(m_VolUnionRG,((mafVME*)m_Input)->GetTimeStamp());
+			((mafVMEVolume*)m_Input)->SetData(m_VolUnionRG,((mafVME*)m_Input)->GetTimeStamp());
 		}
 		else
 		{
-          ((mafVMEVolume*)m_Input)->SetData(m_VolUnionRGstr,((mafVME*)m_Input)->GetTimeStamp());
+      ((mafVMEVolume*)m_Input)->SetData(m_VolUnionRGstr,((mafVME*)m_Input)->GetTimeStamp());
 		}
 	}
 
@@ -607,12 +594,10 @@ void mafOpVolumeUnion::OnEvent(mafEventBase *maf_event)
 						m_FirstVMEVolume->GetVolumeOutput()->Update();
 						if(m_FirstVMEVolume->GetVolumeOutput()->GetVTKData()->GetDataObjectType() == VTK_RECTILINEAR_GRID) 
 						{
-						  m_FirstVMEVolume->GetVolumeOutput()->GetRectilinearData()->UpdateData();
-					      m_FirstVMEVolume->GetVolumeOutput()->GetRectilinearData()->GetDimensions(dimXYZ_firstvolume);
+				      m_FirstVMEVolume->GetVolumeOutput()->GetRectilinearData()->GetDimensions(dimXYZ_firstvolume);
 						}
 						else
 						{
-							m_FirstVMEVolume->GetVolumeOutput()->GetStructuredData()->UpdateData();
 							m_FirstVMEVolume->GetVolumeOutput()->GetStructuredData()->GetDimensions(dimXYZ_firstvolume);
 						}
 					    int dimXYZ_secondvolume[3];
@@ -620,12 +605,10 @@ void mafOpVolumeUnion::OnEvent(mafEventBase *maf_event)
 						m_SecondVMEVolume->GetVolumeOutput()->Update();
 						if(m_SecondVMEVolume->GetVolumeOutput()->GetVTKData()->GetDataObjectType() == VTK_RECTILINEAR_GRID) 
 						{
-						  m_SecondVMEVolume->GetVolumeOutput()->GetRectilinearData()->UpdateData();
-					      m_SecondVMEVolume->GetVolumeOutput()->GetRectilinearData()->GetDimensions(dimXYZ_secondvolume);
+				      m_SecondVMEVolume->GetVolumeOutput()->GetRectilinearData()->GetDimensions(dimXYZ_secondvolume);
 						}
 						else
 						{
-							m_SecondVMEVolume->GetVolumeOutput()->GetStructuredData()->UpdateData();
 							m_SecondVMEVolume->GetVolumeOutput()->GetStructuredData()->GetDimensions(dimXYZ_secondvolume);
 						}
 

@@ -151,7 +151,6 @@ void mafOpCropDeformableROITest::TestOpExecute()
 
   mafSmartPointer<mafVMESurface>surface;
   surface->SetData(reader->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->Update();
   CPPUNIT_ASSERT(surface);
 
@@ -164,14 +163,13 @@ void mafOpCropDeformableROITest::TestOpExecute()
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData((vtkImageData*)volumeReader->GetOutput(),0.0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->Update();
   CPPUNIT_ASSERT(volume);
 
   // test filtering
   vtkMaskPolyDataFilter *filter;
   vtkNEW(filter);
-  filter->SetInput(volume->GetOutput()->GetVTKData());
+  filter->SetInputData(volume->GetOutput()->GetVTKData());
   filter->SetDistance(distance);
   filter->SetFillValue(fillValue);
   filter->SetInsideOut(insideOut);

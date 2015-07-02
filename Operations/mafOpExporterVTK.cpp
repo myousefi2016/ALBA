@@ -222,7 +222,7 @@ void mafOpExporterVTK::SaveVTKData()
   
   if (m_ForceUnsignedShortScalarOutputForStructuredPoints)
   {    
-    imageCast->SetInput(vtkStructuredPoints::SafeDownCast(inputData));
+    imageCast->SetInputData(vtkStructuredPoints::SafeDownCast(inputData));
     imageCast->SetOutputScalarTypeToUnsignedShort();
     imageCast->Update();
     writerInput = imageCast->GetOutput();
@@ -237,14 +237,14 @@ void mafOpExporterVTK::SaveVTKData()
   if (m_ABSMatrixFlag)
   {
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> v_tpdf;
-    v_tpdf->SetInput((vtkPolyData *)((mafVME *)m_Input)->GetOutput()->GetVTKData());
+    v_tpdf->SetInputData((vtkPolyData *)((mafVME *)m_Input)->GetOutput()->GetVTKData());
     v_tpdf->SetTransform(((mafVME *)m_Input)->GetOutput()->GetTransform()->GetVTKTransform());
     v_tpdf->Update();
-    writer->SetInput(v_tpdf->GetOutput());
+    writer->SetInputConnection(v_tpdf->GetOutputPort());
   }
   else
   {
-    writer->SetInput(writerInput);
+    writer->SetInputData(writerInput);
   }
 
   if (this->m_Binary)

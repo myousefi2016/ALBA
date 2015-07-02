@@ -49,12 +49,10 @@ void mafOpSubdivideTest::TestOpRun()
 	vtkPolyData *testPolyData;
   vtkMAFSmartPointer<vtkSphereSource> sphere;
   testPolyData = sphere->GetOutput();
-  testPolyData->Update();
 
   mafVMESurface *vmeSurface;
   mafNEW(vmeSurface);
   vmeSurface->SetData(testPolyData, 0);
-	vmeSurface->GetOutput()->GetVTKData()->Update();
   vmeSurface->Update();
   	
 	mafOpSubdivide *subdivideOp=new mafOpSubdivide("Subdivide");
@@ -68,7 +66,6 @@ void mafOpSubdivideTest::TestOpRun()
   subdivideOp->OnEvent(&mafEvent(this, mafOpSubdivide::ID_SUBDIVIDE));
 	subdivideOp->OpDo();
 	
-	vmeSurface->GetOutput()->GetVTKData()->Update();
 	vmeSurface->Update();
 
 	vtkPoints *pointsSubdivide = vtkPolyData::SafeDownCast(mafVMESurface::SafeDownCast(subdivideOp->GetInput())->GetOutput()->GetVTKData())->GetPoints();

@@ -467,10 +467,10 @@ void mafOpExtractIsosurface::CreateVolumePipeline()
 
     // bounding box actor
     m_OutlineFilter = vtkOutlineCornerFilter::New();
-    m_OutlineFilter->SetInput(dataset);
+    m_OutlineFilter->SetInputData(dataset);
 
     m_OutlineMapper = vtkPolyDataMapper::New();
-    m_OutlineMapper->SetInput(m_OutlineFilter->GetOutput());
+    m_OutlineMapper->SetInputData(m_OutlineFilter->GetOutput());
 
     m_Box = vtkActor::New();
     m_Box->SetMapper(m_OutlineMapper);
@@ -520,21 +520,26 @@ void mafOpExtractIsosurface::CreateSlicePipeline()
   m_VolumeSlicer->SetPlaneAxisY(m_SliceYVect);
   m_PolydataSlicer->SetPlaneAxisX(m_SliceXVect);
   m_PolydataSlicer->SetPlaneAxisY(m_SliceYVect);
-  m_VolumeSlicer->SetInput(dataset);
-  m_PolydataSlicer->SetInput(dataset);
+  m_VolumeSlicer->SetInputData(dataset);
+  m_PolydataSlicer->SetInputData(dataset);
 
 
   m_SliceImage = vtkImageData::New();
 
-  m_SliceImage->SetScalarType(dataset->GetPointData()->GetScalars()->GetDataType());
-  m_SliceImage->SetNumberOfScalarComponents(dataset->GetPointData()->GetScalars()->GetNumberOfComponents());  
-  //m_SliceImage->SetExtent(ext[0], ext[1], ext[2], ext[3], 0, 0);
-  double textureRes=512;
-  m_SliceImage->SetExtent(0, textureRes - 1, 0, textureRes - 1, 0, 0);
-  m_SliceImage->SetSpacing(xspc, yspc, 1.f);
+	//TODO VTK6 
+	//Check code
 
-  m_VolumeSlicer->SetOutput(m_SliceImage);
+  //m_SliceImage->AllocateScalars(dataset->GetPointData()->GetScalars()->GetDataType(),dataset->GetPointData()->GetScalars()->GetNumberOfComponents()); 
+	
+  //m_SliceImage->SetExtent(ext[0], ext[1], ext[2], ext[3], 0, 0);
+  //double textureRes=512;
+	//m_SliceImage->SetExtent(0, textureRes - 1, 0, textureRes - 1, 0, 0);
+	// m_SliceImage->SetSpacing(xspc, yspc, 1.f);
+
+  //m_VolumeSlicer->SetOutput(m_SliceImage);
   m_VolumeSlicer->Update();
+	
+	m_SliceImage->DeepCopy(m_VolumeSlicer->GetOutput());
 
   mmaVolumeMaterial *material = ((mafVMEVolume *)m_Input)->GetMaterial();
   double sr[2];
@@ -566,15 +571,16 @@ void mafOpExtractIsosurface::CreateSlicePipeline()
   m_SliceTexture->SetQualityTo32Bit();
   m_SliceTexture->SetLookupTable(material->m_ColorLut);
   m_SliceTexture->MapColorScalarsThroughLookupTableOn();
-  m_SliceTexture->SetInput(m_SliceImage);
+  m_SliceTexture->SetInputData(m_SliceImage);
 
   m_Polydata	= vtkPolyData::New();
-  m_PolydataSlicer->SetOutput(m_Polydata);
+  //m_PolydataSlicer->SetOutput(m_Polydata);
   m_PolydataSlicer->SetTexture(m_SliceImage);
   m_PolydataSlicer->Update();
+	m_Polydata->DeepCopy(m_PolydataSlicer->GetOutput());
 
   m_SlicerMapper	= vtkPolyDataMapper::New();
-  m_SlicerMapper->SetInput(m_Polydata);
+  m_SlicerMapper->SetInputData(m_Polydata);
   m_SlicerMapper->ScalarVisibilityOff();
 
   m_SlicerActor = vtkActor::New();
@@ -600,13 +606,13 @@ void mafOpExtractIsosurface::CreateSlicePipeline()
 
   m_IsosurfaceCutter = vtkMAFFixedCutter::New();
   m_IsosurfaceCutter->SetCutFunction(m_CutterPlane);  
-  m_IsosurfaceCutter->SetInput(contour);
+  m_IsosurfaceCutter->SetInputData(contour);
   m_IsosurfaceCutter->Update();
 
   contour->Delete();
 
   m_PolydataMapper	= vtkPolyDataMapper::New();
-  m_PolydataMapper->SetInput(m_IsosurfaceCutter->GetOutput());
+  m_PolydataMapper->SetInputConnection(m_IsosurfaceCutter->GetOutputPort());
   m_PolydataMapper->ScalarVisibilityOff();
 
   m_PolydataActor = vtkActor::New();
@@ -741,7 +747,7 @@ void mafOpExtractIsosurface::OnEvent(mafEventBase *maf_event)
         }
         else
         {
-          m_IsosurfaceCutter->SetInput(contour);
+          m_IsosurfaceCutter->SetInputData(contour);
           m_IsosurfaceCutter->Update();
         }
         m_Rwi->m_RenderWindow->AddRenderer(m_PIPRen);
@@ -770,8 +776,6 @@ void mafOpExtractIsosurface::OnEvent(mafEventBase *maf_event)
         vtkPoints *pts = NULL; 
         pts = (vtkPoints *)e->GetVtkObj();
         pts->GetPoint(0,pos);
-        vol->SetUpdateExtentToWholeExtent();
-        vol->Update();
         int pid = vol->FindPoint(pos);
         vtkDataArray *scalars = vol->GetPointData()->GetScalars();
         if (scalars && pid != -1)
@@ -860,7 +864,7 @@ void mafOpExtractIsosurface::UpdateSurface(bool use_lod)
           wxMessageBox("Operation out of memory");
           return;
         }
-        m_IsosurfaceCutter->SetInput(contour);
+        m_IsosurfaceCutter->SetInputData(contour);
         m_IsosurfaceCutter->Update();
 
         contour->Delete();
@@ -938,7 +942,7 @@ void mafOpExtractIsosurface::ExtractSurface(bool clean)
     vtkMAFSmartPointer<vtkTriangleFilter>triangleFilter;
     if(m_Clean)
     {
-      clearFilter->SetInput(surface);
+      clearFilter->SetInputData(surface);
       surface->Delete();
       clearFilter->ConvertLinesToPointsOff();
       clearFilter->ConvertPolysToLinesOff();
@@ -949,7 +953,7 @@ void mafOpExtractIsosurface::ExtractSurface(bool clean)
     }
     if(m_Triangulate)
     {
-      triangleFilter->SetInput(surface);
+      triangleFilter->SetInputData(surface);
       if (!m_Clean)
         surface->Delete();
       triangleFilter->Update();

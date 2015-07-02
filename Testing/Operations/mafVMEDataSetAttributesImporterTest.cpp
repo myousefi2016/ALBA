@@ -117,14 +117,13 @@ void mafVMEDataSetAttributesImporterTest::SaveToDiskAndDisplay( mafVMEMesh *vmeM
 {
   // get vtk output
   vtkUnstructuredGrid* data = vmeMesh->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-  data->Update();
 
   // some tests on the geometry...
   if (writeToDisk)
   {
     // save output to file
     vtkMAFSmartPointer<vtkUnstructuredGridWriter> writer;
-    writer->SetInput(data) ;
+    writer->SetInputData(data) ;
     writer->SetFileTypeToASCII();
 
     mafString gridFileName = dirPrefix;
@@ -171,14 +170,13 @@ void mafVMEDataSetAttributesImporterTest::SaveToDiskForTimeVarying(  mafVMEMesh 
 
     // get vtk output
     vtkUnstructuredGrid* data = vmeMesh->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-    data->Update();
 
     // some tests on the geometry...
     if (writeToDisk)
     {
       // save output to file
       vtkMAFSmartPointer<vtkUnstructuredGridWriter> writer;
-      writer->SetInput(data) ;
+      writer->SetInputData(data) ;
       writer->SetFileTypeToASCII();
 
       mafString gridFileName = dirPrefix;
@@ -290,14 +288,14 @@ void mafVMEDataSetAttributesImporterTest::RenderData( vtkUnstructuredGrid *data,
   if (linearize)
   {
     linearizationFilter = mafParabolicMeshToLinearMeshFilter::New()  ;
-    linearizationFilter->SetInput(data);
+    linearizationFilter->SetInputData(data);
     linearizationFilter->Update()  ;
-    mapper->SetInput(linearizationFilter->GetOutput());
-  }
-  else
-  {
-    mapper->SetInput(data);
-  }
+		mapper->SetInputConnection(linearizationFilter->GetOutputPort());
+	}
+	else
+	{
+		mapper->SetInputData(data);
+	}
 
   vtkMAFSmartPointer<vtkActor> actor;
   actor->SetMapper(mapper);
@@ -794,7 +792,6 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10ANSYS_ELEMENT_IDJumpingSing
   // this is strange but...
   CPPUNIT_ASSERT(mesh->GetUnstructuredGridOutput()->GetVTKData()->GetNumberOfCells() ==  0);
   // ... after MAF magic update :P ...
-  mesh->GetUnstructuredGridOutput()->GetVTKData()->Update();
   // ... everything works :D
   CPPUNIT_ASSERT(mesh->GetUnstructuredGridOutput()->GetVTKData()->GetNumberOfCells() != 0);
 

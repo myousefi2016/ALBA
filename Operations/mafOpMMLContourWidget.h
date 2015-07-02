@@ -138,6 +138,8 @@ public:
   void PlaceWidget()
     {this->Superclass::PlaceWidget();}
 
+	virtual vtkPolyDataAlgorithm* GetPolyDataAlgorithm();
+
   // Description:
   // Set/Get the resolution (number of subdivisions) of the plane.
   void SetResolution(int r);

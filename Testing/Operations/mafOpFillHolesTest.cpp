@@ -89,7 +89,7 @@ void mafOpFillHolesTest::TestOpRun()
   CPPUNIT_ASSERT(surface!=NULL);
 
   vtkFeatureEdges* fEdge = vtkFeatureEdges::New();
-  fEdge->SetInput((vtkPolyData*)surface->GetOutput()->GetVTKData());
+  fEdge->SetInputData((vtkPolyData*)surface->GetOutput()->GetVTKData());
   fEdge->SetBoundaryEdges(true);
   fEdge->SetManifoldEdges(false);
   fEdge->SetNonManifoldEdges(false);
@@ -106,9 +106,8 @@ void mafOpFillHolesTest::TestOpRun()
   fillOp->OpRun();
   fillOp->OpDo();
 
-  ((mafVMESurface*)fillOp->GetInput())->GetOutput()->GetVTKData()->Update();
 
-  fEdge->SetInput((vtkPolyData*)((mafVMESurface*)fillOp->GetInput())->GetOutput()->GetVTKData());
+  fEdge->SetInputData((vtkPolyData*)((mafVMESurface*)fillOp->GetInput())->GetOutput()->GetVTKData());
   fEdge->Update();
 
   // No operation has been performed (all functions are protected)

@@ -107,7 +107,6 @@ void medOpImporterVTKTest::TestImportVTKPolylineGraph()
   CPPUNIT_ASSERT(polyData!=NULL);
 
   polyData->Modified();
-  polyData->Update();
 
   CPPUNIT_ASSERT(polyData->GetNumberOfPoints()==5);
   CPPUNIT_ASSERT(polyData->GetNumberOfLines()==4);
@@ -137,7 +136,6 @@ void medOpImporterVTKTest::TestImportVTKVolumeSP()
   CPPUNIT_ASSERT(sp!=NULL);
 
   sp->Modified();
-  sp->Update();
 
   CPPUNIT_ASSERT(sp->GetNumberOfPoints()==517440);
   CPPUNIT_ASSERT(sp->GetNumberOfCells()==498332);
@@ -167,7 +165,6 @@ void medOpImporterVTKTest::TestImportVTKVolumeRG()
   CPPUNIT_ASSERT(rg!=NULL);
 
   rg->Modified();
-  rg->Update();
 
   CPPUNIT_ASSERT(rg->GetNumberOfPoints()==1000);
   CPPUNIT_ASSERT(rg->GetNumberOfCells()==729);
@@ -197,7 +194,6 @@ void medOpImporterVTKTest::TestImportVTKSurface()
   CPPUNIT_ASSERT(polydata!=NULL);
 
   polydata->Modified();
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydata->GetNumberOfPoints()==82);
   CPPUNIT_ASSERT(polydata->GetNumberOfPolys()==160);
@@ -227,7 +223,6 @@ void medOpImporterVTKTest::TestImportVTKMesh()
   CPPUNIT_ASSERT(ug!=NULL);
 
   ug->Modified();
-  ug->Update();
 
   CPPUNIT_ASSERT(ug->GetNumberOfPoints()==5);
   CPPUNIT_ASSERT(ug->GetNumberOfCells()==2);
@@ -257,7 +252,6 @@ void medOpImporterVTKTest::TestImportVTKPointSet()
   CPPUNIT_ASSERT(pts!=NULL);
 
   pts->Modified();
-  pts->Update();
 
   CPPUNIT_ASSERT(pts->GetNumberOfPoints()==2);
   CPPUNIT_ASSERT(pts->GetNumberOfCells()==2);

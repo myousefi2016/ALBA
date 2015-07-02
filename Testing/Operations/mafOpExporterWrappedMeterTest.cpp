@@ -58,7 +58,6 @@ void mafOpExporterWrappedMeterTest::meterImplement(){
 
 	mafVMESurfaceParametric *vmeSphere;
 	mafNEW(vmeSphere);	
-	vmeSphere->GetOutput()->GetVTKData()->Update();
 	vmeSphere->SetParent(storage->GetRoot());
 	vmeSphere->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_SPHERE);
 	vmeSphere->SetSphereRadius(5.0);
@@ -67,7 +66,6 @@ void mafOpExporterWrappedMeterTest::meterImplement(){
 	//create a start vme 
 	mafVMESurfaceParametric *vmeSTART;
 	mafNEW(vmeSTART);	
-	vmeSTART->GetOutput()->GetVTKData()->Update();
 	vmeSTART->SetParent(storage->GetRoot());
 	vmeSTART->Update();
 
@@ -79,7 +77,6 @@ void mafOpExporterWrappedMeterTest::meterImplement(){
 	//create a end vme 
 	mafVMESurfaceParametric *vmeEND;
 	mafNEW(vmeEND);	
-	vmeEND->GetOutput()->GetVTKData()->Update();
 	vmeEND->SetParent(storage->GetRoot());
 	vmeEND->Update();
 
@@ -100,7 +97,6 @@ void mafOpExporterWrappedMeterTest::meterImplement(){
 
 	wrappedMeter->SetParent(storage->GetRoot());
 
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 

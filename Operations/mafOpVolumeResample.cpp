@@ -395,9 +395,8 @@ void mafOpVolumeResample::Resample()
         vtkMAFSmartPointer<vtkStructuredPoints> output_data;
         output_data->SetSpacing(m_VolumeSpacing);
         // TODO: here I probably should allow a data type casting... i.e. a GUI widget
-        output_data->SetScalarType(input_data->GetPointData()->GetScalars()->GetDataType());
+        output_data->AllocateScalars(input_data->GetPointData()->GetScalars()->GetDataType(),1);
         output_data->SetExtent(output_extent);
-        output_data->SetUpdateExtent(output_extent);
         
         input_data->GetScalarRange(sr);
 
@@ -406,12 +405,11 @@ void mafOpVolumeResample::Resample()
 
         resampler->SetWindow(w);
         resampler->SetLevel(l);
-        resampler->SetInput(input_data);
+        resampler->SetInputData(input_data);
         resampler->SetOutput(output_data);
         resampler->AutoSpacingOff();
         resampler->Update();
         
-        output_data->SetSource(NULL);
         output_data->SetOrigin(m_VolumeBounds[0],m_VolumeBounds[2],m_VolumeBounds[4]);
 
         m_ResampledVme->SetDataByDetaching(output_data, input_item->GetTimeStamp());
@@ -651,7 +649,6 @@ void mafOpVolumeResample::ShiftCenterResampled()
 
 	vtkMAFSmartPointer<vtkPolyData> poly;
 	poly->SetPoints(points);
-	poly->Update();
 
 	vtkMAFSmartPointer<vtkTransform> t;
 	t->RotateX(m_VolumeOrientation[0]);
@@ -662,7 +659,7 @@ void mafOpVolumeResample::ShiftCenterResampled()
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> ptf;
 	ptf->SetTransform(t);
-	ptf->SetInput(poly);
+	ptf->SetInputData(poly);
 	ptf->Update();
 
 	double pt[3];

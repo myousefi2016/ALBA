@@ -89,7 +89,6 @@ void mafOpVolumeResampleTest::TestBase()
 	//Check output 
 	mafVME *Output = mafVME::SafeDownCast(VolumeResample->GetOutput());
 	vtkStructuredPoints *VTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
-	VTKData->UpdateData();
 	//Check if the output volume is a vtkStructuredPoints
 	CPPUNIT_ASSERT(VTKData!=NULL);
 	//Check spacing
@@ -144,7 +143,6 @@ void mafOpVolumeResampleTest::TestVMELocalBounds()
 	//Check output
 	mafVME *Output = mafVME::SafeDownCast(VolumeResample->GetOutput());
 	vtkStructuredPoints *VTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
-	VTKData->UpdateData();
 	//Check if the output volume is a vtkStructuredPoints
 	CPPUNIT_ASSERT(VTKData!=NULL);
 	//Check spacing
@@ -214,7 +212,6 @@ void mafOpVolumeResampleTest::TestVME4DBounds()
 	//Check output
 	mafVME *Output = mafVME::SafeDownCast(VolumeResample->GetOutput());
 	vtkStructuredPoints *VTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
-	VTKData->UpdateData();
 	//Check if the output volume is a vtkStructuredPoints
 	CPPUNIT_ASSERT(VTKData!=NULL);
 	//Check spacing
@@ -284,7 +281,6 @@ void mafOpVolumeResampleTest::TestVMEBounds()
 	//Check output
 	mafVME *Output = mafVME::SafeDownCast(VolumeResample->GetOutput());
 	vtkStructuredPoints *VTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
-	VTKData->UpdateData();
 	//Check if the output volume is a vtkStructuredPoints
 	CPPUNIT_ASSERT(VTKData!=NULL);
 	//Check spacing
@@ -346,7 +342,6 @@ void mafOpVolumeResampleTest::TestScalarRange()
 	//Check output
 	mafVME *Output = mafVME::SafeDownCast(VolumeResample->GetOutput());
 	vtkStructuredPoints *VTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
-	VTKData->UpdateData();
 	//Check if the output volume is a vtkStructuredPoints
 	CPPUNIT_ASSERT(VTKData!=NULL);
 	//Check scalar range

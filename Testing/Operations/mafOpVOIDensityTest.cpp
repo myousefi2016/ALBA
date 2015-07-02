@@ -71,7 +71,6 @@ void mafOpVOIDensityTest::Test()
 	mafVMEVolumeGray *Volume = mafVMEVolumeGray::SafeDownCast(importerVTK->GetOutput());
 	Volume->Update();
 	vtkDataSet *VolumeData = ((mafVME*)Volume)->GetOutput()->GetVTKData();
-	VolumeData->Update();
   //Create operation VOI Density and initialize it
 	mafOpVOIDensity *VOIDensity=new mafOpVOIDensity("VOI Density");
 	VOIDensity->TestModeOn();

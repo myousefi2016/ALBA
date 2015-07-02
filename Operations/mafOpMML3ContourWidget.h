@@ -80,6 +80,8 @@ public:
   virtual void SetEnabled(int);
   virtual void PlaceWidget(double bounds[6]);
 
+	virtual vtkPolyDataAlgorithm* GetPolyDataAlgorithm();
+
 
   //----------------------------------------------------------------------------
   // Methods which set parameter and model view classes

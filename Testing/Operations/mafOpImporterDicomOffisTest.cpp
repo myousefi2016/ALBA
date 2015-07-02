@@ -148,13 +148,11 @@ void mafOpImporterDicomOffisTest::TestCreateVolume()
 	    if(VME->IsA("mafVMEVolumeGray"))
 	    {
 	      vtkRectilinearGrid *data=vtkRectilinearGrid::SafeDownCast(VME->GetOutput()->GetVTKData());
-	      data->UpdateData();
 	      data->GetScalarRange(sr);
 	    }
 	    else 
 	    {
 	      CPPUNIT_ASSERT(VME->IsA("mafVMEImage"));
-	      VME->GetOutput()->GetVTKData()->UpdateData();
 	      VME->GetOutput()->GetVTKData()->GetScalarRange(sr);
 	    }
 	       

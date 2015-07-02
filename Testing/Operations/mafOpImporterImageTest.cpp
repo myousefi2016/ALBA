@@ -56,7 +56,6 @@ void mafOpImporterImageTest::Test_Single()
 	
 	CPPUNIT_ASSERT(node->IsA("mafVMEImage"));
 	vtkDataSet *data=((mafVME *)node)->GetOutput()->GetVTKData();
-	data->Update();
   mafString name = node->GetName();
   CPPUNIT_ASSERT(!name.Compare("imageTest")); //compare returns 0 if equal
 
@@ -92,7 +91,6 @@ void mafOpImporterImageTest::Test_Multi_No_Volume()
 	
 	CPPUNIT_ASSERT(node->IsA("mafVMEImage"));
 	vtkDataSet *data=((mafVME *)node)->GetOutput()->GetVTKData();
-	data->Update();
   mafString name = node->GetName();
   CPPUNIT_ASSERT(!name.Compare("Imported Images")); //compare returns 0 if equal*/
 
@@ -140,7 +138,6 @@ void mafOpImporterImageTest::Test_Multi_Volume()
 	
 	CPPUNIT_ASSERT(node->IsA("mafVMEVolumeRGB"));
 	vtkDataSet *data=((mafVME *)node)->GetOutput()->GetVTKData();
-	data->Update();
   mafString name = node->GetName();
   CPPUNIT_ASSERT(!name.Compare("Imported Volume")); //compare returns 0 if equal
 

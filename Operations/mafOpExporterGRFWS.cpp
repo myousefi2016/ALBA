@@ -694,16 +694,12 @@ void mafOpExporterGRFWS::WriteFast()
   // Get first data to set right input position
   m_ForceLeft->SetTimeStamp(kframes.at(0));
   m_ForceLeft->Update();
-  m_ForceLeft->GetOutput()->GetVTKData()->Update();
   m_MomentLeft->SetTimeStamp(kframes.at(0));
   m_MomentLeft->Update();
-  m_MomentLeft->GetOutput()->GetVTKData()->Update();
   m_ForceRight->SetTimeStamp(kframes.at(0));
   m_ForceRight->Update();
-  m_ForceRight->GetOutput()->GetVTKData()->Update();
   m_MomentRight->SetTimeStamp(kframes.at(0));
   m_MomentRight->Update();
-  m_MomentRight->GetOutput()->GetVTKData()->Update();
 
   double* init_posCOPL = m_ForceLeft->GetOutput()->GetVTKData()->GetPoint(0);
   double* init_posCOPR = m_ForceRight->GetOutput()->GetVTKData()->GetPoint(0);
@@ -1065,7 +1061,6 @@ void mafOpExporterGRFWS::WriteSingleVector()
 
       m_ForceLeft->SetTimeStamp(time);
       m_ForceLeft->Update();
-      m_ForceLeft->GetOutput()->GetVTKData()->Update();
         
       vtkPolyData* polyFL = (vtkPolyData*)m_ForceLeft->GetOutput()->GetVTKData();
        
@@ -1126,7 +1121,6 @@ void mafOpExporterGRFWS::WriteSingleVectorFast()
   // Get first data to set right input position
   m_ForceLeft->SetTimeStamp(kframes.at(0));
   m_ForceLeft->Update();
-  m_ForceLeft->GetOutput()->GetVTKData()->Update();
   double* init_posCOPL = m_ForceLeft->GetOutput()->GetVTKData()->GetPoint(0);
   medGRFVector* vFL = new medGRFVector;
   for (int i=0;i<6;i++)
@@ -1368,7 +1362,6 @@ void mafOpExporterGRFWS::CheckVectorToSwitch(int frame, int coor1_ID, int coor2_
     {
       vVME->SetTimeStamp(time);
       vVME->Update();
-      vVME->GetOutput()->GetVTKData()->Update();
       double* pos = vVME->GetOutput()->GetVTKData()->GetPoint(pointID);
       CheckVectorToSwitch(0,coor1_ID,coor2_ID,coor3_ID,v,pos);
     }
@@ -1398,7 +1391,6 @@ void mafOpExporterGRFWS::CheckVectorToSwitch(int frame, int coor1_ID, int coor2_
     {
       vVME->SetTimeStamp(time);
       vVME->Update();
-      vVME->GetOutput()->GetVTKData()->Update();
       double* pos = vVME->GetOutput()->GetVTKData()->GetPoint(pointID);
       CheckVectorToSwitch(0,coor1_ID,coor2_ID,coor3_ID,v,pos);
     }
@@ -1425,7 +1417,6 @@ void mafOpExporterGRFWS::CheckVectorToSwitch(int frame, int coor1_ID, int coor2_
       {
         vVME->SetTimeStamp(time);
         vVME->Update();
-        vVME->GetOutput()->GetVTKData()->Update();
         double* pos = vVME->GetOutput()->GetVTKData()->GetPoint(pointID);
         CheckVectorToSwitch(0,coor1_ID,coor2_ID,coor3_ID,v,pos);
         switched = 1;

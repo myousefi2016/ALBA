@@ -204,12 +204,12 @@ void mafOpImporterRAWImages::CreatePipeline()
   vtkNEW(m_BlueImage);
 
   vtkNEW(m_AppendComponents);
-  m_AppendComponents->AddInput(m_BlueImage->GetOutput());
-  m_AppendComponents->AddInput(m_GreenImage->GetOutput());
+  m_AppendComponents->AddInputConnection(m_BlueImage->GetOutputPort());
+  m_AppendComponents->AddInputConnection(m_GreenImage->GetOutputPort());
 
   vtkNEW(m_InterleavedImage);
-  m_InterleavedImage->AddInput(m_AppendComponents->GetOutput());
-  m_InterleavedImage->AddInput(m_RedImage->GetOutput());
+  m_InterleavedImage->AddInputConnection(m_AppendComponents->GetOutputPort());
+  m_InterleavedImage->AddInputConnection(m_RedImage->GetOutputPort());
 
   vtkNEW(m_Texture);
   //  texture input will be set according to update
@@ -224,7 +224,7 @@ void mafOpImporterRAWImages::CreatePipeline()
   vtkNEW(m_Plane);
 
   vtkNEW(m_Mapper);
-  m_Mapper->SetInput(m_Plane->GetOutput());
+  m_Mapper->SetInputConnection(m_Plane->GetOutputPort());
 
   vtkNEW(m_Actor);
   m_Actor->SetMapper(m_Mapper);
@@ -235,10 +235,10 @@ void mafOpImporterRAWImages::CreatePipeline()
   vtkNEW(m_GizmoPlane);
 
   vtkMAFSmartPointer<vtkOutlineFilter> outlineFilter;
-  outlineFilter->SetInput(((vtkDataSet *)(m_GizmoPlane->GetOutput())));
+  outlineFilter->SetInputConnection(m_GizmoPlane->GetOutputPort());
 
   vtkMAFSmartPointer<vtkPolyDataMapper> polyDataMapper;
-  polyDataMapper->SetInput(outlineFilter->GetOutput());
+  polyDataMapper->SetInputConnection(outlineFilter->GetOutputPort());
 
   vtkNEW(m_GizmoActor);
   m_GizmoActor->GetProperty()->SetColor(0.8,0,0);
@@ -993,7 +993,7 @@ void mafOpImporterRAWImages::	UpdateReader()
 
   double range[2];
   m_Reader->GetOutput()->GetSnapshot()->GetScalarRange(range);
-  m_Texture->SetInput((vtkImageData*)m_Reader->GetOutput()->GetSnapshot());
+  m_Texture->SetInputData((vtkImageData*)m_Reader->GetOutput()->GetSnapshot());
 #else
   if(m_RgbType)
   {
@@ -1147,7 +1147,7 @@ bool mafOpImporterRAWImages::Import()
 #ifdef VME_VOLUME_LARGE
   if (!bLarge)
   {
-    convert->SetInput((vtkImageData*)r->GetOutput()->GetSnapshot());    
+    convert->SetInputData((vtkImageData*)r->GetOutput()->GetSnapshot());    
 #else
   if(m_RgbType)
   {
@@ -1186,7 +1186,7 @@ bool mafOpImporterRAWImages::Import()
   if(m_Rect)
   {
     // conversion from vtkStructuredPoints to vtkRectilinearGrid
-    vtkStructuredPoints	*structured_data = convert->GetOutput();
+    vtkImageData	*structured_data = convert->GetOutput();
     vtkPointData *data = structured_data->GetPointData();
     vtkDataArray *scalars = data->GetScalars();
     vtkDoubleArray *XDoubleArray = vtkDoubleArray::New();

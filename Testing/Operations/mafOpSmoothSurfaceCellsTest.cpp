@@ -106,7 +106,6 @@ void mafOpSmoothSurfaceCellsTest::TestOpRun()
 
   mafSmartPointer<mafVMESurface> input;
   input->SetData(sphere->GetOutput(),0.0);
-  input->GetOutput()->GetVTKData()->Update();
   input->GetOutput()->Update();
   input->Update();
 
@@ -146,7 +145,6 @@ void mafOpSmoothSurfaceCellsTest::TestMarkCells()
 
   mafSmartPointer<mafVMESurface> input;
   input->SetData(sphere->GetOutput(),0.0);
-  input->GetOutput()->GetVTKData()->Update();
   input->GetOutput()->Update();
   input->Update();
 
@@ -186,7 +184,6 @@ void mafOpSmoothSurfaceCellsTest::TestSmoothCells()
 
   mafSmartPointer<mafVMESurface> input;
   input->SetData(sphere->GetOutput(),0.0);
-  input->GetOutput()->GetVTKData()->Update();
   input->GetOutput()->Update();
   input->Update();
 
@@ -208,16 +205,15 @@ void mafOpSmoothSurfaceCellsTest::TestSmoothCells()
   op->OpDo();
 
   vtkPolyData *output = vtkPolyData::SafeDownCast(mafVMESurface::SafeDownCast(op->GetInput())->GetOutput()->GetVTKData());
-  output->Update();
 
   //////////////////////////////////////////////////////////////////////////
   //Extract the marked cell
   //////////////////////////////////////////////////////////////////////////
   vtkMAFSmartPointer<vtkMAFRemoveCellsFilter> cellFilter1;
   vtkMAFSmartPointer<vtkMAFRemoveCellsFilter> cellFilter2;
-  cellFilter1->SetInput(sphere->GetOutput());
+  cellFilter1->SetInputConnection(sphere->GetOutputPort());
   cellFilter1->Update();
-  cellFilter2->SetInput(sphere->GetOutput());
+  cellFilter2->SetInputConnection(sphere->GetOutputPort());
   cellFilter2->Update();
   for (int j=0;j<sphere->GetOutput()->GetNumberOfCells();j++)
   {
@@ -232,20 +228,15 @@ void mafOpSmoothSurfaceCellsTest::TestSmoothCells()
   cellFilter1->RemoveMarkedCells();
   cellFilter1->Update();
 
-  vtkMAFSmartPointer<vtkPolyData> toSmoothPolyData;
-  toSmoothPolyData->DeepCopy(cellFilter1->GetOutput());
-  toSmoothPolyData->Update();
 
   cellFilter2->ReverseRemoveOff();
   cellFilter2->RemoveMarkedCells();
   cellFilter2->Update();
 
-  vtkMAFSmartPointer<vtkPolyData> polyData;
-  polyData->DeepCopy(cellFilter2->GetOutput());
-  polyData->Update();
+
 
   vtkMAFSmartPointer<vtkSmoothPolyDataFilter> smoothFilter;
-  smoothFilter->SetInput(toSmoothPolyData);
+  smoothFilter->SetInputConnection(cellFilter1->GetOutputPort());
   smoothFilter->SetNumberOfIterations(op->GetNumberOfInteractions());
   smoothFilter->BoundarySmoothingOff();//always true
   smoothFilter->FeatureEdgeSmoothingOn();
@@ -253,17 +244,16 @@ void mafOpSmoothSurfaceCellsTest::TestSmoothCells()
   smoothFilter->Update();
 
   vtkMAFSmartPointer<vtkAppendPolyData> appendFilter; 
-  appendFilter->AddInput(smoothFilter->GetOutput());
-  appendFilter->AddInput(polyData);
+  appendFilter->AddInputConnection(smoothFilter->GetOutputPort());
+  appendFilter->AddInputConnection(cellFilter2->GetOutputPort());
   appendFilter->Update();
 
   vtkMAFSmartPointer<vtkCleanPolyData> cleanFilter; 
-  cleanFilter->SetInput(appendFilter->GetOutput());
+  cleanFilter->SetInputConnection(appendFilter->GetOutputPort());
   cleanFilter->Update();
 
   vtkMAFSmartPointer<vtkPolyData> outputFilter;
   outputFilter->DeepCopy(cleanFilter->GetOutput());
-  outputFilter->Update();
 
   vtkDataArray *n1 = outputFilter->GetCellData()->GetNormals();
   vtkDataArray *n2 = output->GetCellData()->GetNormals();

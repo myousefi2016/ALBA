@@ -86,7 +86,6 @@ void mafOpAddLandmarkTest::TestOpUndo()
   sphere->Update();
 
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 
@@ -189,7 +188,6 @@ void mafOpAddLandmarkTest::TestAddLandmark()
   sphere->Update();
 
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 
@@ -298,7 +296,6 @@ void mafOpAddLandmarkTest::TestOpRun()
   sphere->Update();
 
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->Update();
 

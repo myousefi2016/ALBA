@@ -98,7 +98,6 @@ void mafOpLabelExtractorTest::TestLabelRG()
   surfaceOutputLab->Update();
   vtkPolyData *polydataLab = vtkPolyData::SafeDownCast(surfaceOutputLab->GetVTKData());
   CPPUNIT_ASSERT(polydataLab);
-  polydataLab->Update();
 
 
   mafVMEOutputSurface *surfaceOutput = mafVMEOutputSurface::SafeDownCast(surfaceOriginal->GetOutput());
@@ -106,7 +105,6 @@ void mafOpLabelExtractorTest::TestLabelRG()
   surfaceOutput->Update();
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(surfaceOutput->GetVTKData());
   CPPUNIT_ASSERT(polydata);
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydataLab->GetNumberOfPoints() == polydata->GetNumberOfPoints());
 
@@ -174,7 +172,6 @@ void mafOpLabelExtractorTest::TestLabelSP()
   vtkDataSet *data = surfaceOutputLab->GetVTKData();
   vtkPolyData *polydataLab = vtkPolyData::SafeDownCast(surfaceOutputLab->GetVTKData());
   CPPUNIT_ASSERT(polydataLab);
-  polydataLab->Update();
 
 
   mafVMEOutputSurface *surfaceOutput = mafVMEOutputSurface::SafeDownCast(surfaceOriginal->GetOutput());
@@ -182,7 +179,6 @@ void mafOpLabelExtractorTest::TestLabelSP()
   surfaceOutput->Update();
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(surfaceOutput->GetVTKData());
   CPPUNIT_ASSERT(polydata);
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydataLab->GetNumberOfPoints() == polydata->GetNumberOfPoints());
 
@@ -249,7 +245,6 @@ void mafOpLabelExtractorTest::TestLabelSmoothRG()
   surfaceOutputLab->Update();
   vtkPolyData *polydataLab = vtkPolyData::SafeDownCast(surfaceOutputLab->GetVTKData());
   CPPUNIT_ASSERT(polydataLab);
-  polydataLab->Update();
 
 
   mafVMEOutputSurface *surfaceOutput = mafVMEOutputSurface::SafeDownCast(surfaceOriginal->GetOutput());
@@ -257,7 +252,6 @@ void mafOpLabelExtractorTest::TestLabelSmoothRG()
   surfaceOutput->Update();
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(surfaceOutput->GetVTKData());
   CPPUNIT_ASSERT(polydata);
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydataLab->GetNumberOfPoints() == polydata->GetNumberOfPoints());
 
@@ -326,7 +320,6 @@ void mafOpLabelExtractorTest::TestLabelSmoothSP()
   vtkDataSet *data = surfaceOutputLab->GetVTKData();
   vtkPolyData *polydataLab = vtkPolyData::SafeDownCast(surfaceOutputLab->GetVTKData());
   CPPUNIT_ASSERT(polydataLab);
-  polydataLab->Update();
 
 
   mafVMEOutputSurface *surfaceOutput = mafVMEOutputSurface::SafeDownCast(surfaceOriginal->GetOutput());
@@ -334,7 +327,6 @@ void mafOpLabelExtractorTest::TestLabelSmoothSP()
   surfaceOutput->Update();
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(surfaceOutput->GetVTKData());
   CPPUNIT_ASSERT(polydata);
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydataLab->GetNumberOfPoints() == polydata->GetNumberOfPoints());
 

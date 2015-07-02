@@ -765,7 +765,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEImagesFromDicom()
 			spacing[1]*=scaleFactor;
 			spacing[2]*=scaleFactor;
 			im->SetSpacing(spacing);
-			im->Update();
 		}
 
 		mafSmartPointer<mafVMEImage> image;
@@ -935,7 +934,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEImagesFromDicomCineMRI()
 				spacing[1]*=scaleFactor;
 				spacing[2]*=scaleFactor;
 				im->SetSpacing(spacing);
-				im->Update();
 			}
 
 			mafVMEImage *image = NULL;
@@ -1102,7 +1100,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicom()
 //		if(storedfirstimagedimension) 
 //		{
 			vtkImageData *image = m_SelectedSeriesSlicesList->Item(count)->GetData()->GetVTKImageData();
-			image->Update();
 			image->GetDimensions(dim_img);
 			//for (int i=0;i<3;i++)
 			//{
@@ -1237,7 +1234,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicom()
 				m_SelectedSeriesSlicesList->Item(count)->GetData()->GetDcmImagePositionPatientOriginal(originSlice);
 
 				vtkImageData *im = m_SliceTexture->GetInput();
-				im->Update();
 
 				double originTexture[3];
 				im->GetOrigin(originTexture);
@@ -1267,7 +1263,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicom()
 				originTexture[m_SortAxes] = newPosTransformed;
 
 				im->SetOrigin(originTexture);
-				im->Update();
 			}
 			else
 			{
@@ -1311,8 +1306,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicom()
 	//vtkMAFSmartPointer<vtkRectilinearGrid> rg_out;
 	vtkRectilinearGrid *rg_out;
 	rg_out=accumulate->GetOutput();
-	rg_out->Update();
-
 	double b[6];
 	rg_out->GetBounds(b);
 
@@ -1512,7 +1505,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 
 					int dim[3];
 					vtkImageData *image = m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetVTKImageData();
-					image->Update();
 					image->GetDimensions(dim);
 
 					if (!sliceToSkip[sourceVolumeSliceId])
@@ -1537,7 +1529,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 					m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetDcmImageOrientationPatient(cosinDirectorToCheck);
 
 					vtkImageData *image = m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetVTKImageData();
-					image->Update();
 					image->GetDimensions(dimensionsToCheck);
 
 					storedFirstCosinDirector = true;
@@ -1613,7 +1604,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 					m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetDcmImagePositionPatientOriginal(originSlice);
 
 					vtkImageData *im = m_SliceTexture->GetInput();
-					im->Update();
 
 					double originTexture[3];
 					im->GetOrigin(originTexture);
@@ -1645,7 +1635,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 					originTexture[m_SortAxes] = newPosTransformed;
 
 					im->SetOrigin(originTexture);
-					im->Update();
 				}
 				else
 				{
@@ -1735,7 +1724,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEGrayVolumeFromDicomCineMRI()
 
 		vtkMAFSmartPointer<vtkRectilinearGrid> rg_out;
 		rg_out->DeepCopy(accumulator->GetOutput());
-		rg_out->Update();
 
 		if(!this->m_TestMode)
 		{
@@ -1894,7 +1882,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicom()
 	for (int sourceVolumeSliceId = m_ZCropBounds[0], targetVolumeSliceId = 0; sourceVolumeSliceId < m_ZCropBounds[1]+1; sourceVolumeSliceId += step)
 	{
 		poly1 = ExtractPolyData(0,sourceVolumeSliceId);
-		poly1->Update();
 
 		for(int n = 0; n < poly1->GetNumberOfPoints(); n++)
 		{
@@ -1911,7 +1898,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicom()
 	grid->SetPoints(points);
 	grid->GetPointData()->SetScalars(newScalars);
 	grid->GetPointData()->GetScalars()->SetName(m_SliceTexture->GetInput()->GetPointData()->GetScalars()->GetName());
-	grid->Update();
 
 	int counter= 0;
 	int total = dim[0]*dim[1];
@@ -1950,7 +1936,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicom()
 			hexahedron->GetPointIds()->SetId(7,((counter+1)*(total)+n+dim[0]));
 
 			Cells->InsertNextCell(hexahedron->GetPointIds());
-			grid->Update();
 			hexahedron->Delete();
 		}
 		counter++;
@@ -2019,7 +2004,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicomCineMRI()
 		for (int sourceVolumeSliceId = m_ZCropBounds[0], targetVolumeSliceId = 0; sourceVolumeSliceId < m_ZCropBounds[1]+1; sourceVolumeSliceId += step)
 		{
 			poly1 = ExtractPolyData(ts,sourceVolumeSliceId);
-			poly1->Update();
 
 			for(int n = 0; n < poly1->GetNumberOfPoints(); n++)
 			{
@@ -2036,7 +2020,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicomCineMRI()
 		grid->SetPoints(points);
 		grid->GetPointData()->SetScalars(newScalars);
 		grid->GetPointData()->GetScalars()->SetName(m_SliceTexture->GetInput()->GetPointData()->GetScalars()->GetName());
-		grid->Update();
 
 		int counter= 0;
 		int total = dim[0]*dim[1];
@@ -2074,7 +2057,6 @@ int mafOpImporterDicomOffis::BuildOutputVMEMeshFromDicomCineMRI()
 				hexahedron->GetPointIds()->SetId(7,((counter+1)*(total)+n+dim[0]));
 
 				Cells->InsertNextCell(hexahedron->GetPointIds());
-				grid->Update();
 				hexahedron->Delete();
 			}
 			counter++;
@@ -2163,12 +2145,12 @@ vtkPolyData* mafOpImporterDicomOffis::ExtractPolyData(int ts, int silceId)
 	trans->SetMatrix(mat);
 
 	vtkImageDataGeometryFilter *surface = vtkImageDataGeometryFilter::New();
-	surface->SetInput(imageData);
+	surface->SetInputData(imageData);
 	surface->Update();
 
 	vtkTransformPolyDataFilter *TranslateFilter = vtkTransformPolyDataFilter::New();
 	TranslateFilter->SetTransform(trans);
-	TranslateFilter->SetInput(surface->GetOutput());
+	TranslateFilter->SetInputConnection(surface->GetOutputPort());
 
 	TranslateFilter->Update();
 
@@ -2553,7 +2535,6 @@ void mafOpImporterDicomOffis::ReadDicom()
 	for (int count = 0; count < n_slices; count++)
 	{  
 		vtkImageData *image = m_SelectedSeriesSlicesList->Item(count)->GetData()->GetVTKImageData();
-		image->Update();
 		image->GetDimensions(dim_img);
 		for (int i=0;i<3;i++)
 		{
@@ -3126,7 +3107,6 @@ void mafOpImporterDicomOffis::AutoPositionCropPlane()
 {
 	int currImageId = GetSliceIDInSeries(m_CurrentTime, m_CurrentSlice);
 
-	m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetVTKImageData()->Update();
 	m_SelectedSeriesSlicesList->Item(currImageId)->GetData()->GetVTKImageData()->GetBounds(m_SliceBounds);
 
 	double diffY,diffX;
@@ -3225,7 +3205,7 @@ void mafOpImporterDicomOffis::CreateSliceVTKPipeline()
 	vtkNEW(m_SlicePlane);
 
 	vtkNEW(m_SliceMapper);
-	m_SliceMapper->SetInput(m_SlicePlane->GetOutput());
+	m_SliceMapper->SetInputConnection(m_SlicePlane->GetOutputPort());
 
 	vtkNEW(m_SliceActor);
 	m_SliceActor->SetMapper(m_SliceMapper);
@@ -3246,10 +3226,10 @@ void mafOpImporterDicomOffis::CreateSliceVTKPipeline()
 	vtkNEW(m_CropPlane);
 
 	vtkMAFSmartPointer<vtkOutlineFilter>	of;
-	of->SetInput(((vtkDataSet *)(m_CropPlane->GetOutput())));
+	of->SetInputConnection(m_CropPlane->GetOutputPort());
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> pdm;
-	pdm->SetInput(of->GetOutput());
+	pdm->SetInputConnection(of->GetOutputPort());
 
 	vtkNEW(m_CropActor);
 	m_CropActor->GetProperty()->SetColor(0.8,0,0);
@@ -3671,7 +3651,7 @@ bool mafOpImporterDicomOffis::BuildDicomFileList(const char *dicomDirABSPath)
 							tr->Translate(center);
 
 							vtkImageReslice *rs = vtkImageReslice::New();
-							rs->SetInput(imageData);
+							rs->SetInputData(imageData);
 							rs->SetResliceTransform(tr);
 							rs->SetInterpolationModeToLinear();
 							rs->Update();
@@ -3688,7 +3668,7 @@ bool mafOpImporterDicomOffis::BuildDicomFileList(const char *dicomDirABSPath)
 							if (flipLeftRightCurrent)
 							{
 								flipLR = vtkImageFlip::New();
-								flipLR->SetInput(rs->GetOutput());
+								flipLR->SetInputConnection(rs->GetOutputPort());
 
 								// validated against p20 regression test data
 								// (it's the same axis as the p09 test data but  it shouldn't since it's flip left to right...)
@@ -3708,7 +3688,7 @@ bool mafOpImporterDicomOffis::BuildDicomFileList(const char *dicomDirABSPath)
 							if (flipUpDownCurrent)
 							{
 								flipUD = vtkImageFlip::New();
-								flipUD->SetInput(flipLROutput);
+								flipUD->SetInputData(flipLROutput);
 
 								// validated against p09 regression test data
 								// (it's the same axis as the p20 test data bu  it shouldn't since it's flip up/down...)
@@ -4041,10 +4021,9 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 
 			vtkMAFSmartPointer<vtkImageData> dicomSliceVTKImageData;
 			dicomSliceVTKImageData->SetDimensions(dcmRows, dcmColumns,1);
-			dicomSliceVTKImageData->SetWholeExtent(0,dcmColumns-1,0,dcmRows-1,0,0);
-			dicomSliceVTKImageData->SetUpdateExtent(0,dcmColumns-1,0,dcmRows-1,0,0);
-			dicomSliceVTKImageData->SetExtent(dicomSliceVTKImageData->GetUpdateExtent());
-			dicomSliceVTKImageData->SetNumberOfScalarComponents(1);
+			//dicomSliceVTKImageData->SetWholeExtent(0,dcmColumns-1,0,dcmRows-1,0,0);
+			//dicomSliceVTKImageData->SetUpdateExtent(0,dcmColumns-1,0,dcmRows-1,0,0);
+			dicomSliceVTKImageData->SetExtent(dicomSliceVTKImageData->GetExtent());
 			dicomSliceVTKImageData->SetSpacing(dcmPixelSpacing);
 
 			long dcmPixelRepresentation;
@@ -4068,11 +4047,11 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
       long rappresentationMin;
 			if(val_long==16 && dcmPixelRepresentation == 0 )
 			{
-				dicomSliceVTKImageData->SetScalarType(VTK_UNSIGNED_SHORT);
+				dicomSliceVTKImageData->AllocateScalars(VTK_UNSIGNED_SHORT,1);
 			}
 			else if (val_long == 16 && dcmPixelRepresentation == 1)
 			{
-				dicomSliceVTKImageData->SetScalarType(VTK_SHORT);
+				dicomSliceVTKImageData->AllocateScalars(VTK_SHORT,1);
 
         rappresentationMax = VTK_SHORT_MAX;
         rappresentationMin = VTK_SHORT_MIN;
@@ -4080,16 +4059,14 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 			}
 			else if(val_long==8 && dcmPixelRepresentation == 0)
 			{
-				dicomSliceVTKImageData->SetScalarType(VTK_UNSIGNED_CHAR);
+				dicomSliceVTKImageData->AllocateScalars(VTK_UNSIGNED_CHAR,1);
 			}
 			else if(val_long==8 && dcmPixelRepresentation == 1)
 			{
-				dicomSliceVTKImageData->SetScalarType(VTK_CHAR);
+				dicomSliceVTKImageData->AllocateScalars(VTK_CHAR,1);
 			}
 
-			dicomSliceVTKImageData->AllocateScalars();
 			dicomSliceVTKImageData->GetPointData()->GetScalars()->SetName("Scalars");
-			dicomSliceVTKImageData->Update();
 
 			const Uint16 *dicom_buf_short = NULL; 
 			const Uint8* dicom_buf_char = NULL;
@@ -4201,7 +4178,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 			  }
       }
 
-			dicomSliceVTKImageData->Update();
 
 			if (dcmRescaleSlope != 1 || dcmRescaleIntercept != 0)
 			{
@@ -4285,7 +4261,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 				}
 
 				dicomSliceVTKImageData->GetPointData()->SetScalars(scalarsRescaled);
-				dicomSliceVTKImageData->Update();
 
 				vtkDEL(scalarsRescaled);
 			}
@@ -4374,7 +4349,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 
 					lastZPos = dcmImagePositionPatient[2];
 					dicomSliceVTKImageData->SetOrigin(dcmImagePositionPatient);
-					dicomSliceVTKImageData->Update();
 
 					const char *date,*description,*patientName,*birthdate;
 					dicomDataset->findAndGetString(DCM_PatientsBirthDate,birthdate);
@@ -4455,7 +4429,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 					}
 
 					dicomSliceVTKImageData->SetOrigin(dcmImagePositionPatient);
-					dicomSliceVTKImageData->Update();
 
 					if  (sliceNum > 1)
 					{
@@ -4570,7 +4543,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 					}
 
 					dicomSliceVTKImageData->SetOrigin(dcmImagePositionPatient);
-					dicomSliceVTKImageData->Update();
 
 					dicomDataset->findAndGetLongInt(DCM_InstanceNumber,dcmInstanceNumber);
 					dicomDataset->findAndGetLongInt(DCM_CardiacNumberOfImages,dcmCardiacNumberOfImages);
@@ -4681,7 +4653,6 @@ bool mafOpImporterDicomOffis::ReadDicomFileList(mafString& currentSliceABSDirNam
 					}
 
 					dicomSliceVTKImageData->SetOrigin(dcmImagePositionPatient);
-					dicomSliceVTKImageData->Update();
 
 					dicomDataset->findAndGetLongInt(DCM_InstanceNumber,dcmInstanceNumber);
 					dicomDataset->findAndGetLongInt(DCM_CardiacNumberOfImages,dcmCardiacNumberOfImages);
@@ -4925,7 +4896,6 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 	slice = m_SelectedSeriesSlicesList->Item(imageID)->GetData();
 	assert(slice);
 
-	slice->GetVTKImageData()->Update();
 	slice->GetVTKImageData()->GetBounds(m_SliceBounds);
 
 
@@ -4996,10 +4966,9 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 		stringStream << "**clip** dimension: " << dimension[0] << " " << dimension[1] << " " << dimension[2] << " " << std::endl;          
 		// mafLogMessage(stringStream.str().c_str());
 
-		clip->Update();
 
 		vtkMAFSmartPointer<vtkProbeFilter> probe;
-		probe->SetInput(clip);
+		probe->SetInputData(clip);
 
 		vtkImageData *imageData = NULL;
 		imageData = slice->GetVTKImageData();
@@ -5013,7 +4982,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 		stringStream << "**inputImageData** dimension: " << dimension[0] << " " << dimension[1] << " " << dimension[2] << " " << std::endl;          
 		// mafLogMessage(stringStream.str().c_str());
 
-		probe->SetSource(imageData);
+		probe->SetSourceData(imageData);
 		probe->Update();
 		probe->GetOutput()->GetBounds(m_SliceBounds);
 
@@ -5022,7 +4991,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 		{
 			RescaleTo16Bit(slice->GetVTKImageData());
 		}
-		m_SliceTexture->SetInput((vtkImageData *)probe->GetOutput());
+		m_SliceTexture->SetInputConnection(probe->GetOutputPort());
 	} 
 	else 
 	{
@@ -5033,7 +5002,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 		}
 
 		slice->GetVTKImageData()->GetScalarRange(range);
-		m_SliceTexture->SetInput(slice->GetVTKImageData());
+		m_SliceTexture->SetInputData(slice->GetVTKImageData());
 	}
 
 	m_SliceTexture->Modified();
@@ -5078,7 +5047,6 @@ vtkImageData* mafOpImporterDicomOffis::GetSliceImageDataFromLocalDicomFileName(m
 		wxSplitPath(name, &path, &short_name, &ext);
 		if (sliceName.Compare(short_name) == 0)
 		{
-			m_SelectedSeriesSlicesList->Item(i)->GetData()->GetVTKImageData()->Update();
 			return m_SelectedSeriesSlicesList->Item(i)->GetData()->GetVTKImageData();
 		}
 		else 
@@ -5087,7 +5055,6 @@ vtkImageData* mafOpImporterDicomOffis::GetSliceImageDataFromLocalDicomFileName(m
 			short_name = short_name + "." + ext;
 			if (sliceName.Compare(short_name) == 0)
 			{
-				m_SelectedSeriesSlicesList->Item(i)->GetData()->GetVTKImageData()->Update();
 				return m_SelectedSeriesSlicesList->Item(i)->GetData()->GetVTKImageData();
 			}
 		}
@@ -5196,7 +5163,6 @@ void mafOpImporterDicomOffis::ResampleVolume()
 	double volumeBounds[6];
 	vtkRectilinearGrid *rgrid;
 	rgrid = vtkRectilinearGrid::SafeDownCast(m_Volume->GetVolumeOutput()->GetVTKData());
-	rgrid->Update();
 	rgrid->GetBounds(volumeBounds);
 
 	for (int xi = 1; xi < rgrid->GetXCoordinates()->GetNumberOfTuples (); xi++)
@@ -5282,9 +5248,8 @@ void mafOpImporterDicomOffis::ResampleVolume()
 				vtkMAFSmartPointer<vtkStructuredPoints> outputSPData;
 				outputSPData->SetSpacing(m_VolumeSpacing);
 				// TODO: here I probably should allow a data type casting... i.e. a GUI widget
-				outputSPData->SetScalarType(input_data->GetPointData()->GetScalars()->GetDataType());
+				outputSPData->AllocateScalars(input_data->GetPointData()->GetScalars()->GetDataType(),1);
 				outputSPData->SetExtent(output_extent);
-				outputSPData->SetUpdateExtent(output_extent);
 
 				input_data->GetScalarRange(sr);
 
@@ -5293,12 +5258,11 @@ void mafOpImporterDicomOffis::ResampleVolume()
 
 				resampler->SetWindow(w);
 				resampler->SetLevel(l);
-				resampler->SetInput(input_data);
+				resampler->SetInputData(input_data);
 				resampler->SetOutput(outputSPData);
 				resampler->AutoSpacingOff();
 				resampler->Update();
 
-				outputSPData->SetSource(NULL);
 				if(m_DiscardPosition == true)
 				{
 					outputSPData->SetOrigin(0,0,0);
@@ -5336,9 +5300,8 @@ void mafOpImporterDicomOffis::RescaleTo16Bit(vtkImageData *dataSet)
 		newScalars->InsertNextTuple1(value);
 	}
 	dataSet->GetPointData()->SetScalars(newScalars);
-	dataSet->SetScalarTypeToUnsignedShort();
-	dataSet->Update();
-
+	dataSet->AllocateScalars(VTK_UNSIGNED_SHORT,1);
+	
 }
 //----------------------------------------------------------------------------
 int CompareX(const mafDicomSlice **arg1,const mafDicomSlice **arg2)
@@ -5535,7 +5498,6 @@ void mafOpImporterDicomOffis::GetDicomRange(double *range)
 		slice = m_SelectedSeriesSlicesList->Item(imageID)->GetData();
 		assert(slice);
 
-		slice->GetVTKImageData()->Update();
 		slice->GetVTKImageData()->GetScalarRange(sliceRange);
 
 		if (sliceRange[0]<range[0]) range[0]=sliceRange[0];

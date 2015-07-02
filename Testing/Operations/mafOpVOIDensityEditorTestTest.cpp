@@ -77,7 +77,6 @@ void mafOpVOIDensityEditorTestTest::EditVolumeScalarsTest()
 
   double sr[2];
   vtkStructuredPoints *data = vtkStructuredPoints::SafeDownCast(vol->GetOutput()->GetVTKData());
-  data->Update();
   data->GetScalarRange(sr);
   result = mafEquals(sr[0], sr[1]);
   TEST_RESULT;
@@ -97,7 +96,6 @@ void mafOpVOIDensityEditorTestTest::EditVolumeScalarsTest()
   editDensity->EditVolumeScalars();
   
   data = vtkStructuredPoints::SafeDownCast(vol->GetOutput()->GetVTKData());
-  data->Update();
   data->GetScalarRange(sr);
   result = !mafEquals(sr[0], sr[1]);
   TEST_RESULT;

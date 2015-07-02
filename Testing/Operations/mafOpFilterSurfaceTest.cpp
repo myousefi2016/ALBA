@@ -190,13 +190,11 @@ void mafOpFilterSurfaceTest::TestOnClean()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   CPPUNIT_ASSERT( polyIn->GetNumberOfPoints() == 24 );
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -207,13 +205,12 @@ void mafOpFilterSurfaceTest::TestOnClean()
   surface->Update();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   CPPUNIT_ASSERT( polyOut->GetNumberOfPoints() == 8 );
 
   vtkMAFSmartPointer<vtkCleanPolyData> cleanFilter;
   cleanFilter->SetTolerance(0.0);
-  cleanFilter->SetInput(inputVtkFilter);
+  cleanFilter->SetInputData(inputVtkFilter);
   cleanFilter->Update();
 
   vtkPolyData *outputVtkFilter = cleanFilter->GetOutput();
@@ -241,11 +238,9 @@ void mafOpFilterSurfaceTest::TestOnSmooth()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -256,11 +251,10 @@ void mafOpFilterSurfaceTest::TestOnSmooth()
   surface->Update();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkSmoothPolyDataFilter> smoothFilter;
   smoothFilter->SetNumberOfIterations(op->GetNumberOfIterations());
-  smoothFilter->SetInput(inputVtkFilter);
+  smoothFilter->SetInputData(inputVtkFilter);
   smoothFilter->Update();
 
   vtkPolyData *outputVtkFilter = smoothFilter->GetOutput();
@@ -289,11 +283,9 @@ void mafOpFilterSurfaceTest::TestOnDecimate()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -304,16 +296,14 @@ void mafOpFilterSurfaceTest::TestOnDecimate()
   surface->Update();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkDecimatePro> decimateFilter;
   decimateFilter->SetPreserveTopology(op->GetPreserveTopology());
   decimateFilter->SetTargetReduction(op->GetTargetReduction()/100.0);
-  decimateFilter->SetInput(inputVtkFilter);
+  decimateFilter->SetInputData(inputVtkFilter);
   decimateFilter->Update();
 
   vtkPolyData *outputVtkFilter = decimateFilter->GetOutput();
-  outputVtkFilter->Update();
 
   CheckPolydata(polyOut,outputVtkFilter);
 
@@ -338,11 +328,9 @@ void mafOpFilterSurfaceTest::TestOnTriangulate()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -353,14 +341,12 @@ void mafOpFilterSurfaceTest::TestOnTriangulate()
   surface->Update();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkTriangleFilter> triangleFilter;
-  triangleFilter->SetInput(inputVtkFilter);
+  triangleFilter->SetInputData(inputVtkFilter);
   triangleFilter->Update();
 
   vtkPolyData *outputVtkFilter = triangleFilter->GetOutput();
-  outputVtkFilter->Update();
   
   CheckPolydata(polyOut,outputVtkFilter);
   
@@ -385,11 +371,9 @@ void mafOpFilterSurfaceTest::TestOnVtkConnect()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -397,14 +381,12 @@ void mafOpFilterSurfaceTest::TestOnVtkConnect()
   op->OpDo();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkPolyDataConnectivityFilter> connectivityFilter;
-  connectivityFilter->SetInput(inputVtkFilter);
-  connectivityFilter->Update();
+	connectivityFilter->SetInputData(inputVtkFilter);
+	connectivityFilter->Update();
 
-  vtkPolyData *outputVtkFilter = connectivityFilter->GetOutput();
-  outputVtkFilter->Update();
+	vtkPolyData *outputVtkFilter = connectivityFilter->GetOutput();
 
   CheckPolydata(polyOut,outputVtkFilter);
 
@@ -429,11 +411,9 @@ void mafOpFilterSurfaceTest::TestOnStripper()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -441,14 +421,12 @@ void mafOpFilterSurfaceTest::TestOnStripper()
   op->OpDo();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkStripper> stripperFilter;
-  stripperFilter->SetInput(inputVtkFilter);
+  stripperFilter->SetInputData(inputVtkFilter);
   stripperFilter->Update();
 
   vtkPolyData *outputVtkFilter = stripperFilter->GetOutput();
-  outputVtkFilter->Update();
 
   CheckPolydata(polyOut,outputVtkFilter);
 
@@ -473,11 +451,9 @@ void mafOpFilterSurfaceTest::TestOnGenerateNormals()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -485,17 +461,15 @@ void mafOpFilterSurfaceTest::TestOnGenerateNormals()
   op->OpDo();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   vtkMAFSmartPointer<vtkPolyDataNormals> normalsFilter;
   normalsFilter->SetFlipNormals(op->GetFlipNormals());
   normalsFilter->SetSplitting(op->GetEdgeSplit());
   normalsFilter->SetFeatureAngle(op->GetFeatureAngle());
-  normalsFilter->SetInput(inputVtkFilter);
+  normalsFilter->SetInputData(inputVtkFilter);
   normalsFilter->Update();
 
   vtkPolyData *outputVtkFilter = normalsFilter->GetOutput();
-  outputVtkFilter->Update();
 
   CheckPolydata(polyOut,outputVtkFilter);
   CheckNormals(polyOut,outputVtkFilter);
@@ -521,11 +495,9 @@ void mafOpFilterSurfaceTest::TestUndo()
   surface->Update();
 
   vtkPolyData *polyIn = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyIn->Update();
 
   vtkMAFSmartPointer<vtkPolyData> inputVtkFilter;
   inputVtkFilter->DeepCopy(polyIn);
-  inputVtkFilter->Update();
 
   op->SetInput(surface);
   op->OpRun();
@@ -538,7 +510,6 @@ void mafOpFilterSurfaceTest::TestUndo()
   op->OpUndo();
 
   vtkPolyData *polyOut = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
-  polyOut->Update();
 
   CheckPolydata(polyOut,polyIn);
 

@@ -110,7 +110,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKPolylineGraph()
   CPPUNIT_ASSERT(polyData!=NULL);
 
   polyData->Modified();
-  polyData->Update();
 
   CPPUNIT_ASSERT(polyData->GetNumberOfPoints()==5);
   CPPUNIT_ASSERT(polyData->GetNumberOfLines()==4);
@@ -140,7 +139,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKVolumeSP()
   CPPUNIT_ASSERT(sp!=NULL);
 
   sp->Modified();
-  sp->Update();
 
   CPPUNIT_ASSERT(sp->GetNumberOfPoints()==1000);
   CPPUNIT_ASSERT(sp->GetNumberOfCells()==729);
@@ -170,7 +168,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKVolumeRG()
   CPPUNIT_ASSERT(rg!=NULL);
 
   rg->Modified();
-  rg->Update();
 
   CPPUNIT_ASSERT(rg->GetNumberOfPoints()==1000);
   CPPUNIT_ASSERT(rg->GetNumberOfCells()==729);
@@ -200,7 +197,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKSurface()
   CPPUNIT_ASSERT(polydata!=NULL);
 
   polydata->Modified();
-  polydata->Update();
 
   CPPUNIT_ASSERT(polydata->GetNumberOfPoints()==50);
   CPPUNIT_ASSERT(polydata->GetNumberOfPolys()==96);
@@ -230,7 +226,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKMesh()
   CPPUNIT_ASSERT(ug!=NULL);
 
   ug->Modified();
-  ug->Update();
 
   CPPUNIT_ASSERT(ug->GetNumberOfPoints()==5);
   CPPUNIT_ASSERT(ug->GetNumberOfCells()==2);
@@ -260,7 +255,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKPointSet()
   CPPUNIT_ASSERT(pts!=NULL);
 
   pts->Modified();
-  pts->Update();
 
   CPPUNIT_ASSERT(pts->GetNumberOfPoints()==2);
   CPPUNIT_ASSERT(pts->GetNumberOfCells()==2);

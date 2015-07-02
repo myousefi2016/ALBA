@@ -87,12 +87,12 @@ int medOpImporterVTK::ImportVTK()
   preader->SetFileName(m_File);
   preader->Update();
 
-  if (preader->GetNumberOfOutputs()>0)
+  if (preader->GetNumberOfOutputPorts()>0)
   {
     wxString path, name, ext;
     wxSplitPath(m_File.c_str(),&path,&name,&ext);
 
-    vtkDataSet *data = vtkDataSet::SafeDownCast(preader->GetOutputs()[0]);
+    vtkDataSet *data = vtkDataSet::SafeDownCast(preader->GetOutputDataObject(0));
     if (data)
     {
       mafNEW(m_VmePolyLine);

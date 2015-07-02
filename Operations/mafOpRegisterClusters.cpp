@@ -883,11 +883,10 @@ void mafOpRegisterClusters::OpUndo()
 				points->InsertNextPoint(coords);
 			}
 			data->SetPoints(points);
-			data->Update();
 
 			// TODO: refactoring to use directly the matrix pipe
 			transform->SetMatrix(m_Registered->GetOutput()->GetMatrix()->GetVTKMatrix());  //modified by Marco. 2-2-2004
-			transformData->SetInput(data);
+			transformData->SetInputData(data);
 			transformData->Update();
 
 			matrix->Identity();
@@ -918,13 +917,12 @@ void mafOpRegisterClusters::OpUndo()
 			points->InsertNextPoint(coords);
 		}
 		data->SetPoints(points);
-		data->Update();
 
 		//m_Registered->GetMatrix(matrix,cTime);
 
 		// TODO: refactoring to use directly the matrix pipe
 		transform->SetMatrix(m_Registered->GetOutput()->GetMatrix()->GetVTKMatrix());
-		transformData->SetInput(data);
+		transformData->SetInputData(data);
 		transformData->Update();
 
 		matrix->Identity();

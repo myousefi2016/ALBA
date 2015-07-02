@@ -57,7 +57,6 @@ void mafOpScaleDatasetTest::TestOpDoVolume()
   sp->SetOrigin(0.0,0.0,0.0);
   sp->SetSpacing(1.0,1.0,1.0);
   sp->SetDimensions(5,10,6);
-  sp->Update();
 
   vtkMAFSmartPointer<vtkDoubleArray> scalars;
   scalars->SetNumberOfTuples(300);
@@ -66,7 +65,6 @@ void mafOpScaleDatasetTest::TestOpDoVolume()
     scalars->SetTuple1(i,0.0);
   }
   sp->GetPointData()->SetScalars(scalars);
-  sp->Update();
 
   double startPoint[3];
   sp->GetPoint(0,startPoint);
@@ -96,7 +94,6 @@ void mafOpScaleDatasetTest::TestOpDoVolume()
   volumeOutput->Update();
 
   vtkStructuredPoints *spOutput = vtkStructuredPoints::SafeDownCast(volumeOutput->GetOutput()->GetVTKData());
-  spOutput->Update();
 
   double endPoint[3];
   spOutput->GetPoint(0,endPoint);
@@ -144,7 +141,6 @@ void mafOpScaleDatasetTest::TestOpDoSurface()
   surfaceOutput->Update();
 
   vtkPolyData *cubeOutput = vtkPolyData::SafeDownCast(surfaceOutput->GetOutput()->GetVTKData());
-  cubeOutput->Update();
   
   double endPoint[3];
   cubeOutput->GetPoint(0,endPoint);
@@ -192,7 +188,6 @@ void mafOpScaleDatasetTest::TestReset()
   surfaceOutput->Update();
 
   vtkPolyData *cubeOutput = vtkPolyData::SafeDownCast(surfaceOutput->GetOutput()->GetVTKData());
-  cubeOutput->Update();
 
   double endPoint[3];
   cubeOutput->GetPoint(0,endPoint);

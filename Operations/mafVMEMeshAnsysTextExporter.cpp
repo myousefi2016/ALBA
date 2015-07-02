@@ -150,7 +150,7 @@ int mafVMEMeshAnsysTextExporter::WriteNodesFile( vtkUnstructuredGrid *inputUGrid
     inUGDeepCopy = vtkUnstructuredGrid::New();
     inUGDeepCopy->DeepCopy(inputUGrid);
 
-    transformFilter->SetInput(inUGDeepCopy);
+    transformFilter->SetInputData(inUGDeepCopy);
     transformFilter->SetTransform(transform);
     transformFilter->Update();
 

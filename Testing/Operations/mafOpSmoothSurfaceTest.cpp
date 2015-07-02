@@ -53,7 +53,6 @@ void mafOpSmoothSurfaceTest::TestOpRun()
   mafVMESurface *surfaceInput;
   mafNEW(surfaceInput);
   surfaceInput->SetData(sphere->GetOutput(),0.0);
-  surfaceInput->GetOutput()->GetVTKData()->Update();
   surfaceInput->GetOutput()->Update();
   surfaceInput->Update();
 

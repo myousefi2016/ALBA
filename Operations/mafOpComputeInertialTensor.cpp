@@ -383,10 +383,9 @@ int mafOpComputeInertialTensor::ComputeLocalInertialTensor(mafNode* node, int cu
 	if (surf->GetOutput() == NULL || surf->GetOutput()->GetVTKData() == NULL)
 		return OP_RUN_CANCEL;
 	surf->GetOutput()->Update();
-	surf->GetOutput()->GetVTKData()->Update();
 	
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> tranformFilter;
-  tranformFilter->SetInput((vtkPolyData *)surf->GetOutput()->GetVTKData());
+  tranformFilter->SetInputData((vtkPolyData *)surf->GetOutput()->GetVTKData());
   tranformFilter->SetTransform(surf->GetOutput()->GetTransform()->GetVTKTransform());
   tranformFilter->Update();
 

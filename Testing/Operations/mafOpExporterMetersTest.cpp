@@ -96,7 +96,6 @@ void mafOpExporterMetersTest::TestOnMetersImporter()
   wrappedMeterManual->SetMeterLink(cloud->GetLandmark(3)->GetName(),cloud->GetLandmark(3));
   wrappedMeterManual->SetMeterLink(cloud->GetLandmark(4)->GetName(),cloud->GetLandmark(4));
   storage->GetRoot()->AddChild(wrappedMeterManual);
-  wrappedMeterManual->GetOutput()->GetVTKData()->Update();
   wrappedMeterManual->SetName("TestManualWrappedMeter");
   wrappedMeterManual->Modified();
   wrappedMeterManual->Update();
@@ -106,7 +105,6 @@ void mafOpExporterMetersTest::TestOnMetersImporter()
   mafNEW(vmeParametricSurfaceWrapped);
   storage->GetRoot()->AddChild(vmeParametricSurfaceWrapped);
   vmeParametricSurfaceWrapped->SetSphereRadius(2.);
-  vmeParametricSurfaceWrapped->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceWrapped->Update();
 
   double t0[3], t1[3];
@@ -131,7 +129,6 @@ void mafOpExporterMetersTest::TestOnMetersImporter()
   wrappedMeterAutomatic->SetMeterLink("WrappedVME",vmeParametricSurfaceWrapped);
   wrappedMeterAutomatic->SetWrappedMode(mafVMEWrappedMeter::AUTOMATED_WRAP);
   storage->GetRoot()->AddChild(wrappedMeterAutomatic);
-  wrappedMeterAutomatic->GetOutput()->GetVTKData()->Update();
   wrappedMeterAutomatic->SetName("TestAutomaticWrappedMeter");
   wrappedMeterAutomatic->Modified();
   wrappedMeterAutomatic->Update();
@@ -142,7 +139,6 @@ void mafOpExporterMetersTest::TestOnMetersImporter()
   meter->SetMeterLink("StartVME",cloud->GetLandmark(0));
   meter->SetMeterLink("EndVME1",cloud->GetLandmark(1));
   storage->GetRoot()->AddChild(meter);
-  meter->GetOutput()->GetVTKData()->Update();
   meter->SetName("TestClassicMeter");
   meter->Modified();
   meter->Update();

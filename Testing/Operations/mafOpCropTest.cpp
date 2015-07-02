@@ -58,7 +58,6 @@ void mafOpCropTest::TestCropRG()
 	Importer->ImportVTK();
 	mafVMEVolumeGray *Input=mafVMEVolumeGray::SafeDownCast(Importer->GetOutput());
 	Input->Update();
-	Input->GetOutput()->GetVTKData()->Update();
 
 	vtkRectilinearGrid *rgrid = vtkRectilinearGrid::SafeDownCast(Input->GetOutput()->GetVTKData());
 
@@ -108,7 +107,6 @@ void mafOpCropTest::TestCropRG()
 
 	Input->Update();
 	Input->GetOutput()->Update();
-	Input->GetOutput()->GetVTKData()->Update();
 	Input->GetOutput()->GetVTKData()->ComputeBounds();
 	Input->GetOutput()->GetVTKData()->GetBounds(b_out);
 	
@@ -141,7 +139,6 @@ void mafOpCropTest::TestCropSP()
 	Importer->ImportVTK();
 	mafVMEVolumeGray *Input=mafVMEVolumeGray::SafeDownCast(Importer->GetOutput());
 	Input->Update();
-	Input->GetOutput()->GetVTKData()->Update();
 
 	//Creating a cropping area
 	double b_in[6],b_out[6],b_original[6];

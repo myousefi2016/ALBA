@@ -109,7 +109,6 @@ void mafOpExporterBMPTest::TestExportBMP()
   vtkMAFSmartPointer<vtkImageData> DataExported;
   DataExported->SetDimensions(1024, 1024, 1);
   DataExported = vmeImageExported->GetImageOutput()->GetImageData();
-  DataExported->Update();
 
   //Import the central iamge of the original bmp files from wich the volume has been created
   mafOpImporterImage *importerBMPOriginal = new mafOpImporterImage("importer");
@@ -127,19 +126,17 @@ void mafOpExporterBMPTest::TestExportBMP()
 	vtkMAFSmartPointer<vtkImageData> DataOriginal;
   DataOriginal->SetDimensions(1024, 1024, 1);
   DataOriginal = vmeImageOriginal->GetImageOutput()->GetImageData();
-  DataOriginal->Update();
 
   //SetOperationToSubtract subtract one image from the other one: the result 
   //image must be a black image, with all the scalars set to zero
   vtkMAFSmartPointer<vtkImageData> imageFinal;
   imageFinal->SetDimensions(1024, 1024, 1);
   vtkMAFSmartPointer<vtkImageMathematics> math;
-  math->AddInput(DataOriginal);
-  math->AddInput(DataExported);
+  math->AddInputData(DataOriginal);
+  math->AddInputData(DataExported);
   math->SetOperationToSubtract();
   math->Update();
   imageFinal = math->GetOutput();
-  imageFinal->Update();
 
   int points = imageFinal->GetPointData()->GetNumberOfTuples();
   double sr[2];

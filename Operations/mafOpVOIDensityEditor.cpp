@@ -164,7 +164,7 @@ void mafOpVOIDensityEditor::OnEvent(mafEventBase *maf_event)
         }
 				VME->Update();
 				vtkMAFSmartPointer<vtkFeatureEdges> FE;
-				FE->SetInput((vtkPolyData *)(VME->GetOutput()->GetVTKData()));
+				FE->SetInputData((vtkPolyData *)(VME->GetOutput()->GetVTKData()));
 				FE->SetFeatureAngle(30);
 				FE->SetBoundaryEdges(1);
 				FE->SetColoring(0);
@@ -227,7 +227,7 @@ void mafOpVOIDensityEditor::EditVolumeScalars()
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformDataClipper;
   transformDataClipper->SetTransform(transform);
-  transformDataClipper->SetInput(polydata);
+  transformDataClipper->SetInputData(polydata);
   transformDataClipper->Update();
 
 	vtkMAFSmartPointer<vtkMAFImplicitPolyData> implicitSurface;
@@ -238,7 +238,6 @@ void mafOpVOIDensityEditor::EditVolumeScalars()
 	implicitBox->Modified();
 
   vtkDataSet *volumeData = ((mafVME*)m_Input)->GetOutput()->GetVTKData();
-  volumeData->Update();
   
   if (volumeData->IsA("vtkStructuredPoints"))
   {
@@ -264,13 +263,12 @@ void mafOpVOIDensityEditor::EditVolumeScalars()
       {
         //edit the corresponding point's scalar value
         pointId = volumeData->FindPoint(point);
-        volumeData->GetPointData()->SetTuple(pointId, &m_ScalarValue);
+        volumeData->GetPointData()->GetScalars()->SetTuple(pointId, &m_ScalarValue);
       }
     }
   }
 
   volumeData->GetPointData()->GetScalars()->Modified();
-  volumeData->Update();
 
   if (!m_TestMode)
   {

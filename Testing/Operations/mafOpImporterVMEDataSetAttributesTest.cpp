@@ -44,6 +44,7 @@
 #include <iostream>
 #include "vtkAbstractArray.h"
 #include "vtkFieldData.h"
+#include "vtkDataArray.h"
 
 
 void mafOpImporterVMEDataSetAttributesTest::TestFixture()
@@ -93,7 +94,6 @@ void mafOpImporterVMEDataSetAttributesTest::TestImportAttributes()
 
   vtkDataSet* data = NULL;
   data = mesh->GetUnstructuredGridOutput()->GetVTKData();
-	data->Update();
 	
   int cells=data->GetNumberOfCells();
 	CPPUNIT_ASSERT(cells==2);
@@ -123,7 +123,6 @@ void mafOpImporterVMEDataSetAttributesTest::TestImportAttributes()
 
   data = NULL;
   data = mesh->GetUnstructuredGridOutput()->GetVTKData();
-  data->Update();
 
   cells=data->GetNumberOfCells();
   CPPUNIT_ASSERT(cells==2);

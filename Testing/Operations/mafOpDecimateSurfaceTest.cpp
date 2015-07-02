@@ -57,7 +57,6 @@ void mafOpDecimateSurfaceTest::Test()
   CPPUNIT_ASSERT(surface);
 
   surface->Update();
-	surface->GetOutput()->GetVTKData()->Update();
 
 	mafOpDecimateSurface *decimate=new mafOpDecimateSurface;
 	decimate->TestModeOn();
@@ -67,11 +66,9 @@ void mafOpDecimateSurfaceTest::Test()
 	decimate->OnDecimate();
 	decimate->OnPreview();
 	surface->Update();
-	surface->GetOutput()->GetVTKData()->Update();
 	vtkPolyData *data=vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
   CPPUNIT_ASSERT(data);
 
-  data->Update();
 	CPPUNIT_ASSERT(data->GetNumberOfPoints()==94);
 
 	mafDEL(decimate);

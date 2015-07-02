@@ -41,7 +41,7 @@ protected:
   mafParabolicMeshToLinearMeshFilter();
   ~mafParabolicMeshToLinearMeshFilter();
 
-  void Execute();
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 private:
 

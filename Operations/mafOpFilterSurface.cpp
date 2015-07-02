@@ -282,7 +282,7 @@ void mafOpFilterSurface::OnClean()
 
 	vtkMAFSmartPointer<vtkCleanPolyData> cleanPolydata;
   cleanPolydata->SetTolerance(0.0);
-	cleanPolydata->SetInput(m_ResultPolydata);
+	cleanPolydata->SetInputData(m_ResultPolydata);
 // 	cleanPolydata->PointMergingOff(); 
 // 	cleanPolydata->ConvertLinesToPointsOn();  
 // 	cleanPolydata->ConvertPolysToLinesOn();
@@ -313,7 +313,7 @@ void mafOpFilterSurface::OnVtkConnect()
 	}
 
 	vtkMAFSmartPointer<vtkPolyDataConnectivityFilter> connectivityFilter;
-	connectivityFilter->SetInput(m_ResultPolydata);
+	connectivityFilter->SetInputData(m_ResultPolydata);
 	connectivityFilter->Update();
 
 	m_ResultPolydata->DeepCopy((vtkPolyData*)(connectivityFilter->GetOutput()));
@@ -341,7 +341,7 @@ void mafOpFilterSurface::OnSmooth()
 	}
 
 	vtkMAFSmartPointer<vtkSmoothPolyDataFilter> smoothFilter;
-	smoothFilter->SetInput(m_ResultPolydata);
+	smoothFilter->SetInputData(m_ResultPolydata);
 	smoothFilter->SetNumberOfIterations(m_Iterations);
 	smoothFilter->FeatureEdgeSmoothingOn();
 	smoothFilter->Update();
@@ -374,7 +374,7 @@ void mafOpFilterSurface::OnDecimate()
 	}
 
 	vtkMAFSmartPointer<vtkDecimatePro> decimate;
-	decimate->SetInput(m_ResultPolydata);
+	decimate->SetInputData(m_ResultPolydata);
 	decimate->SetPreserveTopology(m_TopologyFlag); 
 	decimate->SetTargetReduction(m_Reduction/100.0);
 	decimate->Update();
@@ -407,7 +407,7 @@ void mafOpFilterSurface::OnStripper()
 	}
 
   vtkMAFSmartPointer<vtkStripper> stripper;
-	stripper->SetInput(m_ResultPolydata);
+	stripper->SetInputData(m_ResultPolydata);
 	stripper->Update();
 
 	m_ResultPolydata->DeepCopy(stripper->GetOutput());
@@ -434,7 +434,7 @@ void mafOpFilterSurface::OnTriangulate()
 	}
 
 	vtkMAFSmartPointer<vtkTriangleFilter> triangleFilter;
-	triangleFilter->SetInput(m_ResultPolydata);
+	triangleFilter->SetInputData(m_ResultPolydata);
 	triangleFilter->Update();
 
 	m_ResultPolydata->DeepCopy(triangleFilter->GetOutput());
@@ -464,7 +464,7 @@ void mafOpFilterSurface::OnGenerateNormals()
 	}
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normalFilter;
-	normalFilter->SetInput(m_ResultPolydata);
+	normalFilter->SetInputData(m_ResultPolydata);
 
 	if (m_FlipNormals) 
 		normalFilter->FlipNormalsOn(); 

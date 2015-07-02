@@ -96,7 +96,6 @@ void medOpVolumeResampleTest::TestResampleInternal( const char *inFileName, cons
   opVolumeResample->TestModeOn();
 
   vtkDataSet *inputDataSet = inputVolume->GetOutput()->GetVTKData();
-  inputDataSet->Update();
 
   double outputSpacing[3];
   double inputDataOrigin[3];
@@ -124,7 +123,6 @@ void medOpVolumeResampleTest::TestResampleInternal( const char *inFileName, cons
   opVolumeResample->Resample();
 
   mafVME *Output = mafVME::SafeDownCast(opVolumeResample->GetOutput());
-  Output->GetOutput()->GetVTKData()->Update();
   vtkStructuredPoints *outputVTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
 
   CPPUNIT_ASSERT(outputVTKData!=NULL);
@@ -154,7 +152,7 @@ void medOpVolumeResampleTest::TestResampleInternal( const char *inFileName, cons
 void medOpVolumeResampleTest::WriteVTKDatasetToFile( vtkDataSet * outputVolumeVTKData, const char *outputFilename )
 {
   vtkDataSetWriter *writer = vtkDataSetWriter::New();
-  writer->SetInput(outputVolumeVTKData);
+  writer->SetInputData(outputVolumeVTKData);
 
   string fullPathOutputFilename;
   fullPathOutputFilename.append(MAF_DATA_ROOT);
