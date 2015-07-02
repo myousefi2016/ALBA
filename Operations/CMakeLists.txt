@@ -331,7 +331,7 @@ IF (MAF_USE_VTK)
 	find_package(VTK 6.0 REQUIRED NO_MODULE)
 	include(${VTK_USE_FILE})
 
-  SET(PROJECT_LIBS #${PROJECT_LIBS}  ${VTK_LIBRARIES} vtkMAF mafCommon)
+  SET(PROJECT_LIBS ${PROJECT_LIBS}  ${VTK_LIBRARIES} vtkMAF mafCommon)
 ENDIF (MAF_USE_VTK)
 
 # Create the library.
