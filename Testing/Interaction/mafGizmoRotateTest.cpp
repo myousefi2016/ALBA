@@ -76,7 +76,7 @@ void mafGizmoRotateTest::CreateTestData()
   axes->SetScaleFactor(2.5);
   
   vtkMAFSmartPointer<vtkTubeFilter> tube;
-  tube->SetInput(axes->GetOutput());
+  tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.1);
   tube->SetNumberOfSides(20);
   

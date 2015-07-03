@@ -141,7 +141,7 @@ medInteractor2DDistance::medInteractor2DDistance(bool testMode /* = false */)
   m_Line->SetPoint1(0,0,0);
   m_Line->SetPoint2(0.5,0.5,0);
   m_Line->Update();
-  m_LineMapper->SetInput(m_Line->GetOutput());
+  m_LineMapper->SetInputConnection(m_Line->GetOutputPort());
   m_LineMapper->SetTransformCoordinate(m_Coordinate);
   m_LineActor->SetMapper(m_LineMapper);
   m_LineActor->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -149,7 +149,7 @@ medInteractor2DDistance::medInteractor2DDistance(bool testMode /* = false */)
   m_Line2->SetPoint1(0,0,0);
   m_Line2->SetPoint2(0.5,0.5,0);
   m_Line2->Update();
-  m_LineMapper2->SetInput(m_Line2->GetOutput());
+  m_LineMapper2->SetInputConnection(m_Line2->GetOutputPort());
   m_LineMapper2->SetTransformCoordinate(m_Coordinate);
   m_LineActor2->SetMapper(m_LineMapper2);
   m_LineActor2->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -591,7 +591,7 @@ void medInteractor2DDistance::DrawMeasureTool(double x, double y)
     m_LineMapperVector1.push_back(NULL);
     m_LineMapperVector1[m_LineMapperVector1.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInput(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutput());
+    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInputConnection(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutputPort());
 
     m_LineActorVector1.push_back(NULL);
     m_LineActorVector1[m_LineActorVector1.size()-1] = vtkActor2D::New();
@@ -663,7 +663,7 @@ void medInteractor2DDistance::DrawMeasureTool(double x, double y)
     m_LineMapperVector2.push_back(NULL);
     m_LineMapperVector2[m_LineMapperVector2.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInput(m_LineSourceVector2[m_LineMapperVector2.size()-1]->GetOutput());
+    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInputConnection(m_LineSourceVector2[m_LineMapperVector2.size()-1]->GetOutputPort());
 
     m_LineActorVector2.push_back(NULL);
     m_LineActorVector2[m_LineActorVector2.size()-1] = vtkActor2D::New();
@@ -720,7 +720,6 @@ void medInteractor2DDistance::CreateHistogram()
   if (m_ProbedVME != NULL)
   {
     vtkDataSet *probed_data = m_ProbedVME->GetOutput()->GetVTKData();
-    probed_data->Update();
 
     m_PlotActor->SetXRange(0,m_Distance);
     m_PlotActor->SetPlotCoordinate(0,m_Distance);
@@ -771,14 +770,13 @@ void medInteractor2DDistance::CreateHistogram()
    
 
     vtkMAFSmartPointer<vtkProbeFilter> prober;
-    prober->SetInput(m_ProbingLine->GetOutput());
-    prober->SetSource(probed_data);
+    prober->SetInputConnection(m_ProbingLine->GetOutputPort());
+    prober->SetSourceData(probed_data);
     prober->Update();
 
-    m_PlotActor->RemoveAllInputs();
-
-    vtkPolyData *probimg_result = prober->GetPolyDataOutput();
-    m_PlotActor->AddInput(probimg_result);
+    m_PlotActor->RemoveAllDataSetInputConnections();
+		    
+    m_PlotActor->AddDataObjectInputConnection(prober->GetOutputPort());
     m_HistogramRWI->m_RwiBase->Render();
   }
 }
@@ -800,7 +798,7 @@ void medInteractor2DDistance::GenerateHistogram(bool generate)
   m_GenerateHistogram = generate;
   if (m_GenerateHistogram)
   {
-    m_PlotActor->RemoveAllInputs();
+    m_PlotActor->RemoveAllDataSetInputConnections();
     if (m_HistogramRWI)
     {
     	m_HistogramRWI->m_RwiBase->Render();

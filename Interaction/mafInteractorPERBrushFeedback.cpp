@@ -86,7 +86,7 @@ mafInteractorPERBrushFeedback::mafInteractorPERBrushFeedback()
   m_CubeSource->SetZLength(1);
   m_CubeSource->Update();
 
-  m_BrushMapper->SetInput(m_SphereSource->GetOutput());
+  m_BrushMapper->SetInputConnection(m_SphereSource->GetOutputPort());
   m_BrushMapper->SetTransformCoordinate(m_Coordinate);
   m_BrushActor->SetMapper(m_BrushMapper);
   m_BrushActor->GetProperty()->SetColor(0.0,0.0,1.0);
@@ -384,7 +384,7 @@ void mafInteractorPERBrushFeedback::SetBrushShape(int shape)
   {
     m_CurrentShape = CIRCLE_BRUSH_SHAPE;
 
-    m_BrushMapper->SetInput(m_SphereSource->GetOutput());
+    m_BrushMapper->SetInputConnection(m_SphereSource->GetOutputPort());
     m_BrushMapper->SetTransformCoordinate(m_Coordinate);
     m_BrushActor->SetMapper(m_BrushMapper);
     m_BrushActor->GetProperty()->SetColor(0.0,0.0,1.0);
@@ -394,7 +394,7 @@ void mafInteractorPERBrushFeedback::SetBrushShape(int shape)
   {
     m_CurrentShape = SQUARE_BRUSH_SHAPE;
 
-    m_BrushMapper->SetInput(m_CubeSource->GetOutput());
+    m_BrushMapper->SetInputConnection(m_CubeSource->GetOutputPort());
     m_BrushMapper->SetTransformCoordinate(m_Coordinate);
     m_BrushActor->SetMapper(m_BrushMapper);
     m_BrushActor->GetProperty()->SetColor(0.0,0.0,1.0);

@@ -89,7 +89,7 @@ void mafGizmoTranslateAxisTest::CreateTestData()
   axes->SetScaleFactor(2.5);
   
   vtkMAFSmartPointer<vtkTubeFilter> tube;
-  tube->SetInput(axes->GetOutput());
+  tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.5);
   tube->SetNumberOfSides(20);
   
@@ -283,7 +283,7 @@ void mafGizmoTranslateAxisTest::RenderData( vtkDataSet *data )
 {
   vtkDataSetMapper *mapper = vtkDataSetMapper::New();
   mapper->ScalarVisibilityOn();
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
 
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);

@@ -204,7 +204,7 @@ void mafGizmoTranslatePlane::CreatePipeline()
   for (i = 0; i < SQ; i++)
   {
     m_LineTF[i] = vtkTubeFilter::New();
-    m_LineTF[i]->SetInput(m_Line[i]->GetOutput());
+    m_LineTF[i]->SetInputConnection(m_Line[i]->GetOutputPort());
     m_LineTF[i]->SetRadius(d / 200);
     m_LineTF[i]->SetNumberOfSides(20);
   }
@@ -223,11 +223,11 @@ void mafGizmoTranslatePlane::CreatePipeline()
   {
     m_RotatePDF[i] = vtkTransformPolyDataFilter::New();
     m_RotatePDF[i]->SetTransform(m_RotationTr);
-    m_RotatePDF[i]->SetInput(m_LineTF[i]->GetOutput());
+    m_RotatePDF[i]->SetInputConnection(m_LineTF[i]->GetOutputPort());
   }
   m_RotatePDF[SQ] = vtkTransformPolyDataFilter::New();
   m_RotatePDF[SQ]->SetTransform(m_RotationTr);
-  m_RotatePDF[SQ]->SetInput(m_Plane->GetOutput());
+  m_RotatePDF[SQ]->SetInputConnection(m_Plane->GetOutputPort());
 }
 
 //----------------------------------------------------------------------------

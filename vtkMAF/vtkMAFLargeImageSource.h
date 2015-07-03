@@ -23,8 +23,7 @@ class vtkMAFLargeImageData;
 class MAF_EXPORT vtkMAFLargeImageSource : public vtkDataSetAlgorithm
 {
 public:
-  static vtkMAFLargeImageSource* New();
-
+  
   vtkTypeMacro(vtkMAFLargeImageSource,vtkDataSetAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 

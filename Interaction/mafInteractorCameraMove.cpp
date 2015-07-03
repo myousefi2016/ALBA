@@ -334,8 +334,8 @@ void mafInteractorCameraMove::Spin()
     atan2((double)m_LastMousePose[1] - (double)center[1],
           (double)m_LastMousePose[0] - (double)center[0]);
   
-  newAngle *= vtkMath::RadiansToDegrees();
-  oldAngle *= vtkMath::RadiansToDegrees();
+  newAngle = vtkMath::DegreesFromRadians(newAngle);
+  oldAngle = vtkMath::DegreesFromRadians(newAngle);
 
   m_CurrentCamera->Roll(newAngle - oldAngle);
   m_CurrentCamera->OrthogonalizeViewUp();

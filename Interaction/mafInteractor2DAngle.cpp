@@ -90,7 +90,7 @@ mafInteractor2DAngle::mafInteractor2DAngle()
   m_Line->SetPoint1(0,0,0);
   m_Line->SetPoint2(0.5,0.5,0);
   m_Line->Update();
-  m_LineMapper->SetInput(m_Line->GetOutput());
+  m_LineMapper->SetInputConnection(m_Line->GetOutputPort());
   m_LineMapper->SetTransformCoordinate(m_Coordinate);
   m_LineActor->SetMapper(m_LineMapper);
   m_LineActor->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -98,7 +98,7 @@ mafInteractor2DAngle::mafInteractor2DAngle()
   m_Line2->SetPoint1(0,0,0);
   m_Line2->SetPoint2(0.5,0.5,0);
   m_Line2->Update();
-  m_LineMapper2->SetInput(m_Line2->GetOutput());
+  m_LineMapper2->SetInputConnection(m_Line2->GetOutputPort());
   m_LineMapper2->SetTransformCoordinate(m_Coordinate);
   m_LineActor2->SetMapper(m_LineMapper2);
   m_LineActor2->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -505,7 +505,7 @@ void mafInteractor2DAngle::DrawMeasureTool(double x, double y)
     m_LineMapperVector1.push_back(NULL);
     m_LineMapperVector1[m_LineMapperVector1.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInput(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutput());
+    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInputConnection(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutputPort());
 
     m_LineActorVector1.push_back(NULL);
     m_LineActorVector1[m_LineActorVector1.size()-1] = vtkActor2D::New();
@@ -528,7 +528,7 @@ void mafInteractor2DAngle::DrawMeasureTool(double x, double y)
     m_LineMapperVector2.push_back(NULL);
     m_LineMapperVector2[m_LineMapperVector2.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInput(m_LineSourceVector2[m_LineSourceVector2.size()-1]->GetOutput());
+    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInputConnection(m_LineSourceVector2[m_LineSourceVector2.size()-1]->GetOutputPort());
 
     m_LineActorVector2.push_back(NULL);
     m_LineActorVector2[m_LineActorVector2.size()-1] = vtkActor2D::New();
@@ -584,7 +584,7 @@ void mafInteractor2DAngle::CalculateMeasure()
       
     }
     
-    angle *= vtkMath::RadiansToDegrees();
+    angle = vtkMath::DegreesFromRadians(angle);
     m_AbsoluteAngle = angle;
     //if(angle >= 90.0 && m_MeasureType == ANGLE_BETWEEN_LINES) 
     //  angle = 180.0 - angle; 
@@ -904,6 +904,9 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
  */   
  
 	  bool particularCase = false; 
+
+		double tanFormRadAngle=tan(vtkMath::RadiansFromDegrees(manualAngle));
+
   
 	  //particularCase
     if(tmp2[0] == tmp1[0])
@@ -926,8 +929,8 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       double deltaY = 0, deltaX = 0;
       double line2Length = 0;
       line2Length= sqrt(vtkMath::Distance2BetweenPoints(tmp3,tmp4));
-      deltaY = line2Length * sin(manualAngle/vtkMath::RadiansToDegrees());
-      deltaX = line2Length * cos(manualAngle/vtkMath::RadiansToDegrees());
+      deltaY = line2Length * sin(vtkMath::RadiansFromDegrees(manualAngle));
+      deltaX = line2Length * cos(vtkMath::RadiansFromDegrees(manualAngle));
 
       deltaY = abs(deltaY);
       deltaX = abs(deltaX);
@@ -1017,24 +1020,24 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       double m;
       double mLine2;
       mLine2 = (tmp4[1] - tmp3[1])/(tmp4[0] - tmp3[0]);
-      
+    
       if(tmp4[0] > tmp3[0] && tmp4[1] >= tmp3[1])
       {
         if(mLine2 < m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
 
       if(tmp4[0] > tmp3[0] && tmp4[1] < tmp3[1])
       {
-        m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );
+        m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );
         m_Clockwise = true;
       }
 
@@ -1042,19 +1045,19 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
         if(mLine2 > m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
 
       if(tmp4[0] < tmp3[0] && tmp4[1] >= tmp3[1])
       {
-        m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );
+        m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );
         m_Clockwise = false;
       }
 
@@ -1073,7 +1076,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
    
       double angle1QUad;
       angle1QUad = atan(m1QUad);
-      angle1QUad *= vtkMath::RadiansToDegrees();
+      angle1QUad = vtkMath::DegreesFromRadians(angle1QUad);
       angle1QUad = 90 - angle1QUad;
 
       double searchAngleQuadrant;
@@ -1109,7 +1112,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       
       if(tmp4[0] > tmp3[0] && tmp4[1] >= tmp3[1])
       {
-        m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+        m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
         m_Clockwise = false;
       }
 
@@ -1117,19 +1120,19 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
        if(mLine2 < m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
 
       if(tmp4[0] <= tmp3[0] && tmp4[1] < tmp3[1])
       {
-        m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+        m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
         m_Clockwise = true;
       }
 
@@ -1137,12 +1140,12 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
         if(mLine2 > m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
@@ -1160,7 +1163,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
      
       double angle2QUad;
       angle2QUad = atan(-1/m2QUad);
-      angle2QUad *= vtkMath::RadiansToDegrees();
+      angle2QUad = vtkMath::DegreesFromRadians(angle2QUad);
       angle2QUad = 90 - angle2QUad;
 
       double searchAngleQuadrant;
@@ -1198,19 +1201,19 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
         if(mLine2 > m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
 
       if(tmp4[0] > tmp3[0] && tmp4[1] < tmp3[1])
       {
-        m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );
+        m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );
         m_Clockwise = false;
       }
 
@@ -1218,12 +1221,12 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
         if(mLine2 < m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
@@ -1231,7 +1234,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       if(tmp4[0] < tmp3[0] && tmp4[1] >= tmp3[1])
       {
         
-        m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );
+        m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );
         m_Clockwise = true;
       }
  
@@ -1250,7 +1253,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
    
       double angle3QUad;
       angle3QUad = atan(m3QUad);
-      angle3QUad *= vtkMath::RadiansToDegrees();
+      angle3QUad = vtkMath::DegreesFromRadians(angle3QUad);
       angle3QUad = 90 - angle3QUad;
 
       double searchAngleQuadrant;
@@ -1287,7 +1290,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       
       if(tmp4[0] > tmp3[0] && tmp4[1] >= tmp3[1])
       {  
-        m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+        m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
         m_Clockwise = true;
       }
 
@@ -1295,19 +1298,19 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
        if(mLine2 > m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
 
       if(tmp4[0] <= tmp3[0] && tmp4[1] < tmp3[1])
       {
-        m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+        m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
         m_Clockwise = false;
       }
 
@@ -1315,12 +1318,12 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
       {
         if(mLine2 < m1)
         {
-          m = (-tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 +1 );  
+          m = (-tanFormRadAngle + m1) / ( tanFormRadAngle * m1 +1 );  
           m_Clockwise = true;
         }
         else
         {
-          m = -(tan(manualAngle/vtkMath::RadiansToDegrees()) + m1) / ( tan(manualAngle/vtkMath::RadiansToDegrees()) * m1 -1 );  
+          m = -(tanFormRadAngle + m1) / ( tanFormRadAngle * m1 -1 );  
           m_Clockwise = false;
         }
       }
@@ -1339,7 +1342,7 @@ s = wxString::Format(L"tmp4OLD:%f , %f , %f" , tmp4[0],tmp4[1],tmp4[2]);
      
       double angle4QUad;
       angle4QUad = atan(-1/m4QUad);
-      angle4QUad *= vtkMath::RadiansToDegrees();
+      angle4QUad = vtkMath::DegreesFromRadians(angle4QUad);
       angle4QUad = 90 - angle4QUad;
 
       double searchAngleQuadrant;

@@ -448,7 +448,7 @@ void mafCameraTransform::AutoFitting2(mafMatrix *matrix,mafOBB *tracked_bounds,v
   double vangle;
   vangle=camera->GetViewAngle(); // field of view Y Angle
   
-  double c=tan(vangle/2*vtkMath::DegreesToRadians());
+  double c=tan(vtkMath::RadiansFromDegrees(vangle/2));
 
   double d=camera->GetDistance();
   

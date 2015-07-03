@@ -114,7 +114,7 @@ void mafAvatar3DConeTest::TestPick()
   disk->SetRadialResolution(80);
   disk->Update();
   vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-  mapper->SetInput(disk->GetOutput());
+  mapper->SetInputConnection(disk->GetOutputPort());
   vtkMAFSmartPointer<vtkActor> actor;
   actor->SetMapper(mapper);
   actor->SetPosition(0,0,0);
@@ -219,8 +219,8 @@ void mafAvatar3DConeTest::CompareImages()
 
 
   vtkImageMathematics *imageMath = vtkImageMathematics::New();
-  imageMath->SetInput1(imDataOrig);
-  imageMath->SetInput2(imDataComp);
+  imageMath->SetInput1Data(imDataOrig);
+  imageMath->SetInput2Data(imDataComp);
   imageMath->SetOperationToSubtract();
   imageMath->Update();
 

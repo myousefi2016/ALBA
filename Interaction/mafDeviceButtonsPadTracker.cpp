@@ -235,7 +235,7 @@ void mafDeviceButtonsPadTracker::SetLastPoseMatrix(const mafMatrix &matrix)
   // I had to add a test on elapsed time since it seems sometimes
   // an event gets lost! :-(((
   m_LastPoseMutex.Lock(); 
-  mafTimeStamp elapsed_time = (vtkTimerLog::GetCurrentTime()-m_LastMoveTime);
+  mafTimeStamp elapsed_time = (vtkTimerLog::GetUniversalTime()-m_LastMoveTime);
 
   // This is a very tricky thing: remove a move event after a give timeout
   // The only problem is if some other thread is pushing an event while we 
@@ -279,7 +279,7 @@ void mafDeviceButtonsPadTracker::SetLastPoseMatrix(const mafMatrix &matrix)
 
     // update current matrix
     *m_LastPoseMatrix=matrix;
-    m_LastPoseMatrix->SetTimeStamp(vtkTimerLog::GetCurrentTime()); // set the time stamp to the current time
+    m_LastPoseMatrix->SetTimeStamp(vtkTimerLog::GetUniversalTime()); // set the time stamp to the current time
 
     mafEventInteraction move_event(this,GetTracker3DMoveId(),m_LastPoseMatrix);    
 
