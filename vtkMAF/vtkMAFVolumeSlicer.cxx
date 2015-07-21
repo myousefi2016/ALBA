@@ -62,6 +62,14 @@ vtkMAFVolumeSlicer::vtkMAFVolumeSlicer()
 
   this->VoxelCoordinates[0] = this->VoxelCoordinates[1] = this->VoxelCoordinates[2] = NULL;
   TriLinearInterpolationOn = true;
+
+	OutputDimentions[0]=OutputDimentions[1]=OutputDimentions[2]=1;
+	OutputSpacing[0]=OutputSpacing[1]=OutputSpacing[2]=1.0;
+
+	this->SetNumberOfInputPorts(2);
+	this->GetInputPortInformation(1)->Set(vtkAlgorithm::INPUT_IS_OPTIONAL(), 1);
+
+	SetOutputTypeToImageData();
 }
 //----------------------------------------------------------------------------
 vtkMAFVolumeSlicer::~vtkMAFVolumeSlicer() 
@@ -149,22 +157,16 @@ unsigned long int vtkMAFVolumeSlicer::GetMTime()
 int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  if (GetInput()==NULL)
+
+	vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
+  if (input==NULL)
     return 1;
   for (int i = 0; i < this->GetNumberOfOutputPorts(); i++) 
   {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) 
     {
       vtkImageData *output = (vtkImageData*)this->GetOutput(i);
-      
-      int dims[3];
-      output->GetDimensions(dims);
-      if (dims[2] != 1) 
-      {
-        dims[2] = 1;
-        output->SetDimensions(dims);
-      }
-      
+		   
       this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) 
@@ -206,7 +208,7 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
               p[i] /= this->GlobalPlaneAxisZ[i];
               if (p[i] >= this->DataBounds[i][0] && p[i] <= this->DataBounds[i][1]) 
               {
-                this->CalculateTextureCoordinates(p, (int*)dims, spacing, t[numberOfPoints]);
+                this->CalculateTextureCoordinates(p, (int*)OutputDimentions, spacing, t[numberOfPoints]);
                 if (t[numberOfPoints][0] > maxT)
                   maxT = t[numberOfPoints][0];
                 if (t[numberOfPoints][0] < minT)
@@ -224,20 +226,20 @@ int vtkMAFVolumeSlicer::RequestInformation(vtkInformation *vtkNotUsed(request), 
         // find spacing now
         float maxSpacing = max(maxS - minS, maxT - minT);
         spacing[0] = spacing[1] = max(maxSpacing, 1.e-8f);
-        output->SetSpacing(spacing);
+        SetOutputSpacing(spacing);
 
         // http://bugzilla.hpc.cineca.it/show_bug.cgi?id=1180
         // Totally heuristic bug fix: magicNumber was 1.e-3 before.
         const float magicNumber = 1.e-5;
         if (fabs(minT) > magicNumber || fabs(minS) > magicNumber) 
         {
-          this->GlobalPlaneOrigin[0] += minT * this->GlobalPlaneAxisX[0] * dims[0] + minS * this->GlobalPlaneAxisY[0] * dims[1];
-          this->GlobalPlaneOrigin[1] += minT * this->GlobalPlaneAxisX[1] * dims[0] + minS * this->GlobalPlaneAxisY[1] * dims[1];
-          this->GlobalPlaneOrigin[2] += minT * this->GlobalPlaneAxisX[2] * dims[0] + minS * this->GlobalPlaneAxisY[2] * dims[1];
+          this->GlobalPlaneOrigin[0] += minT * this->GlobalPlaneAxisX[0] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[0] * OutputDimentions[1];
+          this->GlobalPlaneOrigin[1] += minT * this->GlobalPlaneAxisX[1] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[1] * OutputDimentions[1];
+          this->GlobalPlaneOrigin[2] += minT * this->GlobalPlaneAxisX[2] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[2] * OutputDimentions[1];
           this->Modified();
         }
       }
-      output->SetOrigin(this->GlobalPlaneOrigin);
+      
     }
     else 
     {
@@ -253,7 +255,7 @@ int vtkMAFVolumeSlicer::RequestData(vtkInformation *request,	vtkInformationVecto
 	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
 	// Initialize some frequently used values.
-	vtkDataSet  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
 	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
   this->NumComponents = input->GetPointData()->GetScalars()->GetNumberOfComponents();
@@ -264,8 +266,6 @@ int vtkMAFVolumeSlicer::RequestData(vtkInformation *request,	vtkInformationVecto
     this->RequestData(request,(vtkImageData*)output);
   else if (vtkPolyData::SafeDownCast(output))
     this->RequestData(request,(vtkPolyData*)output);
-  
-  output->Modified();
 
 	return 1;
 }
@@ -517,10 +517,14 @@ void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkPolyData *output
 void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkImageData *outputObject) 
 //----------------------------------------------------------------------------
 {
-  outputObject->SetNumberOfScalarComponents(this->NumComponents,request);
-  outputObject->AllocateScalars(request);
   
-	vtkPolyData *inputPD = vtkPolyData::SafeDownCast(this->GetInput());
+	vtkDataSet *inputPD = vtkDataSet::SafeDownCast(this->GetInput());
+
+	OutputDimentions[2] = 1; 
+	outputObject->SetExtent(0,OutputDimentions[0]-1, 0,OutputDimentions[1]-1,0, OutputDimentions[2]-1);
+	outputObject->AllocateScalars(inputPD->GetPointData()->GetScalars()->GetDataType(),inputPD->GetPointData()->GetScalars()->GetNumberOfComponents());
+	outputObject->SetSpacing(OutputSpacing);
+	outputObject->SetOrigin(this->GlobalPlaneOrigin);
 
   const void *inputPointer  = inputPD->GetPointData()->GetScalars()->GetVoidPointer(0);
   const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);
@@ -796,4 +800,28 @@ void vtkMAFVolumeSlicer::SetSliceTransform(vtkLinearTransform *trans)
 {
   TransformSlice = trans;
   Modified();
+}
+
+void vtkMAFVolumeSlicer::SetOutputType(char *vtkType)
+{
+	strncpy(OutputVtkType,vtkType,100);
+}
+
+void vtkMAFVolumeSlicer::SetOutputTypeToImageData()
+{
+	SetOutputType("vtkImageData"); 
+}
+
+void vtkMAFVolumeSlicer::SetOutputTypeToPolyData()
+{
+	SetOutputType("vtkPolyData"); 
+}
+
+
+//----------------------------------------------------------------------------
+int vtkMAFVolumeSlicer::FillOutputPortInformation(int port, vtkInformation* info)
+{
+	// now add our info
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), OutputVtkType); 
+	return 1;
 }

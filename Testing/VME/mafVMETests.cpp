@@ -171,6 +171,7 @@ int	main( int argc, char* argv[] )
 
 	// Add the top suite to the test runner
 	CPPUNIT_NS::TestRunner runner;
+	runner.addTest(mafPipeTensorFieldSurfaceTest::suite()); 
 	runner.addTest(mafVMEExternalDataTest::suite());
 	runner.addTest(mafVMEVolumeGrayTest::suite());
 	runner.addTest(mafVMESurfaceParametricTest::suite());
@@ -269,7 +270,6 @@ int	main( int argc, char* argv[] )
 	runner.addTest(mafPipeCompoundVolumeFixedScalarsTest::suite());
 	runner.addTest(mafVisualPipePolylineGraphTest::suite());
 	runner.addTest(mafPipeSurfaceEditorTest::suite());
-	runner.addTest(mafPipeTensorFieldSurfaceTest::suite());
 	runner.addTest(mafPipeVectorFieldSurfaceTest::suite());
 	runner.addTest(mafPipeVectorFieldGlyphsTest::suite());
 	runner.addTest(mafPipeVectorFieldMapWithArrowsTest::suite());

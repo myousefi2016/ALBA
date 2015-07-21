@@ -68,16 +68,13 @@ mafVMESlicer::mafVMESlicer()
   m_TextureRes = 512;
   m_Xspc = m_Yspc = 0.3;
 
-	/* TODO VTK6 Check
-	vtkMAFSmartPointer<vtkImageData> image;
-  image->SetExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
-  //image->SetUpdateExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
-  image->SetSpacing(m_Xspc, m_Yspc, 1.f);
-
-  vtkMAFSmartPointer<vtkPolyData> slice;
-	*/
   vtkNEW(m_PSlicer);
   vtkNEW(m_ISlicer);
+	m_PSlicer->SetOutputTypeToPolyData();
+
+	m_ISlicer->SetOutputDimentions(m_TextureRes,m_TextureRes,1);
+	m_ISlicer->SetOutputSpacing(m_Xspc, m_Yspc, 1.0f);
+
   m_PSlicer->SetTextureConnection(m_ISlicer->GetOutputPort());
   
   vtkNEW(m_BackTransform);
@@ -89,16 +86,7 @@ mafVMESlicer::mafVMESlicer()
   mafDataPipeCustom *dpipe = mafDataPipeCustom::New();
   dpipe->SetDependOnAbsPose(true);
   SetDataPipe(dpipe);
-
-  dpipe->SetInput(m_BackTransform->GetOutput());
-  dpipe->SetNthInput(1,m_ISlicer->GetOutput());
-
-  // set the texture in the output, must do it here, after setting slicer filter's input
-  GetSurfaceOutput()->SetTexture((vtkImageData *)((mafDataPipeCustom *)GetDataPipe())->GetVTKDataPipe()->GetOutput(1));
-  GetMaterial()->SetMaterialTexture(GetSurfaceOutput()->GetTexture());
-  GetMaterial()->m_MaterialType = mmaMaterial::USE_TEXTURE;
-  GetMaterial()->m_TextureMappingMode = mmaMaterial::PLANE_MAPPING;
-
+	
   m_TrilinearInterpolationOn = true;
 }
 
@@ -323,33 +311,46 @@ void mafVMESlicer::InternalPreUpdate()
         return;
       }
 
-      vtkImageData *texture = m_PSlicer->GetTexture();
-      texture->AllocateScalars(scalars->GetDataType(),scalars->GetNumberOfComponents());
-      texture->Modified();
-
-      GetMaterial()->SetMaterialTexture(texture);
-      texture->GetScalarRange(GetMaterial()->m_TableRange);
+			m_PSlicer->Update();
+   
       
 	  if (m_UpdateVTKPropertiesFromMaterial == true)
 	  {
 		  GetMaterial()->UpdateProp();
 	  }
 	  
-      m_PSlicer->SetInputData(vtkdata);
-      m_PSlicer->SetPlaneOrigin(pos);
-      m_PSlicer->SetPlaneAxisX(vectX);
-      m_PSlicer->SetPlaneAxisY(vectY);
-
+      
       m_ISlicer->SetInputData(vtkdata);
       m_ISlicer->SetPlaneOrigin(pos);
       m_ISlicer->SetPlaneAxisX(vectX);
       m_ISlicer->SetPlaneAxisY(vectY);
+			m_ISlicer->Update();
+
+			m_PSlicer->SetInputData(vtkdata);
+			m_PSlicer->SetPlaneOrigin(pos);
+			m_PSlicer->SetPlaneAxisX(vectX);
+			m_PSlicer->SetPlaneAxisY(vectY);
+			m_PSlicer->Update();
 
       m_BackTransform->SetTransform(m_CopyTransform->GetVTKTransform()->GetInverse());
 			m_BackTransform->Update();
+
+			vtkImageData *texture = m_PSlicer->GetTexture();
+			texture->AllocateScalars(scalars->GetDataType(),scalars->GetNumberOfComponents());
+			texture->Modified();
+
+			GetMaterial()->SetMaterialTexture(texture);
+			texture->GetScalarRange(GetMaterial()->m_TableRange);
       /*m_BackTransformParent->SetTransform(transform->GetInverse());
       m_BackTransform->SetInput(m_BackTransformParent->GetOutput());
       m_BackTransform->Update();*/
+
+
+			mafDataPipeCustom *dpipe = mafDataPipeCustom::SafeDownCast(GetDataPipe());
+
+			dpipe->SetInput(m_BackTransform->GetOutput());
+			dpipe->SetNthInput(1,m_ISlicer->GetOutput());
+				
     }
   }
 
@@ -369,6 +370,13 @@ void mafVMESlicer::InternalUpdate()
     {
       m_PSlicer->Update();
       m_ISlicer->Update();
+			m_BackTransform->Update();
+
+			mafDataPipeCustom *dpipe = mafDataPipeCustom::SafeDownCast(GetDataPipe());
+
+			dpipe->SetInput(m_BackTransform->GetOutput());
+			dpipe->SetNthInput(1,m_ISlicer->GetOutput());
+
 
       vtkDataArray *scalars = vtkdata->GetPointData()->GetScalars();
       if (scalars == NULL)
@@ -378,13 +386,19 @@ void mafVMESlicer::InternalUpdate()
 
       vtkImageData *texture = m_PSlicer->GetTexture();
 
-      GetMaterial()->SetMaterialTexture(texture);
+			// set the texture in the output, must do it here, after setting slicer filter's input
+			GetSurfaceOutput()->SetTexture(texture);
+			GetMaterial()->SetMaterialTexture(texture);
+			GetMaterial()->m_MaterialType = mmaMaterial::USE_TEXTURE;
+			GetMaterial()->m_TextureMappingMode = mmaMaterial::PLANE_MAPPING;
+
+      //GetMaterial()->SetMaterialTexture(texture);
       texture->GetScalarRange(GetMaterial()->m_TableRange);
 
-	  if (m_UpdateVTKPropertiesFromMaterial == true)
-	  {
-		GetMaterial()->UpdateProp();
-	  }
+			if (m_UpdateVTKPropertiesFromMaterial == true)
+			{
+				GetMaterial()->UpdateProp();
+			}
     }
   }
 }

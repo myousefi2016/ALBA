@@ -46,13 +46,13 @@ vtkMAFDistanceFilter::vtkMAFDistanceFilter() {
   // caches
   this->UniformToRectGridIndex[0] = this->UniformToRectGridIndex[1] = this->UniformToRectGridIndex[2] = NULL;
   this->VoxelSizes[0] = this->VoxelSizes[1] = this->VoxelSizes[2] = NULL;
+
+	this->SetNumberOfInputPorts(2);
   }
 
 
 //----------------------------------------------------------------------------
 vtkMAFDistanceFilter::~vtkMAFDistanceFilter() {
-  this->SetSource((vtkDataSet *)NULL);
-
   if (this->InputTransform)
     this->InputTransform->Delete();
   if (this->InputMatrix)

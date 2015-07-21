@@ -435,15 +435,8 @@ void mafPipeVolumeSlice::CreateSlice(int direction)
 //  m_SlicerImage[direction]->SetSliceTransform(m_Vme->GetOutput()->GetAbsTransform()->GetVTKTransform()->GetLinearInverse());
 //  m_SlicerPolygonal[direction]->SetSliceTransform(m_Vme->GetOutput()->GetAbsTransform()->GetVTKTransform()->GetLinearInverse());
   
-	/*
-	TODO VTK6 Check
-	vtkNEW(m_Image[direction]);
-  m_Image[direction]->AllocateScalars(vtk_data->GetPointData()->GetScalars()->GetDataType(),vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
-  m_Image[direction]->SetExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
-	m_Image[direction]->SetSpacing(xspc, yspc, zspc);
-
-	m_SlicerImage[direction]->SetOutput(m_Image[direction]);
-	*/
+	m_SlicerImage[direction]->SetOutputDimentions(m_TextureRes,m_TextureRes,1);
+	m_SlicerImage[direction]->SetOutputSpacing(xspc, yspc, zspc);
   m_SlicerImage[direction]->Update();
 
 	vtkNEW(m_Texture[direction]);
@@ -454,8 +447,7 @@ void mafPipeVolumeSlice::CreateSlice(int direction)
   m_Texture[direction]->SetLookupTable(m_ColorLUT);
   m_Texture[direction]->MapColorScalarsThroughLookupTableOn();
 
-  //vtkNEW(m_SlicePolydata[direction]);
-	//m_SlicerPolygonal[direction]->SetOutput(m_SlicePolydata[direction]);
+  m_SlicerPolygonal[direction]->SetOutputTypeToPolyData();
 	m_SlicerPolygonal[direction]->SetTextureConnection(m_SlicerImage[direction]->GetOutputPort());
 	m_SlicerPolygonal[direction]->Update();
 

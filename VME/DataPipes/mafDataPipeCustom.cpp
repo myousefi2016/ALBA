@@ -56,7 +56,8 @@ mafDataPipeCustom::~mafDataPipeCustom()
 vtkDataSet *mafDataPipeCustom::GetVTKData()
 //------------------------------------------------------------------------------
 {
-  m_VTKDataPipe->UpdateInformation();
+	m_VTKDataPipe->UpdateInformation();
+  m_VTKDataPipe->Update();
   return m_VTKDataPipe->GetOutput();
 }
 

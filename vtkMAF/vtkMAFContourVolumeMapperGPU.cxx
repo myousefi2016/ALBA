@@ -49,6 +49,8 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 
 static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCubesTriangleCases::GetCases();
@@ -1000,9 +1002,9 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
     double b[2];
     input->GetScalarRange(b);
     m_MAXScalar=b[1];
-    this->SetInputData(input);
-
-
+    
+		this->SetInputDataInternal(0, input);
+			
     const void *dataPointer = input->GetPointData()->GetScalars()->GetVoidPointer(0);
     vtkImageData* imageData = vtkImageData::SafeDownCast(input);
     if (imageData == NULL) 
@@ -1026,11 +1028,20 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
     //bDataChanged=1;
     PrevContourValue=-1.0f;
   }
+	
 
+	//------------------------------------------------------------------------------
+	vtkDataSet* vtkMAFContourVolumeMapperGPU::GetInput()
+	//------------------------------------------------------------------------------
+	{
+		if (this->GetNumberOfInputConnections(0) < 1)
+		{
+			return NULL;
+		}
+		return vtkDataSet::SafeDownCast( this->GetExecutive()->GetInputData(0, 0) );
+	}
 
-
-
-  //------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------
   // This is the first function to be called before Render()
   // It is used by mafPipeIsosurface::Create() to set the intial contour to an acceptable value.
   // Calls EstimateRelevantVolumeTemplate() with correct scalar datatype

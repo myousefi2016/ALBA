@@ -338,13 +338,8 @@ void mafPipeVolumeSliceBlend::CreateSlice(int direction)
     m_SlicerImage[i][direction]->SetInputData(vtk_data);
     m_SlicerPolygonal[i][direction]->SetInputData(vtk_data);
 
-		/** 
-    vtkNEW(m_Image[i][direction]);
-    m_Image[i][direction]->AllocateScalars(vtk_data->GetPointData()->GetScalars()->GetDataType(),vtk_data->GetPointData()->GetScalars()->GetNumberOfComponents());
-    m_Image[i][direction]->SetExtent(0, m_TextureRes - 1, 0, m_TextureRes - 1, 0, 0);
-    m_Image[i][direction]->SetSpacing(xspc, yspc, zspc);
-
-    m_SlicerImage[i][direction]->SetOutput(m_Image[i][direction]); */
+		m_SlicerImage[i][direction]->SetOutputDimentions(m_TextureRes,m_TextureRes,1);
+		m_SlicerImage[i][direction]->SetOutputSpacing(xspc, yspc, zspc);
     m_SlicerImage[i][direction]->Update();
 
     vtkNEW(m_Texture[i][direction]);
@@ -354,9 +349,8 @@ void mafPipeVolumeSliceBlend::CreateSlice(int direction)
     m_Texture[i][direction]->SetInputConnection(m_SlicerImage[i][direction]->GetOutputPort());
     m_Texture[i][direction]->SetLookupTable(m_ColorLUT);
     m_Texture[i][direction]->MapColorScalarsThroughLookupTableOn();
-
-    //vtkNEW(m_SlicePolydata[i][direction]);
-    //m_SlicerPolygonal[i][direction]->SetOutput(m_SlicePolydata[i][direction]);
+		    
+    m_SlicerPolygonal[i][direction]->SetOutputTypeToPolyData();
     m_SlicerPolygonal[i][direction]->SetTextureConnection(m_SlicerImage[i][direction]->GetOutputPort());
     m_SlicerPolygonal[i][direction]->Update();
 

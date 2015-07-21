@@ -139,6 +139,7 @@ void mafVMESurfaceTest::TestVMESurfaceVisualization()
   mafSmartPointer<mafVMESurface> sphereSurfaceVME;
 
   vtkMAFSmartPointer<vtkSphereSource> sphereSource;
+	sphereSource->Update();
 
   sphereSurfaceVME->SetData(sphereSource->GetOutput(),-1);
 
@@ -314,6 +315,8 @@ void mafVMESurfaceTest::CreateVMETestTree()
 
   vtkMAFSmartPointer<vtkSphereSource> sphere;
   vtkMAFSmartPointer<vtkConeSource> cone;
+	sphere->Update();
+	cone->Update();
 
   int i;
   for (i=0;i<100;i++)
@@ -359,7 +362,7 @@ void mafVMESurfaceTest::CreateVMETestTree()
       cube->SetZLength(1);
       morph=cube;
     }
-
+		morph->Update();
     vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
     morph->Delete();
   }

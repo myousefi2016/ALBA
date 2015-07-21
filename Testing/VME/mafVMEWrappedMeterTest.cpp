@@ -572,14 +572,15 @@ void mafVMEWrappedMeterTest::TestWrappedGeometry()
   vmeParametricSurfaceWrapped->Update();
 
 
-  mafMatrix *matrix1 = vmeParametricSurfaceSTART->GetOutput()->GetAbsMatrix();
-  matrix1->SetElement(X,3,-10); //set a translation value on x axis of -10.0
-  matrix1->SetElement(Y,3,1.5); //set a translation value on y axis of 1.5
+  mafMatrix matrix1;
+  matrix1.SetElement(X,3,-10); //set a translation value on x axis of -10.0
+  matrix1.SetElement(Y,3,1.5); //set a translation value on y axis of 1.5
+	vmeParametricSurfaceSTART->SetAbsMatrix(matrix1);
 
-  mafMatrix *matrix2 = vmeParametricSurfaceEND1->GetOutput()->GetAbsMatrix();
-  matrix2->SetElement(X,3,10); //set a translation value on x axis of 10.0
-  matrix2->SetElement(Y,3,1.5); //set a translation value on y axis of 1.5
-
+  mafMatrix matrix2;
+  matrix2.SetElement(X,3,10); //set a translation value on x axis of 10.0
+  matrix2.SetElement(Y,3,1.5); //set a translation value on y axis of 1.5
+	vmeParametricSurfaceEND1->SetAbsMatrix(matrix2);
   //this create 3 spheres, o--  10 --  -- 10 -- o , total distance is 10, and tangent points are the same
   //                                  o  <-- this is wrapped surface
 

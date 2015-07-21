@@ -100,6 +100,9 @@ void mafPipeGraphTest::TestPipeExecution()
 {
   ///////////////// render stuff /////////////////////////
 
+	//setting a seed in order to obtain the same pseudo-random graph color for each test
+	srand(1356);
+
   m_Renderer->SetBackground(0.1, 0.1, 0.1);
   m_AlwaysVisibleRenderer->SetBackground(0.1, 0.1, 0.1);
 

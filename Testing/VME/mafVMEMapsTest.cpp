@@ -55,8 +55,8 @@ void mafVMEMapsTest::setUp()
   m_SurfaceToMap  = NULL;
   m_Volume        = NULL;
 
-  polydata   = NULL;
-  sphere = NULL;
+  m_Polydata   = NULL;
+  m_Sphere = NULL;
 
   m_DensityDistance = 0;
   m_FirstThreshold = 10;
@@ -68,7 +68,7 @@ void mafVMEMapsTest::setUp()
   mafNEW(m_Volume);
   mafNEW(m_Root);
 
-  vtkNEW(sphere);
+  vtkNEW(m_Sphere);
 }
 //----------------------------------------------------------------------------
 void mafVMEMapsTest::tearDown()
@@ -79,7 +79,7 @@ void mafVMEMapsTest::tearDown()
   mafDEL(m_Volume);
   mafDEL(m_Root);
   
-  vtkDEL(sphere);
+  vtkDEL(m_Sphere);
 }
 
 //---------------------------------------------------------
@@ -114,11 +114,12 @@ void mafVMEMapsTest::CreateVMEMaps()
   m_Volume->GetOutput()->Update();
   m_Volume->Update();
 
-  sphere->SetCenter(0,0,0);
-  sphere->SetRadius(10);
-  polydata = sphere->GetOutput();
+  m_Sphere->SetCenter(0,0,0);
+  m_Sphere->SetRadius(10);
+	m_Sphere->Update();
+  m_Polydata = m_Sphere->GetOutput();
 
-  m_SurfaceToMap->SetData(polydata, 0.0);
+  m_SurfaceToMap->SetData(m_Polydata, 0.0);
   m_SurfaceToMap->ReparentTo(m_Root);
 
   m_Maps->SetSourceVMELink(m_Volume);

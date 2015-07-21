@@ -525,18 +525,10 @@ void mafOpExtractIsosurface::CreateSlicePipeline()
 
 
   m_SliceImage = vtkImageData::New();
-
-	//TODO VTK6 
-	//Check code
-
-  //m_SliceImage->AllocateScalars(dataset->GetPointData()->GetScalars()->GetDataType(),dataset->GetPointData()->GetScalars()->GetNumberOfComponents()); 
-	
-  //m_SliceImage->SetExtent(ext[0], ext[1], ext[2], ext[3], 0, 0);
-  //double textureRes=512;
-	//m_SliceImage->SetExtent(0, textureRes - 1, 0, textureRes - 1, 0, 0);
-	// m_SliceImage->SetSpacing(xspc, yspc, 1.f);
-
-  //m_VolumeSlicer->SetOutput(m_SliceImage);
+		
+  double textureRes=512;
+	m_VolumeSlicer->SetOutputDimentions(textureRes,textureRes,1);
+	m_VolumeSlicer->SetOutputSpacing(xspc, yspc, 1.0f);
   m_VolumeSlicer->Update();
 	
 	m_SliceImage->DeepCopy(m_VolumeSlicer->GetOutput());
@@ -574,7 +566,7 @@ void mafOpExtractIsosurface::CreateSlicePipeline()
   m_SliceTexture->SetInputData(m_SliceImage);
 
   m_Polydata	= vtkPolyData::New();
-  //m_PolydataSlicer->SetOutput(m_Polydata);
+  m_PolydataSlicer->SetOutputTypeToPolyData();
   m_PolydataSlicer->SetTexture(m_SliceImage);
   m_PolydataSlicer->Update();
 	m_Polydata->DeepCopy(m_PolydataSlicer->GetOutput());

@@ -137,6 +137,7 @@ void mafVMEOutputWrappedMeterTest::TestGetPolylineData_Update()
   vmeWrappedMeter->SetMeterLink("StartVME", mafNode::SafeDownCast(surface));
   vmeWrappedMeter->SetMeterLink("EndVME1", mafNode::SafeDownCast(surface2));
   vmeWrappedMeter->SetMeterLink("WrappedVME", mafNode::SafeDownCast(surface3));
+	vmeWrappedMeter->Update();
 
   mafVMEOutputWrappedMeter *outputWrappedMeter = NULL;
   outputWrappedMeter = mafVMEOutputWrappedMeter::SafeDownCast(vmeWrappedMeter->GetOutput());

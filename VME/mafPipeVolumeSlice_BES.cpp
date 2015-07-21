@@ -458,7 +458,7 @@ void mafPipeVolumeSlice_BES::CreateSlice(int direction)
 	m_SlicerImage[direction]->SetOutput(m_Image[direction]);
   */
 	m_SlicerImage[direction]->SetGPUEnabled(m_EnableGPU);
-  m_SlicerImage[direction]->Update();
+	m_SlicerImage[direction]->Update();
 
 	vtkNEW(m_Texture[direction]);
 	m_Texture[direction]->RepeatOff();

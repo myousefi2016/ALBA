@@ -46,6 +46,7 @@ vtkStandardNewMacro(vtkMAFDataPipe)
 vtkMAFDataPipe::vtkMAFDataPipe()
 //------------------------------------------------------------------------------
 {
+	SetNumberOfOutputPorts(2);
   m_DataPipe = NULL;
 }
 
@@ -66,6 +67,12 @@ void vtkMAFDataPipe::SetDataPipe(mafDataPipe *dpipe)
 void vtkMAFDataPipe::SetNthInput(int num, vtkDataSet *input)
 //----------------------------------------------------------------------------
 {
+	int currentPortNum=this->GetNumberOfInputPorts();
+	if (num>currentPortNum-1)
+	{
+		SetNumberOfInputPorts(num+1);
+		SetNumberOfOutputPorts(num+1);
+	}
   Superclass::SetInputData(num,input);
 }
 
@@ -92,7 +99,7 @@ unsigned long vtkMAFDataPipe::GetMTime()
 unsigned long vtkMAFDataPipe::GetInformationTime()
 //------------------------------------------------------------------------------
 {
-	return this->GetExecutive()->GetOutputInformation()->GetMTime();
+	return this->GetInformation()->GetMTime();
 }
 
 //------------------------------------------------------------------------------
@@ -181,8 +188,9 @@ int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformat
 
   if (input)
   {
-    if(m_DataPipe->IsA("mafDataPipeCustom"))
-      m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_UPDATE));
+		if(m_DataPipe && m_DataPipe->IsA("mafDataPipeCustom"))
+			m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_UPDATE));
+
     for (int i=0;i<GetNumberOfInputPorts();i++)
     {
       if (GetNumberOfOutputPorts()>i)
@@ -197,7 +205,7 @@ int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformat
 				vtkDataObject *nthOutput = vtkDataObject::SafeDownCast(nthOutInfo->Get(vtkDataObject::DATA_OBJECT()));
 
 				if(nthOutput)
-        nthOutput->ShallowCopy(nthInput);
+					nthOutput->ShallowCopy(nthInput);
       }
       else
       {
@@ -205,7 +213,7 @@ int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformat
       }
     }
     // forward event to MAF data pipe
-    if(!m_DataPipe->IsA("mafDataPipeCustom"))
+    if(m_DataPipe && !m_DataPipe->IsA("mafDataPipeCustom"))
       m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_UPDATE));
   }
 

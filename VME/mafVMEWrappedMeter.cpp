@@ -93,6 +93,7 @@ mafVMEWrappedMeter::mafVMEWrappedMeter()
 
   m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
   m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
+	m_Goniometer->Update();
 
   mafNEW(m_TmpTransform);
 
@@ -606,7 +607,7 @@ void mafVMEWrappedMeter::InternalUpdateAutomatedIOR()
     m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
     //m_Goniometer->AddInput(m_LineSourceMiddle->GetOutput());
     m_Goniometer->AddInputConnection(m_Clip->GetOutputPort());
-
+		m_Goniometer->Update();
 
     m_EventSource->InvokeEvent(this, VME_OUTPUT_DATA_UPDATE);
     GetWrappedMeterOutput()->Update(); 
@@ -785,6 +786,7 @@ void mafVMEWrappedMeter::AvoidWrapping(double *local_start, double *local_end)
   m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
   m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
   m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+	m_Goniometer->Update();
   
   m_Distance = sqrt(vtkMath::Distance2BetweenPoints(local_start, local_end));
 
@@ -1181,6 +1183,7 @@ void mafVMEWrappedMeter::InternalUpdateAutomated()
     
     m_Clip->SetInputConnection(m_Cutter->GetOutputPort());
     m_Clip->SetClipFunction(m_PlaneClip);
+		m_Clip->Update();
 
     double clipLength = 0;
 		double numberOfCells = m_Clip->GetOutput()->GetNumberOfCells();
@@ -1212,6 +1215,7 @@ void mafVMEWrappedMeter::InternalUpdateAutomated()
     m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
     //m_Goniometer->AddInput(m_LineSourceMiddle->GetOutput());
     m_Goniometer->AddInputConnection(m_Clip->GetOutputPort());
+		m_Goniometer->Update();
 
 
     m_EventSource->InvokeEvent(this, VME_OUTPUT_DATA_UPDATE);
@@ -1419,6 +1423,7 @@ void mafVMEWrappedMeter::InternalUpdateManual()
       }
 
       m_Goniometer->Modified();
+			m_Goniometer->Update();
     }
     else
       m_Distance = -1;

@@ -208,7 +208,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 /*virtual*/ int vtkMAFVolumeSlicer_BES::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet* input=vtkPolyData::SafeDownCast(GetInput());
+  vtkDataSet* input=vtkDataSet::SafeDownCast(GetInput());
   if (input == NULL || this->GetNumberOfOutputPorts() == 0)
     return 1; //nothing to cut, or we have no output -> exit
   

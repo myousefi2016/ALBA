@@ -178,7 +178,7 @@ void mafVisualPipeSlicerSlice::Create(mafSceneNode *n/*, bool use_axes*/)
   m_Sphere->SetCenter(center);
 
   double spacing[3];
-  mafVMESlicer::SafeDownCast(m_Vme)->GetSurfaceOutput()->GetMaterial()->GetMaterialTexture()->GetSpacing(spacing);
+  material->GetMaterialTexture()->GetSpacing(spacing);
   double meanSpacing = 2*(spacing[0] + spacing[1] + spacing[2]);
   m_Sphere->SetRadius(meanSpacing);
   m_Sphere->Update();

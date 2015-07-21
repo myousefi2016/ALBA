@@ -67,6 +67,7 @@ vtkDataSet *mafDataPipeInterpolatorVTK::GetVTKData()
 {
   m_VTKDataPipe->UpdateInformation();
   vtkDataSet *data = vtkDataSet::SafeDownCast(m_VTKDataPipe->GetInput());
+	m_VTKDataPipe->Update();
   return (data != NULL) ? m_VTKDataPipe->GetOutput() : NULL;
 }
 

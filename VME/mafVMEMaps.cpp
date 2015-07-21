@@ -576,6 +576,7 @@ void mafVMEMaps::UpdateFilter()
     return;
   vtkPolyData *data = (vtkPolyData *)vme->GetOutput()->GetVTKData();
 
+	vme->Update();
   //m_Normals->SetInput(data);
   //m_Normals->ComputePointNormalsOn();
   //m_Normals->SplittingOff();

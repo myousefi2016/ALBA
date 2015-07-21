@@ -57,6 +57,7 @@ mafGizmoBoundingBox::mafGizmoBoundingBox(mafVME *input, mafObserver *listener,ma
 
   m_BoxOutline = vtkOutlineSource::New();
   m_BoxOutline->SetBounds(m_InputVme->GetOutput()->GetVTKData()->GetBounds());
+	m_BoxOutline->Update();
 
   // create the gizmo
   m_BoxGizmo = mafVMEGizmo::New();  
@@ -189,6 +190,7 @@ void mafGizmoBoundingBox::SetBounds(double bounds[6])
 //----------------------------------------------------------------------------
 {
   m_BoxOutline->SetBounds(bounds);
+	m_BoxOutline->Update();
 }
 //----------------------------------------------------------------------------
 mafMatrix * mafGizmoBoundingBox::GetPose()

@@ -137,10 +137,24 @@ void mafVMESlicerTest::TestBug2454And2524Regression()
 
 	renWin->Render();
 
+	vtkPointData *pd = texture->GetPointData();
+	vtkUnsignedCharArray *da = vtkUnsignedCharArray::SafeDownCast(pd->GetScalars());
+	CPPUNIT_ASSERT(da);
+
+	int numTuples = da->GetNumberOfTuples();
+	CPPUNIT_ASSERT(numTuples>0);
+	unsigned char value = da->GetValue(100011);
+	CPPUNIT_ASSERT(value == 43);
+	value = da->GetValue(200087);
+	CPPUNIT_ASSERT(value == 108);
+	value = da->GetValue(240289);
+	CPPUNIT_ASSERT(value == 48);
+
+
 	double pos[3] = {-1.47, -1.47, -1.47};
 	trans->SetPosition(pos);
 
-	double or[3] = {0,90,0};
+	double or[3] = {0,0,90};
 	trans->SetOrientation(or);
 
 	vmeSlicer->SetAbsMatrix(trans->GetMatrix());
@@ -157,32 +171,28 @@ void mafVMESlicerTest::TestBug2454And2524Regression()
 	surfaceData->GetPoints()->GetPoint(2, p);
 	surfaceData->GetPoints()->GetPoint(3, p);
 
-	vtkPointData *pd = texture->GetPointData();
 
-	vtkUnsignedCharArray *da = vtkUnsignedCharArray::SafeDownCast(pd->GetScalars());
-	CPPUNIT_ASSERT(da);
-
-	int numTuples = da->GetNumberOfTuples();
-
-	unsigned char value = da->GetValue(100011);
-	CPPUNIT_ASSERT(value == 43);
-
+	pd = texture->GetPointData();
+	da = vtkUnsignedCharArray::SafeDownCast(pd->GetScalars());
+	numTuples = da->GetNumberOfTuples();
+	CPPUNIT_ASSERT(numTuples>0);
+	value = da->GetValue(100011);
+	CPPUNIT_ASSERT(value == 23);
 	value = da->GetValue(200087);
-	CPPUNIT_ASSERT(value == 108);
-
+	CPPUNIT_ASSERT(value == 122);
 	value = da->GetValue(240289);
-	CPPUNIT_ASSERT(value == 48);
+	CPPUNIT_ASSERT(value == 0);
 
 	renWin->Render();
 
 	double bb[6] = {-1,-1,-1,-1,-1,-1};
 	slicerActor->GetBounds(bb);
 
-	CPPUNIT_ASSERT(bb[0] == 1);
-	CPPUNIT_ASSERT(bb[1] == -1);
-	CPPUNIT_ASSERT(bb[2] == 1);
-	CPPUNIT_ASSERT(bb[3] == -1);
-	CPPUNIT_ASSERT(bb[4] == 1);
-	CPPUNIT_ASSERT(bb[5] == -1);
+	CPPUNIT_ASSERT((int)bb[0] == -123);
+	CPPUNIT_ASSERT((int)bb[1] == 123);
+	CPPUNIT_ASSERT((int)bb[2] == -123);
+	CPPUNIT_ASSERT((int)bb[3] == 123);
+	CPPUNIT_ASSERT((int)bb[4] == 0);
+	CPPUNIT_ASSERT((int)bb[5] == 0);
 
 }

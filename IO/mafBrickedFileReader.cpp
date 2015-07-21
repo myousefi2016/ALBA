@@ -108,6 +108,7 @@ void mafBrickedFileReader::SetOutputRLGDataSet(vtkRectilinearGrid* ds)
 	}
 
 	//NB: GetOutputDataSet to force the construction of m_DataSet, if it does not exist
+	GetOutputDataSet()->AllocateScalars(m_FileHeader.datatype,1);	
 	m_NVoxelSizeInB = m_FileHeader.numcomps*m_DataSet->GetScalarSize();
 
 	m_NBrickSize[0] = m_FileHeader.bricksize;		 

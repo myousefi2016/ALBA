@@ -78,6 +78,7 @@ void mafGizmoInterfaceTest::CreateTestData()
   tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.1);
   tube->SetNumberOfSides(20);
+	tube->Update();
   
   m_GizmoInputSurface->SetData(tube->GetOutput(),0.0,mafVMEGeneric::MAF_VME_REFERENCE_DATA);
   

@@ -251,8 +251,9 @@ void mafPipeIsosurfaceGPU::ExctractIsosurface()
 //----------------------------------------------------------------------------
 {
 	vtkPolyData *surface = vtkPolyData::New();
-	m_ContourMapper->GetOutput(0, surface);
 	m_ContourMapper->Update();
+	m_ContourMapper->GetOutput(0, surface);
+
 
 	wxString name = wxString::Format(_("Isosurface %g"),m_ContourValue);
 

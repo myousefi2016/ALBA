@@ -305,6 +305,8 @@ void mafVMEGizmoTest::CreateVMETestTree()
 
   vtkMAFSmartPointer<vtkSphereSource> sphere;
   vtkMAFSmartPointer<vtkConeSource> cone;
+	cone->Update();
+	sphere->Update();
 
   int i;
   for (i=0;i<100;i++)
@@ -351,6 +353,7 @@ void mafVMEGizmoTest::CreateVMETestTree()
       morph=cube;
     }
 
+		morph->Update();
     vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
     morph->Delete();
   }

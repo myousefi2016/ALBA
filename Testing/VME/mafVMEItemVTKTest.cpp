@@ -103,6 +103,7 @@ void mafVMEItemVTKTest::TestSetData()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   item->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 
@@ -135,6 +136,7 @@ void mafVMEItemVTKTest::TestEquals()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   itemSphere->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 
@@ -143,6 +145,7 @@ void mafVMEItemVTKTest::TestEquals()
 
   vtkCubeSource *cube;
   vtkNEW(cube);
+	cube->Update();
 
   itemCube->SetData(vtkDataSet::SafeDownCast(cube->GetOutput()));
 
@@ -156,6 +159,7 @@ void mafVMEItemVTKTest::TestEquals()
 
   vtkSphereSource *sphereToCompare;
   vtkNEW(sphereToCompare);
+	sphereToCompare->Update();
 
   itemSphereToCompare->SetData(vtkDataSet::SafeDownCast(sphereToCompare->GetOutput()));
 
@@ -182,6 +186,7 @@ void mafVMEItemVTKTest::TestIsDataPresent()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   result = !itemSphere->IsDataPresent();
   TEST_RESULT;
@@ -221,6 +226,7 @@ void mafVMEItemVTKTest::TestDeepCopy()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   item1->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 
@@ -262,6 +268,7 @@ void mafVMEItemVTKTest::TestShallowCopy()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   item1->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 
@@ -323,6 +330,7 @@ void mafVMEItemVTKTest::TestInternalStoreData()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   item->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 
@@ -376,6 +384,7 @@ void mafVMEItemVTKTest::TestStoreToArchive()
 
   vtkSphereSource *sphere;
   vtkNEW(sphere);
+	sphere->Update();
 
   item->SetData(vtkDataSet::SafeDownCast(sphere->GetOutput()));
 

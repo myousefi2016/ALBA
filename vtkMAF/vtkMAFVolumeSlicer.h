@@ -62,6 +62,14 @@ public:
   void SetPlaneAxisY(float axis[3]);
   vtkGetVectorMacro(PlaneAxisY, float, 3);
 
+	/** Set / Get Output Dimensions*/
+	vtkGetVectorMacro(OutputDimentions, int, 3);
+	vtkSetVector3Macro(OutputDimentions,int);
+
+	/** Set / Get Output Spacing*/
+	vtkGetVectorMacro(OutputSpacing, double, 3);
+	vtkSetVector3Macro(OutputSpacing,double);
+	
   /**
   Set / Get the Window for color modulation. The formula for modulation is 
   (S - (L - W/2))/ W where S is the scalar value, L is the level and W is the window.*/
@@ -99,6 +107,12 @@ public:
   /** Set tri-linear interpolation */
   void SetTrilinearInterpolation(bool on){TriLinearInterpolationOn = on;};
 
+	void SetOutputType(char *vtkType);
+
+	void SetOutputTypeToImageData();
+
+	void SetOutputTypeToPolyData();
+		
 protected:
   vtkMAFVolumeSlicer();
   ~vtkMAFVolumeSlicer();
@@ -118,6 +132,11 @@ protected:
 
   void PrepareVolume();
   void CalculateTextureCoordinates(const float point[3], const int size[2], const double spacing[2], float ts[2]);
+
+	/** specialize output information type */
+	virtual int FillOutputPortInformation(int port, vtkInformation* info);
+
+	char OutputVtkType[100];
 
   template<typename InputDataType, typename OutputDataType> void CreateImage(const InputDataType *input, OutputDataType *output, vtkImageData *outputObject);
 
@@ -144,12 +163,16 @@ protected:
   // look-up tables and caches
   vtkTimeStamp PreprocessingTime;
 
-  float*  VoxelCoordinates[3];
+	float*  VoxelCoordinates[3];
   double  DataOrigin[3];
-  double  DataBounds[3][2];
-  int     DataDimensions[3];
+	int     DataDimensions[3];
+	double  DataBounds[3][2];
   double  SamplingTableMultiplier[3];
   bool    TriLinearInterpolationOn;
+
+	//output generation
+	int			OutputDimentions[3];
+	double	OutputSpacing[3];
 private:
   vtkMAFVolumeSlicer(const vtkMAFVolumeSlicer&);  // Not implemented.
   void operator=(const vtkMAFVolumeSlicer&);  // Not implemented.

@@ -1401,7 +1401,7 @@ bool mafPolylineGraph::CopyFromPolydata(vtkPolyData *polydata)
   // Allocate the vertices in the graph.
   // There is a one-to-one correspondence between the vertices in the graph and the points in the polydata.
   vtkPoints *points = polydata->GetPoints() ;
-  int npts = points->GetNumberOfPoints() ;
+  int npts = polydata->GetNumberOfPoints() ;
   AllocateVertices(npts) ;
 
   // Allocate the branches in the graph

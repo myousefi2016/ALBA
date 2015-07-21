@@ -84,8 +84,8 @@ protected:
   mafVMESurface     *m_SurfaceToMap;
   mafVMEMaps        *m_Maps;
 
-  vtkPolyData       *polydata;
-  vtkSphereSource   *sphere;
+  vtkPolyData       *m_Polydata;
+  vtkSphereSource   *m_Sphere;
 
   int m_FirstThreshold;
   int m_SecondThreshold;

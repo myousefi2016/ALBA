@@ -125,6 +125,9 @@ void mafPipeTensorFieldGlyphsTest::TestCreate()
   image->SetDimensions(x,y,z);
   image->SetSpacing(10.,10.,10.);
 
+	//setting a seed in order to obtain the same pseudo-random sequence for each test run.
+	srand(1702);
+
   int i = 0, size = x*y*z;
   for(;i<size;i++){
     scalarArray->InsertNextTuple1(1.0);

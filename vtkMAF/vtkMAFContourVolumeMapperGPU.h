@@ -246,7 +246,7 @@ class name: vtkMAFContourVolumeMapperGPU.
     /** The input should be either vtkImageData or vtkRectilinearGrid */
     void  SetInput(vtkDataSet *input);
     /** Get current input*/
-    vtkDataSet*  GetInput() { return (vtkDataSet*)vtkVolumeMapper::GetInput(); }
+		vtkDataSet*  GetInput();
 
     /** 
     Render the isosurface.
