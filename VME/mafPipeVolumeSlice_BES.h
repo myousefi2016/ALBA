@@ -158,6 +158,8 @@ public:
   /** Set tri-linear interpolation to on */
   void SetTrilinearInterpolationOn(){SetTrilinearInterpolation(1);};
 
+	vtkMAFVolumeSlicer_BES				 *m_SlicerImage[3];
+	vtkMAFVolumeSlicer_BES				 *m_SlicerPolygonal[3];
 protected:
 	/** Create the slicer pipeline. */
 	void CreateSlice(int direction);
@@ -188,8 +190,7 @@ protected:
   mafVMEOutputVolume *m_VolumeOutput;
 
 //BES: 10.4.2008 - vtkVolumeSlicer was replaced by vtkMAFVolumeSlicer
-  vtkMAFVolumeSlicer_BES				 *m_SlicerImage[3];
-	vtkMAFVolumeSlicer_BES				 *m_SlicerPolygonal[3];
+
 	//vtkImageData					 *m_Image[3];
 	vtkTexture						 *m_Texture[3];
   vtkLookupTable         *m_ColorLUT;

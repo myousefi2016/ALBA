@@ -24,6 +24,7 @@
 #include "vtkExecutive.h"
 #include "vtkInformation.h"
 #include "vtkInformationVector.h"
+#include "vtkStreamingDemandDrivenPipeline.h"
 
 vtkStandardNewMacro(vtkMAFVolumeSlicer);
 
@@ -263,9 +264,9 @@ int vtkMAFVolumeSlicer::RequestData(vtkInformation *request,	vtkInformationVecto
   this->PrepareVolume();
 
   if (vtkImageData::SafeDownCast(output))
-    this->RequestData(request,(vtkImageData*)output);
+    this->RequestData(outInfo,(vtkImageData*)output);
   else if (vtkPolyData::SafeDownCast(output))
-    this->RequestData(request,(vtkPolyData*)output);
+    this->RequestData(outInfo,(vtkPolyData*)output);
 
 	return 1;
 }
@@ -357,7 +358,7 @@ int	vtkMAFVolumeSlicer::RequestUpdateExtent( vtkInformation *request, vtkInforma
 	return 1;
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkPolyData *output) 
+void vtkMAFVolumeSlicer::RequestData(vtkInformation *outInfo,vtkPolyData *output) 
 //----------------------------------------------------------------------------
 {
   output->Reset();
@@ -514,17 +515,24 @@ void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkPolyData *output
   tsObj->Delete();
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicer::RequestData(vtkInformation *request,vtkImageData *outputObject) 
+void vtkMAFVolumeSlicer::RequestData(vtkInformation *outInfo,vtkImageData *outputObject) 
 //----------------------------------------------------------------------------
 {
   
 	vtkDataSet *inputPD = vtkDataSet::SafeDownCast(this->GetInput());
 
+
 	OutputDimentions[2] = 1; 
-	outputObject->SetExtent(0,OutputDimentions[0]-1, 0,OutputDimentions[1]-1,0, OutputDimentions[2]-1);
+	int extent[6]={0,OutputDimentions[0]-1, 0,OutputDimentions[1]-1,0, OutputDimentions[2]-1};
+	
+	//Setting output info extent to avoid crop after request data
+	outInfo->Set(vtkStreamingDemandDrivenPipeline::UPDATE_EXTENT(), extent, 6);
+
+	outputObject->SetExtent(extent);
 	outputObject->AllocateScalars(inputPD->GetPointData()->GetScalars()->GetDataType(),inputPD->GetPointData()->GetScalars()->GetNumberOfComponents());
 	outputObject->SetSpacing(OutputSpacing);
 	outputObject->SetOrigin(this->GlobalPlaneOrigin);
+
 
   const void *inputPointer  = inputPD->GetPointData()->GetScalars()->GetVoidPointer(0);
   const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);

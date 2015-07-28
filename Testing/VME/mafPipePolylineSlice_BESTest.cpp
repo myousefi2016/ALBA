@@ -154,7 +154,8 @@ void mafPipePolylineSlice_BESTest::TestPipeExecution()
       while(actor)
       {   
         m_Renderer->AddActor(actor);
-        m_RenderWindow->Render();
+				m_Renderer->ResetCamera();
+	      m_RenderWindow->Render();
 
         actor = actorList->GetNextProp();
       }
@@ -172,6 +173,7 @@ void mafPipePolylineSlice_BESTest::TestPipeExecution()
       while(actor)
       {   
         m_Renderer->AddActor(actor);
+				m_Renderer->ResetCamera();
         m_RenderWindow->Render();
 
         actor = actorList->GetNextProp();
@@ -192,6 +194,7 @@ void mafPipePolylineSlice_BESTest::TestPipeExecution()
       while(actor)
       {   
         m_Renderer->AddActor(actor);
+				m_Renderer->ResetCamera();
         m_RenderWindow->Render();
 
         actor = actorList->GetNextProp();

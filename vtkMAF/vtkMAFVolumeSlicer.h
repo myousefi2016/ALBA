@@ -124,8 +124,8 @@ protected:
 	int RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
   
   // different implementations for polydata and imagedata
-  void RequestData(vtkInformation *request, vtkPolyData *output);
-  void RequestData(vtkInformation *request, vtkImageData *output);
+  void RequestData(vtkInformation *outInfo, vtkPolyData *output);
+  void RequestData(vtkInformation *outInfo, vtkImageData *output);
 
 	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 

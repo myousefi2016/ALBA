@@ -75,6 +75,16 @@ public:
 #pragma message("vtkMAFVolumeSlicer_BES::GetWindow, vtkMAFVolumeSlicer_BES::SetWindow are meaningless - THEY SHOULD BE REMOVED ")
 #pragma message("vtkMAFVolumeSlicer_BES::GetLevel, vtkMAFVolumeSlicer_BES::SetLevel are meaningless - THEY SHOULD BE REMOVED ")
 
+
+	/** Set / Get Output Dimensions*/
+	vtkGetVectorMacro(OutputDimentions, int, 3);
+	vtkSetVector3Macro(OutputDimentions,int);
+
+	/** Set / Get Output Spacing*/
+	vtkGetVectorMacro(OutputSpacing, double, 3);
+	vtkSetVector3Macro(OutputSpacing,double);
+
+
   /**
   Set / Get the Window for color modulation. The formula for modulation is 
   (S - (L - W/2))/ W where S is the scalar value, L is the level and W is the window.
@@ -115,14 +125,24 @@ public:
   void SetTrilinearInterpolation(bool on){m_TriLinearInterpolationOn = on;};
 #pragma endregion Attributes
 
+	/**
+  specify the image to be used for texturing output polydata object*/
+  void SetTexture(vtkImageData *data) {this->SetInputData(1, data);};
+	void SetTextureConnection(vtkAlgorithmOutput *connection) {this->SetInputConnection(1, connection);};
 	 
   vtkImageData *GetTexture() { 
-    return vtkImageData::SafeDownCast(this->GetInputDataObject(0,0));
+    return vtkImageData::SafeDownCast(this->GetInputDataObject(1,0));
   };
 
   /** 
   Transform slicer plane according to the given transformation before slicing.*/
   void SetSliceTransform(vtkLinearTransform *trans);
+
+	void SetOutputType(char *vtkType);
+
+	void SetOutputTypeToImageData();
+
+	void SetOutputTypeToPolyData();
 
 protected:
   vtkMAFVolumeSlicer_BES();
@@ -146,10 +166,10 @@ protected:
 	/*virtual*/	int RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** Create geometry for the slice. */
-  virtual void RequestData(vtkInformation *request,vtkPolyData *output);
+  virtual void RequestData(vtkInformation *outInfo,vtkPolyData *output);
 
   /** Create texture for the slice. */
-  virtual void RequestData(vtkInformation *request,vtkImageData *output);
+  virtual void RequestData(vtkInformation *outInfo,vtkImageData *output);
 
 
   /** Prepares internal data structure for the given input data.
@@ -194,6 +214,11 @@ protected:
   template<typename InputDataType, typename OutputDataType> 
   void CreateImage(const InputDataType *input, OutputDataType *output, vtkImageData *outputObject);
 
+	/** specialize output information type */
+	virtual int FillOutputPortInformation(int port, vtkInformation* info);
+
+	char OutputVtkType[100];
+
 #ifdef _WIN32
   /** Slices voxels from input producing image in output using GPU. */  
   template<typename OutputDataType> 
@@ -236,8 +261,12 @@ protected:
   double DataBounds[3][2];
   int    DataDimensions[3];
   double SamplingTableMultiplier[3];  
-
-  //look-up table that maps fine samples to voxel indices - see CreateImage  
+	
+	//output generation
+	int			OutputDimentions[3];
+	double	OutputSpacing[3];
+  
+	//look-up table that maps fine samples to voxel indices - see CreateImage  
   int* StIndices[3];
   float* StOffsets[3];
 

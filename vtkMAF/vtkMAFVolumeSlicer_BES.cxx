@@ -36,6 +36,7 @@ vtkStandardNewMacro(vtkMAFVolumeSlicer_BES);
 #include "mafMemDbg.h"
 #include "vtkInformationVector.h"
 #include "vtkInformation.h"
+#include "vtkStreamingDemandDrivenPipeline.h"
 
 typedef unsigned short u_short;
 typedef unsigned char u_char;
@@ -88,6 +89,15 @@ vtkMAFVolumeSlicer_BES::vtkMAFVolumeSlicer_BES()
 #endif
 
   m_TriLinearInterpolationOn = true;
+
+
+	OutputDimentions[0]=OutputDimentions[1]=OutputDimentions[2]=1;
+	OutputSpacing[0]=OutputSpacing[1]=OutputSpacing[2]=1.0;
+
+	this->SetNumberOfInputPorts(2);
+	this->GetInputPortInformation(1)->Set(vtkAlgorithm::INPUT_IS_OPTIONAL(), 1);
+
+	SetOutputTypeToImageData();
 }
 //----------------------------------------------------------------------------
 vtkMAFVolumeSlicer_BES::~vtkMAFVolumeSlicer_BES() 
@@ -208,8 +218,8 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
 /*virtual*/ int vtkMAFVolumeSlicer_BES::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet* input=vtkDataSet::SafeDownCast(GetInput());
-  if (input == NULL || this->GetNumberOfOutputPorts() == 0)
+	vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
+	if (input == NULL || this->GetNumberOfOutputPorts() == 0)
     return 1; //nothing to cut, or we have no output -> exit
   
   this->NumComponents = input->GetPointData()->GetScalars()->GetNumberOfComponents();  
@@ -291,13 +301,6 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
     vtkImageData* output = vtkImageData::SafeDownCast(this->GetOutput(i));
     if (output != NULL) 
     {            
-      int dims[3];
-      output->GetDimensions(dims);
-      if (dims[2] != 1) 
-      {        
-        dims[2] = 1;  //force it to be 2D
-        output->SetDimensions(dims);
-      }
       this->SetUpdateExtentToWholeExtent();
 
 
@@ -354,7 +357,7 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
               numberOfPoints++;    //some intersection detected
 
               float ts[2];
-              this->CalculateTextureCoordinates(p, (int*)dims, spacing, ts);
+              this->CalculateTextureCoordinates(p, (int*)OutputDimentions, spacing, ts);
               if (ts[0] > maxT)
                 maxT = ts[0];
               if (ts[0] < minT)
@@ -370,28 +373,26 @@ int	vtkMAFVolumeSlicer_BES::RequestUpdateExtent( vtkInformation *request, vtkInf
         //RELEASE NOTE: we have 3 numberOfPoints if the plane cuts or touches one corner. The latter one
         //is not considered to be an intersection, however, it is a singular case that we will not distinguish
         if (BNoIntersection = (numberOfPoints <= 2))
-          output->SetSpacing(spacing);  //spacing will be 1:1:1
+          SetOutputSpacing(spacing);  //spacing will be 1:1:1
         else
         {
           // find spacing now
           float maxSpacing = max(maxS - minS, maxT - minT);
           spacing[0] = spacing[1] = max(maxSpacing, 1.e-8f);
-          output->SetSpacing(spacing);
+          SetOutputSpacing(spacing);
           // http://bugzilla.hpc.cineca.it/show_bug.cgi?id=1427
           // Totally heuristic bug fix: magicNumber was 1.e-3 before.
           const float magicNumber = 1.e-5;
           if (fabs(minT) > magicNumber || fabs(minS) > magicNumber) 
           {
-            this->GlobalPlaneOrigin[0] += minT * this->GlobalPlaneAxisX[0] * dims[0] + minS * this->GlobalPlaneAxisY[0] * dims[1];
-            this->GlobalPlaneOrigin[1] += minT * this->GlobalPlaneAxisX[1] * dims[0] + minS * this->GlobalPlaneAxisY[1] * dims[1];
-            this->GlobalPlaneOrigin[2] += minT * this->GlobalPlaneAxisX[2] * dims[0] + minS * this->GlobalPlaneAxisY[2] * dims[1];
+            this->GlobalPlaneOrigin[0] += minT * this->GlobalPlaneAxisX[0] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[0] * OutputDimentions[1];
+            this->GlobalPlaneOrigin[1] += minT * this->GlobalPlaneAxisX[1] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[1] * OutputDimentions[1];
+            this->GlobalPlaneOrigin[2] += minT * this->GlobalPlaneAxisX[2] * OutputDimentions[0] + minS * this->GlobalPlaneAxisY[2] * OutputDimentions[1];
             this->Modified();
           }
         }
       }
 
-      //if !AutoSpacing, we will use the original spacing used there
-      output->SetOrigin(this->GlobalPlaneOrigin);
     }
   }
 
@@ -463,18 +464,16 @@ int vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *request,	vtkInformationV
   RequestDataHotFix(request,inputVector,outputVector); 
 
   if (vtkImageData::SafeDownCast(output) != NULL)
-    this->RequestData(request,(vtkImageData*)output);
+    this->RequestData(outInfo,(vtkImageData*)output);
   else if (vtkPolyData::SafeDownCast(output) != NULL)
-    this->RequestData(request,(vtkPolyData*)output);
-  
-  output->Modified();
+    this->RequestData(outInfo,(vtkPolyData*)output);
 
 	return 1;
 }
 
 //----------------------------------------------------------------------------
 // Create geometry for the slice
-/*virtual*/ void vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *request,vtkPolyData *output) 
+/*virtual*/ void vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *outInfo,vtkPolyData *output) 
 //----------------------------------------------------------------------------
 {
   output->Reset();
@@ -695,12 +694,24 @@ int vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *request,	vtkInformationV
 
 //----------------------------------------------------------------------------
 //Create texture for the slice.
-/*virtual*/ void vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *request,vtkImageData *outputObject) 
+/*virtual*/ void vtkMAFVolumeSlicer_BES::RequestData(vtkInformation *outInfo,vtkImageData *outputObject) 
 //----------------------------------------------------------------------------
 {
-  
-  outputObject->SetNumberOfScalarComponents(this->NumComponents,request);
-  outputObject->AllocateScalars(request);  
+ 
+
+	vtkDataSet *inputPD = vtkDataSet::SafeDownCast(this->GetInput());
+
+	OutputDimentions[2] = 1; 
+	int extent[6]={0,OutputDimentions[0]-1, 0,OutputDimentions[1]-1,0, OutputDimentions[2]-1};
+	
+	//Setting output info extent to avoid crop after request data
+	outInfo->Set(vtkStreamingDemandDrivenPipeline::UPDATE_EXTENT(), extent, 6);
+
+	outputObject->SetExtent(extent);
+	outputObject->AllocateScalars(inputPD->GetPointData()->GetScalars()->GetDataType(),inputPD->GetPointData()->GetScalars()->GetNumberOfComponents());
+	outputObject->SetSpacing(OutputSpacing);
+	outputObject->SetOrigin(this->GlobalPlaneOrigin);
+
  
   if (BNoIntersection)
   {
@@ -1420,5 +1431,29 @@ void vtkMAFVolumeSlicer_BES::SetGPUEnabled(int enable)
   }
 
   Modified();
+}
 
+
+void vtkMAFVolumeSlicer_BES::SetOutputType(char *vtkType)
+{
+	strncpy(OutputVtkType,vtkType,100);
+}
+
+void vtkMAFVolumeSlicer_BES::SetOutputTypeToImageData()
+{
+	SetOutputType("vtkImageData"); 
+}
+
+void vtkMAFVolumeSlicer_BES::SetOutputTypeToPolyData()
+{
+	SetOutputType("vtkPolyData"); 
+}
+
+
+//----------------------------------------------------------------------------
+int vtkMAFVolumeSlicer_BES::FillOutputPortInformation(int port, vtkInformation* info)
+{
+	// now add our info
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), OutputVtkType); 
+	return 1;
 }

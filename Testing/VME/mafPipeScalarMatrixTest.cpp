@@ -115,6 +115,7 @@ void mafPipeScalarMatrixTest::TestPipeExecution()
   // Create the pipe and render the actors
   mafPipeScalarMatrix *pipe = new mafPipeScalarMatrix();
   pipe->Create(sceneNode);
+	m_Renderer->ResetCamera();
   m_RenderWindow->Render();
 
   CompareImages();

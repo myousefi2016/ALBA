@@ -217,7 +217,8 @@ void mafPipePolylineGraphEditorTest::TestPipeExecution()
       surface->SetData(glyph->GetOutput(),0.0);
       surface->GetOutput()->Update();
       surface->Update();
-
+			pipe->Create(sceneNode);
+			
       actorList->InitTraversal();
       vtkProp *actor = actorList->GetNextProp();
       while(actor)
@@ -252,6 +253,7 @@ void mafPipePolylineGraphEditorTest::TestPipeExecution()
       surface->SetData(tube->GetOutput(),0.0);
       surface->GetOutput()->Update();
       surface->Update();
+			pipe->Create(sceneNode);
 
       double origin[3] = {5,2,0};
       double normal[3] = {0,0,1};
