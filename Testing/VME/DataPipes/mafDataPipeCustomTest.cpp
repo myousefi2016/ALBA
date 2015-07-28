@@ -144,20 +144,8 @@ void mafDataPipeCustomTest::TestUpdate()
 
   vtkDataSet *dataset;
   dataset = di->GetVTKData();
-
-  double numberOfPoints = dataset->GetNumberOfPoints();
-  result =  numberOfPoints == sphere->GetOutput()->GetNumberOfPoints();
-  
-  //must be false because there isn't already update
-  result = !result;
-
-  TEST_RESULT;
-
-  di->Update();
-   
-  //now must be updated
-  result = false;
-  numberOfPoints = dataset->GetNumberOfPoints();
+ 
+  int numberOfPoints = dataset->GetNumberOfPoints();
   result =  numberOfPoints == sphere->GetOutput()->GetNumberOfPoints();
 
   TEST_RESULT;

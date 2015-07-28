@@ -38,9 +38,17 @@
 #include "vtkExecutive.h"
 #include "vtkInformationVector.h"
 #include "vtkInformation.h"
+#include "vtkDemandDrivenPipeline.h"
+
 //------------------------------------------------------------------------------
 vtkStandardNewMacro(vtkMAFDataPipe)
 //------------------------------------------------------------------------------
+
+class vtkMAFDemandDrivenPipeline : public vtkDemandDrivenPipeline
+{
+	public:
+		unsigned long GetInformationTime(){ return this->InformationTime.GetMTime();};
+};
 
 //------------------------------------------------------------------------------
 vtkMAFDataPipe::vtkMAFDataPipe()
@@ -99,30 +107,14 @@ unsigned long vtkMAFDataPipe::GetMTime()
 unsigned long vtkMAFDataPipe::GetInformationTime()
 //------------------------------------------------------------------------------
 {
-	return this->GetInformation()->GetMTime();
+	vtkDemandDrivenPipeline* ddp = vtkDemandDrivenPipeline::SafeDownCast(this->GetExecutive());
+	if (ddp)
+	{
+		return ((vtkMAFDemandDrivenPipeline *)ddp)->GetInformationTime();
+	}
+	
 }
 
-//------------------------------------------------------------------------------
-vtkDataSet *vtkMAFDataPipe::GetOutput(int idx)
-//------------------------------------------------------------------------------
-{
-  if (this->GetNumberOfOutputPorts() < idx+1)
-  {
-    UpdateInformation(); // force creating the outputs
-  }
-  return Superclass::GetOutput(idx);
-}
-
-//------------------------------------------------------------------------------
-vtkDataSet *vtkMAFDataPipe::GetOutput()
-//------------------------------------------------------------------------------
-{
-  if (this->GetNumberOfOutputPorts() == 0)
-  {
-    UpdateInformation(); // force creating the outputs
-  }
-  return Superclass::GetOutput();
-}
 
 //------------------------------------------------------------------------------
 void vtkMAFDataPipe::UpdateInformation()
@@ -133,6 +125,8 @@ void vtkMAFDataPipe::UpdateInformation()
     m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_PREUPDATE));
 
   this->Superclass::UpdateInformation();
+
+	
 }
 
 //------------------------------------------------------------------------------

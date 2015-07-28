@@ -43,9 +43,7 @@ public:
 
   /** Set the dataset to be reported as output of the VTK data pipe */
   virtual void SetNthInput(int num, vtkDataSet *input);
-
-  virtual vtkDataSet *GetOutput(int idx);
-  virtual vtkDataSet *GetOutput();
+	
 
   /** A bit of magic making this filter to take into consideration VME data pipe MTime */
   virtual unsigned long GetMTime();
