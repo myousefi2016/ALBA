@@ -157,6 +157,7 @@ void mafAttachCameraTest::CreateTestData()
   tube->SetRadius(0.1);
   tube->CappingOn();
   tube->SetNumberOfSides(20);
+	tube->Update();
 
   m_TestSurface->SetData(tube->GetOutput(),0.0,mafVMEGeneric::MAF_VME_REFERENCE_DATA);
 
