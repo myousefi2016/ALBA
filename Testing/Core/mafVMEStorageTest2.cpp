@@ -272,7 +272,6 @@ void mafVMEStorageTest2::TestRestoreOnNewStorage()
   vtkDataSet* shouldBeTheVTKSphere = shouldBeTheVmeSphere->GetOutput()->GetVTKData();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere);
 
-  CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints() == 0);
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints());
 
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfCells() == m_SphereSource->GetOutput()->GetNumberOfCells());
@@ -317,9 +316,6 @@ void mafVMEStorageTest2::TestRestoreOnSameStorage()
 
   vtkDataSet* shouldBeTheVTKSphere = shouldBeTheVmeSphere->GetOutput()->GetVTKData();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere);
-
-  CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints() == 0);
-	shouldBeTheVmeSphere->Update();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints());
 
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfCells() == m_SphereSource->GetOutput()->GetNumberOfCells());

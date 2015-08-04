@@ -430,7 +430,7 @@ void vtkMAFAssembly::PrintSelf(ostream& os, vtkIndent indent)
 //-----------------------------------------------------------------------------
 // this method was reimplemented from vtkAssembly to correct div-by-zero bug
 //-----------------------------------------------------------------------------
-int vtkMAFAssembly::RenderTranslucentGeometry(vtkViewport *ren) 
+int vtkMAFAssembly::RenderTranslucentPolygonalGeometry(vtkViewport *ren) 
 //----------------------------------------------------------------------------
 {
   vtkAssemblyPath *path;
@@ -564,4 +564,17 @@ void vtkMAFAssembly::BuildPaths(vtkAssemblyPaths *paths, vtkAssemblyPath *path)
       path->DeleteLastNode();
     }
   }
+}
+
+//----------------------------------------------------------------------------
+int vtkMAFAssembly::HasTranslucentPolygonalGeometry()
+//----------------------------------------------------------------------------
+{
+	vtkProp3D *prop3D;
+	for ( this->m_Parts->InitTraversal();  (prop3D = this->m_Parts->GetNextProp3D()); )
+	{
+		if (prop3D->HasTranslucentPolygonalGeometry())
+			return true;
+	}
+	return false;
 }

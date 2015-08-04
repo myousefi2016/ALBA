@@ -355,7 +355,7 @@ void vtkMAFAssemblyTest::RenderTranslucentGeometry()
 
   renderer->AddActor(assembly);
 
-  CPPUNIT_ASSERT(assembly->RenderTranslucentGeometry((vtkViewport*)renderer) == 1);
+  CPPUNIT_ASSERT(assembly->RenderTranslucentPolygonalGeometry((vtkViewport*)renderer) == 1);
   render_window->Render();
   CompareImages(render_window, 1);
 

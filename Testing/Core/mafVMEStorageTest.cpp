@@ -353,6 +353,7 @@ void mafVMEStorageTest::CreateVMETestTree()
 
     // The sphere
     sphere->SetRadius(.1+.01*i);
+		sphere->Update();
     vsphere->SetData(sphere->GetOutput(),i*.5+50);
 
     trans.Identity();
@@ -361,7 +362,7 @@ void mafVMEStorageTest::CreateVMETestTree()
 
     // the cone
     cone->SetResolution(103-i);
-
+		cone->Update();
     vcone->SetData(cone->GetOutput(),200-i*2);
     trans.Identity();
     trans.Translate(2-(double)i/50.0,0,0,POST_MULTIPLY);
@@ -387,7 +388,8 @@ void mafVMEStorageTest::CreateVMETestTree()
       morph=cube;
     }
 
-    vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
+		morph->Update();
+		vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
     morph->Delete();
   }
 
@@ -457,6 +459,7 @@ void mafVMEStorageTest::TestTreeEditAndGarbageCollection()
   //
   vtkMAFSmartPointer<vtkConeSource> cone;
   cone->SetRadius(2.5);
+	cone->Update();
 
   std::vector<mafString> cone_items_fname;
   cone_items_fname.resize(100);
@@ -464,13 +467,16 @@ void mafVMEStorageTest::TestTreeEditAndGarbageCollection()
   CPPUNIT_ASSERT(!strcmp(m_RootVme->GetChild(1)->GetName(),"cone"));
 
   mafSmartPointer<mafVMESurface> vcone = mafVMESurface::SafeDownCast(m_RootVme->GetChild(1));
-
+	vcone->Update();
+	vcone->GetOutput()->Update();
   // modify some data of existing VMEs...
   int i=0;
   for (;i<100;i++)
   {
 
-    cone_items_fname[i]=mafVMESurface::SafeDownCast(m_RootVme->GetChild(1))->GetDataVector()->GetItemByIndex(i)->GetURL();
+		mafDataVector *dataVector = mafVMESurface::SafeDownCast(m_RootVme->GetChild(1))->GetDataVector();
+		mafVMEItem *itemByIndex = dataVector->GetItemByIndex(i);
+    cone_items_fname[i]=itemByIndex->GetURL();
     // change the cone radius
     cone->SetResolution(103-i);
     vcone->SetData(cone->GetOutput(),200-i*2);
@@ -480,6 +486,7 @@ void mafVMEStorageTest::TestTreeEditAndGarbageCollection()
     // also add a new sub-node of title
     vtkMAFSmartPointer<vtkCubeSource> new_cube;
     mafSmartPointer<mafVMESurface> new_cube_vme;
+		new_cube->Update();
     new_cube_vme->SetData(new_cube->GetOutput(),0);
 
     m_RootVme->AddChild(new_cube_vme);
