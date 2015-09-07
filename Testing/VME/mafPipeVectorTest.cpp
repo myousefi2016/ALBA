@@ -63,7 +63,7 @@ void mafPipeVectorTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeVectorTest::setUp()
+void mafPipeVectorTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -71,7 +71,7 @@ void mafPipeVectorTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeVectorTest::tearDown()
+void mafPipeVectorTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -158,9 +158,6 @@ void mafPipeVectorTest::TestPipeExecution()
   delete sceneNode;
 
   mafDEL(vector);
-
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeVectorTest::CompareImages(int testIndex)

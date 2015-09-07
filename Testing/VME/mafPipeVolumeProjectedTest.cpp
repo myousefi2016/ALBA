@@ -61,7 +61,7 @@ void mafPipeVolumeProjectedTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeVolumeProjectedTest::setUp()
+void mafPipeVolumeProjectedTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -69,7 +69,7 @@ void mafPipeVolumeProjectedTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeVolumeProjectedTest::tearDown()
+void mafPipeVolumeProjectedTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -155,7 +155,6 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
   mafDEL(material);
   mafDEL(volumeInput);
   vtkDEL(Importer);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeVolumeProjectedTest::CompareImages(int imageIndex)

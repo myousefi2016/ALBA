@@ -5,7 +5,7 @@ IF(MAF_BUILD_MAFDLL)
 ELSE(MAF_BUILD_MAFDLL)
 	find_package(VTK 6.0 REQUIRED NO_MODULE)
 	include(${VTK_USE_FILE})
-	LINK_LIBRARIES(mafVME mafDataPipes GPUAPI ${VTK_LIBRARIES}) 
+	LINK_LIBRARIES(mafTests mafVME mafDataPipes GPUAPI ${VTK_LIBRARIES}) 
 ENDIF (MAF_BUILD_MAFDLL)
  
 #-----------------------------------------------------------------------------

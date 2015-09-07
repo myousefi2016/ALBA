@@ -74,18 +74,6 @@ void mafPipeCompoundVolumeVRTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeVRTest::setUp()
-//----------------------------------------------------------------------------
-{
-
-}
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeVRTest::tearDown()
-//----------------------------------------------------------------------------
-{
-
-}
 
 //----------------------------------------------------------------------------
 void mafPipeCompoundVolumeVRTest::TestAllocation()
@@ -112,8 +100,6 @@ void mafPipeCompoundVolumeVRTest::TestCreateSceneNode()
   delete pipe;
   delete sceneNode;
   mafDEL(volume);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------

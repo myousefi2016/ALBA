@@ -70,7 +70,7 @@ void mafPipeImage3DTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeImage3DTest::setUp()
+void mafPipeImage3DTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -78,7 +78,7 @@ void mafPipeImage3DTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeImage3DTest::tearDown()
+void mafPipeImage3DTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -158,8 +158,6 @@ void mafPipeImage3DTest::TestPipeRGBImageExecution()
 
   mafDEL(image);
 	vtkDEL(ImporterImage);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeImage3DTest::TestPipeGrayImageExecution()
@@ -234,8 +232,6 @@ void mafPipeImage3DTest::TestPipeGrayImageExecution()
 
 	mafDEL(image);
 	vtkDEL(ImporterImage);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeImage3DTest::CompareImages(int scalarIndex)

@@ -68,7 +68,7 @@ void mafPipePolylineSliceTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipePolylineSliceTest::setUp()
+void mafPipePolylineSliceTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -76,7 +76,7 @@ void mafPipePolylineSliceTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipePolylineSliceTest::tearDown()
+void mafPipePolylineSliceTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -212,8 +212,6 @@ void mafPipePolylineSliceTest::TestPipeExecution()
   delete pipePolylineSlice;
   sceneNode->m_RenFront = NULL;
   delete sceneNode;
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipePolylineSliceTest::CompareImages(int testIndex)

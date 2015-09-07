@@ -13,7 +13,7 @@
  PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 
 #include "vtkMAFExtendedGlyph3DTest.h"
@@ -51,7 +51,7 @@ enum ID_TEST_LIST
 static int TestNumber = 0;
 
 //-----------------------------------------------------------
-void vtkMAFExtendedGlyph3DTest::setUp()
+void vtkMAFExtendedGlyph3DTest::BeforeTest()
 //-----------------------------------------------------------
 {
   TestNumber++;
@@ -60,7 +60,7 @@ void vtkMAFExtendedGlyph3DTest::setUp()
   CreateRenWindow();
 }
 //-----------------------------------------------------------
-void vtkMAFExtendedGlyph3DTest::tearDown()
+void vtkMAFExtendedGlyph3DTest::AfterTest()
 //-----------------------------------------------------------
 {
   DeleteRenWindow();

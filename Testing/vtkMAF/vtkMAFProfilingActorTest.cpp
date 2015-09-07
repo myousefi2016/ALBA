@@ -14,6 +14,7 @@
 
 =========================================================================*/
 
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 #include "vtkMAFGridActor.h"
 #include "vtkMAFProfilingActor.h"
@@ -63,16 +64,6 @@ class vtkMAFProfilingActorDummy : public vtkMAFProfilingActor
 
 };
 
-//------------------------------------------------------------
-void vtkMAFProfilingActorTest::setUp()
-//------------------------------------------------------------
-{
-}
-//------------------------------------------------------------
-void vtkMAFProfilingActorTest::tearDown()
-//------------------------------------------------------------
-{
-}
 //------------------------------------------------------------
 void vtkMAFProfilingActorTest::PrepareToRender(vtkRenderer *renderer, vtkRenderWindow *renderWindow)
 //------------------------------------------------------------

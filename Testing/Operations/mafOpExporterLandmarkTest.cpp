@@ -36,16 +36,7 @@
 #include <string>
 #include <assert.h>
 
-//-----------------------------------------------------------
-void mafOpExporterLandmarkTest::setUp() 
-//-----------------------------------------------------------
-{
-}
-//-----------------------------------------------------------
-void mafOpExporterLandmarkTest::tearDown() 
-//-----------------------------------------------------------
-{
-}
+
 //-----------------------------------------------------------
 void mafOpExporterLandmarkTest::TestOnVmeRawMotionData() 
 //-----------------------------------------------------------
@@ -383,6 +374,4 @@ void mafOpExporterLandmarkTest::TestMultipleExports()
   importer2 = NULL;
   delete importer;
   importer = NULL;
-
-  delete wxLog::SetActiveTarget(NULL);
 }

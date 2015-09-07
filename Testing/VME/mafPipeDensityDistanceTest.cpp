@@ -60,7 +60,7 @@ void mafPipeDensityDistanceTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeDensityDistanceTest::setUp()
+void mafPipeDensityDistanceTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -68,7 +68,7 @@ void mafPipeDensityDistanceTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeDensityDistanceTest::tearDown()
+void mafPipeDensityDistanceTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -155,8 +155,6 @@ void mafPipeDensityDistanceTest::TestPipeExecution()
   mafDEL(surface);
   mafDEL(volume);
   vtkDEL(Importer);
-  
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeDensityDistanceTest::CompareImages(int scalarIndex)

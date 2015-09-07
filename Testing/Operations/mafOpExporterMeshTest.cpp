@@ -46,14 +46,6 @@
 #include <iostream>
 
 
-void mafOpExporterMeshTest::setUp()
-{
-}
-
-void mafOpExporterMeshTest::tearDown()
-{
-}
-
 void mafOpExporterMeshTest::TestExporterMesh()
 {
   // Generate output files
@@ -192,7 +184,6 @@ void mafOpExporterMeshTest::TestExporterMesh()
   mafDEL(importerVTK);
 
   delete dummyVme;
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 void mafOpExporterMeshTest::TestConstructor()

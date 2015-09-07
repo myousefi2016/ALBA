@@ -35,16 +35,6 @@
 #include <string>
 #include <assert.h>
 
-//-----------------------------------------------------------
-void mafOpExporterLandmarkWSTest::setUp() 
-//-----------------------------------------------------------
-{
-}
-//-----------------------------------------------------------
-void mafOpExporterLandmarkWSTest::tearDown() 
-//-----------------------------------------------------------
-{
-}
 //------------------------------------------------------------------------
 void mafOpExporterLandmarkWSTest::TestOnLandmarkImporter()
 //------------------------------------------------------------------------
@@ -146,6 +136,4 @@ void mafOpExporterLandmarkWSTest::TestOnLandmarkImporter()
 	exporter = NULL;
 	importer = NULL;
   importerWS = NULL;
-
-  delete wxLog::SetActiveTarget(NULL);
 }

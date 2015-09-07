@@ -14,6 +14,7 @@
 
 =========================================================================*/
 
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 
 #include "vtkMAFFixedCutterTest.h"
@@ -23,19 +24,6 @@
 #include "vtkPolyData.h"
 #include "vtkMAFSmartPointer.h"
 
-//--------------------------------------------------
-void vtkMAFFixedCutterTest::setUp()
-//--------------------------------------------------
-{
-
-}
-
-//--------------------------------------------------
-void vtkMAFFixedCutterTest::tearDown()
-//--------------------------------------------------
-{
-
-}
 //--------------------------------------------------
 void vtkMAFFixedCutterTest::TestDynamicAllocation()
 //--------------------------------------------------

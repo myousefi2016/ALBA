@@ -13,6 +13,7 @@
  PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
+#include "mafDefines.h"
 
 #include "vtkMAFTextOrientator.h"
 #include "vtkMAFTextOrientatorTest.h"
@@ -32,15 +33,6 @@
 #include "vtkJPEGReader.h"
 #include "vtkPointData.h"
 
-
-
-void vtkMAFTextOrientatorTest::setUp()
-{
-}
-
-void vtkMAFTextOrientatorTest::tearDown()
-{
-}
 
 
 void vtkMAFTextOrientatorTest::TestFixture()

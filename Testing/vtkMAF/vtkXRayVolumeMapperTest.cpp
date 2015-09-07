@@ -61,7 +61,7 @@ void vtkXRayVolumeMapperTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void vtkXRayVolumeMapperTest::setUp()
+void vtkXRayVolumeMapperTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -69,7 +69,7 @@ void vtkXRayVolumeMapperTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void vtkXRayVolumeMapperTest::tearDown()
+void vtkXRayVolumeMapperTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -127,8 +127,6 @@ void vtkXRayVolumeMapperTest::TestPipeExecution()
   vtkDEL(volume);
   vtkDEL(volumeMapper);
   vtkDEL(Importer);
-  
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::Test_SetInput_GetInput()
@@ -199,8 +197,6 @@ void vtkXRayVolumeMapperTest::TestReduceColorReduction()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestExposureCorrection()
@@ -260,7 +256,6 @@ void vtkXRayVolumeMapperTest::TestExposureCorrection()
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
   delete val;
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestGamma()
@@ -316,8 +311,6 @@ void vtkXRayVolumeMapperTest::TestGamma()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestPerspectiveCorrection()
@@ -374,8 +367,6 @@ void vtkXRayVolumeMapperTest::TestPerspectiveCorrection()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestColor()
@@ -431,8 +422,6 @@ void vtkXRayVolumeMapperTest::TestColor()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestEnableAutoLOD()
@@ -488,8 +477,6 @@ void vtkXRayVolumeMapperTest::TestEnableAutoLOD()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestDataValid()
@@ -544,8 +531,6 @@ void vtkXRayVolumeMapperTest::TestDataValid()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::TestTextureMemoryAndPercentage()
@@ -600,8 +585,6 @@ void vtkXRayVolumeMapperTest::TestTextureMemoryAndPercentage()
 	vtkDEL(volume);
 	vtkDEL(volumeMapper);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkXRayVolumeMapperTest::CompareImages(int scalarIndex)

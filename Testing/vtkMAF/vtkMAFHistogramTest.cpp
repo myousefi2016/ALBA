@@ -13,7 +13,7 @@
  PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 
 #include "vtkMAFHistogram.h"
@@ -34,16 +34,6 @@
 #include "vtkDataSetReader.h"
 #include "vtkPointData.h"
 
-//------------------------------------------------------------
-void vtkMAFHistogramTest::setUp()
-//------------------------------------------------------------
-{
-}
-//------------------------------------------------------------
-void vtkMAFHistogramTest::tearDown()
-//------------------------------------------------------------
-{
-}
 //------------------------------------------------------------
 void vtkMAFHistogramTest::RenderData(vtkActor2D *actor)
 //------------------------------------------------------------

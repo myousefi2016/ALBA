@@ -70,7 +70,7 @@ void mafPipeWrappedMeterTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeWrappedMeterTest::setUp()
+void mafPipeWrappedMeterTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -78,7 +78,7 @@ void mafPipeWrappedMeterTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeWrappedMeterTest::tearDown()
+void mafPipeWrappedMeterTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -177,9 +177,6 @@ void mafPipeWrappedMeterTest::TestPipeExecution()
   mafDEL(vmeParametricSurfaceEND1);
 
   mafDEL(storage);
-
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeWrappedMeterTest::CompareImages(int testIndex)

@@ -62,7 +62,7 @@ void mafPipePointSetTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipePointSetTest::setUp()
+void mafPipePointSetTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -70,7 +70,7 @@ void mafPipePointSetTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipePointSetTest::tearDown()
+void mafPipePointSetTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -201,8 +201,6 @@ void mafPipePointSetTest::TestPipeExecution()
   vtkDEL(polyData);
   //vtkDEL(cellArray);
   vtkDEL(points);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipePointSetTest::CompareImages(int imageIndex)

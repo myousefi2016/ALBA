@@ -41,16 +41,6 @@ void mafOpExplodeCollapseTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafOpExplodeCollapseTest::setUp()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
-void mafOpExplodeCollapseTest::tearDown()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
 void mafOpExplodeCollapseTest::TestDynamicAllocation()
 //----------------------------------------------------------------------------
 {
@@ -97,6 +87,5 @@ void mafOpExplodeCollapseTest::TestExplodeCollapse()
   TEST_RESULT;
 
   mafDEL(explode);
-  delete wxLog::SetActiveTarget(NULL);
 }
 

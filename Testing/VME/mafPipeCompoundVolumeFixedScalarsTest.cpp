@@ -74,18 +74,6 @@ void mafPipeCompoundVolumeFixedScalarsTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeFixedScalarsTest::setUp()
-//----------------------------------------------------------------------------
-{
-
-}
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeFixedScalarsTest::tearDown()
-//----------------------------------------------------------------------------
-{
-
-}
 
 //----------------------------------------------------------------------------
 void mafPipeCompoundVolumeFixedScalarsTest::TestAllocation()
@@ -112,8 +100,6 @@ void mafPipeCompoundVolumeFixedScalarsTest::TestCreateSceneNode()
   delete pipe;
   delete sceneNode;
   mafDEL(volume);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------

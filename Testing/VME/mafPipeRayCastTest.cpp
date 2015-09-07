@@ -62,7 +62,7 @@ void mafPipeRayCastTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeRayCastTest::setUp()
+void mafPipeRayCastTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   // Create rendering window
@@ -80,7 +80,7 @@ void mafPipeRayCastTest::setUp()
 
 }
 //----------------------------------------------------------------------------
-void mafPipeRayCastTest::tearDown()
+void mafPipeRayCastTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   // Free memory
@@ -148,8 +148,6 @@ void mafPipeRayCastTest::TestPipeExecution()
 
   mafDEL(volume);
   vtkDEL(Importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -211,8 +209,6 @@ void mafPipeRayCastTest::TestPipeExecutionMR()
 
   mafDEL(volume);
   vtkDEL(Importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 

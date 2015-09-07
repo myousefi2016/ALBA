@@ -64,7 +64,7 @@ void vtkMAFVolumeTextureMapper2DTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeTextureMapper2DTest::setUp()
+void vtkMAFVolumeTextureMapper2DTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -72,7 +72,7 @@ void vtkMAFVolumeTextureMapper2DTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void vtkMAFVolumeTextureMapper2DTest::tearDown()
+void vtkMAFVolumeTextureMapper2DTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -185,8 +185,6 @@ void vtkMAFVolumeTextureMapper2DTest::TestPipeExecution()
   vtkDEL(piecewiseFunction);
   vtkDEL(volumeMapper);
   vtkDEL(Importer);
-  
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void vtkMAFVolumeTextureMapper2DTest::CompareImages(int scalarIndex)

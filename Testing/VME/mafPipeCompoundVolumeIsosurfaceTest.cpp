@@ -74,18 +74,6 @@ void mafPipeCompoundVolumeIsosurfaceTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeIsosurfaceTest::setUp()
-//----------------------------------------------------------------------------
-{
-
-}
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeIsosurfaceTest::tearDown()
-//----------------------------------------------------------------------------
-{
-
-}
 
 //----------------------------------------------------------------------------
 void mafPipeCompoundVolumeIsosurfaceTest::TestAllocation()
@@ -112,8 +100,6 @@ void mafPipeCompoundVolumeIsosurfaceTest::TestCreateSceneNode()
   delete pipe;
   delete sceneNode;
   mafDEL(volume);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------

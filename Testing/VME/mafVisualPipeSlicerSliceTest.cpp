@@ -49,7 +49,7 @@ void mafVisualPipeSlicerSliceTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafVisualPipeSlicerSliceTest::setUp()
+void mafVisualPipeSlicerSliceTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -57,7 +57,7 @@ void mafVisualPipeSlicerSliceTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafVisualPipeSlicerSliceTest::tearDown()
+void mafVisualPipeSlicerSliceTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -160,8 +160,6 @@ void mafVisualPipeSlicerSliceTest::TestPipeExecution()
   mafDEL(slicer);
   cppDEL(importer);
   mafDEL(storage);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafVisualPipeSlicerSliceTest::CompareImages(int scalarIndex)

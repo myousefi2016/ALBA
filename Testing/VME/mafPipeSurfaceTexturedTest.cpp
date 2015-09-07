@@ -81,7 +81,7 @@ void mafPipeSurfaceTexturedTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeSurfaceTexturedTest::setUp()
+void mafPipeSurfaceTexturedTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -89,7 +89,7 @@ void mafPipeSurfaceTexturedTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeSurfaceTexturedTest::tearDown()
+void mafPipeSurfaceTexturedTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -220,8 +220,6 @@ void mafPipeSurfaceTexturedTest::TestPipeTextureExecution()
   vtkDEL(cylinder);
   vtkDEL(sphere);
 	vtkDEL(ImporterImage);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceTexturedTest::TestPipeClassicExecution()
@@ -328,8 +326,6 @@ void mafPipeSurfaceTexturedTest::TestPipeClassicExecution()
 
 	mafDEL(surface);
 	vtkDEL(Importer);
-
-	delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceTexturedTest::CompareImages(int scalarIndex)

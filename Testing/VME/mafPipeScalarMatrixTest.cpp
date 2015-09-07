@@ -55,14 +55,14 @@ void mafPipeScalarMatrixTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeScalarMatrixTest::setUp()
+void mafPipeScalarMatrixTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
   vtkNEW(m_RenderWindow);
 }
 //----------------------------------------------------------------------------
-void mafPipeScalarMatrixTest::tearDown()
+void mafPipeScalarMatrixTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -126,8 +126,6 @@ void mafPipeScalarMatrixTest::TestPipeExecution()
 
   mafDEL(vme);
   mafDEL(root);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeScalarMatrixTest::CompareImages()

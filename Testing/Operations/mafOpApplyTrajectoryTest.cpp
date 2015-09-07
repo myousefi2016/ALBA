@@ -43,16 +43,6 @@ void mafOpApplyTrajectoryTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafOpApplyTrajectoryTest::setUp()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
-void mafOpApplyTrajectoryTest::tearDown()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
 void mafOpApplyTrajectoryTest::TestDynamicAllocation()
 //----------------------------------------------------------------------------
 {
@@ -95,7 +85,6 @@ void mafOpApplyTrajectoryTest::TestFromFile()
   vme = NULL;
   timeStamps.clear();
   mafDEL(trajectory);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafOpApplyTrajectoryTest::TestFromVME()
@@ -144,6 +133,5 @@ void mafOpApplyTrajectoryTest::TestFromVME()
   timeStamps.clear();
   mafDEL(trajectory_variant);
   mafDEL(trajectory_static);
-  delete wxLog::SetActiveTarget(NULL);
 }
 

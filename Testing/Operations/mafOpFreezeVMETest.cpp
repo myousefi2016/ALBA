@@ -89,7 +89,6 @@ void mafOpFreezeVMETest::TestFreezeVMESurfaceParametric()
 
   CPPUNIT_ASSERT(surface && surface->GetOutput()->GetVTKData()->GetNumberOfPoints() == vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->GetNumberOfPoints());
 
-  delete wxLog::SetActiveTarget(NULL);
   vmeParametricSurfaceSTART->SetParent(NULL);
   
   surface->SetParent(NULL); 
@@ -148,8 +147,6 @@ void mafOpFreezeVMETest::TestFreezeVMEMeter()
 	polyline2->Update();
 	CPPUNIT_ASSERT(polyline2 && polyline2->GetOutput()->GetVTKData()->GetNumberOfPoints() == meter->GetOutput()->GetVTKData()->GetNumberOfPoints());
 
-
-	delete wxLog::SetActiveTarget(NULL);
 	meter->SetParent(NULL);
 	
 	vmeParametricSurfaceSTART->SetParent(NULL);
@@ -212,8 +209,6 @@ void mafOpFreezeVMETest::TestFreezeVMEWrappedMeter()
 	polyline1->Update();
 	CPPUNIT_ASSERT(polyline1 && polyline1->GetOutput()->GetVTKData()->GetNumberOfPoints() == wrappedMeter->GetOutput()->GetVTKData()->GetNumberOfPoints());
 	
-	delete wxLog::SetActiveTarget(NULL);
-
 	wrappedMeter->SetParent(NULL);
 	
 	vmeParametricSurfaceSTART->SetParent(NULL);
@@ -294,9 +289,6 @@ void mafOpFreezeVMETest::TestFreezeVMESlicer()
 
 	CPPUNIT_ASSERT(sameValues);
 
-	delete wxLog::SetActiveTarget(NULL);
-
-	
 	volume->SetParent(NULL);
 
 	slicer->SetParent(NULL);
@@ -378,8 +370,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProber()
 	probSurface->GetOutput()->GetVTKData()->GetPointData()->GetScalars()->GetRange(range2);
 	CPPUNIT_ASSERT(fabs(range1[0] - range2[0])<0.1 && fabs(range1[1] - range2[1])<0.1);
 
-	
-	delete wxLog::SetActiveTarget(NULL);
 	volume->SetParent(NULL);	
 	prober->SetParent(NULL);
 	probSurface->SetParent(NULL);
@@ -454,8 +444,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProfileSpline()
   int value2 = polyline2->GetOutput()->GetVTKData()->GetNumberOfPoints();
   CPPUNIT_ASSERT(polyline2 && value1 == value2);
 
-
-  delete wxLog::SetActiveTarget(NULL);
   spline->SetParent(NULL);
   vmePolyline->SetParent(NULL);
   polyline2->SetParent(NULL);
@@ -501,7 +489,6 @@ void mafOpFreezeVMETest::TestFreezeVMERefSys()
   int num2 = vmeRefSys->GetOutput()->GetVTKData()->GetNumberOfPoints();
   CPPUNIT_ASSERT(surface &&  num1 == num2);
 
-  delete wxLog::SetActiveTarget(NULL);
   vmeRefSys->SetParent(NULL);
 
   surface->SetParent(NULL); 

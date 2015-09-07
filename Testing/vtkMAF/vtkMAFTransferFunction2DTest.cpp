@@ -13,22 +13,12 @@
  PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 
 #include "vtkMAFTransferFunction2D.h"
 #include "vtkMAFTransferFunction2DTest.h"
 
-//----------------------------------------------------------------------------
-void vtkMAFTransferFunction2DTest::setUp()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
-void vtkMAFTransferFunction2DTest::tearDown()
-//----------------------------------------------------------------------------
-{
-}
 //----------------------------------------------------------------------------
 void vtkMAFTransferFunction2DTest::TestFixture()
 //----------------------------------------------------------------------------

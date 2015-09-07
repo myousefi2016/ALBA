@@ -39,17 +39,13 @@
 #include "vtkUnstructuredGrid.h"
 
 //-----------------------------------------------------------
-void mafOpImporterVTKXMLTest::setUp() 
+void mafOpImporterVTKXMLTest::BeforeTest() 
 //-----------------------------------------------------------
 {
 	//required by the importer
 	vtkObject::GlobalWarningDisplayOn();
 }
-//-----------------------------------------------------------
-void mafOpImporterVTKXMLTest::tearDown() 
-//-----------------------------------------------------------
-{
-}
+
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestDynamicAllocation() 
 //-----------------------------------------------------------
@@ -69,8 +65,6 @@ void mafOpImporterVTKXMLTest::TestAccept()
   
   mafDEL(group);
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestSetFileName() 
@@ -84,8 +78,6 @@ void mafOpImporterVTKXMLTest::TestSetFileName()
   CPPUNIT_ASSERT(strcmp(importer->GetFileName(),fileName)==0);
   
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKPolylineGraph() 
@@ -115,8 +107,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKPolylineGraph()
   CPPUNIT_ASSERT(polyData->GetNumberOfLines()==4);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKVolumeSP() 
@@ -144,8 +134,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKVolumeSP()
   CPPUNIT_ASSERT(sp->GetNumberOfCells()==729);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKVolumeRG() 
@@ -173,8 +161,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKVolumeRG()
   CPPUNIT_ASSERT(rg->GetNumberOfCells()==729);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKSurface() 
@@ -202,8 +188,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKSurface()
   CPPUNIT_ASSERT(polydata->GetNumberOfPolys()==96);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKMesh() 
@@ -231,8 +215,6 @@ void mafOpImporterVTKXMLTest::TestImportVTKMesh()
   CPPUNIT_ASSERT(ug->GetNumberOfCells()==2);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpImporterVTKXMLTest::TestImportVTKPointSet() 
@@ -260,6 +242,4 @@ void mafOpImporterVTKXMLTest::TestImportVTKPointSet()
   CPPUNIT_ASSERT(pts->GetNumberOfCells()==2);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }

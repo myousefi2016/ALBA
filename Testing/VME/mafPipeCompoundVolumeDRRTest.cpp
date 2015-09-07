@@ -74,18 +74,6 @@ void mafPipeCompoundVolumeDRRTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeDRRTest::setUp()
-//----------------------------------------------------------------------------
-{
-
-}
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeDRRTest::tearDown()
-//----------------------------------------------------------------------------
-{
-
-}
 
 //----------------------------------------------------------------------------
 void mafPipeCompoundVolumeDRRTest::TestAllocation()
@@ -112,8 +100,6 @@ void mafPipeCompoundVolumeDRRTest::TestCreateSceneNode()
   delete pipe;
   delete sceneNode;
   mafDEL(volume);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------

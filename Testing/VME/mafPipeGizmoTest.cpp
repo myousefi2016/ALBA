@@ -63,7 +63,7 @@ void mafPipeGizmoTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeGizmoTest::setUp()
+void mafPipeGizmoTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -71,7 +71,7 @@ void mafPipeGizmoTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeGizmoTest::tearDown()
+void mafPipeGizmoTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -166,9 +166,6 @@ void mafPipeGizmoTest::TestPipeExecution()
   vtkDEL(append);
   vtkDEL(cube);
   vtkDEL(handler);
-  
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeGizmoTest::CompareImages(int scalarIndex)

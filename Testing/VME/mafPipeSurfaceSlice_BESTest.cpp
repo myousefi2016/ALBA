@@ -63,7 +63,7 @@ void mafPipeSurfaceSlice_BESTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeSurfaceSlice_BESTest::setUp()
+void mafPipeSurfaceSlice_BESTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -71,7 +71,7 @@ void mafPipeSurfaceSlice_BESTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeSurfaceSlice_BESTest::tearDown()
+void mafPipeSurfaceSlice_BESTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -176,9 +176,6 @@ void mafPipeSurfaceSlice_BESTest::TestCloudClosePipeExecution()
   delete pipeSlice;
   sceneNode->m_RenFront = NULL;
   delete sceneNode;
-
-  delete wxLog::SetActiveTarget(NULL);
-
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceSlice_BESTest::TestCloudOpenPipeExecution()
@@ -270,8 +267,6 @@ void mafPipeSurfaceSlice_BESTest::TestCloudOpenPipeExecution()
   delete pipeSlice;
   sceneNode->m_RenFront = NULL;
   delete sceneNode;
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceSlice_BESTest::TestSurfacePipeExecution()
@@ -361,8 +356,6 @@ void mafPipeSurfaceSlice_BESTest::TestSurfacePipeExecution()
   delete pipeSlice;
   sceneNode->m_RenFront = NULL;
   delete sceneNode;
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceSlice_BESTest::CompareImages(int testIndex)

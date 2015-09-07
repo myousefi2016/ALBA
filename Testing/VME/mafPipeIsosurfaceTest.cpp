@@ -63,7 +63,7 @@ void mafPipeIsosurfaceTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeIsosurfaceTest::setUp()
+void mafPipeIsosurfaceTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -71,7 +71,7 @@ void mafPipeIsosurfaceTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeIsosurfaceTest::tearDown()
+void mafPipeIsosurfaceTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -158,8 +158,6 @@ void mafPipeIsosurfaceTest::TestPipeExecution()
   mafDEL(material);
   mafDEL(volumeInput);
   vtkDEL(Importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeIsosurfaceTest::CompareImages(int imageIndex)

@@ -83,6 +83,4 @@ void mafOpInteractiveClipSurfaceTest::TestOpRun()
   sphere->Delete();
 
   mafDEL(clip);
-
-  delete wxLog::SetActiveTarget(NULL);
 }

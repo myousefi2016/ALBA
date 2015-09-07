@@ -51,7 +51,7 @@
 #include "vtkPolyData.h"
 
 //----------------------------------------------------------------------------
-void mafPipeLandmarkCloudTest::setUp()
+void mafPipeLandmarkCloudTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -59,7 +59,7 @@ void mafPipeLandmarkCloudTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeLandmarkCloudTest::tearDown()
+void mafPipeLandmarkCloudTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -202,8 +202,6 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
   delete pipe;
   delete sceneNode;
   actorList->Delete();
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeLandmarkCloudTest::CompareImages(int imageIndex)

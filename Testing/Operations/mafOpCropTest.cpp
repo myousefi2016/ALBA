@@ -116,8 +116,6 @@ void mafOpCropTest::TestCropRG()
 		CPPUNIT_ASSERT((b_in[2*i]-volumeSpacing[i]<b_out[2*i])&&(b_in[2*i+1]+volumeSpacing[i]>b_out[2*i+1]));
 	}
 
-	delete wxLog::SetActiveTarget(NULL);
-
 	mafDEL(Crop);
 	mafDEL(Importer);
 	mafDEL(storage);
@@ -172,8 +170,6 @@ void mafOpCropTest::TestCropSP()
 		CPPUNIT_ASSERT((b_in[2*i]-volumeSpacing[i]<b_out[2*i])&&(b_in[2*i+1]+volumeSpacing[i]>b_out[2*i+1]));
 	}
 	
-	delete wxLog::SetActiveTarget(NULL);
-
 	mafDEL(Crop);
 	mafDEL(Importer);
 	mafDEL(storage);

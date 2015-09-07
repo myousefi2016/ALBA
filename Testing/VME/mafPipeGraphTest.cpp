@@ -77,7 +77,7 @@ void mafPipeGraphTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeGraphTest::setUp()
+void mafPipeGraphTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -86,7 +86,7 @@ void mafPipeGraphTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeGraphTest::tearDown()
+void mafPipeGraphTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -178,8 +178,6 @@ void mafPipeGraphTest::TestPipeExecution()
   sceneNode->m_AlwaysVisibleRenderer = NULL;
   delete sceneNode;
   mafDEL(analog);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeGraphTest::CompareImages(int scalarIndex)

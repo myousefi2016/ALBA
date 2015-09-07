@@ -70,7 +70,7 @@ void mafPipeMeshTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafPipeMeshTest::setUp()
+void mafPipeMeshTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkNEW(m_Renderer);
@@ -78,7 +78,7 @@ void mafPipeMeshTest::setUp()
   vtkNEW(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
-void mafPipeMeshTest::tearDown()
+void mafPipeMeshTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   vtkDEL(m_Renderer);
@@ -208,8 +208,6 @@ void mafPipeMeshTest::TestPipeExecution()
 
   mafDEL(mesh);
   vtkDEL(Importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafPipeMeshTest::CompareImages(int scalarIndex)

@@ -15,6 +15,7 @@
 =========================================================================*/
 
 #include <cppunit/config/SourcePrefix.h>
+#include "mafDefines.h"
 #include "vtkMAFTextActorMeter.h"
 #include "vtkMAFTextActorMeterTest.h"
 
@@ -34,14 +35,6 @@
 #include "vtkDataArray.h"
 #include "vtkDataSetAttributes.h"
 #include "vtkDataSet.h"
-
-void vtkMAFTextActorMeterTest::setUp()
-{
-}
-
-void vtkMAFTextActorMeterTest::tearDown()
-{
-}
 
 
 void vtkMAFTextActorMeterTest::TestFixture()

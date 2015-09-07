@@ -84,17 +84,6 @@ void mafVMEItemVTKTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafVMEItemVTKTest::setUp()
-//----------------------------------------------------------------------------
-{
-  result = false;
-}
-//----------------------------------------------------------------------------
-void mafVMEItemVTKTest::tearDown()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
 void mafVMEItemVTKTest::TestSetData()
 //----------------------------------------------------------------------------
 {
@@ -312,8 +301,6 @@ void mafVMEItemVTKTest::TestReadData()
 
   result = itemData->GetNumberOfLines() == 4;
   TEST_RESULT;
-
-  delete wxLog::SetActiveTarget(NULL);
 
   mafDEL(item);
 }

@@ -103,8 +103,6 @@ void mafOpScaleDatasetTest::TestOpDoVolume()
   CPPUNIT_ASSERT( endPoint[2] == startPoint[2]*scaleFactorZ );  
 
   mafDEL(op);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpScaleDatasetTest::TestOpDoSurface() 
@@ -150,8 +148,6 @@ void mafOpScaleDatasetTest::TestOpDoSurface()
   CPPUNIT_ASSERT( endPoint[2] == startPoint[2]*scaleFactorZ );  
 
   mafDEL(op);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpScaleDatasetTest::TestReset() 
@@ -197,8 +193,6 @@ void mafOpScaleDatasetTest::TestReset()
   CPPUNIT_ASSERT( endPoint[2] == startPoint[2] );  
 
   mafDEL(op);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void mafOpScaleDatasetTest::TestAccept() 
@@ -215,6 +209,4 @@ void mafOpScaleDatasetTest::TestAccept()
   CPPUNIT_ASSERT( !op->Accept(root) );
 
   mafDEL(op);
-
-  delete wxLog::SetActiveTarget(NULL);
 }

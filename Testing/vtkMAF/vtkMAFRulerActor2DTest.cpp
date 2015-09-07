@@ -14,6 +14,7 @@
 
 =========================================================================*/
 
+#include "mafDefines.h"
 #include <cppunit/config/SourcePrefix.h>
 #include "vtkMAFRulerActor2D.h"
 #include "vtkMAFRulerActor2DTest.h"
@@ -36,16 +37,6 @@
 #include "vtkDataSet.h"
 #include "vtkImageAlgorithm.h"
 
-//------------------------------------------------------------
-void vtkMAFRulerActor2DTest::setUp()
-//------------------------------------------------------------
-{
-}
-//------------------------------------------------------------
-void vtkMAFRulerActor2DTest::tearDown()
-//------------------------------------------------------------
-{
-}
 //------------------------------------------------------------
 void vtkMAFRulerActor2DTest::RenderData(vtkActor2D *actor)
 //------------------------------------------------------------

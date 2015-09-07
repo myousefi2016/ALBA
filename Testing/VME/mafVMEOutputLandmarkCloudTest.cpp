@@ -40,17 +40,6 @@ void mafVMEOutputLandmarkCloudTest::TestFixture()
 {
 }
 //----------------------------------------------------------------------------
-void mafVMEOutputLandmarkCloudTest::setUp()
-//----------------------------------------------------------------------------
-{
-  m_Result = false;
-}
-//----------------------------------------------------------------------------
-void mafVMEOutputLandmarkCloudTest::tearDown()
-//----------------------------------------------------------------------------
-{
-}
-//----------------------------------------------------------------------------
 void mafVMEOutputLandmarkCloudTest::TestStaticAllocation()
 //----------------------------------------------------------------------------
 {
@@ -91,8 +80,6 @@ void mafVMEOutputLandmarkCloudTest::TestGetVTKData()
   m_Result = lcloud->GetOutput()->GetVTKData() == NULL;
 
   TEST_RESULT;
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafVMEOutputLandmarkCloudTest::TestGetNumberOfLandmarksSTR()

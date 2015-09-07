@@ -38,16 +38,7 @@
 #include "vtkRectilinearGrid.h"
 #include "vtkUnstructuredGrid.h"
 
-//-----------------------------------------------------------
-void medOpImporterVTKTest::setUp() 
-//-----------------------------------------------------------
-{
-}
-//-----------------------------------------------------------
-void medOpImporterVTKTest::tearDown() 
-//-----------------------------------------------------------
-{
-}
+
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestDynamicAllocation() 
 //-----------------------------------------------------------
@@ -67,8 +58,6 @@ void medOpImporterVTKTest::TestAccept()
   
   mafDEL(group);
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestSetFileName() 
@@ -82,8 +71,6 @@ void medOpImporterVTKTest::TestSetFileName()
   CPPUNIT_ASSERT(strcmp(importer->GetFileName(),fileName)==0);
   
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKPolylineGraph() 
@@ -112,8 +99,6 @@ void medOpImporterVTKTest::TestImportVTKPolylineGraph()
   CPPUNIT_ASSERT(polyData->GetNumberOfLines()==4);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKVolumeSP() 
@@ -141,8 +126,6 @@ void medOpImporterVTKTest::TestImportVTKVolumeSP()
   CPPUNIT_ASSERT(sp->GetNumberOfCells()==498332);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKVolumeRG() 
@@ -170,8 +153,6 @@ void medOpImporterVTKTest::TestImportVTKVolumeRG()
   CPPUNIT_ASSERT(rg->GetNumberOfCells()==729);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKSurface() 
@@ -199,8 +180,6 @@ void medOpImporterVTKTest::TestImportVTKSurface()
   CPPUNIT_ASSERT(polydata->GetNumberOfPolys()==160);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKMesh() 
@@ -228,8 +207,6 @@ void medOpImporterVTKTest::TestImportVTKMesh()
   CPPUNIT_ASSERT(ug->GetNumberOfCells()==2);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 //-----------------------------------------------------------
 void medOpImporterVTKTest::TestImportVTKPointSet() 
@@ -257,6 +234,4 @@ void medOpImporterVTKTest::TestImportVTKPointSet()
   CPPUNIT_ASSERT(pts->GetNumberOfCells()==2);
 
   mafDEL(importer);
-
-  delete wxLog::SetActiveTarget(NULL);
 }

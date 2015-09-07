@@ -74,18 +74,6 @@ void mafPipeCompoundVolumeMIPTest::TestFixture()
 //----------------------------------------------------------------------------
 {
 }
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeMIPTest::setUp()
-//----------------------------------------------------------------------------
-{
-
-}
-//----------------------------------------------------------------------------
-void mafPipeCompoundVolumeMIPTest::tearDown()
-//----------------------------------------------------------------------------
-{
-
-}
 
 //----------------------------------------------------------------------------
 void mafPipeCompoundVolumeMIPTest::TestAllocation()
@@ -112,8 +100,6 @@ void mafPipeCompoundVolumeMIPTest::TestCreateSceneNode()
   delete pipe;
   delete sceneNode;
   mafDEL(volume);
-
-  delete wxLog::SetActiveTarget(NULL);
 }
 
 //----------------------------------------------------------------------------

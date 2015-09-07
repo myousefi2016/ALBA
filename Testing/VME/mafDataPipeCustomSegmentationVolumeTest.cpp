@@ -35,7 +35,7 @@
 #include "mafVMESegmentationVolume.h"
 
 //----------------------------------------------------------------------------
-void mafDataPipeCustomSegmentationVolumeTest::setUp()
+void mafDataPipeCustomSegmentationVolumeTest::BeforeTest()
 //----------------------------------------------------------------------------
 {
   vtkStructuredPointsReader *readerSP;
@@ -66,7 +66,7 @@ void mafDataPipeCustomSegmentationVolumeTest::setUp()
   vtkDEL(readerRG);
 }
 //----------------------------------------------------------------------------
-void mafDataPipeCustomSegmentationVolumeTest::tearDown()
+void mafDataPipeCustomSegmentationVolumeTest::AfterTest()
 //----------------------------------------------------------------------------
 {
   mafDEL(m_VolumeSP);
@@ -160,7 +160,6 @@ void mafDataPipeCustomSegmentationVolumeTest::AddGetRangeTest()
   CPPUNIT_ASSERT(MAF_ERROR == pipe->GetRange(2,startSlice,endSlice,threshold));
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::UpdateRangeTest()
@@ -189,7 +188,6 @@ void mafDataPipeCustomSegmentationVolumeTest::UpdateRangeTest()
   CPPUNIT_ASSERT(2 == startSlice && 3 == endSlice && 5 == threshold);
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::DeleteRangeTest()
@@ -216,7 +214,6 @@ void mafDataPipeCustomSegmentationVolumeTest::DeleteRangeTest()
   CPPUNIT_ASSERT(MAF_ERROR == pipe->GetRange(1,startSlice,endSlice,threshold));
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::RemoveAllRangesTest()
@@ -236,7 +233,6 @@ void mafDataPipeCustomSegmentationVolumeTest::RemoveAllRangesTest()
   CPPUNIT_ASSERT(0 == pipe->GetNumberOfRanges());
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::GetNumberOfRangesTest()
@@ -260,7 +256,6 @@ void mafDataPipeCustomSegmentationVolumeTest::GetNumberOfRangesTest()
   CPPUNIT_ASSERT(0 == pipe->GetNumberOfRanges());
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::SetGetAutomaticSegmentationGlobalThresholdTest()
@@ -297,7 +292,6 @@ void mafDataPipeCustomSegmentationVolumeTest::CheckNumberOfThresholdsTest()
   CPPUNIT_ASSERT(true == pipe->CheckNumberOfThresholds());
 
   mafDEL(pipe);
-  delete wxLog::SetActiveTarget(NULL);
 }
 //----------------------------------------------------------------------------
 void mafDataPipeCustomSegmentationVolumeTest::SetGetManualVolumeMaskTest()
