@@ -471,9 +471,9 @@ void mafOpLabelExtractor::ExtractLabel()
     resampler->SetVolumeOrigin(origin[0],origin[1],origin[2]);
 
     sp->SetSpacing(volumeSpacing);
+		sp->SetExtent(output_extent);
     sp->AllocateScalars(rgrid->GetPointData()->GetScalars()->GetDataType(),1);
-    sp->SetExtent(output_extent);
-
+    
     double sr[2];
     rgrid->GetScalarRange(sr);
 
@@ -486,6 +486,8 @@ void mafOpLabelExtractor::ExtractLabel()
     resampler->SetOutput(sp);
     resampler->AutoSpacingOff();
     resampler->Update();
+
+		sp->DeepCopy(resampler->GetOutput());
 
     sp->SetOrigin(bounds[0],bounds[2],bounds[4]);
     m_OutputData = sp->NewInstance();

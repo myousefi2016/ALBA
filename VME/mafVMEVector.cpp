@@ -71,7 +71,7 @@ int mafVMEVector::SetData(vtkDataSet *data, mafTimeStamp t, int mode)
   if (polydata && polydata->GetPolys()->GetNumberOfCells()==0 && \
       polydata->GetStrips()->GetNumberOfCells()==0 && \
       polydata->GetVerts()->GetNumberOfCells()==0 && \
-      polydata->GetPoints()->GetNumberOfPoints() == 2)
+      polydata->GetNumberOfPoints() == 2)
   {
     return mafVMEGeneric::SetData(data,t,mode);
   }

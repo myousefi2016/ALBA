@@ -132,8 +132,8 @@ void mafOpExporterBMPTest::TestExportBMP()
   vtkMAFSmartPointer<vtkImageData> imageFinal;
   imageFinal->SetDimensions(1024, 1024, 1);
   vtkMAFSmartPointer<vtkImageMathematics> math;
-  math->AddInputData(DataOriginal);
-  math->AddInputData(DataExported);
+  math->SetInput1Data(DataOriginal);
+  math->SetInput2Data(DataExported);
   math->SetOperationToSubtract();
   math->Update();
   imageFinal = math->GetOutput();
