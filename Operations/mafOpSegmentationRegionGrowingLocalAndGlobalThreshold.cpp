@@ -518,6 +518,7 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::WriteHistogramFiles(
   accumulate->Update();
 
   wxString newDir = mafGetAppDataDirectory().c_str();
+  wxString oldDir = wxGetCwd();
   wxSetWorkingDirectory(newDir);
 
   double val = accumulate->GetOutput()->GetPointData()->GetScalars()->GetTuple1(178);
