@@ -43,6 +43,7 @@
 #include "vtkDirectory.h"
 
 #include <fstream>
+#include "mafProgressBarHelper.h"
 
 //----------------------------------------------------------------------------
 mafOpExporterBmp::mafOpExporterBmp(const wxString &label) :
@@ -235,9 +236,7 @@ void mafOpExporterBmp::SaveBmp()
       imageFlip->SetInputData(imageData);
     }  
 
-    mafEventMacro(mafEvent(this,PROGRESSBAR_SHOW));
     vtkMAFSmartPointer<vtkBMPWriter> exporter;
-    //mafEventMacro(mafEvent(this,BIND_TO_PROGRESSBAR, exporter));
     exporter->SetInputConnection(imageFlip->GetOutputPort());
     exporter->SetFileDimensionality(2); // the writer will create a number of 2D images
     exporter->SetFilePattern("%s_%04d.bmp");
@@ -250,17 +249,14 @@ void mafOpExporterBmp::SaveBmp()
     int counter = 0;
     double tuple;
     wxString fileName;
-    long progress = 0;
 
-    mafEventMacro(mafEvent(this,PROGRESSBAR_SHOW));
+		mafProgressBarHelper progressHelper(m_Listener);
+		progressHelper.SetTextMode(m_TestMode);
     
     for ( int z = 0 ; z < zdim; z++)
     {
-      if (mafFloatEquals(fmod(z,10.0f),0.0f))
-      {
-        progress = (z*100)/zdim;
-        mafEventMacro(mafEvent(this,PROGRESSBAR_SET_VALUE,progress));
-      }
+      progressHelper.UpdateProgressBar((z*100)/zdim);
+        
       for (int i = counter, n = 0; i < (counter + size); i++,n++)
       {
         tuple = imageData->GetPointData()->GetScalars()->GetTuple(i)[0];
@@ -277,7 +273,6 @@ void mafOpExporterBmp::SaveBmp()
       WriteImageDataAsMonocromeBitmap(imageSlice, fileName.c_str());
       scalarSliceIn->Reset();
     }
-    mafEventMacro(mafEvent(this,PROGRESSBAR_HIDE));
   }
 }
 

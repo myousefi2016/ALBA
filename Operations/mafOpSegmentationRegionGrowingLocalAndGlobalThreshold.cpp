@@ -57,6 +57,7 @@
 #include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
+#include "mafProgressBarHelper.h"
 
 const unsigned int Dimension = 3;
 
@@ -227,14 +228,15 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::MorphologicalMathema
 //----------------------------------------------------------------------------
 {
   //Perform the morphological closing operation
-  wxBusyInfo wait("Please wait, morphological mathematics...");
-
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SHOW));
+	mafProgressBarHelper progressHelper(m_Listener);
+	progressHelper.SetTextMode(m_TestMode);
+	progressHelper.InitProgressBar("Please wait, morphological mathematics...");
+	
   typedef itk::VTKImageToImageFilter< InputImageType > ConvertervtkTOitk;
   ConvertervtkTOitk::Pointer vtkTOitk = ConvertervtkTOitk::New();
   vtkTOitk->SetInput( m_SegmentedImage );
   vtkTOitk->Update();
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SET_VALUE,(long)10));
+  progressHelper.UpdateProgressBar(10);
 
   //Structuring element is a sphere
   StructuringElementType  structuringElement;
@@ -246,33 +248,31 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::MorphologicalMathema
   binaryDilate->SetInput( vtkTOitk->GetOutput() );
   binaryDilate->SetDilateValue( m_LowerLabel );
   binaryDilate->Update();
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SET_VALUE,(long)50));
+  progressHelper.UpdateProgressBar(50);
 
   ErodeFilterType::Pointer  binaryErode  = ErodeFilterType::New();
   binaryErode->SetKernel(  structuringElement );
   binaryErode->SetInput( binaryDilate->GetOutput() );
   binaryErode->SetErodeValue( m_LowerLabel );
   binaryErode->Update();
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SET_VALUE,(long)90));
+  progressHelper.UpdateProgressBar(90);
 
   typedef itk::ImageToVTKImageFilter< OutputImageType > ConverteritkTOvtk;
   ConverteritkTOvtk::Pointer itkTOvtk = ConverteritkTOvtk::New();
   itkTOvtk->SetInput( binaryErode->GetOutput() );
   itkTOvtk->Update();
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SET_VALUE,(long)100));
+  progressHelper.UpdateProgressBar(100);
 
   m_MorphoImage->DeepCopy(itkTOvtk->GetOutput());
-
-  mafEventMacro(mafEvent(this,PROGRESSBAR_HIDE));
-
 }
 //----------------------------------------------------------------------------
 void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::RegionGrowing()
 //----------------------------------------------------------------------------
 {
-  wxBusyInfo wait("Please wait, region growing...");
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SHOW));
-
+	mafProgressBarHelper progressHelper(m_Listener);
+	progressHelper.SetTextMode(m_TestMode);
+	progressHelper.InitProgressBar("Please wait, region growing...");
+	
   //Get the vtk data from the input
   vtkImageData *imageData = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
 
@@ -281,7 +281,6 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::RegionGrowing()
   //m_Histogram->GetThresholds(&lower,&upper);
   
   //Apply the region growing filter
-  mafEventMacro(mafEvent(this,PROGRESSBAR_SHOW));
   vtkMAFSmartPointer<vtkMAFRegionGrowingLocalGlobalThreshold> localFilter;
   localFilter->SetInput(imageData);
   localFilter->SetLowerLabel(m_LowerLabel);
@@ -294,8 +293,6 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::RegionGrowing()
   //Save the result of the region growing
   m_SegmentedImage->DeepCopy(localFilter->GetOutput());
 
-  mafEventMacro(mafEvent(this,PROGRESSBAR_HIDE));
-  
 }
 //----------------------------------------------------------------------------
 // widget ID's
@@ -520,8 +517,7 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::WriteHistogramFiles(
   accumulate->SetComponentSpacing(1,0,0); // bins maps all the Scalars Range
   accumulate->Update();
 
-  wxString newDir = (mafGetApplicationDirectory()).c_str();
-  wxString oldDir = wxGetCwd();
+  wxString newDir = mafGetAppDataDirectory().c_str();
   wxSetWorkingDirectory(newDir);
 
   double val = accumulate->GetOutput()->GetPointData()->GetScalars()->GetTuple1(178);
@@ -622,7 +618,7 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::FittingLM()
   accumulate->SetComponentSpacing(1,0,0); // bins maps all the Scalars Range
   accumulate->Update();
 
-  wxString newDir = (mafGetApplicationDirectory()).c_str();
+  wxString newDir = mafGetAppDataDirectory().c_str();
   wxString oldDir = wxGetCwd();
   wxSetWorkingDirectory(newDir);
 
