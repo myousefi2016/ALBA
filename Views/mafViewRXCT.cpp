@@ -1102,3 +1102,10 @@ void mafViewRXCT::OnSize(wxSizeEvent &size_event)
 {
   mafViewCompound::OnSize(size_event);
 }
+
+//----------------------------------------------------------------------------
+char ** mafViewRXCT::GetIcon()
+{
+#include "pic/VIEW_RXCT.xpm"
+	return VIEW_RXCT_xpm;
+}
