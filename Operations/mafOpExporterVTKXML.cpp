@@ -59,8 +59,9 @@ mafOp(label)
 	m_Binary        = 1;
 	m_ABSMatrixFlag = 0;
 
-	m_FileDir = mafGetDocumentsDirectory().c_str();
-  m_ForceUnsignedShortScalarOutputForStructuredPoints = false;
+
+	m_FileDir = mafGetLastUserFolder().c_str();
+
 }
 //----------------------------------------------------------------------------
 mafOpExporterVTKXML::~mafOpExporterVTKXML()
