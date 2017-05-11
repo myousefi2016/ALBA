@@ -5,6 +5,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # project set here.
 PROJECT(vtkMAF)
 
+MESSAGE(STATUS "MAF: Configuring vtkMAF")
+
 # Set your list of sources here.  Do not change the name of the
 # vtkMAF_SRCS variable.
 SET(vtkMAF_SRCS
@@ -129,8 +131,9 @@ SET(vtkMAF_SRCS  ${vtkMAF_SRCS}
 )
 ENDIF (MAF_USE_ITK)
 
-# List the kits from VTK that are needed by this project.
-SET(vtkMAF_LIBS vtkCommon  vtkRendering  vtkFiltering  vtkGraphics  vtkHybrid)
+find_package(VTK 7.1 REQUIRED NO_MODULE)
+include(${VTK_USE_FILE})
+SET(vtkMAF_LIBS ${VTK_LIBRARIES})
 
 IF(WIN32)
 SET(vtkMAF_LIBS
@@ -209,12 +212,13 @@ IF(VTK_FOUND)
 				 
 
   # Create the instantiator for these classes.
-  SET(VTK_USE_INSTANTIATOR_NEW 1)
-  VTK_MAKE_INSTANTIATOR2("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
-                         ${vtkMAF_SRCS}
-                         EXPORT_MACRO "MAF_EXPORT"
-                         HEADER_LOCATION ${PROJECT_BINARY_DIR}
-                         INCLUDES "mafConfigure.h")
+	#  SET(VTK_USE_INSTANTIATOR_NEW 1)
+	#	include(${VTK_CMAKE_DIR}/vtkMakeInstantiator.cmake)
+	#  VTK_MAKE_INSTANTIATOR2("${PROJECT_NAME}Instantiator" vtkMAFInstantiator_SRCS
+	#                         ${vtkMAF_SRCS}
+	#                         EXPORT_MACRO "MAF_EXPORT"
+	#                         HEADER_LOCATION ${PROJECT_BINARY_DIR}
+	#                         INCLUDES "mafConfigure.h")
 
   # Create the library.
   ADD_LIBRARY(${PROJECT_NAME} ${vtkMAF_SRCS} ${vtkMAFInstantiator_SRCS})
