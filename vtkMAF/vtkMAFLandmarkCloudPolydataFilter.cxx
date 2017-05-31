@@ -12,7 +12,7 @@ University of Bedfordshire
 
 
 #include "vtkPolyData.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkObjectFactory.h"
 #include "vtkIdList.h"
 #include "vtkSphereSource.h"
@@ -21,9 +21,10 @@ University of Bedfordshire
 #include "vtkMAFLandmarkCloudPolydataFilter.h"
 #include "vtkMAFAddScalarsFilter.h"
 #include <algorithm>
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
 
-vtkCxxRevisionMacro(vtkMAFLandmarkCloudPolydataFilter, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFLandmarkCloudPolydataFilter);
 
 
@@ -57,13 +58,19 @@ vtkMAFLandmarkCloudPolydataFilter::~vtkMAFLandmarkCloudPolydataFilter()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFLandmarkCloudPolydataFilter::Execute()
+int vtkMAFLandmarkCloudPolydataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   // pointers to input and output
-  m_Input = this->GetInput() ;
-  m_Output = this->GetOutput() ;
+  m_Input = input;
+  m_Output = output;
 
   // update the positions from the polydata
   double x[3] ;
@@ -76,10 +83,12 @@ void vtkMAFLandmarkCloudPolydataFilter::Execute()
   // merge individual spheres into one polydata
   vtkAppendPolyData* append = vtkAppendPolyData::New() ;
   for (int i = 0 ;  i < GetNumberOfLandmarks() ;  i++)
-    append->AddInput(m_AddScalarsList[i]->GetOutput()) ;
-  append->GetOutput()->Update() ;
+    append->AddInputData(m_AddScalarsList[i]->GetOutput()) ;
+  append->Update() ;
 
   m_Output->DeepCopy(append->GetOutput()) ;
+
+	return 1;
 }
 
 
@@ -117,7 +126,7 @@ int vtkMAFLandmarkCloudPolydataFilter::AddLandmark(int ptId)
   sphere->SetPhiResolution(m_PhiRes) ;
 
   vtkMAFAddScalarsFilter* addScalars = vtkMAFAddScalarsFilter::New() ;
-  addScalars->SetInput(sphere->GetOutput()) ;
+  addScalars->SetInputConnection(sphere->GetOutputPort()) ;
 
   m_SphereList.push_back(sphere) ;
   m_AddScalarsList.push_back(addScalars) ;

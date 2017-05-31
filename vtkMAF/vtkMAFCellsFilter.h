@@ -21,7 +21,7 @@
 #define __vtkMAFCellsFilter_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkIdList.h"
 #include "vtkCharArray.h"
 #include "vtkPolyData.h"
@@ -37,14 +37,14 @@ class name : vtkMAFCellsFilter.
  @sa
  vtkMAFRemoveCellsFilter
 */ 
-class MAF_EXPORT vtkMAFCellsFilter : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFCellsFilter : public vtkPolyDataAlgorithm
 {
 
 public:
   /** create an instance of the object */
   static vtkMAFCellsFilter *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFCellsFilter, vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFCellsFilter, vtkPolyDataAlgorithm);
   /** Print Object Information */
   void PrintSelf(ostream& os, vtkIndent indent);
    
@@ -113,7 +113,7 @@ protected:
   double UnmarkedColor[3];
   double MarkedOpacity;
   
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 private:
   /** Copy Constructor , not implemented.*/

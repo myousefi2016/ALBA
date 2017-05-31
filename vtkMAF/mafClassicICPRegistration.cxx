@@ -35,27 +35,7 @@
 
 #include "mafICPUtility.h"
 
-	vtkCxxRevisionMacro(mafClassicICPRegistration, "$Revision: 1.1.2.1 $");
-  vtkStandardNewMacro(mafClassicICPRegistration);
-
-/*//--------------------------------------------------------------------------
-mafClassicICPRegistration* mafClassicICPRegistration::New()
-//----------------------------------------------------------------------------
-{
-  // First try to create the object from the vtkObjectFactory
-  vtkObject* ret = vtkObjectFactory::CreateInstance("mafClassicICPRegistration");
-  if(ret)
-    {
-    return (mafClassicICPRegistration*)ret;
-    }
-
-  // If the factory was unable to create the object, then create it here.
-  return new mafClassicICPRegistration;
-}*/
-
-//-------------------------------------------------------------------------
-//mafCxxTypeMacro(mafClassicICPRegistration)
-//-------------------------------------------------------------------------
+vtkStandardNewMacro(mafClassicICPRegistration);
 
 //----------------------------------------------------------------------------
 mafClassicICPRegistration::mafClassicICPRegistration() : vtkIterativeClosestPointTransform()
@@ -197,11 +177,11 @@ void mafClassicICPRegistration::SetResultsFileName(const char *name)
 	this->Modified();
 }
 //----------------------------------------------------------------------------
-unsigned long mafClassicICPRegistration::GetMTime()
+vtkMTimeType mafClassicICPRegistration::GetMTime()
 //----------------------------------------------------------------------------
 {
-  unsigned long result = vtkIterativeClosestPointTransform::GetMTime();
-  unsigned long mtime;
+	vtkMTimeType result = vtkIterativeClosestPointTransform::GetMTime();
+	vtkMTimeType mtime;
 
   if (this->Source)
     {
@@ -312,44 +292,3 @@ void mafClassicICPRegistration::InternalUpdate()
   mat->Delete();
 }
 
-//----------------------------------------------------------------------------
-/*
-void mafClassicICPRegistration::PrintSelf(ostream& os, vtkIndent indent)
-{
-  vtkLinearTransform::PrintSelf(os,indent);
-
-  if ( this->Source ) 
-    {
-    os << indent << "Source: " << this->Source << "\n";
-    }
-  else 
-    {
-    os << indent << "Source: (none)\n";
-    }
-
-  if ( this->Target ) 
-    {
-    os << indent << "Target: " << this->Target << "\n";
-    }
-  else 
-    {
-    os << indent << "Target: (none)\n";
-    }
-
-  if ( this->Locator ) 
-    {
-    os << indent << "Locator: " << this->Locator << "\n";
-    }
-  else 
-    {
-    os << indent << "Locator: (none)\n";
-    }
-
-  os << indent << "MaximumNumberOfIterations: " << this->MaximumNumberOfIterations << "\n";
-  if(this->IterativeClosestPointTransform)
-    {
-    os << indent << "IterativeClosestPointTransform:\n";
-    this->IterativeClosestPointTransform->PrintSelf(os, indent.GetNextIndent());
-    }
-}
-*/

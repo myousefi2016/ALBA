@@ -115,7 +115,7 @@ public:
   /**  Construct a vtkMAFDOFMatrix */
   static vtkMAFDOFMatrix *New();
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFDOFMatrix,vtkObject);
+  vtkTypeMacro(vtkMAFDOFMatrix,vtkObject);
   /** Print Object Information */
   void PrintSelf(ostream& os, vtkIndent indent);
   

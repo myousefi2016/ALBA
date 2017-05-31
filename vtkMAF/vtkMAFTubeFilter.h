@@ -12,7 +12,7 @@ Copyright (c) 2012
 #ifndef __vtkMAFTubeFilter_h
 #define __vtkMAFTubeFilter_h
 
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 #define VTK_VARY_RADIUS_OFF 0
 #define VTK_VARY_RADIUS_BY_SCALAR 1
@@ -34,10 +34,10 @@ class vtkPoints;
 /*This Class is basically a copy of vtkTubeFilter class except for managing some error cases.
 	when two consecutive points on a line are the same point (or are to close) vtk tube filter does not create the output
 	this class skips consecutive equal points*/
-class VTK_GRAPHICS_EXPORT vtkMAFTubeFilter : public vtkPolyDataToPolyDataFilter
+class vtkMAFTubeFilter : public vtkPolyDataAlgorithm
 {
 public:
-	vtkTypeRevisionMacro(vtkMAFTubeFilter, vtkPolyDataToPolyDataFilter);
+	vtkTypeMacro(vtkMAFTubeFilter, vtkPolyDataAlgorithm);
 	void PrintSelf(ostream& os, vtkIndent indent);
 
 	// Description:
@@ -75,7 +75,7 @@ public:
 
 	// Description:
 	// Set the number of sides for the tube. At a minimum, number of sides is 3.
-	vtkSetClampMacro(NumberOfSides, int, 3, VTK_LARGE_INTEGER);
+	vtkSetClampMacro(NumberOfSides, int, 3, VTK_INT_MAX);
 	vtkGetMacro(NumberOfSides, int);
 
 	// Description:
@@ -114,14 +114,14 @@ public:
 	// Control the striping of the tubes. If OnRatio is greater than 1,
 	// then every nth tube side is turned on, beginning with the Offset
 	// side.
-	vtkSetClampMacro(OnRatio, int, 1, VTK_LARGE_INTEGER);
+	vtkSetClampMacro(OnRatio, int, 1, VTK_INT_MAX);
 	vtkGetMacro(OnRatio, int);
 
 	// Description:
 	// Control the striping of the tubes. The offset sets the
 	// first tube side that is visible. Offset is generally used with
 	// OnRatio to create nifty striping effects.
-	vtkSetClampMacro(Offset, int, 0, VTK_LARGE_INTEGER);
+	vtkSetClampMacro(Offset, int, 0, VTK_INT_MAX);
 	vtkGetMacro(Offset, int);
 
 	// Description:
@@ -155,7 +155,7 @@ public:
 	// calculation. The TextureLength indicates what length (whether 
 	// calculated from scalars or length) is mapped to the [0,1)
 	// texture space.
-	vtkSetClampMacro(TextureLength, double, 0.000001, VTK_LARGE_INTEGER);
+	vtkSetClampMacro(TextureLength, double, 0.000001, VTK_INT_MAX);
 	vtkGetMacro(TextureLength, double);
 
 protected:
@@ -163,7 +163,7 @@ protected:
 	~vtkMAFTubeFilter() {}
 
 	// Usual data generation method
-	void Execute();
+	int RequestData(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 	double Radius; //minimum radius of tube
 	int VaryRadius; //controls radius variation

@@ -26,11 +26,12 @@
 #include "vtkPointData.h"
 
 #include <cassert>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 #define PENINSULA_CORNER_MAXIMUM_NUMBER_OF_PIXELS 1
 
-vtkCxxRevisionMacro(vtkMAFImageFillHolesRemoveIslands, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFImageFillHolesRemoveIslands);
 
 //----------------------------------------------------------------------------
@@ -71,18 +72,20 @@ void vtkMAFImageFillHolesRemoveIslands::SetAlgorithm(int algorithm)
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFImageFillHolesRemoveIslands::Execute()
+int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  // get input
-  vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
-  // prepare output
-  vtkStructuredPoints *output = this->GetOutput();
+	// Initialize some frequently used values.
+	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+
   output->DeepCopy(input);
-  output->UpdateData();
-  output->Update();
+
 
   int recognitionSquareEdge = EdgeSize + 2; // Number of pixels of the recognition square
 
@@ -91,7 +94,7 @@ void vtkMAFImageFillHolesRemoveIslands::Execute()
   
   // Flood fill external region of the shape to allow fill big holes inside the shape
   vtkMAFBinaryImageFloodFill *flood_fill = vtkMAFBinaryImageFloodFill::New();
-  flood_fill->SetInput(input);
+  flood_fill->SetInputData(input);
   flood_fill->Update();
 
   // get flood fill scalars
@@ -185,7 +188,6 @@ void vtkMAFImageFillHolesRemoveIslands::Execute()
   output->GetPointData()->Update();
   output->GetPointData()->Modified();
   flood_fill->Delete();
-  output->UpdateData();
-  output->Update();
-  this->SetOutput(output);
+ 
+	return 1;
 }

@@ -17,7 +17,6 @@ University of Bedfordshire
 #include "mafConfigure.h"
 #include "vtkObject.h"
 #include "vtkPolyData.h"
-#include "vtkIdType.h"
 #include "vtkIdList.h"
 #include <vector>
 #include <map>
@@ -61,7 +60,7 @@ class MAF_EXPORT vtkMAFPolyDataNavigator : public vtkObject
 {
 public:
   static vtkMAFPolyDataNavigator *New();
-  vtkTypeRevisionMacro(vtkMAFPolyDataNavigator, vtkObject);
+  vtkTypeMacro(vtkMAFPolyDataNavigator, vtkObject);
   void PrintSelf(ostream& os, vtkIndent indent) {} ;
 
 

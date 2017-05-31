@@ -49,7 +49,6 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 
-vtkCxxRevisionMacro(vtkMAFRGSliceAccumulate, "$Revision: 1.1.2.4 $");
 vtkStandardNewMacro(vtkMAFRGSliceAccumulate);
 
 //--------------------------------------------------------------------------------------
@@ -64,6 +63,7 @@ vtkMAFRGSliceAccumulate::vtkMAFRGSliceAccumulate()
   SetDataType(VTK_UNSIGNED_CHAR);
   SetOrigin(0,0,0);
   Slices=vtkRectilinearGrid::New();
+	SetNumberOfInputPorts(0);
 }
 //--------------------------------------------------------------------------------------
 vtkMAFRGSliceAccumulate::~vtkMAFRGSliceAccumulate()

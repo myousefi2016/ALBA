@@ -28,7 +28,6 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 
-vtkCxxRevisionMacro(vtkMAFOrientationMarkerWidget, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFOrientationMarkerWidget);
 vtkCxxSetObjectMacro(vtkMAFOrientationMarkerWidget, OrientationMarker, vtkProp);
 
@@ -92,7 +91,7 @@ vtkMAFOrientationMarkerWidget::vtkMAFOrientationMarkerWidget()
   tcoord->SetCoordinateSystemToDisplay();
 
   vtkPolyDataMapper2D *mapper = vtkPolyDataMapper2D::New();
-  mapper->SetInput( this->Outline );
+  mapper->SetInputData( this->Outline );
   mapper->SetTransformCoordinate( tcoord );
 
   this->OutlineActor = vtkActor2D::New();
@@ -160,9 +159,9 @@ void vtkMAFOrientationMarkerWidget::SetEnabled(int enabling)
       renwin->SetNumberOfLayers( 2 );
       }*/
 
-    this->CurrentRenderer->AddProp( this->OutlineActor );
+    this->CurrentRenderer->AddViewProp( this->OutlineActor );
     this->OutlineActor->VisibilityOff();
-    this->Renderer->AddProp( this->OrientationMarker );
+    this->Renderer->AddViewProp( this->OrientationMarker );
     this->OrientationMarker->VisibilityOn();
 
     if (this->Interactive)
@@ -203,9 +202,9 @@ void vtkMAFOrientationMarkerWidget::SetEnabled(int enabling)
     this->Interactor->RemoveObserver( this->EventCallbackCommand );
 
     this->OrientationMarker->VisibilityOff();
-    this->Renderer->RemoveProp( this->OrientationMarker );
+    this->Renderer->RemoveViewProp( this->OrientationMarker );
     this->OutlineActor->VisibilityOff();
-    this->CurrentRenderer->RemoveProp( this->OutlineActor );
+    this->CurrentRenderer->RemoveViewProp( this->OutlineActor );
 
     // if the render window is still around, remove our renderer from it
     if (this->CurrentRenderer->GetRenderWindow())

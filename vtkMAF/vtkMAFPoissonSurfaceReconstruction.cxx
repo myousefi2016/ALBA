@@ -17,15 +17,16 @@
 //----------------------------------------------------------------------------
 // Include:
 //----------------------------------------------------------------------------
+#include <windows.h>
 #include "vtkMAFPoissonSurfaceReconstruction.h"
 
 #include "vtkObjectFactory.h"
 #include "vtkFloatArray.h"
 #include "vtkMath.h"
-#include "float.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
-vtkCxxRevisionMacro(vtkMAFPoissonSurfaceReconstruction, "$Revision: 1.1.2.10 $");
 vtkStandardNewMacro(vtkMAFPoissonSurfaceReconstruction);
 
 vtkDataSet* vtk_psr_input;
@@ -44,14 +45,19 @@ vtkMAFPoissonSurfaceReconstruction::~vtkMAFPoissonSurfaceReconstruction()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::Execute()
+int vtkMAFPoissonSurfaceReconstruction::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet *input= this->GetInput();
-  vtkPolyData *output = this->GetOutput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	  
 
   // ghost cell stuff
-  unsigned char  updateLevel = (unsigned char)(output->GetUpdateGhostLevel());
   unsigned char  *cellGhostLevels = NULL;
 
   // make sure output is initialized
@@ -72,17 +78,19 @@ void vtkMAFPoissonSurfaceReconstruction::Execute()
   vtk_psr_output = output;
 
   PSR_main();
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::ExecuteInformation()
+int vtkMAFPoissonSurfaceReconstruction::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("No Input");
-    return;
     }
+	return 1;
 }
 
 //----------------------------------------------------------------------------
@@ -92,28 +100,36 @@ void vtkMAFPoissonSurfaceReconstruction::PrintSelf(ostream& os, vtkIndent indent
   this->Superclass::PrintSelf(os,indent);
 }
 
-//----------------------------------------------------------------------------
-void vtkMAFPoissonSurfaceReconstruction::ComputeInputUpdateExtents(vtkDataObject *output)
-//----------------------------------------------------------------------------
+int vtkMAFPoissonSurfaceReconstruction::FillInputPortInformation(int, vtkInformation *info)
 {
-  int piece, numPieces, ghostLevels;
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
+	return 1;
+}
+
+//----------------------------------------------------------------------------
+int	vtkMAFPoissonSurfaceReconstruction::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+{
+	this->vtkPolyDataAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
+	int piece, numPieces, ghostLevels;
   
   if (this->GetInput() == NULL)
     {
     vtkErrorMacro("No Input");
-    return;
+    return 1;
     }
-  piece = output->GetUpdatePiece();
-  numPieces = output->GetUpdateNumberOfPieces();
-  ghostLevels = output->GetUpdateGhostLevel();
+  piece = GetOutput()->GetPiece();
+  numPieces = GetOutput()->GetNumberOfPieces();
+  ghostLevels = GetOutput()->GetGhostLevel();
   
   if (numPieces > 1)
     {
     ++ghostLevels;
     }
 
-  this->GetInput()->SetUpdateExtent(piece, numPieces, ghostLevels);
-  this->GetInput()->RequestExactExtentOn();
+  this->SetUpdateExtent(piece, numPieces, ghostLevels);
+
+	return 1;
 }
 
 

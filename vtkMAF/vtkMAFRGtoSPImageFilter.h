@@ -36,7 +36,7 @@ PURPOSE.  See the above copyright notice for more information.
 #ifndef __vtkMAFRGtoSPImageFilter_h
 #define __vtkMAFRGtoSPImageFilter_h
 
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm.h"
 #include "mafConfigure.h"
 
 #define ORTHOSLICER_X_SLICE 0
@@ -61,11 +61,11 @@ Class Name: vtkMAFRGtoSPImageFilter.
  Typical applications of this filter are to produce an image from a volume
  for image processing or visualization.
 */
-class MAF_EXPORT vtkMAFRGtoSPImageFilter : public vtkDataSetToDataSetFilter
+class MAF_EXPORT vtkMAFRGtoSPImageFilter : public vtkDataSetAlgorithm
 {
 public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFRGtoSPImageFilter, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFRGtoSPImageFilter, vtkDataSetAlgorithm);
   
   /** Static Function for object instantiation */
   static vtkMAFRGtoSPImageFilter *New();
@@ -76,18 +76,23 @@ public:
 protected:
   /** constructor */
   vtkMAFRGtoSPImageFilter();
-  /** destructor */
+	/** destructor */
 	~vtkMAFRGtoSPImageFilter() {};
- /** copy constructor not implemented*/
+		
+	/** specialize output information type */
+	virtual int FillOutputPortInformation(int port, vtkInformation* info);
+		
+	/** copy constructor not implemented*/
   vtkMAFRGtoSPImageFilter(const vtkMAFRGtoSPImageFilter&);
   /** assign operator not implemented*/
   void operator=(const vtkMAFRGtoSPImageFilter&);
 
   /** Update dimensions and whole extents */
-  void ExecuteInformation();
-  /** Execute the projection and fill output scalars */
-  void Execute();
+	int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
+  /** Execute the projection and fill output scalars */
+	virtual int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *);
+	
 	template<typename DataType>
 	void FillSP(vtkRectilinearGrid * input, vtkImageData * output, DataType *inputScalars, DataType *outScalars);
 

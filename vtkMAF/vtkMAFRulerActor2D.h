@@ -58,7 +58,7 @@ class MAF_EXPORT vtkMAFRulerActor2D : public vtkActor2D
 //-----------------------------------------------------------------------------
 {
  public:
-  vtkTypeRevisionMacro(vtkMAFRulerActor2D,vtkActor2D);
+  vtkTypeMacro(vtkMAFRulerActor2D,vtkActor2D);
   void PrintSelf(ostream& os, vtkIndent indent);
   static	vtkMAFRulerActor2D *New();
 

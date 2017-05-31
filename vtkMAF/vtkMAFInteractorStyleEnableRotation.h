@@ -29,7 +29,7 @@ class MAF_EXPORT vtkMAFInteractorStyleEnableRotation : public vtkInteractorStyle
 {
 public:
   static vtkMAFInteractorStyleEnableRotation *New();
-  vtkTypeRevisionMacro(vtkMAFInteractorStyleEnableRotation, vtkInteractorStyleTrackballCamera);
+  vtkTypeMacro(vtkMAFInteractorStyleEnableRotation, vtkInteractorStyleTrackballCamera);
 
   void EnableRotation(bool enable) {m_RotationEnabled = enable ;  this->Modified() ;}
   virtual void Rotate();

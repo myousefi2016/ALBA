@@ -20,8 +20,11 @@
 #include "vtkMAFVolumeResample.h"
 
 #include "assert.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeResample, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFVolumeResample);
 
 typedef unsigned short u_short;
@@ -128,8 +131,15 @@ void vtkMAFVolumeResample::SetVolumeAxisY(double axis[3]) {
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ExecuteInformation() {
-  for (int i = 0; i < this->GetNumberOfOutputs(); i++) {
+void vtkMAFVolumeResample::SetOutput(vtkImageData *data)
+{
+	this->GetExecutive()->SetOutputData(0, data);
+}
+
+//----------------------------------------------------------------------------
+int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector) 
+{
+  for (int i = 0; i < this->GetNumberOfOutputPorts(); i++) {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) {
       vtkImageData *output = (vtkImageData*)this->GetOutput(i);
       
@@ -141,8 +151,7 @@ void vtkMAFVolumeResample::ExecuteInformation() {
       //  dims[2] = 1;
       //  output->SetDimensions(dims);
       //  }
-      output->SetWholeExtent(output->GetExtent());
-      output->SetUpdateExtentToWholeExtent();
+      this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) { // select spacing
         this->PrepareVolume();
@@ -197,17 +206,26 @@ void vtkMAFVolumeResample::ExecuteInformation() {
     else {
       }
     }
-  }
+
+	return 1;
+}
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ExecuteData(vtkDataObject *outputData) {
+int vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector ){
+	// get the info objects
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   this->PrepareVolume();
 
-  if (vtkImageData::SafeDownCast(outputData))
-    this->ExecuteData((vtkImageData*)outputData);
+  if (vtkImageData::SafeDownCast(output))
+    this->RequestData(request,(vtkImageData*)output);
   
-  outputData->Modified();
-  }
+  output->Modified();
+	return 1;
+}
 
 //----------------------------------------------------------------------------
 void vtkMAFVolumeResample::PrepareVolume() {
@@ -280,25 +298,28 @@ void vtkMAFVolumeResample::PrepareVolume() {
 
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ComputeInputUpdateExtents(vtkDataObject *output) {
-  vtkDataObject *input = this->GetInput();
-  input->SetUpdateExtentToWholeExtent();
-  }
+int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector)
+{
+	this->vtkDataSetAlgorithm::RequestUpdateExtent(request, inputVector,	outputVector);
+
+  this->SetUpdateExtentToWholeExtent();
+	
+	return 1;
+}
 
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::ExecuteData(vtkImageData *outputObject) 
+void vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkImageData *outputObject) 
 {
-  int extent[6];
-  outputObject->GetWholeExtent(extent);
-  outputObject->SetExtent(extent);
+
   //outputObject->SetNumberOfScalarComponents(1);
-  outputObject->AllocateScalars();
+  outputObject->AllocateScalars(request);
+	vtkDataSet *input =	vtkDataSet::SafeDownCast(this->GetInput());
   
-  const void *inputPointer  = this->GetInput()->GetPointData()->GetScalars()->GetVoidPointer(0);
+  const void *inputPointer  = input->GetPointData()->GetScalars()->GetVoidPointer(0);
   const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);
   
-  switch (this->GetInput()->GetPointData()->GetScalars()->GetDataType()) 
+  switch (input->GetPointData()->GetScalars()->GetDataType()) 
   {
     case VTK_CHAR: //---------------------------------------------
       switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 

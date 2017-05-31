@@ -62,7 +62,7 @@ class MAF_EXPORT vtkMAFAnnotatedCubeActor : public vtkProp3D
 {
 public:
   static vtkMAFAnnotatedCubeActor *New();
-  vtkTypeRevisionMacro(vtkMAFAnnotatedCubeActor,vtkProp3D);
+  vtkTypeMacro(vtkMAFAnnotatedCubeActor,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /** For some exporters and other other operations we must be
@@ -95,7 +95,7 @@ public:
   double *GetBounds();
 
   /**  Get the actors mtime plus consider its properties and texture if set. */
-  unsigned long int GetMTime();
+	vtkMTimeType GetMTime();
 
   /** Set the scale factor for the face text */
   void SetFaceTextScale(double);

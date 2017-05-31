@@ -19,7 +19,6 @@
 #include "vtkOutlineCornerSource.h"
 #include "vtkPolyData.h"
 
-vtkCxxRevisionMacro(vtkMAFLandmarkCloudOutlineCornerFilter, "$Revision: 1.9 $");
 vtkStandardNewMacro(vtkMAFLandmarkCloudOutlineCornerFilter);
 
 vtkMAFLandmarkCloudOutlineCornerFilter::vtkMAFLandmarkCloudOutlineCornerFilter ()
@@ -38,7 +37,7 @@ vtkMAFLandmarkCloudOutlineCornerFilter::~vtkMAFLandmarkCloudOutlineCornerFilter 
     }
 }
 
-void vtkMAFLandmarkCloudOutlineCornerFilter::Execute()
+int vtkMAFLandmarkCloudOutlineCornerFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkPolyData *output = this->GetOutput();
   
@@ -60,10 +59,11 @@ void vtkMAFLandmarkCloudOutlineCornerFilter::Execute()
 
   output->CopyStructure(this->OutlineCornerSource->GetOutput());
 
+	return 1;
 }
 
-
-void vtkMAFLandmarkCloudOutlineCornerFilter::ExecuteInformation()
+/** only check if input is not null */
+int vtkMAFLandmarkCloudOutlineCornerFilter::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkDebugMacro(<< "Creating dataset outline");
 
@@ -71,9 +71,11 @@ void vtkMAFLandmarkCloudOutlineCornerFilter::ExecuteInformation()
   // Let OutlineCornerSource do all the work
   //
   
-  this->vtkSource::ExecuteInformation();
+  this->vtkPolyDataAlgorithm::RequestInformation(request,inputVector,outputVector);
 
   this->OutlineCornerSource->UpdateInformation();
+
+	return 1;
 }
 
 

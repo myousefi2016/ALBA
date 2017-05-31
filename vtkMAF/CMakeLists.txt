@@ -34,7 +34,6 @@ SET(vtkMAF_SRCS
   vtkMAFPolyDataSingleSourceShortestPath.cxx  			vtkMAFPolyDataSingleSourceShortestPath.h
   vtkMAFProjectVolume.cxx  									vtkMAFProjectVolume.h
   vtkMAFRayCast3DPicker.cxx  							vtkMAFRayCast3DPicker.h
-  vtkMAFRectilinearGridToRectilinearGridFilter.cxx  	vtkMAFRectilinearGridToRectilinearGridFilter.h
   vtkMAFRGSliceAccumulate.cxx  							vtkMAFRGSliceAccumulate.h
   vtkMAFRulerActor2D.cxx  								vtkMAFRulerActor2D.h
   vtkMAFSimpleRulerActor2D.cxx  						vtkMAFSimpleRulerActor2D.h
@@ -47,7 +46,6 @@ SET(vtkMAF_SRCS
   vtkMAFXYPlotActor.cxx  								vtkMAFXYPlotActor.h
   vtkMAFPolyDataNormals.cxx  							vtkMAFPolyDataNormals.h
   ##from vtkMAF
-  vtkDicomUnPacker.cxx  								vtkDicomUnPacker.h
   vtkImageUnPacker.cxx  								vtkImageUnPacker.h
   vtkPackedImage.cxx  									vtkPackedImage.h
   vtkXRayVolumeMapper.cxx    							vtkXRayVolumeMapper.h
@@ -68,7 +66,6 @@ SET(vtkMAF_SRCS
   vtkMAFInteractorStyleEnableRotation.cxx  				vtkMAFInteractorStyleEnableRotation.h
   vtkMAFSubdividePolylines.cxx  						vtkMAFSubdividePolylines.h
   vtkMAFLandmarkCloudPolydataFilter.cxx  				vtkMAFLandmarkCloudPolydataFilter.h
-  vtkBox.cxx  											vtkBox.h
   vtkMaskPolyDataFilter.cxx  							vtkMaskPolyDataFilter.h
   vtkHoleConnectivity.cxx  								vtkHoleConnectivity.h
   vtkPatchLine.h  										vtkPatchLine.cpp
@@ -81,7 +78,6 @@ SET(vtkMAF_SRCS
   vtkMAFIdType64.h
   
   ###############################################
-  vtkMAFVolumeRayCastMapper.cxx  						vtkMAFVolumeRayCastMapper.h
   vtkMAFVolumeTextureMapper2D.cxx  						vtkMAFVolumeTextureMapper2D.h
   vtkMAFVolumeSlicer.cxx  								vtkMAFVolumeSlicer.h
 	vtkMAFVolumeOrthoSlicer.cxx 			vtkMAFVolumeOrthoSlicer.h
@@ -106,7 +102,6 @@ SET(vtkMAF_SRCS
   vtkMAFVolumeToClosedSmoothSurface.cxx  				vtkMAFVolumeToClosedSmoothSurface.h
   
   ###############################################
-  vtkBoundingBox.cxx  									vtkBoundingBox.h
   vtkMAFPastValuesList.cpp  							vtkMAFPastValuesList.h
   vtkMAFStentModelSource.cpp  							vtkMAFStentModelSource.h
   vtkMAFDeformableSimplexMeshFilter.h
@@ -115,6 +110,7 @@ SET(vtkMAF_SRCS
   vtkMAFTubeFilter.cxx 									vtkMAFTubeFilter.h
 	
   vtkMAFLandmarkCloudOutlineCornerFilter.cxx 			vtkMAFLandmarkCloudOutlineCornerFilter.h
+	vtkMAFStructuredPointsAlgorithm.cxx vtkMAFStructuredPointsAlgorithm.h
 )
 
 IF(WIN32)

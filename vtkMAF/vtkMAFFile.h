@@ -40,7 +40,7 @@ protected:
 #endif // _WIN32
 
 public:
-  vtkTypeRevisionMacro(vtkMAFFile, vtkObject);
+  vtkTypeMacro(vtkMAFFile, vtkObject);
   static vtkMAFFile* New();
 
 protected:
@@ -151,7 +151,7 @@ inline int vtkMAFFile::Write(void* buffer, int count)
 inline bool vtkMAFFile::Seek(long long pos, int origin)
 {
 #ifdef _WIN32  
-  return FALSE != SetFilePointerEx(m_HFile, 
+  return false != SetFilePointerEx(m_HFile, 
       *((LARGE_INTEGER*)&pos), NULL, (DWORD)origin);  
 #else
   return fseeko64( PFile, (off64_t)pos, origin ) >= 0;  
@@ -164,7 +164,7 @@ inline long long vtkMAFFile::GetCurrentPos() throw(...)
 #ifdef _WIN32
   LARGE_INTEGER liCurPos;
   liCurPos.QuadPart = 0;
-  if (FALSE == SetFilePointerEx(m_HFile, liCurPos, &liCurPos, FILE_CURRENT))
+  if (false == SetFilePointerEx(m_HFile, liCurPos, &liCurPos, FILE_CURRENT))
     return (long long)-1;  //error
 
   return (long long)liCurPos.QuadPart;
@@ -184,7 +184,7 @@ inline long long vtkMAFFile::GetCurrentPos() throw(...)
 class MAF_EXPORT vtkMAFFile2 : public vtkMAFFile
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFFile2, vtkMAFFile);
+  vtkTypeMacro(vtkMAFFile2, vtkMAFFile);
   static vtkMAFFile2* New();
 
 protected:

@@ -24,11 +24,12 @@
 #include "vtkPolyData.h"
 #include "vtkCellArray.h"
 #include "vtkPointData.h"
-#include "vtkDataSetToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <sysinfoapi.h>
 
 //----------------------------------------------------------------------------
 // forward declarations :
@@ -42,15 +43,18 @@ class name: vtkMAFPoissonSurfaceReconstruction
 This class implement Poisson Surface Reconstruction method.
 A paper can be viewed here: research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf
 */
-class MAF_EXPORT vtkMAFPoissonSurfaceReconstruction : public vtkDataSetToPolyDataFilter
+class MAF_EXPORT vtkMAFPoissonSurfaceReconstruction : public vtkPolyDataAlgorithm
 {
 public:
   /** create instance of the object */
   static vtkMAFPoissonSurfaceReconstruction *New();
   /** RTTI macro */
-  vtkTypeRevisionMacro(vtkMAFPoissonSurfaceReconstruction,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFPoissonSurfaceReconstruction,vtkPolyDataAlgorithm);
   /** print object information */
   void PrintSelf(ostream& os, vtkIndent indent);
+
+	/** Set Input port information to accept the right type */
+	int FillInputPortInformation(int, vtkInformation *info);
 
   // Description:
   // This error function allows our ported code to report error messages neatly.
@@ -65,12 +69,13 @@ protected:
 
   // Description:
   // the main function that does the work
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   /** computation of extents and update values*/
-  void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
   /** only check if input is not null */
-  void ExecuteInformation(); 
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector); 
   
 private:
   /** copy constructor not implemented */

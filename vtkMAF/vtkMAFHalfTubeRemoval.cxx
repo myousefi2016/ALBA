@@ -23,8 +23,9 @@ University of Bedfordshire
 
 #include "assert.h"
 #include <algorithm>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFHalfTubeRemoval, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFHalfTubeRemoval);
 
 
@@ -54,13 +55,13 @@ vtkMAFHalfTubeRemoval::~vtkMAFHalfTubeRemoval()
 //------------------------------------------------------------------------------
 // Overload standard modified time function. 
 //------------------------------------------------------------------------------
-unsigned long vtkMAFHalfTubeRemoval::GetMTime()
+vtkMTimeType vtkMAFHalfTubeRemoval::GetMTime()
 {
-  unsigned long mTime1 = this->vtkPolyDataToPolyDataFilter::GetMTime() ;
+	vtkMTimeType mTime1 = this->vtkPolyDataAlgorithm::GetMTime() ;
 
   if (m_CenterLine != NULL){
-    unsigned long mTime2 = m_CenterLine->GetMTime() ;
-    return std::max(mTime1, mTime2) ;
+		vtkMTimeType mTime2 = m_CenterLine->GetMTime() ;
+    return (mTime1 > mTime2) ? mTime1 : mTime2;
   }
   else
     return mTime1 ;
@@ -69,26 +70,31 @@ unsigned long vtkMAFHalfTubeRemoval::GetMTime()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFHalfTubeRemoval::Execute()
+int vtkMAFHalfTubeRemoval::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   vtkDebugMacro(<< "Executing vtkMAFHalfTubeRemoval Filter") ;
 
   // pointers to input and output
-  m_Input = this->GetInput() ;
-  m_Output = this->GetOutput() ;
+  m_Input = input;
+  m_Output = output;
 
   m_Output->DeepCopy(m_Input) ;
 
   if ((m_CenterLine == NULL) || (m_RemovalMode == REMOVE_NONE))
-    return ;
+    return 1;
 
   vtkMAFPolyDataNavigator* nav = vtkMAFPolyDataNavigator::New() ;
   vtkIdList* cellsToRemove = vtkIdList::New() ;
 
-  m_CenterLine->Update() ;
-
+  
   for (int i = 0 ;  i < m_Output->GetNumberOfCells() ;  i++){
     // get position of cell
     double x[3] ;
@@ -114,6 +120,8 @@ void vtkMAFHalfTubeRemoval::Execute()
 
   cellsToRemove->Delete() ;
   nav->Delete() ;
+
+	return 1;
 }
 
 
@@ -187,9 +195,8 @@ void vtkMAFHalfTubeRemoval::SetRemovalModeBack()
 //------------------------------------------------------------------------------
 void vtkMAFHalfTubeRemoval::SetViewingPositionAuto(double pos[3], double focus[3], double upVector[3])
 {
-  m_Input = this->GetInput() ;
-  m_Input->Update() ;
-
+  m_Input = vtkPolyData::SafeDownCast(this->GetInput());
+  
   if (m_CenterLine == NULL){
     std::cout << "vtkMAFHalfTubeRemoval: undefined center line\n" ;
     assert(false) ;

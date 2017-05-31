@@ -50,7 +50,7 @@ class MAF_EXPORT vtkMAFRayCast3DPicker : public vtkAbstractPropPicker
 {
 public:
   static vtkMAFRayCast3DPicker *New();
-  vtkTypeRevisionMacro(vtkMAFRayCast3DPicker,vtkAbstractPropPicker);
+  vtkTypeMacro(vtkMAFRayCast3DPicker,vtkAbstractPropPicker);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /**

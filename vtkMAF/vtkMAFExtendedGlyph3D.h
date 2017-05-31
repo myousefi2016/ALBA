@@ -27,7 +27,7 @@
 #ifndef __vtkMAFExtendedGlyph3D_h
 #define __vtkMAFExtendedGlyph3D_h
 
-#include "vtkDataSetToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "mafConfigure.h"
 
 #define VTK_SCALE_BY_SCALAR 0
@@ -47,11 +47,14 @@
 #define VTK_INDEXING_BY_SCALAR 1
 #define VTK_INDEXING_BY_VECTOR 2
 
-class MAF_EXPORT vtkMAFExtendedGlyph3D : public vtkDataSetToPolyDataFilter
+class MAF_EXPORT vtkMAFExtendedGlyph3D : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFExtendedGlyph3D,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFExtendedGlyph3D,vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
+
+	/** Set Input port information to accept the right type */
+	int FillInputPortInformation(int, vtkInformation *info);
 
   /**
   Construct object with scaling on, scaling mode is by scalar value, 
@@ -179,11 +182,12 @@ protected:
   vtkMAFExtendedGlyph3D();
   ~vtkMAFExtendedGlyph3D();
 
-  void Execute();
-  void ExecuteInformation();
-  void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
-  int NumberOfSources; // Number of source objects
+  int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+	
+	int NumberOfSources; // Number of source objects
   vtkPolyData **Source; // Geometry to copy to each point
   int Scaling; // Determine whether scaling of geometry is performed
   int ScaleMode; // Scale by scalar value or vector magnitude

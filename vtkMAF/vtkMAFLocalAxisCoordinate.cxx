@@ -20,7 +20,6 @@
 #include "vtkCamera.h"
 #include "vtkRenderer.h"
 
-//vtkCxxRevisionMacro(vtkMAFLocalAxisCoordinate, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFLocalAxisCoordinate);
 
 #define VTK_RINT(x) ((x > 0.0) ? (int)(x + 0.5) : (int)(x - 0.5))

@@ -22,7 +22,6 @@
 #include "vtkCamera.h"
 #include "vtkCommand.h"
 #include "vtkGenericCell.h"
-#include "vtkIdType.h"
 #include "vtkImageData.h"
 #include "vtkLODProp3D.h"
 #include "vtkMapper.h"
@@ -39,7 +38,6 @@
 #include "vtkVolumeMapper.h"
 
 //------------------------------------------------------------------------------
-vtkCxxRevisionMacro(vtkMAFRayCast3DPicker, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFRayCast3DPicker);
 //------------------------------------------------------------------------------
 
@@ -59,7 +57,7 @@ vtkMAFRayCast3DPicker::vtkMAFRayCast3DPicker()
 
   this->Mapper = NULL;
   this->DataSet = NULL;
-  this->GlobalTMin = VTK_LARGE_FLOAT;
+  this->GlobalTMin = VTK_FLOAT_MAX;
   this->Actors = vtkActorCollection::New();
   this->Prop3Ds = vtkProp3DCollection::New();
   this->PickedPositions = vtkPoints::New();
@@ -221,7 +219,7 @@ int vtkMAFRayCast3DPicker::Pick(double *p1, double *p2, vtkRenderer *renderer)
   }
   else 
   {
-    props = renderer->GetProps();
+    props = renderer->GetViewProps();
   }
 
   vtkActor *actor;
@@ -236,7 +234,7 @@ int vtkMAFRayCast3DPicker::Pick(double *p1, double *p2, vtkRenderer *renderer)
     {
       pickable = 0;
       actor = NULL;
-      propCandidate = path->GetLastNode()->GetProp();
+      propCandidate = path->GetLastNode()->GetViewProp();
       if ( propCandidate->GetPickable() && propCandidate->GetVisibility() )
       {
         pickable = 1;
@@ -313,7 +311,7 @@ int vtkMAFRayCast3DPicker::Pick(double *p1, double *p2, vtkRenderer *renderer)
           t = this->IntersectWithLine((double *)p1Mapper, 
                                       (double *)p2Mapper, tol, path, 
                                       (vtkProp3D *)propCandidate, mapper);
-          if ( t < VTK_LARGE_FLOAT )
+          if ( t < VTK_FLOAT_MAX )
           {
             picked = 1;
             this->Prop3Ds->AddItem((vtkProp3D *)prop);
@@ -365,7 +363,7 @@ double vtkMAFRayCast3DPicker::IntersectWithLine(double p1[3], double p2[3], doub
   }
   else
   {
-    return VTK_LARGE_FLOAT;
+    return VTK_FLOAT_MAX;
   }
 
   if ( (numCells = input->GetNumberOfCells()) < 1 )
@@ -379,7 +377,7 @@ double vtkMAFRayCast3DPicker::IntersectWithLine(double p1[3], double p2[3], doub
   minCellId = -1;
   minSubId = -1;
   pcoords[0] = pcoords[1] = pcoords[2] = 0;
-  for (tMin=VTK_LARGE_FLOAT,cellId=0; cellId<numCells; cellId++) 
+  for (tMin=VTK_FLOAT_MAX,cellId=0; cellId<numCells; cellId++) 
   {
     input->GetCell(cellId, this->Cell);
 
@@ -435,7 +433,7 @@ void vtkMAFRayCast3DPicker::Initialize()
   this->MapperPosition[2] = 0.0;
 
   this->Mapper = NULL;
-  this->GlobalTMin = VTK_LARGE_FLOAT;
+  this->GlobalTMin = VTK_FLOAT_MAX;
 }
 
 //------------------------------------------------------------------------------

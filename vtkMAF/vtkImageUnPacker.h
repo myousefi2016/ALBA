@@ -19,7 +19,7 @@
 #ifndef __vtkImageUnPacker_h
 #define __vtkImageUnPacker_h
 
-#include "vtkImageSource.h"
+#include "vtkImageAlgorithm.h"
 #include "vtkPackedImage.h"
 
 #include "mafConfigure.h"
@@ -28,17 +28,17 @@
   #define VTK_IMG_PACK_NONE 0
 #endif
 
-class MAF_EXPORT vtkImageUnPacker : public vtkImageSource
+class MAF_EXPORT vtkImageUnPacker : public vtkImageAlgorithm
 {
 public:
   static vtkImageUnPacker *New();
-  vtkTypeRevisionMacro(vtkImageUnPacker, vtkImageSource);
+  vtkTypeMacro(vtkImageUnPacker, vtkImageAlgorithm);
 
   void PrintSelf(ostream& os, vtkIndent indent);   
 
   /**
   This method returns the largest data that can be generated.*/
-  void ExecuteInformation();
+  int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
   
   /**
   Set/Get the input object containing the packed image.*/
@@ -101,7 +101,6 @@ protected:
   UnPacks the image into the output buffer. */
   virtual int VtkImageUnPackerUpdate(vtkPackedImage *packed, vtkImageData *data) {return 0;};
  
-  void Execute(vtkImageData *data);
 };
 
 #endif

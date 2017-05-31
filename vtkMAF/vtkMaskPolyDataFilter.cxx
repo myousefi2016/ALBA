@@ -47,6 +47,10 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "vtkCellArray.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkCellLocator.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 vtkStandardNewMacro(vtkMaskPolyDataFilter);
 
@@ -55,6 +59,7 @@ vtkStandardNewMacro(vtkMaskPolyDataFilter);
 // generating mask scalars turned off.
 vtkMaskPolyDataFilter::vtkMaskPolyDataFilter(vtkPolyData *mask)
 {
+	this->SetNumberOfInputPorts(2);
 	this->CurrentSliceMask=NULL;
   this->SetMask(mask);
 //  this->GenerateMaskScalars = 0;
@@ -67,19 +72,23 @@ vtkMaskPolyDataFilter::~vtkMaskPolyDataFilter()
 {
 	vtkDEL(this->CurrentSliceMask);
 	delete [] IdConversionTable;
-  this->SetMask(NULL);  
 }
 
 
 
-//
-// Mask through data generating surface.
-//
-void vtkMaskPolyDataFilter::Execute()
+//------------------------------------------------------------------------------
+int vtkMaskPolyDataFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkDataSet *output = vtkDataSet::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
 	int i,j,k, abortExecute=0;
-	vtkDataSet *output = this->GetOutput();
-	vtkDataSet *input = this->GetInput();
+
 	int numPts=input->GetNumberOfPoints();
 	vtkPointData *inPointData=input->GetPointData(), *outPointData=output->GetPointData();
 	vtkCellData *inCellData=input->GetCellData(), *outCellData=output->GetCellData();
@@ -104,7 +113,7 @@ void vtkMaskPolyDataFilter::Execute()
 	if ( !this->GetMask() )
 	{
 		//	vtkErrorMacro(<<"No mask specified");
-		return;
+		return 1;
 	}
 
 	Mask=this->GetMask();
@@ -117,7 +126,7 @@ void vtkMaskPolyDataFilter::Execute()
 	if ( numPts < 1 )
 	{
 		//vtkErrorMacro(<<"No data to Mask");
-		return;
+		return 1;
 	}
 
 
@@ -258,12 +267,17 @@ void vtkMaskPolyDataFilter::Execute()
 
 void vtkMaskPolyDataFilter::PrintSelf(ostream& os, vtkIndent indent)
 {
-  vtkDataSetToDataSetFilter::PrintSelf(os,indent);
+  vtkDataSetAlgorithm ::PrintSelf(os,indent);
 
   os << indent << "Mask Function: " << this->GetMask() << "\n";
 
   os << indent << "Distance: " << this->Distance << "\n";
 
+}
+
+vtkPolyData * vtkMaskPolyDataFilter::GetMask()
+{
+	return (vtkPolyData *)(this->GetExecutive()->GetInputData(1,0));
 }
 
 void vtkMaskPolyDataFilter::InitCurrentSliceMask()
@@ -272,7 +286,6 @@ void vtkMaskPolyDataFilter::InitCurrentSliceMask()
 	vtkNEW(CurrentSliceMask);
 	//init data by coping mask data
 	CurrentSliceMask->DeepCopy(Mask);
-	CurrentSliceMask->Update();
 	//allocating memory for id conversion table
 	IdConversionTable= new vtkIdType[Mask->GetNumberOfPoints()];
 }
@@ -354,6 +367,4 @@ void vtkMaskPolyDataFilter::UpdateCurrentSliceMask(double z)
 	vtkDEL(new_cells);
 	CurrentSliceMask->SetPoints(new_points);
 	vtkDEL(new_points);
-
-	CurrentSliceMask->Update();
 }

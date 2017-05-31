@@ -23,13 +23,13 @@
 #ifndef __vtkMAFPointsOutlineCornerFilter_h
 #define __vtkMAFPointsOutlineCornerFilter_h
 
-#include "vtkDataSetToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 class vtkOutlineCornerSource;
 
-class VTK_GRAPHICS_EXPORT vtkMAFLandmarkCloudOutlineCornerFilter : public vtkDataSetToPolyDataFilter
+class vtkMAFLandmarkCloudOutlineCornerFilter : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFLandmarkCloudOutlineCornerFilter,vtkDataSetToPolyDataFilter);
+  vtkTypeMacro(vtkMAFLandmarkCloudOutlineCornerFilter, vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
@@ -50,8 +50,12 @@ protected:
   ~vtkMAFLandmarkCloudOutlineCornerFilter();
 
   vtkOutlineCornerSource *OutlineCornerSource;
-  void Execute();
-  void ExecuteInformation();
+
+	/** Execute method */
+	int RequestData(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
+	/** only check if input is not null */
+	int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   double CornerFactor;
 	double CloudRadius;

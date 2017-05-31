@@ -61,11 +61,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "vtkVolumeMapper.h"
 
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "vtk_glew.h"
 
 /**
 name space name: namespace vtkMAFAdaptiveVolumeMapperNamespace

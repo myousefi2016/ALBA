@@ -13,7 +13,6 @@ ToDo:
 #include "vtkMAFImplicitPolyData.h"
 #include "vtkPolygon.h"
 
-vtkCxxRevisionMacro(vtkMAFImplicitPolyData, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFImplicitPolyData);
 
 // Constructor
@@ -49,7 +48,7 @@ void vtkMAFImplicitPolyData::SetInput(vtkPolyData *input)
 		  this->Tri->PassVertsOff();
 		  this->Tri->PassLinesOff();
     }
-	  this->Tri->SetInput( input );
+	  this->Tri->SetInputData( input );
     this->Tri->Update();
 
     this->Input = this->Tri->GetOutput();
@@ -72,15 +71,14 @@ void vtkMAFImplicitPolyData::SetInput(vtkPolyData *input)
 // used to extend bounds of point locator
 
 //----------------------------------------------------------------------------
-unsigned long vtkMAFImplicitPolyData::GetMTime()
+vtkMTimeType vtkMAFImplicitPolyData::GetMTime()
 //----------------------------------------------------------------------------
 {
-  unsigned long mTime = this->vtkImplicitFunction::GetMTime();
-  unsigned long inputMTime;
+	vtkMTimeType mTime = this->vtkImplicitFunction::GetMTime();
+	vtkMTimeType inputMTime;
 
   if ( this->Input != NULL )
   {
-    this->Input->Update ();
     inputMTime = this->Input->GetMTime();
     mTime = ( inputMTime > mTime ? inputMTime : mTime );
   }
@@ -112,7 +110,7 @@ double vtkMAFImplicitPolyData::EvaluateFunction(double x[3])
 
 	int cellNum, pid;
 	vtkCell *cell;
-	double dot, ret = -VTK_LARGE_FLOAT, cNormal[3], closestPoint[3];
+	double dot, ret = -VTK_FLOAT_MAX, cNormal[3], closestPoint[3];
 
     // get point id of closest point in data set
 	pid = this->Locator->FindClosestPoint( x );
@@ -134,7 +132,7 @@ double vtkMAFImplicitPolyData::EvaluateFunction(double x[3])
       if( dot > ret ) ret = dot;
     }
   }
-  if( ret == -VTK_LARGE_FLOAT ) ret = NoValue;
+  if( ret == -VTK_FLOAT_MAX ) ret = NoValue;
   return ret;
 }
 // Evaluate function gradient at point x[3].
@@ -153,7 +151,7 @@ void vtkMAFImplicitPolyData::EvaluateGradient( double x[3], double n[3] )
 
 	int cellNum, pid;
 	vtkCell *cell;
-	double dot, ret = -VTK_LARGE_FLOAT, cNormal[3], closestPoint[3];
+	double dot, ret = -VTK_FLOAT_MAX, cNormal[3], closestPoint[3];
 
     // get point id of closest point in data set
 	pid = this->Locator->FindClosestPoint( x );
@@ -176,7 +174,7 @@ void vtkMAFImplicitPolyData::EvaluateGradient( double x[3], double n[3] )
         for( i=0; i<3; i++ ) n[i] = cNormal[i];
     }
   }
-  if( ret == -VTK_LARGE_FLOAT ) 
+  if( ret == -VTK_FLOAT_MAX ) 
     for( i=0; i<3; i++ ) n[i] = this->NoGradient[i];
 }
 //----------------------------------------------------------------------------

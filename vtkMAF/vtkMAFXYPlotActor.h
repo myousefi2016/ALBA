@@ -55,7 +55,7 @@ class vtkTextProperty;
 class MAF_EXPORT vtkMAFXYPlotActor : public vtkActor2D
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFXYPlotActor,vtkActor2D);
+  vtkTypeMacro(vtkMAFXYPlotActor,vtkActor2D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
@@ -387,7 +387,7 @@ public:
   
   // Description:
   // Take into account the modified time of internal helper classes.
-  unsigned long GetMTime();
+	vtkMTimeType GetMTime();
   
 //BTX  
   // Description:

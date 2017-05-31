@@ -20,7 +20,6 @@
 #include "vtkIdList.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFRemoveCellsFilter, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFRemoveCellsFilter);
 
 vtkMAFRemoveCellsFilter::vtkMAFRemoveCellsFilter()
@@ -47,6 +46,24 @@ void vtkMAFRemoveCellsFilter::RemoveMarkedCells()
   
   this->InitializeScalars();
   this->Modified();
+}
+
+//---------------------------------------------------------------------------
+int vtkMAFRemoveCellsFilter::GetNumberOfDeletedCells()
+{
+	vtkPolyData *input=vtkPolyData::SafeDownCast(this->GetInput());
+	vtkPolyData *output=vtkPolyData::SafeDownCast(this->GetOutput());
+
+	return input->GetNumberOfCells() - output->GetNumberOfCells();
+}
+
+//---------------------------------------------------------------------------
+int vtkMAFRemoveCellsFilter::GetNumberOfRemovedCells()
+{
+	vtkPolyData *input=vtkPolyData::SafeDownCast(this->GetInput());
+	vtkPolyData *output=vtkPolyData::SafeDownCast(this->GetOutput());
+
+	return input->GetNumberOfCells() - output->GetNumberOfCells();
 }
 
 void vtkMAFRemoveCellsFilter::RemoveCell(vtkIdType cellid_at_output)

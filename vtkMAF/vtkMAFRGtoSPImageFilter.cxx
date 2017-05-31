@@ -25,8 +25,9 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkProbeFilter.h"
 #include "vtkDataSetWriter.h"
 #include "vtkMath.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFRGtoSPImageFilter, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFRGtoSPImageFilter);
 
 #define EPSILON 1e-3
@@ -36,43 +37,53 @@ void vtkMAFRGtoSPImageFilter::PropagateUpdateExtent(vtkDataObject *output)
 {
 }
 
-//=========================================================================
-vtkMAFRGtoSPImageFilter::vtkMAFRGtoSPImageFilter()
+//----------------------------------------------------------------------------
+int vtkMAFRGtoSPImageFilter::FillOutputPortInformation(int port, vtkInformation* info)
 {
-	vtkSource::SetNthOutput(0, vtkStructuredPoints::New());
-	// Releasing data
-	Outputs[0]->ReleaseData();
-	Outputs[0]->Delete();
+	// now add our info
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints");
+	return 1;
 }
 
-//=========================================================================
-void vtkMAFRGtoSPImageFilter::ExecuteInformation()
+//--------------------------------------------------------------------------------------
+vtkMAFRGtoSPImageFilter::vtkMAFRGtoSPImageFilter()
 {
-	vtkRectilinearGrid *input = vtkRectilinearGrid::SafeDownCast(GetInput());
-	vtkImageData *output = vtkImageData::SafeDownCast(GetOutput());
-  int dims[3], outDims[3], extent[6];
+}
+
+//--------------------------------------------------------------------------------------
+int vtkMAFRGtoSPImageFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
+{
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkRectilinearGrid  *input = vtkRectilinearGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	
+	int dims[3], outDims[3], extent[6];
 	double bestSpacing[3], outputSpacing[3],bounds[6];
   
 	if (input == NULL)
 	{
 		vtkErrorMacro("Missing input");
-		return;
+		return 0;
 	}
 
 	if (output == NULL)
 	{
 		vtkErrorMacro("Output error");
-		return;
+		return 0;
 	}
 	
 	input->GetDimensions(dims);
 	if (dims[2] != 1)
 	{
 		vtkErrorMacro("Wrong input type");
-		return;
+		return 0;
 	}
 		
-	input->GetWholeExtent(extent);
+	input->GetExtent(extent);
 	input->GetBounds(bounds);
 	GetBestSpacing(input, bestSpacing);
 
@@ -95,11 +106,13 @@ void vtkMAFRGtoSPImageFilter::ExecuteInformation()
 	extent[3] = outDims[1]-1;
 	extent[4] = 0;
 	extent[5] = outDims[2]-1;
-  output->SetWholeExtent(extent);
+  SetUpdateExtent(extent);
+
+	return 1;
 }
 
 //=========================================================================
-void vtkMAFRGtoSPImageFilter::Execute()
+int vtkMAFRGtoSPImageFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 	int outDims[3];
 	vtkRectilinearGrid *input = vtkRectilinearGrid::SafeDownCast(GetInput());
@@ -109,7 +122,7 @@ void vtkMAFRGtoSPImageFilter::Execute()
 	vtkDataArray 			*inputScalars = inputPd->GetScalars();
 	vtkDataArray 			*outScalars = inputPd->GetScalars()->NewInstance();
 
-	output->SetExtent(output->GetWholeExtent());
+	//output->SetExtent(output->GetWholeExtent());
 
 	output->GetDimensions(outDims);
 	outScalars->SetNumberOfTuples(outDims[0] * outDims[1]);
@@ -138,10 +151,12 @@ void vtkMAFRGtoSPImageFilter::Execute()
 			FillSP(input, output, (double*)inputPointer, (double*)outputPointer);
 		default:
 			vtkErrorMacro(<< "vtkMAFVolumeSlicer: Scalar type is not supported");
-			return;
+			return 0;
 	}
 	output->GetPointData()->SetScalars(outScalars);
 	vtkDEL(outScalars);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------

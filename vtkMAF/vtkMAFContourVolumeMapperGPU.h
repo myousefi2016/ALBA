@@ -56,12 +56,7 @@ Then Render()
 #include "vtkVolumeMapper.h"
 #include "vtkPolyData.h"
 #include "vtkMatrix4x4.h"
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "vtk_glew.h"
 
 #include "mafConfigure.h"
 /**
@@ -245,13 +240,13 @@ class name: vtkMAFContourVolumeMapperGPU.
     /** create an instance of the object */
     static vtkMAFContourVolumeMapperGPU *New();
     /** RTTI Macro */
-    vtkTypeRevisionMacro(vtkMAFContourVolumeMapperGPU, vtkVolumeMapper);
+    vtkTypeMacro(vtkMAFContourVolumeMapperGPU, vtkVolumeMapper);
     
 
     /** The input should be either vtkImageData or vtkRectilinearGrid */
     void  SetInput(vtkDataSet *input);
     /** Get current input*/
-    vtkDataSet*  GetInput() { return (vtkDataSet*)vtkVolumeMapper::GetInput(); }
+		vtkDataSet*  GetInput();
 
     /** 
     Render the isosurface.

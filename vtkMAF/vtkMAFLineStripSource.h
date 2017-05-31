@@ -29,11 +29,11 @@ class vtkPoints;
 class vtkPolyData;
 class vtkCellArray;
 
-class VTK_GRAPHICS_EXPORT vtkMAFLineStripSource : public vtkMAFAbstractPointsSource 
+class vtkMAFLineStripSource : public vtkMAFAbstractPointsSource 
 {
 public:
   static vtkMAFLineStripSource *New();
-  vtkTypeRevisionMacro(vtkMAFLineStripSource,vtkMAFAbstractPointsSource);
+  vtkTypeMacro(vtkMAFLineStripSource,vtkMAFAbstractPointsSource);
 
 protected:
   vtkMAFLineStripSource();

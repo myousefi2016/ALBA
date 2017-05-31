@@ -23,7 +23,6 @@
 #include <float.h>
 #include <math.h>
 
-vtkCxxRevisionMacro(vtkMAFLineStripSource, "$Revision: 1.43 $");
 vtkStandardNewMacro(vtkMAFLineStripSource);
 
 //----------------------------------------------------------------------------

@@ -23,13 +23,13 @@
 #ifndef __vtkMAFAbstractPointsSource_h
 #define __vtkMAFAbstractPointsSource_h
 
-#include "vtkPolyDataSource.h"
+#include "vtkPolyDataAlgorithm.h"
 
 class vtkPoints;
 class vtkCellArray;
 class vtkPolyData;
 
-class VTK_GRAPHICS_EXPORT vtkMAFAbstractPointsSource : public vtkPolyDataSource 
+class vtkMAFAbstractPointsSource : public vtkPolyDataAlgorithm
 {
 public:
     
@@ -52,7 +52,9 @@ protected:
   ~vtkMAFAbstractPointsSource();
 
   void Execute();
-  void ExecuteInformation();
+
+	/** Update dimensions and whole extents */
+	int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkIdType NumberOfPoints;
 	vtkPoints *points;

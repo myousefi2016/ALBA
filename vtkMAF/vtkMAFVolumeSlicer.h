@@ -32,7 +32,7 @@
 #define __vtkMAFVolumeSlicer_h
 
 #include "mafConfigure.h"
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm.h"
 #include "vtkImageData.h"
 #include "vtkPolyData.h"
 
@@ -51,10 +51,10 @@ class mafGPUOGL;
 #endif
 
 
-class MAF_EXPORT vtkMAFVolumeSlicer : public vtkDataSetToDataSetFilter {
+class MAF_EXPORT vtkMAFVolumeSlicer : public vtkDataSetAlgorithm {
 public:
   static vtkMAFVolumeSlicer *New();
-  vtkTypeRevisionMacro(vtkMAFVolumeSlicer, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeSlicer, vtkDataSetAlgorithm);
 
 #pragma region Attributes
   /**
@@ -72,8 +72,18 @@ public:
   void SetPlaneAxisY(float axis[3]);
   vtkGetVectorMacro(PlaneAxisY, float, 3);
 
-#pragma message("vtkMAFVolumeSlicer::GetWindow, vtkMAFVolumeSlicer::SetWindow are meaningless - THEY SHOULD BE REMOVED ")
-#pragma message("vtkMAFVolumeSlicer::GetLevel, vtkMAFVolumeSlicer::SetLevel are meaningless - THEY SHOULD BE REMOVED ")
+#pragma message("vtkMAFVolumeSlicer_BES::GetWindow, vtkMAFVolumeSlicer_BES::SetWindow are meaningless - THEY SHOULD BE REMOVED ")
+#pragma message("vtkMAFVolumeSlicer_BES::GetLevel, vtkMAFVolumeSlicer_BES::SetLevel are meaningless - THEY SHOULD BE REMOVED ")
+
+
+	/** Set / Get Output Dimensions*/
+	vtkGetVectorMacro(OutputDimentions, int, 3);
+	vtkSetVector3Macro(OutputDimentions,int);
+
+	/** Set / Get Output Spacing*/
+	vtkGetVectorMacro(OutputSpacing, double, 3);
+	vtkSetVector3Macro(OutputSpacing,double);
+
 
   /**
   Set / Get the Window for color modulation. The formula for modulation is 
@@ -115,53 +125,51 @@ public:
   void SetTrilinearInterpolation(bool on){m_TriLinearInterpolationOn = on;};
 #pragma endregion Attributes
 
-
-  void SetOutput(vtkImageData *data) { 
-    vtkDataSetSource::SetOutput(data); 
-  }
-  
-  void SetOutput(vtkPolyData  *data) { 
-    vtkDataSetSource::SetOutput(data); 
-  }
-
-  /**
+	/**
   specify the image to be used for texturing output polydata object*/
-  void SetTexture(vtkImageData *data) {
-    this->SetNthInput(1, (vtkDataObject*)data);
-  };
+  void SetTexture(vtkImageData *data) {this->SetInputData(1, data);};
+	void SetTextureConnection(vtkAlgorithmOutput *connection) {this->SetInputConnection(1, connection);};
+	 
   vtkImageData *GetTexture() { 
-    return vtkImageData::SafeDownCast(this->Inputs[1]);
+    return vtkImageData::SafeDownCast(this->GetInputDataObject(1,0));
   };
 
   /** 
   Transform slicer plane according to the given transformation before slicing.*/
   void SetSliceTransform(vtkLinearTransform *trans);
 
+	void SetOutputType(char *vtkType);
+
+	void SetOutputTypeToImageData();
+
+	void SetOutputTypeToPolyData();
+
 protected:
   vtkMAFVolumeSlicer();
   ~vtkMAFVolumeSlicer();
 
   /** Return this object's modified time. */  
-  /*virtual*/ unsigned long int GetMTime();
+  /*virtual*/ vtkMTimeType GetMTime();
 
   /** By default copy the output update extent to the input. */
-  /*virtual*/ void ComputeInputUpdateExtents(vtkDataObject *output);
+	int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
+
 
   /** 
   By default, UpdateInformation calls this method to copy information
   unmodified from the input to the output.*/
-  /*virtual*/void ExecuteInformation();
+  /*virtual*/int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   /**
   This method is the one that should be used by subclasses, right now the 
   default implementation is to call the backwards compatibility method */
-  /*virtual*/void ExecuteData(vtkDataObject *output);
+	/*virtual*/	int RequestData(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** Create geometry for the slice. */
-  virtual void ExecuteData(vtkPolyData *output);
+  virtual void RequestData(vtkInformation *outInfo,vtkPolyData *output);
 
   /** Create texture for the slice. */
-  virtual void ExecuteData(vtkImageData *output);
+  virtual void RequestData(vtkInformation *outInfo,vtkImageData *output);
 
 
   /** Prepares internal data structure for the given input data.
@@ -184,7 +192,7 @@ protected:
   /** BES: 15.12.2008 - when using mafOpCrop in mafViewOrthoSlice, the input
   dimensions change between ExecuteInformation and ExecuteData 
   This routine is supposed to be called from ExecuteData and it fixes this problem */
-  void ExecuteDataHotFix(vtkDataObject *outputData);
+  void RequestDataHotFix(vtkInformation *request,	vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 
   /** Calculates the coordinates for the given point and texture denoted by its size and spacing.
   Texture is considered to have an origin at GlobalPlaneOrigin, to be oriented according to GlobalPlaneAxisX
@@ -205,6 +213,11 @@ protected:
   /** Slices voxels from input producing image in output. */
   template<typename InputDataType, typename OutputDataType> 
   void CreateImage(const InputDataType *input, OutputDataType *output, vtkImageData *outputObject);
+
+	/** specialize output information type */
+	virtual int FillOutputPortInformation(int port, vtkInformation* info);
+
+	char OutputVtkType[100];
 
 #ifdef _WIN32
   /** Slices voxels from input producing image in output using GPU. */  
@@ -248,8 +261,12 @@ protected:
   double DataBounds[3][2];
   int    DataDimensions[3];
   double SamplingTableMultiplier[3];  
-
-  //look-up table that maps fine samples to voxel indices - see CreateImage  
+	
+	//output generation
+	int			OutputDimentions[3];
+	double	OutputSpacing[3];
+  
+	//look-up table that maps fine samples to voxel indices - see CreateImage  
   int* StIndices[3];
   float* StOffsets[3];
 

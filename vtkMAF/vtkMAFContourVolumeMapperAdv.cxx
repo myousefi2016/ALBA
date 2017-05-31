@@ -39,14 +39,13 @@
 #include <assert.h>
 
 #include "vtkObjectFactory.h"
-#include "vtkMarchingSquaresCases.h"
+#include "vtkMarchingSquaresLineCases.h"
 #include "vtkTransform.h"
 
 #include "vtkMAFContourVolumeMapperAdv.h"
 
 static const vtkMarchingSquaresLineCases* marchingSquaresCases = vtkMarchingSquaresLineCases::GetCases();
 
-vtkCxxRevisionMacro(vtkMAFContourVolumeMapperAdv, "$Revision: 1.1.2.1 $");
 vtkStandardNewMacro(vtkMAFContourVolumeMapperAdv);
 
 //------------------------------------------------------------------------------

@@ -18,6 +18,8 @@
 #include <assert.h>
 #include <vector>
 
+#include "vtk_glew.h"
+
 #include "vtkObjectFactory.h"
 #include "vtkMatrix4x4.h"
 #include "vtkMath.h"
@@ -36,19 +38,20 @@
 #include "vtkRectilinearGrid.h"
 #include "vtkTimerLog.h"
 #include "vtkVolumeProperty.h"
-#include "vtkMarchingCubesCases.h"
-#include "vtkMarchingSquaresCases.h"
+#include "vtkMarchingCubesTriangleCases.h."
+#include "vtkMarchingSquaresLineCases.h"
 #include "vtkMAFContourVolumeMapper.h"
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 
 static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCubesTriangleCases::GetCases();
 
 using namespace vtkMAFContourVolumeMapperNamespace;
 
-vtkCxxRevisionMacro(vtkMAFContourVolumeMapper, "$Revision: 1.1.2.6 $");
 vtkStandardNewMacro(vtkMAFContourVolumeMapper);
 
 
@@ -58,7 +61,7 @@ vtkMAFContourVolumeMapper::vtkMAFContourVolumeMapper()
 //------------------------------------------------------------------------------
 {
   Alpha=1.0;
-
+	
   this->AutoLODRender = true;
   this->AutoLODCreate = true;
   this->EnableContourAnalysis = false;
@@ -219,11 +222,50 @@ void vtkMAFContourVolumeMapper::SetInput(vtkDataSet *input)
   double b[2];
   input->GetScalarRange(b);
   MAXScalar=b[1];
-  this->vtkProcessObject::SetNthInput(0, input);
+  this->SetInputData(input);
 }
 
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkDataSet *genericInput )
+{
+	vtkImageData *inputID = vtkImageData::SafeDownCast( genericInput );
+	vtkRectilinearGrid *inputRG = vtkRectilinearGrid::SafeDownCast( genericInput );
 
+	if ( inputID )
+	{
+		this->SetInputData( inputID );
+	}
+	else if (inputRG)
+	{
+		this->SetInputData( inputRG );
+	}
+	else
+	{
+		vtkErrorMacro("The SetInput method of this mapper requires vtkImageData as input");
+	}
+}
 
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkImageData *input )
+{
+	this->SetInputDataInternal(0, input);
+}
+
+//------------------------------------------------------------------------------
+void vtkMAFContourVolumeMapper::SetInputData( vtkRectilinearGrid *input )
+{
+	this->SetInputDataInternal(0, input);
+}
+
+//------------------------------------------------------------------------------
+vtkDataSet* vtkMAFContourVolumeMapper::GetInput()
+{
+	if (this->GetNumberOfInputConnections(0) < 1)
+	{
+		return 0;
+	}
+	return vtkDataSet::SafeDownCast( this->GetExecutive()->GetInputData(0, 0));
+}
 
 //------------------------------------------------------------------------------
 // This is the first function to be called before Render()
@@ -350,8 +392,6 @@ template <typename DataType> bool vtkMAFContourVolumeMapper::PrepareAcceleration
     return true; // nothing to do
 
   // check the data
-  if (this->GetInput() && this->GetInput()->GetDataReleased())
-    this->GetInput()->Update(); // ensure that the data is loaded
   if (!this->IsDataValid(true))
     return false;
 
@@ -549,9 +589,9 @@ void vtkMAFContourVolumeMapper::Update()
 {
   if (vtkImageData::SafeDownCast(this->GetInput()) != NULL || 
     vtkRectilinearGrid::SafeDownCast(this->GetInput()) != NULL) {
-      this->GetInput()->UpdateInformation();
-      this->GetInput()->SetUpdateExtentToWholeExtent();
-      this->GetInput()->Update();
+      this->UpdateInformation();
+      this->SetUpdateExtentToWholeExtent();
+      this->vtkVolumeMapper::Update();
     }
 }
 
@@ -650,8 +690,10 @@ vtkPolyData *vtkMAFContourVolumeMapper::GetOutput(int level, vtkPolyData *data)
   if (level < 0 || level >= NumberOfLods)
     return NULL;
 
+	vtkDataSet *input = this->GetInput();
+
   // check that volume data is valid
-  if (this->GetInput() == NULL || this->GetInput()->GetPointData() == NULL || this->GetInput()->GetPointData()->GetScalars() == NULL) {
+  if (input == NULL || input->GetPointData() == NULL || input->GetPointData()->GetScalars() == NULL) {
     vtkErrorMacro(<< "No data");
     return NULL;
   }
@@ -751,7 +793,7 @@ void vtkMAFContourVolumeMapper::InitializeRender(bool setup, vtkRenderer *render
     this->ViewportDimensions[1] = viewport[3];
 
     // transformation
-    this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositePerspectiveTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
+    this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositeProjectionTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
     volume->GetMatrix(this->VolumeMatrix);
     vtkMatrix4x4::Multiply4x4(this->TransformMatrix, this->VolumeMatrix, this->TransformMatrix);
     this->VolumeMatrix->Transpose();
@@ -3148,8 +3190,5 @@ Polyline2D *ListOfPolyline2D::FindContour(int x, int y, int polylineLengthThresh
 
   return NULL;
 }
-
-
-
 
 

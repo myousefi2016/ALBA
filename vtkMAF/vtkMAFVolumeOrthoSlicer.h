@@ -36,7 +36,7 @@ PURPOSE.  See the above copyright notice for more information.
 #ifndef __vtkMAFProjectRG_h
 #define __vtkMAFProjectRG_h
 
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm.h"
 #include "mafConfigure.h"
 
 #define ORTHOSLICER_X_SLICE 0
@@ -61,11 +61,11 @@ Class Name: vtkMAFVolumeOrthoSlicer.
  Typical applications of this filter are to produce an image from a volume
  for image processing or visualization.
 */
-class MAF_EXPORT vtkMAFVolumeOrthoSlicer : public vtkDataSetToDataSetFilter
+class MAF_EXPORT vtkMAFVolumeOrthoSlicer : public vtkDataSetAlgorithm
 {
 public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFVolumeOrthoSlicer, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFVolumeOrthoSlicer, vtkDataSetAlgorithm);
   
   /** Static Function for object instantiation */
   static vtkMAFVolumeOrthoSlicer *New();
@@ -105,7 +105,7 @@ public:
 protected:
   /** constructor */
   vtkMAFVolumeOrthoSlicer();
-  /** destructor */
+	/** destructor */
 	~vtkMAFVolumeOrthoSlicer() {};
  /** copy constructor not implemented*/
   vtkMAFVolumeOrthoSlicer(const vtkMAFVolumeOrthoSlicer&);
@@ -113,16 +113,20 @@ protected:
   void operator=(const vtkMAFVolumeOrthoSlicer&);
 
   /** Update dimensions and whole extents */
-  void ExecuteInformation();
-  /** Execute the projection and fill output scalars */
-  void Execute();
+	int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+  
+	/** Execute the projection and fill output scalars */
+	int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
+	/** Set Output Type to vtkStructuredPoints */
+	int FillOutputPortInformation(int port, vtkInformation* info);
 
 	template<typename DataType>
 	void SliceScalars(int * inputDims, DataType * inputScalars, DataType * slicedScalars);
 
-	void GenerateOutputFromID(vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars);
+	void GenerateOutputFromID(vtkInformation *request, vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars);
 
-	void GenerateOutputFromRG(vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars);
+	void GenerateOutputFromRG(vtkInformation *request, vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars);
 		
 	int  SclicingMode;
 	double Origin[3];

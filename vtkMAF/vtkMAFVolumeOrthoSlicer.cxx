@@ -26,8 +26,8 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkDataSetWriter.h"
 #include "vtkMath.h"
 #include "vtkMAFRGtoSPImageFilter.h"
+#include "vtkInformation.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeOrthoSlicer, "$Revision: 1.1 $");
 vtkStandardNewMacro(vtkMAFVolumeOrthoSlicer);
 
 #define EPSILON 1e-6
@@ -50,15 +50,20 @@ void vtkMAFVolumeOrthoSlicer::PropagateUpdateExtent(vtkDataObject *output)
 vtkMAFVolumeOrthoSlicer::vtkMAFVolumeOrthoSlicer()
 {
   SclicingMode = ORTHOSLICER_X_SLICE;
-	vtkSource::SetNthOutput(0, vtkStructuredPoints::New());
-	// Releasing data
-	Outputs[0]->ReleaseData();
-	Outputs[0]->Delete();
 	Origin[0] = Origin[1] = Origin[2] = 0;
 }
 
+//----------------------------------------------------------------------------
+int vtkMAFVolumeOrthoSlicer::FillOutputPortInformation(int port, vtkInformation* info)
+{
+	// now add our info
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints");
+	return 1;
+}
+
+
 //=========================================================================
-void vtkMAFVolumeOrthoSlicer::ExecuteInformation()
+int vtkMAFVolumeOrthoSlicer::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 	vtkRectilinearGrid *inputRG = vtkRectilinearGrid::SafeDownCast(GetInput());
 	vtkImageData *inputID = vtkImageData::SafeDownCast(GetInput());
@@ -67,20 +72,20 @@ void vtkMAFVolumeOrthoSlicer::ExecuteInformation()
   
 	if (inputID == NULL && inputRG == NULL)
 	{
-		vtkErrorMacro("Missing input");
-		return;
+		vtkErrorMacro(<<"Missing input");
+		return 0;
 	}
 
 	if (output == NULL)
 	{
-		vtkErrorMacro("Output error");
-		return;
+		vtkErrorMacro(<<"Output error");
+		return 0;
 	}
 
 	if (inputRG)
-		inputRG->GetWholeExtent(wholeExtent);
+		inputRG->GetExtent(wholeExtent);
 	else
-		inputID->GetWholeExtent(wholeExtent);
+		inputID->GetExtent(wholeExtent);
 
 	dims[0] = wholeExtent[1] - wholeExtent[0] + 1;
 	dims[1] = wholeExtent[3] - wholeExtent[2] + 1;
@@ -109,11 +114,13 @@ void vtkMAFVolumeOrthoSlicer::ExecuteInformation()
 	wholeExtent[3] = outDims[1] - 1;
 	wholeExtent[4] = 0;
 	wholeExtent[5] = outDims[2] - 1;
-  output->SetWholeExtent( wholeExtent );
+  output->SetExtent( wholeExtent );
+
+	return 1;
 }
 
 //=========================================================================
-void vtkMAFVolumeOrthoSlicer::Execute()
+int vtkMAFVolumeOrthoSlicer::RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 	int inputDims[3], projectedDims[3];
 	vtkRectilinearGrid *inputRG = vtkRectilinearGrid::SafeDownCast(GetInput());
@@ -169,15 +176,17 @@ void vtkMAFVolumeOrthoSlicer::Execute()
 			SliceScalars(inputDims, (double*)inputPointer, (double*)outputPointer);
 		default:
 			vtkErrorMacro(<< "vtkMAFVolumeSlicer: Scalar type is not supported");
-			return;
+			return 0;
 	}
 
 	if (inputRG)
-		GenerateOutputFromRG(inputRG, projectedDims, slicedScalars);
+		GenerateOutputFromRG(request, inputRG, projectedDims, slicedScalars);
 	else
-		GenerateOutputFromID(inputID, projectedDims, slicedScalars);
+		GenerateOutputFromID(request, inputID, projectedDims, slicedScalars);
 
 	vtkDEL(slicedScalars);
+
+	return 1;
 }
 
 //----------------------------------------------------------------------------
@@ -252,7 +261,7 @@ void vtkMAFVolumeOrthoSlicer::SliceScalars(int *inputDims, DataType *inputScalar
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeOrthoSlicer::GenerateOutputFromID(vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars)
+void vtkMAFVolumeOrthoSlicer::GenerateOutputFromID(vtkInformation *request, vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars)
 {
 	double inputSpacing[3];
 	double outputSpacing[3];
@@ -276,15 +285,15 @@ void vtkMAFVolumeOrthoSlicer::GenerateOutputFromID(vtkImageData * inputSP, int *
 			outputSpacing[2] = 1;
 	}
 
-	output->SetScalarType(inputSP->GetScalarType());
-	output->SetNumberOfScalarComponents(inputSP->GetNumberOfScalarComponents());
+	output->SetScalarType(inputSP->GetScalarType(),request);
+	output->SetNumberOfScalarComponents(inputSP->GetNumberOfScalarComponents(),request);
 	output->SetDimensions(projectedDims);
 	output->SetSpacing(outputSpacing);
 	output->GetPointData()->SetScalars(projScalars);
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeOrthoSlicer::GenerateOutputFromRG(vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars)
+void vtkMAFVolumeOrthoSlicer::GenerateOutputFromRG(vtkInformation *request, vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars)
 {
 	//Generate temporary rectilinear grid output
 	vtkRectilinearGrid *rgOut = vtkRectilinearGrid::New();
@@ -331,7 +340,7 @@ void vtkMAFVolumeOrthoSlicer::GenerateOutputFromRG(vtkRectilinearGrid * inputRG,
 	
 	
 	vtkMAFRGtoSPImageFilter *rgtosoFilter = vtkMAFRGtoSPImageFilter::New();
-	rgtosoFilter->SetInput(rgOut);
+	rgtosoFilter->SetInputData(rgOut);
 	rgtosoFilter->Update();
 	
 	GetOutput()->DeepCopy(rgtosoFilter->GetOutput());

@@ -20,9 +20,8 @@ See the COPYINGS file for license details
 #include "vtkPlane.h"
 #include "vtkImageData.h"
 #include "vtkVolumeProperty.h"
-#include "gl/gl.h"
+#include "vtk_glew.h"
 
-vtkCxxRevisionMacro(vtkMAFVolumeTextureMapper2D, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFVolumeTextureMapper2D);
 
 #include "mafMemDbg.h"

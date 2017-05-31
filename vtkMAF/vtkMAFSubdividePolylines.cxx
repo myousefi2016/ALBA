@@ -18,10 +18,11 @@ University of Bedfordshire
 
 #include <ostream>
 #include <cmath>
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 
 
-vtkCxxRevisionMacro(vtkMAFSubdividePolylines, "$Revision: 1.61 $");
 vtkStandardNewMacro(vtkMAFSubdividePolylines);
 
 
@@ -49,15 +50,21 @@ vtkMAFSubdividePolylines::~vtkMAFSubdividePolylines()
 
 
 //------------------------------------------------------------------------------
-// Execute method
-//------------------------------------------------------------------------------
-void vtkMAFSubdividePolylines::Execute()
+int vtkMAFSubdividePolylines::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-  vtkDebugMacro(<< "Executing vtkMAFSubdividePolylines Filter") ;
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPolyData  *input = vtkPolyData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	vtkDebugMacro(<< "Executing vtkMAFSubdividePolylines Filter") ;
 
   // pointers to input and output
-  m_Input = this->GetInput() ;
-  m_Output = this->GetOutput() ;
+  m_Input = input;
+  m_Output = output;
 
   m_Output->DeepCopy(m_Input) ;
 
@@ -88,6 +95,8 @@ void vtkMAFSubdividePolylines::Execute()
   // do the subdivision
   std::vector<std::vector<int> > newPtIds ;
   m_Nav->AddPointsToEdges(m_Output, edges, lambda, newPtIds) ;
+
+	return 1;
 }
 
 

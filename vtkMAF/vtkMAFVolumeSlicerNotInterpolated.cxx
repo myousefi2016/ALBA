@@ -35,11 +35,13 @@
 #include "vtkFloatArray.h"
 #include "vtkDoubleArray.h"
 #include "vtkStructuredPointsWriter.h"
+#include "vtkAlgorithm.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
 
-vtkCxxRevisionMacro(vtkMAFVolumeSlicerNotInterpolated, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFVolumeSlicerNotInterpolated);
 
 //----------------------------------------------------------------------------
@@ -77,15 +79,20 @@ vtkMAFVolumeSlicerNotInterpolated::~vtkMAFVolumeSlicerNotInterpolated()
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation() 
+int vtkMAFVolumeSlicerNotInterpolated::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //----------------------------------------------------------------------------
 {
-  vtkDataSet* input = NULL;
-  if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0)
-    return; // No input or no output
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkDataSet  *input = vtkDataSet::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	if (input == NULL || this->GetNumberOfOutputPorts() == 0)
+    return 1; // No input or no output
 
   if ((NumberOfComponents = input->GetPointData()->GetNumberOfComponents()) == 0)
-    return; // Nothing to display
+    return 1; // Nothing to display
 
   input->GetBounds(Bounds);
 
@@ -128,7 +135,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation()
     {
       OutputDataType = VTK_IMAGE_DATA;
       NumberOfPieces = 0;
-      return;
+      return 1;
     }
 
     SliceDimensions[0] = InputDimensions[AxisX];
@@ -212,7 +219,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation()
     {
       OutputDataType = VTK_IMAGE_DATA;
       NumberOfPieces = 0;
-      return;
+      return 1;
     }
     SliceDimensions[0] = InputDimensions[AxisX];
     SliceDimensions[1] = InputDimensions[AxisY];
@@ -385,7 +392,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation()
   {
     // output data type is image data also for rg
     OutputDataType = VTK_IMAGE_DATA;
-    SetNumberOfOutputs(NumberOfPieces);
+    SetNumberOfOutputPorts(NumberOfPieces);
   }
   else
   {
@@ -399,6 +406,13 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteInformation()
   // x + z * InputDimensions[0] * InputDimensions[1] + BaseIndex for SLICE_Y
   // y * InputDimensions[0] + z * InputDimensions[1] * InputDimensions[0] + BaseIndex for SLICE_X
 }
+
+int vtkMAFVolumeSlicerNotInterpolated::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkDataSet");
+	return 1;
+}
+
 
 //----------------------------------------------------------------------------
 void vtkMAFVolumeSlicerNotInterpolated::AddOutputsAttributes(int dimension, double spacing, int** dimensions, double** spacings, int size)
@@ -443,11 +457,10 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
   int jStart = 0;
   for(int idx = 0; idx < NumberOfPieces; idx++) // iterate over pieces
   {
-    vtkDataSet* input = NULL;
-    if ((input = GetInput()) == NULL || this->GetNumberOfOutputs() == 0 && OutputDataType == VTK_IMAGE_DATA)
+    vtkDataSet* input = vtkDataSet::SafeDownCast(GetInput());
+    if (input == NULL || this->GetNumberOfOutputPorts() == 0 && OutputDataType == VTK_IMAGE_DATA)
       return; // No input or no output
 
-    input->Update();
     vtkDataArray * inputScalars = input->GetPointData()->GetScalars();
 
     // Fill variables for scalar index recognition
@@ -604,14 +617,13 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       OutputRectilinearGrid->GetCellData()->Update();
 
       OutputRectilinearGrid->Modified();
-      OutputRectilinearGrid->Update();
     }
     else
     {
       vtkImageData *output = this->GetOutput(idx);
       if (output == NULL)
       {
-        this->Outputs[idx] = output = vtkImageData::New();
+        output = vtkImageData::New();
       }
       // Prepare and generate output image
       output->SetSpacing(spacing[0],spacing[1],spacing[2]);
@@ -619,7 +631,7 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       output->SetOrigin(SlicePieceOrigins[idx][0],SlicePieceOrigins[idx][1],SlicePieceOrigins[idx][2]);
 
       // Set the image scalars
-      output->SetScalarType(inputScalars->GetDataType());
+      output->AllocateScalars(inputScalars->GetDataType(),3);
       output->GetPointData()->RemoveArray("SCALARS");
       output->GetPointData()->SetScalars(scalars);
       output->GetPointData()->SetActiveScalars("SCALARS");
@@ -627,7 +639,6 @@ void vtkMAFVolumeSlicerNotInterpolated::ExecuteData(vtkImageData *output)
       scalars->Delete();
 
       output->Modified();
-      output->Update();
     }
   }
 }

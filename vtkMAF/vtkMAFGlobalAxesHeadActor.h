@@ -61,7 +61,7 @@ class MAF_EXPORT vtkMAFGlobalAxesHeadActor : public vtkProp3D
 {
 public:
   static vtkMAFGlobalAxesHeadActor *New();
-  vtkTypeRevisionMacro(vtkMAFGlobalAxesHeadActor,vtkProp3D);
+  vtkTypeMacro(vtkMAFGlobalAxesHeadActor,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
@@ -101,7 +101,7 @@ public:
 
   // Description:
   // Get the actors mtime plus consider its properties and texture if set.
-  unsigned long int GetMTime();
+	vtkMTimeType GetMTime();
 
   // Description:
   // Get the cube properties.

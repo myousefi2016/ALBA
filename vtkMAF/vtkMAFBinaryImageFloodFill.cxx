@@ -34,8 +34,9 @@
 #include "itkOrImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkImageToVTKImageFilter.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
-vtkCxxRevisionMacro(vtkMAFBinaryImageFloodFill, "$Revision: 1.1.2.2 $");
 vtkStandardNewMacro(vtkMAFBinaryImageFloodFill);
 
 
@@ -63,13 +64,18 @@ vtkMAFBinaryImageFloodFill::~vtkMAFBinaryImageFloodFill()
 }
 
 //------------------------------------------------------------------------------
-void vtkMAFBinaryImageFloodFill::Execute()
+int vtkMAFBinaryImageFloodFill::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  // get input
-  vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
+	// Initialize some frequently used values.
+	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+  
   // Get the image dimensions based on input
   int dims[3];
   input->GetDimensions(dims);
@@ -91,7 +97,7 @@ void vtkMAFBinaryImageFloodFill::Execute()
   {
     case 0:
       {
-        return;
+        return 1;
       } break;
     case 1:
       {
@@ -108,12 +114,11 @@ void vtkMAFBinaryImageFloodFill::Execute()
   }
   
   // prepare output
-  vtkStructuredPoints *output = this->GetOutput();
   output->DeepCopy(intermediate_output);
-  output->UpdateData();
-  output->Update();
-  this->SetOutput(output);
-  intermediate_output->Delete();
+
+	intermediate_output->Delete();
+	
+	return 1;
 }
 //------------------------------------------------------------------------------
 template <unsigned int ImageDimension>
@@ -136,7 +141,7 @@ vtkStructuredPoints *vtkMAFBinaryImageFloodFill::FloodFill(vtkStructuredPoints *
   // must cast the image before pass it to the itk pipeline
   vtkMAFSmartPointer<vtkImageCast> caster;
   caster->SetOutputScalarTypeToUnsignedChar();
-  caster->SetInput(input);
+  caster->SetInputData(input);
   caster->Update();
 
   // Convert vtk image to itk
@@ -184,7 +189,6 @@ vtkStructuredPoints *vtkMAFBinaryImageFloodFill::FloodFill(vtkStructuredPoints *
   itk2Vtk->Update();
 
   vtkStructuredPoints *output = vtkStructuredPoints::New();
-  output->CopyInformation(input);
   output->CopyStructure(input);
   output->DeepCopy(itk2Vtk->GetOutput());
 
@@ -226,7 +230,6 @@ void vtkMAFBinaryImageFloodFill::ComputeItkSeed()
 {
   // get input
   vtkStructuredPoints *input = (vtkStructuredPoints*)this->GetInput();
-  input->Update();
 
   // Get the image dimensions based on input
   int dims[3];

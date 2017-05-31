@@ -18,7 +18,7 @@
 #define __vvtkMAFBinaryImageFloodFill_H__
 
 #include "mafConfigure.h"
-#include "vtkStructuredPointsToStructuredPointsFilter.h"
+#include "vtkMAFStructuredPointsAlgorithm.h"
 
 class vtkImageData;
 class vtkStructuredPoints;
@@ -30,13 +30,13 @@ class vtkStructuredPoints;
     This filter operate on binary images and fill/erease the area identified by the specified seed.
 */
 //---------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFBinaryImageFloodFill : public vtkStructuredPointsToStructuredPointsFilter
+class MAF_EXPORT vtkMAFBinaryImageFloodFill : public vtkMAFStructuredPointsAlgorithm
 //---------------------------------------------------------------------------
 {
 public:
 
   /** Add collect revision method */
-  vtkTypeRevisionMacro(vtkMAFBinaryImageFloodFill,vtkStructuredPointsToStructuredPointsFilter);
+  vtkTypeMacro(vtkMAFBinaryImageFloodFill,vtkMAFStructuredPointsAlgorithm);
 
   /** Dynamic ctor */
   static vtkMAFBinaryImageFloodFill *New();
@@ -65,7 +65,7 @@ public:
 protected:
 
   /** Execute this filter */
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   unsigned char ReplaceValue; //> ON_PIXEL
   unsigned char Threshold[2]; //> Threshold for connectivity threshold filter

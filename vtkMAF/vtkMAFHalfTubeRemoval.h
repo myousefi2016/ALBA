@@ -15,7 +15,7 @@ University of Bedfordshire
 #define __vtkMAFHalfTubeRemoval_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 #include "vtkPolyData.h"
 #include "vtkMAFPolyDataNavigator.h"
 
@@ -33,15 +33,15 @@ University of Bedfordshire
 //
 // Version 5.12.13
 //------------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFHalfTubeRemoval : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFHalfTubeRemoval : public vtkPolyDataAlgorithm
 {
 public:
-  vtkTypeRevisionMacro(vtkMAFHalfTubeRemoval,vtkPolyDataToPolyDataFilter);
+  vtkTypeMacro(vtkMAFHalfTubeRemoval,vtkPolyDataAlgorithm);
   static vtkMAFHalfTubeRemoval *New();
   void PrintSelf(ostream& os, vtkIndent indent) const {}
 
   /// Overload standard modified time function. 
-  unsigned long GetMTime();
+	vtkMTimeType GetMTime();
 
   /// Set the center line which defines the boundary between front and back
   void SetCenterLine(vtkPolyData* centerline) ;
@@ -66,7 +66,8 @@ protected:
   vtkMAFHalfTubeRemoval();
   ~vtkMAFHalfTubeRemoval();
 
-  void Execute();
+	/** Execute method */
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkPolyData *m_Input ;
   vtkPolyData *m_Output ;

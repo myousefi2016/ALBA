@@ -36,7 +36,7 @@ PURPOSE.  See the above copyright notice for more information.
 #ifndef __vtkMAFProjectRG_h
 #define __vtkMAFProjectRG_h
 
-#include "vtkDataSetToDataSetFilter.h"
+#include "vtkDataSetAlgorithm.h"
 #include "mafConfigure.h"
 
 #define VTK_PROJECT_FROM_X 1
@@ -61,11 +61,11 @@ Class Name: vtkMAFProjectVolume.
  Typical applications of this filter are to produce an image from a volume
  for image processing or visualization.
 */
-class MAF_EXPORT vtkMAFProjectVolume : public vtkDataSetToDataSetFilter
+class MAF_EXPORT vtkMAFProjectVolume : public vtkDataSetAlgorithm
 {
 public:
   /** RTTI Macro */
-  vtkTypeRevisionMacro(vtkMAFProjectVolume, vtkDataSetToDataSetFilter);
+  vtkTypeMacro(vtkMAFProjectVolume, vtkDataSetAlgorithm);
   
   /** Static Function for object instantiation */
   static vtkMAFProjectVolume *New();
@@ -115,24 +115,28 @@ public:
 protected:
   /** constructor */
   vtkMAFProjectVolume();
-  /** destructor */
+	/** destructor */
 	~vtkMAFProjectVolume() {};
- /** copy constructor not implemented*/
+	/** copy constructor not implemented*/
   vtkMAFProjectVolume(const vtkMAFProjectVolume&);
   /** assign operator not implemented*/
   void operator=(const vtkMAFProjectVolume&);
 
+	/** specialize output information type */
+	int FillOutputPortInformation(int port, vtkInformation* info);
+	
   /** Update dimensions and whole extents */
-  void ExecuteInformation();
-  /** Execute the projection and fill output scalars */
-  void Execute();
+	int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+
+	/** Execute the projection and fill output scalars */
+	int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 	template<typename DataType>
 	void ProjectScalars(int * inputDims, DataType * inputScalars, DataType * projScalars);
 
-	void GenerateOutputFromID(vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars);
+	void GenerateOutputFromID(vtkInformation *request, vtkImageData * inputSP, int * projectedDims, vtkDataArray * projScalars);
 
-	void GenerateOutputFromRG(vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars);
+	void GenerateOutputFromRG(vtkInformation *request, vtkRectilinearGrid * inputRG, int * projectedDims, vtkDataArray * projScalars);
 
 	int  ProjectionMode;
 	bool ProjectSubRange;

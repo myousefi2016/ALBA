@@ -18,20 +18,18 @@
 #define __vtkMAFPolyDataToSinglePolyLine_h
 
 #include "mafConfigure.h"
-#include "vtkPolyDataToPolyDataFilter.h"
+#include "vtkPolyDataAlgorithm.h"
 //----------------------------------------------------------------------------
-class MAF_EXPORT vtkMAFPolyDataToSinglePolyLine : public vtkPolyDataToPolyDataFilter
+class MAF_EXPORT vtkMAFPolyDataToSinglePolyLine : public vtkPolyDataAlgorithm
 //----------------------------------------------------------------------------
 {
 public:
-  //vtkTypeRevisionMacro(vtkMAFFixedCutter,vtkCutter);
-
            vtkMAFPolyDataToSinglePolyLine();
   virtual ~vtkMAFPolyDataToSinglePolyLine();
   static vtkMAFPolyDataToSinglePolyLine* New();
 
 protected:
-  void Execute();
+  int RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
 private:
 	vtkMAFPolyDataToSinglePolyLine(const vtkMAFPolyDataToSinglePolyLine&);  // Not implemented.

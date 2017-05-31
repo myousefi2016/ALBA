@@ -38,8 +38,8 @@
 #include "vtkRectilinearGrid.h"
 #include "vtkTimerLog.h"
 #include "vtkVolumeProperty.h"
-#include "vtkMarchingCubesCases.h"
-#include "vtkMarchingSquaresCases.h"
+#include "vtkMarchingCubesTriangleCases.h"
+#include "vtkMarchingSquaresLineCases.h"
 #include "vtkMAFContourVolumeMapperGPU.h"
 
 
@@ -49,6 +49,8 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include "vtkAlgorithm.h"
+#include "vtkExecutive.h"
 
 
 static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCubesTriangleCases::GetCases();
@@ -58,7 +60,6 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
 
   using namespace vtkMAFContourVolumeMapperNamespace;
 
-  vtkCxxRevisionMacro(vtkMAFContourVolumeMapperGPU, "$Revision: 1.1.2.3 $");
   vtkStandardNewMacro(vtkMAFContourVolumeMapperGPU);
 
 
@@ -999,9 +1000,9 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
     double b[2];
     input->GetScalarRange(b);
     m_MAXScalar=b[1];
-    this->vtkProcessObject::SetNthInput(0, input);
-
-
+    
+		this->SetInputDataInternal(0, input);
+			
     const void *dataPointer = input->GetPointData()->GetScalars()->GetVoidPointer(0);
     vtkImageData* imageData = vtkImageData::SafeDownCast(input);
     if (imageData == NULL) 
@@ -1025,11 +1026,20 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
     //bDataChanged=1;
     PrevContourValue=-1.0f;
   }
+	
 
+	//------------------------------------------------------------------------------
+	vtkDataSet* vtkMAFContourVolumeMapperGPU::GetInput()
+	//------------------------------------------------------------------------------
+	{
+		if (this->GetNumberOfInputConnections(0) < 1)
+		{
+			return NULL;
+		}
+		return vtkDataSet::SafeDownCast( this->GetExecutive()->GetInputData(0, 0) );
+	}
 
-
-
-  //------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------
   // This is the first function to be called before Render()
   // It is used by mafPipeIsosurface::Create() to set the intial contour to an acceptable value.
   // Calls EstimateRelevantVolumeTemplate() with correct scalar datatype
@@ -1543,8 +1553,6 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
       return true; // nothing to do
 
     // check the data
-    if (this->GetInput() && this->GetInput()->GetDataReleased())
-      this->GetInput()->Update(); // ensure that the data is loaded
     if (!this->IsDataValid(true))
       return false;
 
@@ -1742,9 +1750,9 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
   {
     if (vtkImageData::SafeDownCast(this->GetInput()) != NULL || 
       vtkRectilinearGrid::SafeDownCast(this->GetInput()) != NULL) {
-        this->GetInput()->UpdateInformation();
-        this->GetInput()->SetUpdateExtentToWholeExtent();
-        this->GetInput()->Update();
+        this->UpdateInformation();
+        this->SetUpdateExtentToWholeExtent();
+        this->vtkVolumeMapper::Update();
     }
   }
 
@@ -1944,7 +1952,7 @@ static const vtkMarchingCubesTriangleCases* marchingCubesCases = vtkMarchingCube
       this->ViewportDimensions[1] = viewport[3];
 
       // transformation
-      this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositePerspectiveTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
+      this->TransformMatrix->DeepCopy(renderer->GetActiveCamera()->GetCompositeProjectionTransformMatrix((double)viewport[2] / viewport[3], 0, 1));
       volume->GetMatrix(this->VolumeMatrix);
       vtkMatrix4x4::Multiply4x4(this->TransformMatrix, this->VolumeMatrix, this->TransformMatrix);
       this->VolumeMatrix->Transpose();

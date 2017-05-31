@@ -25,7 +25,6 @@
 #include "vtkUnstructuredGrid.h"
 #include "vtkPlane.h"
 #include "vtkPolyData.h"
-#include "vtkIdType.h"
 #include "vtkIdList.h"
 #include "vtkMatrix4x4.h"
 
@@ -42,10 +41,11 @@
 
 //------------------------------------------------------------------------------
 // standard macros
-vtkCxxRevisionMacro(vtkMAFMeshCutter, "$Revision: 1.1.2.3 $");
 vtkStandardNewMacro(vtkMAFMeshCutter);
 //------------------------------------------------------------------------------
 #include "mafMemDbg.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 
 //------------------------------------------------------------------------------
 // Constructor
@@ -89,11 +89,11 @@ vtkMAFMeshCutter::~vtkMAFMeshCutter()
 //------------------------------------------------------------------------------
 // Overload standard modified time function. If cut function is modified,
 // then this object is modified as well.
-unsigned long vtkMAFMeshCutter::GetMTime()
+vtkMTimeType vtkMAFMeshCutter::GetMTime()
 //------------------------------------------------------------------------------
 {
-  unsigned long mTime = this->vtkUnstructuredGridToPolyDataFilter::GetMTime();
-  unsigned long time;
+	vtkMTimeType mTime = this->vtkAlgorithm::GetMTime();
+	vtkMTimeType time;
 
   if (CutFunction != NULL )
   {
@@ -105,11 +105,17 @@ unsigned long vtkMAFMeshCutter::GetMTime()
 }
 
 //------------------------------------------------------------------------------
-// Execute method
-void vtkMAFMeshCutter::Execute()
+int vtkMAFMeshCutter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 //------------------------------------------------------------------------------
 {
-  vtkUnstructuredGrid* input = this->GetInput();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkUnstructuredGrid  *input = vtkUnstructuredGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkPolyData *output = vtkPolyData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
   if (LastInput != input || LastInputTimeStamp != input->GetMTime())
   {
     // Make a copy of the input data and build links
@@ -153,7 +159,7 @@ void vtkMAFMeshCutter::Execute()
   }
 
   // Set pointer to output
-  Polydata = this->GetOutput() ;
+  Polydata = output;
 
   // Make sure the cutter is cleared of previous data before you run it !
   Initialize() ;
@@ -163,6 +169,8 @@ void vtkMAFMeshCutter::Execute()
   
   // Run the cutter
   CreateSlice() ;  
+
+	return 1;
 }
 
 
@@ -1220,3 +1228,11 @@ void vtkMAFMeshCutter::CalculateLocalCutCoord()
 		CutFunction->GetOrigin(CutTranformedOrigin);
 	}
 }
+
+//------------------------------------------------------------------------------
+int vtkMAFMeshCutter::FillInputPortInformation(int, vtkInformation *info)
+{
+	info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkUnstructuredGrid");
+	return 1;
+}
+

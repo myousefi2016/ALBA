@@ -38,7 +38,7 @@ vtkMAFAbstractPointsSource::~vtkMAFAbstractPointsSource()
 
 
 //----------------------------------------------------------------------------
-void vtkMAFAbstractPointsSource::Execute()
+int vtkMAFAbstractPointsSource::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
   vtkIdType i;
   vtkCellArray *newVerts;
@@ -68,11 +68,8 @@ void vtkMAFAbstractPointsSource::Execute()
   
 	SetCellArrayToOutput(output,newVerts);
   newVerts->Delete();
-}
 
-//----------------------------------------------------------------------------
-void vtkMAFAbstractPointsSource::ExecuteInformation()
-{
+	return 1;
 }
 
 

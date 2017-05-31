@@ -888,7 +888,7 @@ void vtkMAFAdaptiveVolumeMapper::PrepareTransformationData(vtkRenderer *renderer
 
   // create transform matrix
   // NOTE: do not use composite transform from camera as it does not take into account stereo
-  vtkMatrix4x4::Multiply4x4(camera->GetPerspectiveTransformMatrix((double)aspectRatio[0] / aspectRatio[1], -1, 1), camera->GetViewTransformMatrix(), this->ObjectToViewMatrix);
+  vtkMatrix4x4::Multiply4x4(camera->GetProjectionTransformMatrix((double)aspectRatio[0] / aspectRatio[1], -1, 1), camera->GetViewTransformMatrix(), this->ObjectToViewMatrix);
   vtkMatrix4x4::Multiply4x4(this->ObjectToViewMatrix, volume->GetMatrix(), this->ObjectToViewMatrix);
   vtkMatrix4x4::Invert(this->ObjectToViewMatrix, this->ViewToObjectMatrix);
   vtkMatrix4x4::Invert(volume->GetMatrix(), this->WorldToObjectMatrix);
@@ -899,7 +899,7 @@ void vtkMAFAdaptiveVolumeMapper::PrepareTransformationData(vtkRenderer *renderer
     double stereoMatrix[4][4], stereoMatrixI[4][4];
     
     //vtkMatrix4x4::Invert((double*)camera->GetCompositePerspectiveTransformMatrix((double)aspectRatio[0] / aspectRatio[1], -1, 1)->Element, (double*)originalMatrixI);
-    vtkMatrix4x4::Multiply4x4((double*)camera->GetPerspectiveTransformMatrix((double)aspectRatio[0] / aspectRatio[1], -1, 1)->Element, (double*)camera->GetViewTransformMatrix()->Element, (double*)stereoMatrix);
+    vtkMatrix4x4::Multiply4x4((double*)camera->GetProjectionTransformMatrix((double)aspectRatio[0] / aspectRatio[1], -1, 1)->Element, (double*)camera->GetViewTransformMatrix()->Element, (double*)stereoMatrix);
     vtkMatrix4x4::Invert((double*)stereoMatrix, (double*)stereoMatrixI);
 
     // calculate the new direction
@@ -994,9 +994,6 @@ bool vtkMAFAdaptiveVolumeMapper::PrepareVolumeForRendering()
   else if (this->DataPreprocessed)
     return true; // nothing to do
 
-  // check the data
-  if (this->GetInput() && this->GetInput()->GetDataReleased())
-    this->GetInput()->Update(); // ensure that the data is loaded
   if (!this->IsDataValid(true))
     return false;
 
@@ -1822,7 +1819,7 @@ int vtkMAFAdaptiveVolumeMapper::CalculateViewportAndTransformationChecksum(vtkRe
     checksum += int(mPtr[ii] * 3 + 1) * (151 + ii) + int(mPtr[ii] + 7) * (31 * ii + 3);
   if (renderer->GetRenderWindow()->GetStereoRender()) 
   {
-    mPtr = (unsigned char *)renderer->GetActiveCamera()->GetPerspectiveTransformMatrix((double)renderer->GetAspect()[0] / renderer->GetAspect()[1], -1, 1)->Element[0];
+    mPtr = (unsigned char *)renderer->GetActiveCamera()->GetProjectionTransformMatrix((double)renderer->GetAspect()[0] / renderer->GetAspect()[1], -1, 1)->Element[0];
     for (ii = 0; ii < (16 * sizeof(double)); ii++)
       checksum += int(mPtr[ii] * 7 + 3) * (15 + ii) + int(mPtr[ii] + 9) * (33 * ii + 2);
   }
@@ -1862,7 +1859,7 @@ void vtkMAFAdaptiveVolumeMapper::SetInput(vtkDataSet *input)
     return;
   this->ReleaseData();
   this->ClearCaches();
-  this->vtkProcessObject::SetNthInput(0, input);
+  this->SetInputData(input);
   this->MTime.Modified();
   this->DataPreprocessed = false;
 }
@@ -1884,9 +1881,9 @@ void vtkMAFAdaptiveVolumeMapper::Update()
   if (vtkImageData::SafeDownCast(this->GetInput()) != NULL || 
       vtkRectilinearGrid::SafeDownCast(this->GetInput()) != NULL) 
   {
-    this->GetInput()->UpdateInformation();
-    this->GetInput()->SetUpdateExtentToWholeExtent();
-    this->GetInput()->Update();
+    this->UpdateInformation();
+    this->SetUpdateExtentToWholeExtent();
+		this->vtkVolumeMapper::Update();
     this->PrepareVolumeForRendering();
   }
 }
@@ -2112,7 +2109,7 @@ bool vtkMAFAdaptiveVolumeMapper::PrepareTransferFunctionForRendering(vtkVolumePr
       this->GradientToTFLookUpTable[gi] = (gsize - 1) * vsize;
 
     for (gi = 0; gi < gsize; gi++)
-      gTable[gi] = this->GradientTable[clip(int(double(gi) * gradientCompressionI) + gradientRange[0], 0, VTK_UNSIGNED_SHORT_MAX)];
+      gTable[gi] = this->GradientTable[clip((int)(double(gi) * gradientCompressionI) + gradientRange[0], 0, (int)VTK_UNSIGNED_SHORT_MAX)];
 
     // allocate memory for TF cache
     const int memSize = 2 * vsize * gsize;
