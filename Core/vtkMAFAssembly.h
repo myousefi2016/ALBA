@@ -38,7 +38,7 @@ class MAF_EXPORT vtkMAFAssembly : public vtkProp3D
 public:
   static vtkMAFAssembly *New();
 
-  vtkTypeRevisionMacro(vtkMAFAssembly,vtkProp3D);
+  vtkTypeMacro(vtkMAFAssembly,vtkProp3D);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   /**
@@ -107,7 +107,7 @@ public:
   /**
   Override default GetMTime method to also consider all of the
   assembly's parts.*/
-  unsigned long int GetMTime();
+	vtkMTimeType GetMTime();
 
   /**
   Shallow copy of an assembly. Overloads the virtual vtkProp method.*/

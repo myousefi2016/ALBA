@@ -56,12 +56,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __vtkMAFAdaptiveVolumeMapper_h
 #define __vtkMAFAdaptiveVolumeMapper_h
 
+//------------------------------------------------------------------------------
+// Includes:
+//------------------------------------------------------------------------------
+#include "mafConfigure.h"
+
+
 #include "vtkMultiThreader.h" 
 #include "vtkCriticalSection.h" 
 
 #include "vtkVolumeMapper.h"
-
-#include "vtkgl.h"
 
 /**
 name space name: namespace vtkMAFAdaptiveVolumeMapperNamespace
@@ -75,10 +79,6 @@ namespace vtkMAFAdaptiveVolumeMapperNamespace
   const int MaxNumOfRenderingPortions = 16;
 };
 
-//------------------------------------------------------------------------------
-// Includes:
-//------------------------------------------------------------------------------
-#include "mafConfigure.h"
 
 //------------------------------------------------------------------------------
 // forward declarations

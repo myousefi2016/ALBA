@@ -63,6 +63,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "vtkMAFContourVolumeMapper.h"
 #include "vtkMAFAdaptiveVolumeMapper.h"
+#include "vtkgl.h"
 
 ////////////////////////////////////////// constant expressions
 const int VoxelBlockMask  = (~0) << vtkMAFAdaptiveVolumeMapperNamespace::VoxelBlockSizeLog; 

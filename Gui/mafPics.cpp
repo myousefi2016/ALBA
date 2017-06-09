@@ -323,10 +323,8 @@ int foo = mafAddPic(vme_xpm);  //correct, but will be called before ThePicMap ha
 
       vtkImageData *vtkimg;
       vtkNEW(vtkimg);
-      vtkimg->SetNumberOfScalarComponents(NumberOfComponents);
-      vtkimg->SetScalarTypeToUnsignedChar();
+      vtkimg->AllocateScalars(VTK_UNSIGNED_CHAR,NumberOfComponents);
       vtkimg->SetDimensions( img.GetWidth(), img.GetHeight(), 1 );
-      vtkimg->SetUpdateExtentToWholeExtent();
       assert( vtkimg->GetPointData() );
       vtkimg->GetPointData()->SetScalars(buffer);
       return  vtkimg; // SHOULD BE DELETED BY THE CALLER 

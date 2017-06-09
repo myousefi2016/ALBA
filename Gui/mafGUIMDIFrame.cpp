@@ -36,8 +36,8 @@
 
 
 #ifdef MAF_USE_VTK //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	#include "vtkAlgorithm.h"
   #include "vtkVersion.h"
-  #include "vtkProcessObject.h"
   #include "vtkViewport.h"
   #include "vtkCommand.h"
 
@@ -55,7 +55,7 @@ class mafGUIMDIFrameCallback : public vtkCommand
       assert(m_Frame);
       if(caller->IsA("vtkProcessObject"))
       {
-        vtkProcessObject *po = (vtkProcessObject*)caller;
+        vtkAlgorithm *po = (vtkAlgorithm*)caller;
 
         if(m_mode==0) // ProgressEvent-Callback
         {
@@ -91,7 +91,7 @@ class mafGUIMDIFrameCallback : public vtkCommand
     int m_mode;
     mafGUIMDIFrame *m_Frame;
 };
-#endif //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+#endif 
 
 //----------------------------------------------------------------------------
 // mafGUIMDIFrame
@@ -268,10 +268,10 @@ void mafGUIMDIFrame::CreateStatusbar()
   // Paolo 10 Jul 2006: due to position correctly the progress bar.
 	wxRect pr;
   m_frameStatusBar->GetFieldRect(4,pr);
-  m_Busy=FALSE;
+  m_Busy=false;
 	m_Gauge = new wxGauge(m_frameStatusBar, -1, 100,pr.GetPosition(),pr.GetSize(),wxGA_SMOOTH);
 	m_Gauge->SetForegroundColour( *wxRED );
-  m_Gauge->Show(FALSE);
+  m_Gauge->Show(false);
 }
 
 #ifdef __WIN32__
@@ -412,9 +412,9 @@ void mafGUIMDIFrame::Busy()
 {
   SetStatusText("Busy",2);
   SetStatusText("",3);
-  m_Gauge->Show(TRUE);
+  m_Gauge->Show(true);
   m_Gauge->SetValue(0);
-  Refresh(FALSE);
+  Refresh(false);
 }
 //-----------------------------------------------------------
 void mafGUIMDIFrame::Ready()
@@ -422,8 +422,8 @@ void mafGUIMDIFrame::Ready()
 {
   SetStatusText("",2);
   SetStatusText("",3);
-  m_Gauge->Show(FALSE);
-  Refresh(FALSE);
+  m_Gauge->Show(false);
+  Refresh(false);
 }
 //-----------------------------------------------------------
 void mafGUIMDIFrame::ProgressBarShow()
@@ -499,13 +499,13 @@ void mafGUIMDIFrame::BindToProgressBar(vtkObject* vtkobj)
 {
 	if(vtkobj->IsA("vtkViewport")) 
 		BindToProgressBar((vtkViewport*)vtkobj);
-  else if(vtkobj->IsA("vtkProcessObject")) 
-		BindToProgressBar((vtkProcessObject*)vtkobj);
+  else if(vtkobj->IsA("vtkAlgorithm")) 
+		BindToProgressBar((vtkAlgorithm*)vtkobj);
 	else 
     mafLogMessage("wrong vtkObject passed to BindToProgressBar");
 }
 //-----------------------------------------------------------
-void mafGUIMDIFrame::BindToProgressBar(vtkProcessObject* filter)
+void mafGUIMDIFrame::BindToProgressBar(vtkAlgorithm* filter)
 //-----------------------------------------------------------
 {
   filter->AddObserver(vtkCommand::ProgressEvent,m_ProgressCallback);

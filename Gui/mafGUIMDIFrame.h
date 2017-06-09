@@ -28,13 +28,12 @@
 // forward reference
 //----------------------------------------------------------------------------
 class mafObserver;
-class vtkProcessObject;
+class vtkAlgorithm;
 class vtkViewport;
 class vtkObject;
 class mafGUIMDIFrameCallback; 
 //class mafGUIDockSettings;
 class mafGUI;
-
 /**
   Class Name: mafGUIMDIFrame.
   Represents the main frame of a MAF Application. On this frame  they'll be plugged  toolbars,  panels, progress bar etc...
@@ -109,7 +108,7 @@ class MAF_EXPORT mafGUIMDIFrame: public wxMDIParentFrame
   void BindToProgressBar(vtkObject* vtkobj);
 
   /** Link a vtk process object (filter) to the progress bar. */
-  void BindToProgressBar(vtkProcessObject* filter);
+  void BindToProgressBar(vtkAlgorithm* filter);
 
   /** Link a vtkViewport to the progress bar. */
   void BindToProgressBar(vtkViewport* ren);

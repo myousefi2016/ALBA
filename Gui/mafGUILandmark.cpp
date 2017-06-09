@@ -45,7 +45,6 @@
 #include "vtkPoints.h"
 #include "vtkPointSource.h"
 #include "vtkPointLocator.h"
-#include "vtkIdType.h"
 #include "vtkPolyData.h"
 #include "vtkIdList.h"
 #include "vtkMath.h"
@@ -495,7 +494,7 @@ void mafGUILandmark::GetSpawnPointCoordinates(double newPointCoord[3])
 
       vtkMAFSmartPointer<vtkPointLocator> locator;
       locator->SetDataSet(data);
-      locator->FindClosestNPoints(npoints, pos[0], pos[1], pos[2], idList);
+      locator->FindClosestNPoints(npoints, pos, idList);
       locator->Update();
 
       pId = idList->GetId(npoints - 1); 

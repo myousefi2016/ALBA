@@ -33,7 +33,6 @@
 #include "vtkActor.h"
 #include "vtkVolume.h"
 
-vtkCxxRevisionMacro(vtkMAFAssembly, "$Revision: 1.5.2.2 $");
 vtkStandardNewMacro(vtkMAFAssembly);
 
 // Construct object with no children.
@@ -250,11 +249,11 @@ double *vtkMAFAssembly::GetBounds()
 }
 
 //----------------------------------------------------------------------------
-unsigned long int vtkMAFAssembly::GetMTime()
+vtkMTimeType vtkMAFAssembly::GetMTime()
 //----------------------------------------------------------------------------
 {
-  unsigned long mTime=this->vtkProp3D::GetMTime();
-  unsigned long time;
+	vtkMTimeType mTime=this->vtkProp3D::GetMTime();
+	vtkMTimeType time;
   vtkProp3D *prop;
 
   for (this->m_Parts->InitTraversal(); (prop = this->m_Parts->GetNextProp3D()); )
