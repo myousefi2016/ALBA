@@ -24,6 +24,8 @@
 #include "vtkPlaneSource.h"
 
 #include "vtkPolyDataMapper.h"
+#include "vtkRenderer.h"
+#include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkActor.h"
@@ -93,23 +95,23 @@ void vtkMAFClipSurfaceBoundingBoxTest::TestSetGetClipInside()
 //--------------------------------------------------
 {
   vtkMAFSmartPointer<vtkMAFClipSurfaceBoundingBox> filter;
-  filter->SetClipInside(TRUE);
+  filter->SetClipInside(true);
 
-  CPPUNIT_ASSERT(filter->GetClipInside() == TRUE);  
-  filter->SetClipInside(FALSE);
-  CPPUNIT_ASSERT(filter->GetClipInside() == FALSE);  
+  CPPUNIT_ASSERT(filter->GetClipInside() == true);  
+  filter->SetClipInside(false);
+  CPPUNIT_ASSERT(filter->GetClipInside() == false);  
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecutionClipInsideOff()
 //--------------------------------------------------
 {
-  TestExecution(FALSE);
+  TestExecution(false);
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecutionClipInsideOn()
 //--------------------------------------------------
 {
-  TestExecution(TRUE);
+  TestExecution(true);
 }
 //--------------------------------------------------
 void vtkMAFClipSurfaceBoundingBoxTest::TestExecution(int clipInside)
@@ -130,19 +132,18 @@ void vtkMAFClipSurfaceBoundingBoxTest::TestExecution(int clipInside)
   m_PlaneMask->Update();
 
   vtkMAFSmartPointer<vtkMAFClipSurfaceBoundingBox> filter;
-  filter->SetInput(m_SphereInput->GetOutput());
+  filter->SetInputConnection(m_SphereInput->GetOutputPort());
   filter->SetMask(m_PlaneMask->GetOutput());
   filter->SetClipInside(clipInside);
   filter->Update();
 
-  vtkPolyData *result = filter->GetOutput();
 
   vtkPolyDataMapper *mapper = vtkPolyDataMapper::New();
-  mapper->SetInput(result);
+  mapper->SetInputConnection( filter->GetOutputPort());
   mapper->Update();
 
   vtkPolyDataMapper *mapperMask = vtkPolyDataMapper::New();
-  mapperMask->SetInput(m_PlaneMask->GetOutput());
+  mapperMask->SetInputConnection(m_PlaneMask->GetOutputPort());
   mapperMask->Update();
 
   vtkActor *actor;
@@ -185,5 +186,5 @@ void vtkMAFClipSurfaceBoundingBoxTest::RenderData(vtkActorCollection *actorColle
   m_RenderWindow->Render();
 	COMPARE_IMAGES("RenderData", m_TestNumber);
 
-  vtkTimerLog::CleanupLog();
+  //vtkTimerLog::CleanupLog();
 }

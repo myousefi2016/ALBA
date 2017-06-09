@@ -20,7 +20,7 @@ See the COPYINGS file for license details
 #include "vtkPlane.h"
 #include "vtkImageData.h"
 #include "vtkVolumeProperty.h"
-#include "vtk_glew.h"
+#include "vtkgl.h"
 
 vtkStandardNewMacro(vtkMAFVolumeTextureMapper2D);
 

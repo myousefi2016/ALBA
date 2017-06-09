@@ -34,7 +34,7 @@ void vtkMAFCellsFilterTest::TestMarkCell()
   sphere->Update();
 
 	vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -61,7 +61,7 @@ void vtkMAFCellsFilterTest::TestUnmarkCell()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -96,7 +96,7 @@ void vtkMAFCellsFilterTest::TestToggleCell()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -131,7 +131,7 @@ void vtkMAFCellsFilterTest::TestUndoMarks()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();
@@ -162,7 +162,7 @@ void vtkMAFCellsFilterTest::TestGetNumberOfMarkedCells()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
   
   CPPUNIT_ASSERT(mc->GetNumberOfMarkedCells() == 0);
@@ -189,7 +189,7 @@ void vtkMAFCellsFilterTest::TestGetIdMarkedCell()
   sphere->Update();
 
   vtkMAFSmartPointer<vtkMAFCellsFilter> mc;
-  mc->SetInput(sphere->GetOutput());
+  mc->SetInputConnection(sphere->GetOutputPort());
   mc->Update();
 
   int nc = sphere->GetOutput()->GetNumberOfCells();

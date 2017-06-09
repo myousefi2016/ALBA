@@ -59,7 +59,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vtkImageData.h"
 #include "vtkCamera.h"
 
-#include "vtk_glew.h"
+#include "vtkgl.h"
 
 #define MaxNumberOfMipmapLevels 3
 #define MaxNumberOfRenderings   360

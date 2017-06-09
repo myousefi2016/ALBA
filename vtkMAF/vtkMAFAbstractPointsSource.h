@@ -51,10 +51,7 @@ protected:
   vtkMAFAbstractPointsSource();
   ~vtkMAFAbstractPointsSource();
 
-  void Execute();
-
-	/** Update dimensions and whole extents */
-	int RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+	/*virtual*/int RequestData(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector);
 
   vtkIdType NumberOfPoints;
 	vtkPoints *points;

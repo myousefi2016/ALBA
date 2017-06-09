@@ -23,7 +23,6 @@
 #include "vtkMAFLandmarkCloudOutlineCornerFilterTest.h"
 
 #include <assert.h>
-#include "vtkPointSetSource.h"
 #include "vtkCellArray.h"
 
 //----------------------------------------------------------------------------
@@ -31,16 +30,16 @@ void vtkMAFLandmarkCloudOutlineCornerFilterTest::TestInput()
 {  
 	vtkMAFSmartPointer<vtkMAFLandmarkCloudOutlineCornerFilter> filter;
 
-	int numberOfInputs = filter->GetNumberOfInputs();
+	int numberOfInputs = filter->GetTotalNumberOfInputConnections();
 	CPPUNIT_ASSERT(numberOfInputs == 0);
 
 	vtkMAFSmartPointer<vtkSphereSource> sphere;
 	sphere->Update();
 
-	filter->SetInput(sphere->GetOutput());
+	filter->SetInputConnection(sphere->GetOutputPort());
 	filter->Update();
 
-	numberOfInputs = filter->GetNumberOfInputs();
+	numberOfInputs = filter->GetTotalNumberOfInputConnections();
 	CPPUNIT_ASSERT(numberOfInputs == 1);
 }
 
@@ -117,12 +116,11 @@ void vtkMAFLandmarkCloudOutlineCornerFilterTest::TestBounds()
 
 	pointPD->SetPoints(points);
 	pointPD->SetVerts(vertices);
-	pointPD->Update();
 
 	double inputBounds[6];
 	pointPD->GetBounds(inputBounds);
 
-	filter->SetInput(pointPD);
+	filter->SetInputData(pointPD);
 	filter->Update();
 	filter->GetOutput()->GetBounds(outputBounds);
 	

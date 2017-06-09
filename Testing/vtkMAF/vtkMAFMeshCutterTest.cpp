@@ -14,15 +14,6 @@
 
 =========================================================================*/
 
-
-//----------------------------------------------------------------------------
-// NOTE: Every CPP file in the MAF must include "mafDefines.h" as first.
-// This force to include Window,wxWidgets and VTK exactly in this order.
-// Failing in doing this will result in a run-time error saying:
-// "Failure#0: The value of ESP was not properly saved across a function call"
-//----------------------------------------------------------------------------
-#include "mafDefines.h" 
-
 #include <cppunit/config/SourcePrefix.h>
 
 #include "vtkRenderer.h"
@@ -48,12 +39,14 @@
 #include "vtkMAFMeshCutterTest.h"
 
 #include "mafConfigure.h"
+#include <strstream>
 
 
 //#define TESTDATA MAF_DATA_ROOT"/FEM/ANSYS"
 #define FTOL 0.0000001
 
 static const bool renderingOn = false ;  // switch interactive rendering on
+
 
 
 void vtkMAFMeshCutterTest::TestFixture()
@@ -134,11 +127,11 @@ void vtkMAFMeshCutterTest::RenderPointScalars(vtkUnstructuredGrid *UG, vtkPolyDa
 
   // set up pipeline to visualize original data
   vtkGeometryFilter *GF = vtkGeometryFilter::New() ;
-  GF->SetInput((vtkDataSet *)UG);
+  GF->SetInputData((vtkDataSet *)UG);
 
   // get center and scalar range of input data
   double range[2] ;
-  GF->GetOutput()->Update() ;
+  GF->Update() ;
   GF->GetOutput()->GetPointData()->GetArray(0)->GetRange(range) ;
 
   // set up scalar lut so that original data and slice can be viewed with same colour mapping
@@ -148,7 +141,7 @@ void vtkMAFMeshCutterTest::RenderPointScalars(vtkUnstructuredGrid *UG, vtkPolyDa
   lut->Build() ;
 
   vtkPolyDataMapper *PDM1 = vtkPolyDataMapper::New();
-  PDM1->SetInput(GF->GetOutput());
+  PDM1->SetInputConnection(GF->GetOutputPort());
   PDM1->ScalarVisibilityOn() ;
   PDM1->SetColorModeToMapScalars() ;
   PDM1->SetScalarModeToUsePointFieldData() ;
@@ -171,7 +164,7 @@ void vtkMAFMeshCutterTest::RenderPointScalars(vtkUnstructuredGrid *UG, vtkPolyDa
 
 // set up the pipeline to visulaize the outout polydata
   vtkPolyDataMapper *PDM2 = vtkPolyDataMapper::New();
-  PDM2->SetInput((vtkPolyData *)polydata);
+  PDM2->SetInputData(polydata);
   PDM2->ScalarVisibilityOn() ;
   PDM2->SetColorModeToMapScalars() ;
   PDM2->SetScalarModeToUsePointFieldData() ;
@@ -235,11 +228,11 @@ void vtkMAFMeshCutterTest::RenderCellScalars(vtkUnstructuredGrid *UG, vtkPolyDat
 
   // set up pipeline to visualize original data
   vtkGeometryFilter *GF = vtkGeometryFilter::New() ;
-  GF->SetInput((vtkDataSet *)UG);
+  GF->SetInputData((vtkDataSet *)UG);
 
   // get center and scalar range of input data
   double range[2] ;
-  GF->GetOutput()->Update() ;
+  GF->Update() ;
   GF->GetOutput()->GetCellData()->GetArray(0)->GetRange(range) ;
 
   // set up scalar lut so that original data and slice can be viewed with same colour mapping
@@ -249,7 +242,7 @@ void vtkMAFMeshCutterTest::RenderCellScalars(vtkUnstructuredGrid *UG, vtkPolyDat
   lut->Build() ;
 
   vtkPolyDataMapper *PDM1 = vtkPolyDataMapper::New();
-  PDM1->SetInput(GF->GetOutput());
+  PDM1->SetInputConnection(GF->GetOutputPort());
   PDM1->ScalarVisibilityOn() ;
   PDM1->SetColorModeToMapScalars() ;
   PDM1->SetScalarModeToUseCellFieldData() ;
@@ -271,7 +264,7 @@ void vtkMAFMeshCutterTest::RenderCellScalars(vtkUnstructuredGrid *UG, vtkPolyDat
 
   // set up the pipeline to visulaize the outout polydata
   vtkPolyDataMapper *PDM2 = vtkPolyDataMapper::New();
-  PDM2->SetInput((vtkPolyData *)polydata);
+  PDM2->SetInputData((vtkPolyData *)polydata);
   PDM2->ScalarVisibilityOn() ;
   PDM2->SetColorModeToMapScalars() ;
   PDM2->SetScalarModeToUseCellFieldData() ;
@@ -448,9 +441,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -549,9 +542,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_VerticalCut1()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -650,9 +643,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_VerticalCut2()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -751,9 +744,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_FaceInPlane()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -852,9 +845,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_IncludesEdge1()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -960,9 +953,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_IncludesEdge2()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1068,9 +1061,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_IncludesCorner()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1174,9 +1167,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_EdgeOnly()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1225,9 +1218,9 @@ void vtkMAFMeshCutterTest::TestGetOutputHex8_CornerOnly()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1276,9 +1269,9 @@ void vtkMAFMeshCutterTest::TestGetOutputTet4()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1379,10 +1372,10 @@ void vtkMAFMeshCutterTest::TestUpdateChangeCutFunction()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
   // force update so that the output is there
-  MeshCutter->Update() ;
+  MeshCutter->Update();
 
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
@@ -1459,7 +1452,7 @@ void vtkMAFMeshCutterTest::TestUpdateChangeCutFunction()
   P->SetOrigin(porigin2);
 
   // force update so that the output is there
-  MeshCutter->Update() ;
+  MeshCutter->Update();
 
 
 
@@ -1557,9 +1550,9 @@ void vtkMAFMeshCutterTest::TestUpdateChangeInput()
 
   vtkMAFMeshCutter *MeshCutter = vtkMAFMeshCutter::New();
   MeshCutter->SetCutFunction(P);
-  MeshCutter->SetInput(reader->GetOutput());
+  MeshCutter->SetInputConnection(reader->GetOutputPort());
 
-  MeshCutter->GetOutput()->Update() ;
+  MeshCutter->Update() ;
   vtkPolyData *polydata = MeshCutter->GetOutput() ;
   vtkUnstructuredGrid *UG = reader->GetOutput() ;
 
@@ -1636,7 +1629,7 @@ void vtkMAFMeshCutterTest::TestUpdateChangeInput()
   reader->SetFileName(fname2.str());
 
   // force update so that the output is there
-  MeshCutter->Update() ;
+  MeshCutter->Update();
 
   // Get the statistics of the polydata
 

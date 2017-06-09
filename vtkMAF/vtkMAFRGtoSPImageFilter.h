@@ -70,9 +70,6 @@ public:
   /** Static Function for object instantiation */
   static vtkMAFRGtoSPImageFilter *New();
 
-	/** Updated function to avoid extent propagation */
-	virtual void PropagateUpdateExtent(vtkDataObject *output);
-
 protected:
   /** constructor */
   vtkMAFRGtoSPImageFilter();
@@ -98,6 +95,8 @@ protected:
 
 	/** Gets the best spacing for Rectilinear Grid probing*/
 	void GetBestSpacing(vtkRectilinearGrid* rGrid, double * bestSpacing);
+
+	int OutputExtent[6];
 
 private:
 };

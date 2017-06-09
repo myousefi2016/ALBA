@@ -28,7 +28,6 @@
 
 #include "vtkWindowToImageFilter.h"
 #include "vtkImageMathematics.h"
-#include "vtkImageSource.h"
 
 #include "vtkDataSet.h"
 #include "vtkDataSetAttributes.h"
@@ -108,7 +107,6 @@ void mafTest::CompareImage(mafString suiteName, mafString imageName, int index)
 	windowToImage->SetInput(m_RenderWindow);
 	//w2i->SetMagnification(magnification);
 	windowToImage->Update();
-	m_RenderWindow->OffScreenRenderingOff();
 
 	wxString imageFolder = GetTestDataDir(suiteName);
 	mafString imageFileBase;
@@ -141,8 +139,8 @@ void mafTest::CompareImage(mafString suiteName, mafString imageName, int index)
 
 		// Compare
 		vtkImageMathematics *imageMath = vtkImageMathematics::New();
-		imageMath->SetInput1(imDataOrig);
-		imageMath->SetInput2(imDataComp);
+		imageMath->SetInput1Data(imDataOrig);
+		imageMath->SetInput2Data(imDataComp);
 		imageMath->SetOperationToSubtract();
 		imageMath->Update();
 
@@ -161,10 +159,10 @@ void mafTest::CompareImage(mafString suiteName, mafString imageName, int index)
 		
 		if (!result)
 		{
-			imageWriter->SetInput(imageMath->GetOutput());
+			imageWriter->SetInputConnection(imageMath->GetOutputPort());
 			imageWriter->SetFileName(imageFileDiff);
 			imageWriter->Write();
-			imageWriter->SetInput(imDataComp);
+			imageWriter->SetInputData(imDataComp);
 			imageWriter->SetFileName(imageFileNew);
 			imageWriter->Write();
 
@@ -180,7 +178,7 @@ void mafTest::CompareImage(mafString suiteName, mafString imageName, int index)
 	else
 	{
 		//First run storing file
-		imageWriter->SetInput(windowToImage->GetOutput());
+		imageWriter->SetInputConnection(windowToImage->GetOutputPort());
 		imageWriter->SetFileName(imageFileStored);
 		imageWriter->Write();
 		return;

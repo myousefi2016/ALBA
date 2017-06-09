@@ -32,10 +32,6 @@ vtkStandardNewMacro(vtkMAFRGtoSPImageFilter);
 
 #define EPSILON 1e-3
 
-//----------------------------------------------------------------------------
-void vtkMAFRGtoSPImageFilter::PropagateUpdateExtent(vtkDataObject *output)
-{
-}
 
 //----------------------------------------------------------------------------
 int vtkMAFRGtoSPImageFilter::FillOutputPortInformation(int port, vtkInformation* info)
@@ -100,13 +96,12 @@ int vtkMAFRGtoSPImageFilter::RequestInformation(vtkInformation *vtkNotUsed(reque
 	output->SetOrigin(bounds[0], bounds[2], bounds[4]);
 
 	
-	extent[0] = 0;
-	extent[1] = outDims[0]-1;
-	extent[2] = 0;
-	extent[3] = outDims[1]-1;
-	extent[4] = 0;
-	extent[5] = outDims[2]-1;
-  SetUpdateExtent(extent);
+	OutputExtent[0] = 0;
+	OutputExtent[1] = outDims[0]-1;
+	OutputExtent[2] = 0;
+	OutputExtent[3] = outDims[1]-1;
+	OutputExtent[4] = 0;
+	OutputExtent[5] = outDims[2]-1;
 
 	return 1;
 }
@@ -122,7 +117,7 @@ int vtkMAFRGtoSPImageFilter::RequestData(vtkInformation *vtkNotUsed(request), vt
 	vtkDataArray 			*inputScalars = inputPd->GetScalars();
 	vtkDataArray 			*outScalars = inputPd->GetScalars()->NewInstance();
 
-	//output->SetExtent(output->GetWholeExtent());
+	output->SetExtent(OutputExtent);
 
 	output->GetDimensions(outDims);
 	outScalars->SetNumberOfTuples(outDims[0] * outDims[1]);

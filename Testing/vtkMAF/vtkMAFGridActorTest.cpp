@@ -27,6 +27,9 @@
 #include "vtkActor.h"
 #include "vtkCamera.h"
 #include "vtkPointData.h"
+#include "vtkImageAlgorithm.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkDataArray.h"
 
 //----------------------------------------------------------------------------
 void vtkMAFGridActorTest::BeforeTest()
@@ -128,6 +131,6 @@ void vtkMAFGridActorTest::TestPrintSelf()
 {
   vtkMAFGridActor *actor;
   actor = vtkMAFGridActor::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }

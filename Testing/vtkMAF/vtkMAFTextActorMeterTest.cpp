@@ -159,7 +159,7 @@ void vtkMAFTextActorMeterTest::TestPrintSelf()
 {
   vtkMAFTextActorMeter *actor;
   actor = vtkMAFTextActorMeter::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }
 

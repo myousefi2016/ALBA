@@ -80,6 +80,7 @@ void vtkMAFHistogramTest::TestHistogramPointRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -106,6 +107,7 @@ void vtkMAFHistogramTest::TestHistogramLineRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -132,6 +134,7 @@ void vtkMAFHistogramTest::TestHistogramBarRepresentation()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -158,6 +161,7 @@ void vtkMAFHistogramTest::TestHistogramLogaritmicProperties()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -169,8 +173,8 @@ void vtkMAFHistogramTest::TestHistogramLogaritmicProperties()
   actor->LabelVisibilityOn();
   actor->SetLabel("TEST LOGARITMIC PROPERTIES");
 
-  actor->SetLogHistogram(TRUE);
-  actor->SetLogScaleConstant(TRUE);
+  actor->SetLogHistogram(true);
+  actor->SetLogScaleConstant(true);
 
   RenderData(actor, "TestHistogramLogaritmicProperties");
   actor->Delete();
@@ -187,6 +191,7 @@ void vtkMAFHistogramTest::TestHistogramScaleFactorColorProperties()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -218,6 +223,7 @@ void vtkMAFHistogramTest::TestHistogramGetAttributesAndUpdateLines()
   // read the data
   vtkDataSetReader *reader = vtkDataSetReader::New();
   reader->SetFileName(fname.str().c_str());
+	reader->Update();
 
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
@@ -252,6 +258,6 @@ void vtkMAFHistogramTest::TestPrintSelf()
 {
   vtkMAFHistogram *actor;
   actor = vtkMAFHistogram::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }

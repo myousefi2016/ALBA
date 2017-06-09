@@ -231,6 +231,6 @@ void vtkMAFSimpleRulerActor2DTest::TestPrintSelf()
 {
   vtkMAFSimpleRulerActor2D *actor;
   actor = vtkMAFSimpleRulerActor2D::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }

@@ -70,13 +70,13 @@ void vtkMAFRayCastCleanerTest::TestFilter()
 
   //creating filter
   vtkMAFSmartPointer<vtkMAFRayCastCleaner> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetModalityToCT();
   filter->Update();
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=filter->GetOutput();
+  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));
@@ -102,18 +102,6 @@ void vtkMAFRayCastCleanerTest::TestFilter()
   CPPUNIT_ASSERT(equalScalars);
 
 
-  /* 
-  //Used to generate initial test file 
-  
-  vtkMAFSmartPointer<vtkStructuredPointsWriter> w;
-  mafString outFilename=MAF_DATA_ROOT;
-  outFilename<<"/Test_vtkMAFRayCastCleaner/outputVolume.vtk";
-  w->SetFileName(outFilename.GetCStr());
-  w->SetFileTypeToBinary();
-  w->SetInput(filter->GetOutput());
-  w->Update();
-  */
-  
 }
 
 
@@ -140,13 +128,13 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   
   //creating filter
   vtkMAFSmartPointer<vtkMAFRayCastCleaner> filter;
-  filter->SetInput(r->GetOutput());
+  filter->SetInputConnection(r->GetOutputPort());
   filter->SetModalityToMR();
   filter->Update();
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=filter->GetOutput();
+  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));
@@ -170,18 +158,6 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   }
   
   CPPUNIT_ASSERT(equalScalars);
-     
-  //Used to generate initial test file 
-  /*
-  vtkMAFSmartPointer<vtkStructuredPointsWriter> w;
-  mafString outFilename=MAF_DATA_ROOT;
-  outFilename<<"/Test_vtkMAFRayCastCleaner/outputVolumeMR.vtk";
-  w->SetFileName(outFilename.GetCStr());
-  w->SetFileTypeToBinary();
-  w->SetInput(filter->GetOutput());
-  w->Update();
-  */
-  
 }
 
 //-------------------------------------------------------------------------

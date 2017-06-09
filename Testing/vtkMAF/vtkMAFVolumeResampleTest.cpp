@@ -78,7 +78,7 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
 
   vtkMAFVolumeResample *resample = vtkMAFVolumeResample::New();
   resample->SetZeroValue(0);
-  resample->SetInput(reader->GetOutput());
+  resample->SetInputConnection(reader->GetOutputPort());
 
   resample->SetVolumeOrigin(inputDataOrigin);
   PrintDouble3(cout, inputDataOrigin, "inputDataOrigin");
@@ -115,10 +115,9 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
   
   vtkStructuredPoints *outputSP = vtkStructuredPoints::New();
   
-  outputSP->SetSource(NULL);
   outputSP->SetOrigin(inputDataOrigin);
   outputSP->SetSpacing(inputDataSpacing);
-  outputSP->SetScalarType(rg->GetPointData()->GetScalars()->GetDataType());
+  outputSP->AllocateScalars(rg->GetPointData()->GetScalars()->GetDataType(),1);
   
   double resamplingBoxBounds[6];
   rg->GetBounds(resamplingBoxBounds);
@@ -130,7 +129,6 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
   outputSPExtent[4] = 0;
   outputSPExtent[5] = (resamplingBoxBounds[5] - resamplingBoxBounds[4]) / inputDataSpacing[2];
   outputSP->SetExtent(outputSPExtent);
-  outputSP->SetUpdateExtent(outputSPExtent);
   outputSP->Modified();
 
   resample->SetOutput(outputSP);
@@ -156,7 +154,7 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
 void vtkMAFVolumeResampleTest::WriteVTKDatasetToFile( vtkDataSet * outputVolumeVTKData, const char *outputFilename )
 {
   vtkMAFSmartPointer<vtkDataSetWriter> writer;
-  writer->SetInput(outputVolumeVTKData);
+  writer->SetInputData(outputVolumeVTKData);
 
   string fullPathOutputFilename;
   fullPathOutputFilename.append(GET_TEST_DATA_DIR());

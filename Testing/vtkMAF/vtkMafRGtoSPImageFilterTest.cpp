@@ -19,6 +19,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "mafDefines.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkRectilinearGridReader.h"
+#include "vtkDataArray.h"
 
 //----------------------------------------------------------------------------
 void vtkMafRGtoSPImageFilterTest::BeforeTest()
@@ -52,7 +53,7 @@ void vtkMafRGtoSPImageFilterTest::FilterTest()
 	// Use Filter 
 	vtkMAFRGtoSPImageFilter *RGtoSPImageFilter;
 	vtkNEW(RGtoSPImageFilter);
-	RGtoSPImageFilter->SetInput(input);
+	RGtoSPImageFilter->SetInputConnection(reader->GetOutputPort());
 	RGtoSPImageFilter->Update();
 
 	vtkDataSet *output = RGtoSPImageFilter->GetOutput();
@@ -101,7 +102,7 @@ void vtkMafRGtoSPImageFilterTest::FilterTest()
 void vtkMafRGtoSPImageFilterTest::TestPrintSelf()
 {
 	vtkMAFRGtoSPImageFilter *filter = vtkMAFRGtoSPImageFilter::New();
-	filter->PrintSelf(std::cout, 3);
+	filter->PrintSelf(std::cout, vtkIndent(3));
 	filter->Delete();
 }
 

@@ -223,6 +223,6 @@ void vtkMAFRulerActor2DTest::TestPrintSelf()
 {
   vtkMAFRulerActor2D *actor;
   actor = vtkMAFRulerActor2D::New();
-  actor->PrintSelf(std::cout, 3);
+  actor->PrintSelf(std::cout, vtkIndent(3));
   actor->Delete();
 }

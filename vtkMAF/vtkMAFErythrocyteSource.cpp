@@ -45,7 +45,7 @@ vtkMAFErythrocyteSource::vtkMAFErythrocyteSource(void)
   if (output == NULL)
   {
     vtkErrorMacro(<< "Output polydata cannot be NULL.");
-    return 1;
+    return 0;
   }
 
   //the model is based on: 

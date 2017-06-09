@@ -38,8 +38,6 @@
 #include "vtkMAFProjectVolumeTest.h"
 #include "vtkMAFClipSurfaceBoundingBoxTest.h"
 #include "vtkMAFRGSliceAccumulateTest.h"
-#include "vtkMAFRectilinearGridToRectilinearGridFilterTest.h"
-#include "vtkMAFDummyRectilinearGridToRectilinearGridFilter.h"
 #include "vtkMAFProfilingActorTest.h"
 #include "vtkMAFRulerActor2DTest.h"
 #include "vtkMAFSimpleRulerActor2DTest.h"
@@ -48,7 +46,6 @@
 #include "vtkMAFExtendedGlyph3DTest.h"
 #include "vtkMAFTransferFunction2DTest.h"
 #include "vtkHoleConnectivityTest.h"
-#include "vtkDicomUnPackerTest.h"
 #include "vtkTriangleQualityRatioTest.h"
 #include "vtkMaskPolyDataFilterTest.h"
 #include "vtkMAFExtrudeToCircleTest.h"
@@ -57,7 +54,6 @@
 #include "vtkMAFRegionGrowingLocalGlobalThresholdTest.h"
 #include "vtkImageUnPackerTest.h"
 #include "vtkPackedImageTest.h"
-#include "vtkMAFVolumeRayCastMapperTest.h"
 #include "vtkXRayVolumeMapperTest.h"
 #include "vtkMAFVolumeTextureMapper2DTest.h"
 #include "vtkMAFDataArrayDescriptorTest.h"
@@ -158,7 +154,6 @@ int
 	runner.addTest(vtkMAFProjectVolumeTest::suite());
 	runner.addTest(vtkMAFClipSurfaceBoundingBoxTest::suite());
 	runner.addTest(vtkMAFRGSliceAccumulateTest::suite());
-	runner.addTest(vtkMAFRectilinearGridToRectilinearGridFilterTest::suite());
 	runner.addTest(vtkMAFProfilingActorTest::suite());
 	runner.addTest(vtkMAFRulerActor2DTest::suite());
 	runner.addTest(vtkMAFSimpleRulerActor2DTest::suite());
@@ -167,7 +162,6 @@ int
 	runner.addTest(vtkMAFExtendedGlyph3DTest::suite());
 	runner.addTest(vtkMAFTransferFunction2DTest::suite());
 	runner.addTest(vtkHoleConnectivityTest::suite());
-	runner.addTest(vtkDicomUnPackerTest::suite());
 	runner.addTest(vtkTriangleQualityRatioTest::suite());
 	runner.addTest(vtkMaskPolyDataFilterTest::suite());
 	runner.addTest(vtkMAFExtrudeToCircleTest::suite());
@@ -176,7 +170,6 @@ int
 	runner.addTest(vtkMAFRegionGrowingLocalGlobalThresholdTest::suite());
 	runner.addTest(vtkImageUnPackerTest::suite());
 	runner.addTest(vtkPackedImageTest::suite());
-	runner.addTest(vtkMAFVolumeRayCastMapperTest::suite());
 	runner.addTest(vtkXRayVolumeMapperTest::suite());
 	runner.addTest(vtkMAFVolumeTextureMapper2DTest::suite());
 	runner.addTest(vtkMAFDataArrayDescriptorTest::suite());

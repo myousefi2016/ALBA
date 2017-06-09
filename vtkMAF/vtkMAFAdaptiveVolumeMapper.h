@@ -61,7 +61,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "vtkVolumeMapper.h"
 
-#include "vtk_glew.h"
+#include "vtkgl.h"
 
 /**
 name space name: namespace vtkMAFAdaptiveVolumeMapperNamespace

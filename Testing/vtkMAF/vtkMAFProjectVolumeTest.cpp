@@ -54,13 +54,12 @@ void vtkMAFProjectVolumeTest::TestExecutionProjectionModeToX()
   
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToX();
   filter->Update();
 
   //check Control
   vtkStructuredPoints *projectedImage = vtkStructuredPoints::SafeDownCast(filter->GetOutput());
-	projectedImage->Update();
   for(int j=0;j<glo_Dimension[1]*glo_Dimension[2];j++)
   {
     float value1 = arrayControl->GetTuple1(j);
@@ -92,7 +91,7 @@ void vtkMAFProjectVolumeTest::TestExecutionProjectionModeToY()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToY();
   filter->Update();
 
@@ -128,7 +127,7 @@ void vtkMAFProjectVolumeTest::TestExecutionProjectionModeToZ()
 
   //use filter
   vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
-  filter->SetInput(image);
+  filter->SetInputData(image);
   filter->SetProjectionModeToZ();
   filter->Update();
 
@@ -167,7 +166,7 @@ void vtkMAFProjectVolumeTest::TestRangeProjectionX()
 	//use filter
 	vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
 	CPPUNIT_ASSERT(filter->GetProjectSubRange() == false);
-	filter->SetInput(image);
+	filter->SetInputData(image);
 	filter->SetProjectionModeToX();
 	filter->ProjectSubRangeOn();
 	filter->SetProjectionRange(range);
@@ -206,7 +205,7 @@ void vtkMAFProjectVolumeTest::TestRangeProjectionY()
 	//use filter
 	vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
 	CPPUNIT_ASSERT(filter->GetProjectSubRange() == false);
-	filter->SetInput(image);
+	filter->SetInputData(image);
 	filter->SetProjectionModeToY();
 	filter->ProjectSubRangeOn();
 	filter->SetProjectionRange(range);
@@ -243,7 +242,7 @@ void vtkMAFProjectVolumeTest::TestRangeProjectionZ()
 
 	//use filter
 	vtkMAFSmartPointer<vtkMAFProjectVolume> filter;
-	filter->SetInput(image);
+	filter->SetInputData(image);
 	filter->SetProjectionModeToZ();
 	filter->ProjectSubRangeOn();
 	filter->SetProjectionRange(range);
@@ -272,20 +271,18 @@ vtkImageData * vtkMAFProjectVolumeTest::CreateNewSPWithScalars()
 	double spacing[3] = { 1. ,1. ,1. };
 	image->SetDimensions(glo_Dimension);
 	image->SetSpacing(spacing);
-	image->SetScalarTypeToFloat();
 
 	int i = 0;
 	int size = glo_Dimension[0] * glo_Dimension[1] * glo_Dimension[2];
-	vtkMAFSmartPointer<vtkFloatArray> array;
-	array->Allocate(size);
+	vtkMAFSmartPointer<vtkFloatArray> floatArray;
+	floatArray->Allocate(size);
 
 	for (; i < size; i++)
 	{
-		array->SetTuple1(i, i);
+		floatArray->SetTuple1(i, i);
 	}
-	array->Modified();
-	image->GetPointData()->SetScalars(array);
-	image->Update();
+ 	floatArray->Modified();
+ 	image->GetPointData()->SetScalars(floatArray);
 
 	return image;
 }

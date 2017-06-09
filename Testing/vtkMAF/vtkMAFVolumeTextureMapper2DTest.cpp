@@ -91,7 +91,7 @@ void vtkMAFVolumeTextureMapper2DTest::TestPipeExecution()
 
   vtkMAFVolumeTextureMapper2D *volumeMapper;
   vtkNEW(volumeMapper);
-  volumeMapper->SetInput(vtkImageData::SafeDownCast(Importer->GetOutput()));
+  volumeMapper->SetInputConnection(Importer->GetOutputPort());
 
   volumeMapper->SetMaximumNumberOfPlanes(100);
   volumeMapper->SetTargetTextureSize(512,512);

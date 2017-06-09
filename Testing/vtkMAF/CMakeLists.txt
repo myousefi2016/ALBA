@@ -1,16 +1,13 @@
 PROJECT (vtkMAF_TEST)
 
+find_package(VTK 7.1 REQUIRED NO_MODULE)
+include(${VTK_USE_FILE})
+
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(mafTests vtkMAF vtkGraphics vtkRendering mafCommon mafService)
+  LINK_LIBRARIES(mafTests vtkMAF ${VTK_LIBRARIES} mafBase)
 ENDIF (MAF_BUILD_MAFDLL)
-
-#ADD_EXECUTABLE(vtkMAFTest vtkMAFTest.cxx)
-#ADD_EXECUTABLE(testDicom testDicom.cxx)
-#ADD_EXECUTABLE(testVTKVolumeSlicer testVTKVolumeSlicer.cxx)
-#ADD_EXECUTABLE(vtkMAFPolyDataSingleSourceShortestPathTest vtkMAFPolyDataSingleSourceShortestPathTest.h vtkMAFPolyDataSingleSourceShortestPathTest.cpp)
-# ADD_EXECUTABLE(vtkMAFImageUnsharpFilterTest vtkMAFImageUnsharpFilterTest.h vtkMAFImageUnsharpFilterTest.cpp)
 
 #-----------------------------------------------------------------------------
 # tests using cppunit testing framework
@@ -32,8 +29,6 @@ SET(PROJECT_SRCS
 	vtkMAFProjectVolumeTest.h vtkMAFProjectVolumeTest.cpp
 	vtkMAFClipSurfaceBoundingBoxTest.h vtkMAFClipSurfaceBoundingBoxTest.cpp
 	vtkMAFRGSliceAccumulateTest.h vtkMAFRGSliceAccumulateTest.cpp
-	vtkMAFRectilinearGridToRectilinearGridFilterTest.h vtkMAFRectilinearGridToRectilinearGridFilterTest.cpp
-	vtkMAFDummyRectilinearGridToRectilinearGridFilter.h vtkMAFDummyRectilinearGridToRectilinearGridFilter.cpp
 	vtkMAFProfilingActorTest.h vtkMAFProfilingActorTest.cpp
 	vtkMAFRulerActor2DTest.h vtkMAFRulerActor2DTest.cpp
 	vtkMAFSimpleRulerActor2DTest.h vtkMAFSimpleRulerActor2DTest.cpp
@@ -42,7 +37,6 @@ SET(PROJECT_SRCS
 	vtkMAFExtendedGlyph3DTest.h vtkMAFExtendedGlyph3DTest.cpp
 	vtkMAFTransferFunction2DTest.h vtkMAFTransferFunction2DTest.cpp
 	vtkHoleConnectivityTest.h vtkHoleConnectivityTest.cpp
-	vtkDicomUnPackerTest.h vtkDicomUnPackerTest.cpp
 	vtkTriangleQualityRatioTest.h vtkTriangleQualityRatioTest.cpp
 	vtkMAFTubeFilterTest.h vtkMAFTubeFilterTest.cpp
 	vtkMaskPolyDataFilterTest.h vtkMaskPolyDataFilterTest.cpp
@@ -52,7 +46,6 @@ SET(PROJECT_SRCS
 	vtkMAFRegionGrowingLocalGlobalThresholdTest.h vtkMAFRegionGrowingLocalGlobalThresholdTest.cpp
 	vtkImageUnPackerTest.h vtkImageUnPackerTest.cpp
 	vtkPackedImageTest.h vtkPackedImageTest.cpp
-	vtkMAFVolumeRayCastMapperTest.h vtkMAFVolumeRayCastMapperTest.cpp
 	vtkXRayVolumeMapperTest.h vtkXRayVolumeMapperTest.cpp
 	vtkMAFVolumeTextureMapper2DTest.h vtkMAFVolumeTextureMapper2DTest.cpp
 	vtkMAFDataArrayDescriptorTest.h vtkMAFDataArrayDescriptorTest.cpp

@@ -45,7 +45,6 @@ void vtkMAFErythrocyteSourceTest::TestExecuteData()
 {
   vtkMAFErythrocyteSource *source = vtkMAFErythrocyteSource::New();
 
-  //source->ExecuteData(cube);
   source->Update();
   vtkMAFSmartPointer<vtkPolyData> poly = source->GetOutput();
   CPPUNIT_ASSERT(poly != NULL);

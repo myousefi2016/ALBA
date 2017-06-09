@@ -630,11 +630,11 @@ void mafRWI::ResetCameraClippingRange()
 		rFR->ComputeVisiblePropBounds(b1);
 		rAV->ComputeVisiblePropBounds(b2);
 
-		if(b1[0] == VTK_LARGE_FLOAT && b2[0] == VTK_LARGE_FLOAT)
+		if(b1[0] == VTK_FLOAT_MAX && b2[0] == VTK_FLOAT_MAX)
 		{
 			rFR->ResetCameraClippingRange();
 		} 
-		else if (b1[0] == VTK_LARGE_FLOAT )
+		else if (b1[0] == VTK_FLOAT_MAX )
 		{
 			rFR->ResetCameraClippingRange(b2);
 		}
@@ -673,7 +673,7 @@ void mafRWI::ResetCameraClippingRange()
   	{
 	  	rBR->ComputeVisiblePropBounds(b3);
 
-		  if (b3[0] == VTK_LARGE_FLOAT )
+		  if (b3[0] == VTK_FLOAT_MAX )
 		  {
         // do nothing
 			}

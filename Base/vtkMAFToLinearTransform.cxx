@@ -23,7 +23,6 @@
 #include "vtkMatrix4x4.h"
 #include "vtkObjectFactory.h"
 
-vtkCxxRevisionMacro(vtkMAFToLinearTransform, "$Revision: 1.5.4.1 $");
 vtkStandardNewMacro(vtkMAFToLinearTransform);
 
 //----------------------------------------------------------------------------
@@ -146,14 +145,14 @@ vtkAbstractTransform *vtkMAFToLinearTransform::MakeTransform()
 
 //----------------------------------------------------------------------------
 // Get the MTime
-unsigned long vtkMAFToLinearTransform::GetMTime()
+vtkMTimeType vtkMAFToLinearTransform::GetMTime()
 //----------------------------------------------------------------------------
 {
-  unsigned long mtime = this->vtkLinearTransform::GetMTime();
+	vtkMTimeType mtime = this->vtkLinearTransform::GetMTime();
 
   if (this->m_InputMatrix)
   {
-    unsigned long matrixMTime = this->m_InputMatrix->GetMTime();
+		vtkMTimeType matrixMTime = this->m_InputMatrix->GetMTime();
     if (matrixMTime > mtime)
     {
       return matrixMTime;
@@ -161,7 +160,7 @@ unsigned long vtkMAFToLinearTransform::GetMTime()
   }
   else if (this->m_InputTransform)
   {
-    unsigned long transformMTime = this->m_InputTransform->GetMTime();
+		vtkMTimeType transformMTime = this->m_InputTransform->GetMTime();
     if (transformMTime > mtime)
     {
       return transformMTime;
