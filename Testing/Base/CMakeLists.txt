@@ -3,7 +3,9 @@ PROJECT (mafBase_TEST)
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(mafTests mafBase vtkRendering vtkGraphics mafGui mafService)
+	find_package(VTK 7.1 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+  LINK_LIBRARIES(mafTests mafBase mafGui ${VTK_LIBRARIES})
 ENDIF (MAF_BUILD_MAFDLL)
 
 SET(PROJECT_SRCS 
