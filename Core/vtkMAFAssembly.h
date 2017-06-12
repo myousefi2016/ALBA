@@ -122,6 +122,11 @@ public:
   void BuildPaths(vtkAssemblyPaths *paths, vtkAssemblyPath *path);
 //ETX  
 
+	/** Does this prop have some translucent polygonal geometry?
+	 This method is called during the rendering process to know if there is
+	 some translucent polygonal geometry. */
+	virtual int HasTranslucentPolygonalGeometry();
+
 protected:
   vtkMAFAssembly();
   ~vtkMAFAssembly();

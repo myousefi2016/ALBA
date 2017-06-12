@@ -160,11 +160,11 @@ wxBitmap *mmaMaterial::MakeIcon()
 	vtkMAFSmartPointer<vtkTexture> texture;
   if (m_MaterialType == USE_TEXTURE)
   {
-    texture->SetInput(m_TextureImage);
+    texture->SetInputData(m_TextureImage);
   }
   
   vtkMAFSmartPointer<vtkPolyDataMapper> pdm;
-	pdm->SetInput(ss->GetOutput());
+	pdm->SetInputConnection(ss->GetOutputPort());
 	pdm->SetImmediateModeRendering(0);
 
 	vtkMAFSmartPointer<vtkActor> actor;
@@ -197,13 +197,13 @@ wxBitmap *mmaMaterial::MakeIcon()
 
   //flip it - windows Bitmap are upside-down
   vtkMAFSmartPointer<vtkImageExport> ie;
-	ie->SetInput(w2i->GetOutput());
+	ie->SetInputConnection(w2i->GetOutputPort());
   ie->ImageLowerLeftOff();
   ie->SetExportVoidPointer(buffer);
 	ie->Export();
 
 	//translate to a wxBitmap
-	wxImage  *img = new wxImage(dim[0],dim[1],buffer,TRUE);
+	wxImage  *img = new wxImage(dim[0],dim[1],buffer,true);
 	wxBitmap *bmp = new wxBitmap(img);
   delete img;
 

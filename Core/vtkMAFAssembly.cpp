@@ -117,7 +117,7 @@ void vtkMAFAssembly::GetActors(vtkPropCollection *ac)
   this->UpdatePaths();
   for ( this->Paths->InitTraversal(); (path = this->Paths->GetNextItem()); )
   {
-    prop3D = (vtkProp3D *)path->GetLastNode()->GetProp();
+    prop3D = (vtkProp3D *)path->GetLastNode()->GetViewProp();
     if ( (actor = vtkActor::SafeDownCast(prop3D)) != NULL )
     {
       ac->AddItem(actor);
@@ -136,7 +136,7 @@ void vtkMAFAssembly::GetVolumes(vtkPropCollection *ac)
   this->UpdatePaths();
   for ( this->Paths->InitTraversal(); (path = this->Paths->GetNextItem()); )
   {
-    prop3D = (vtkProp3D *)path->GetLastNode()->GetProp();
+    prop3D = (vtkProp3D *)path->GetLastNode()->GetViewProp();
     if ( (volume = vtkVolume::SafeDownCast(prop3D)) != NULL )
     {
       ac->AddItem(volume);
@@ -196,7 +196,7 @@ double *vtkMAFAssembly::GetBounds()
 
   for ( this->Paths->InitTraversal(); (path = this->Paths->GetNextItem()); )
   {
-    prop3D = (vtkProp3D *)path->GetLastNode()->GetProp();
+    prop3D = (vtkProp3D *)path->GetLastNode()->GetViewProp();
     if ( prop3D->GetVisibility() )
     {
       propVisible = 1;
@@ -279,7 +279,7 @@ void vtkMAFAssembly::PrintSelf(ostream& os, vtkIndent indent)
 }
 
 //-----------------------------------------------------------------------------
-int vtkMAFAssembly::RenderTranslucentGeometry(vtkViewport *ren) 
+int vtkMAFAssembly::RenderTranslucentGeometry(vtkViewport *ren)
 {
 	int renderedSomething = 0;
 
@@ -294,12 +294,12 @@ int vtkMAFAssembly::RenderTranslucentGeometry(vtkViewport *ren)
 		// render the Paths
 		for (this->Paths->InitTraversal(); (path = this->Paths->GetNextItem()); )
 		{
-			vtkProp3D *prop3D = (vtkProp3D *)path->GetLastNode()->GetProp();
-			if (prop3D->GetVisibility())
+    vtkProp3D *prop3D = (vtkProp3D *)path->GetLastNode()->GetViewProp();
+    if ( prop3D->GetVisibility()) 
 			{
 				prop3D->SetAllocatedRenderTime(fraction, ren);
 				prop3D->PokeMatrix(path->GetLastNode()->GetMatrix());
-				renderedSomething += prop3D->RenderTranslucentGeometry(ren);
+      renderedSomething += prop3D->RenderTranslucentPolygonalGeometry(ren);
 				prop3D->PokeMatrix(NULL);
 			}
 		}
@@ -327,8 +327,8 @@ int vtkMAFAssembly::RenderOpaqueGeometry(vtkViewport *ren)
 		// render the Paths
 		for (this->Paths->InitTraversal(); (path = this->Paths->GetNextItem()); )
 		{
-			vtkProp3D *prop3D = (vtkProp3D *)path->GetLastNode()->GetProp();
-			if (prop3D->GetVisibility())
+    vtkProp3D *prop3D = (vtkProp3D *)path->GetLastNode()->GetViewProp();
+    if (prop3D->GetVisibility()) 
 			{
 				prop3D->SetAllocatedRenderTime(fraction, ren);
 				prop3D->PokeMatrix(path->GetLastNode()->GetMatrix());
@@ -415,4 +415,17 @@ void vtkMAFAssembly::BuildPaths(vtkAssemblyPaths *paths, vtkAssemblyPath *path)
 			}
 		}
 	}
+}
+
+//----------------------------------------------------------------------------
+int vtkMAFAssembly::HasTranslucentPolygonalGeometry()
+//----------------------------------------------------------------------------
+{
+	vtkProp3D *prop3D;
+	for ( this->m_Parts->InitTraversal();  (prop3D = this->m_Parts->GetNextProp3D()); )
+	{
+		if (prop3D->HasTranslucentPolygonalGeometry())
+			return true;
+	}
+	return false;
 }
