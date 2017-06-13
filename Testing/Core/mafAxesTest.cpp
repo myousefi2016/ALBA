@@ -79,7 +79,7 @@ void mafAxesTest::RenderData( vtkDataSet *data )
   renderWindowInteractor->SetRenderWindow(renderWindow);
 
   vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
   mapper->ScalarVisibilityOn();
   
   vtkMAFSmartPointer<vtkActor> actor;

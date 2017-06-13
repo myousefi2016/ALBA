@@ -55,7 +55,7 @@ void mafLODActorTest::RenderData(mafLODActor *actor)
 {
 	vtkMAFSmartPointer<vtkSphereSource> sphere;
 	vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-	mapper->SetInput(sphere->GetOutput());
+	mapper->SetInputConnection(sphere->GetOutputPort());
 	actor->SetMapper(mapper);
 	actor->Modified();
 
@@ -75,7 +75,7 @@ void mafLODActorTest::RenderData(mafLODActor *actor)
 	actor->Register(renderer);
   renderWindow->Render();
 
-  renderer->RemoveAllProps();
+  renderer->RemoveAllViewProps();
   renderWindow->RemoveRenderer(renderer);
   renderWindowInteractor->SetRenderWindow(NULL);
 }

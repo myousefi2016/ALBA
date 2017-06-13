@@ -393,7 +393,6 @@ void mafCurvilinearAbscissaOnSkeletonHelper::SetConstraintPolylineGraph( mafVMEP
   vtkPolyData *pd = vtkPolyData::SafeDownCast(m_ConstraintVMEPolylineGraph->GetOutput()->GetVTKData());
   assert(pd);
 
-  pd->Update();
 
   m_ConstraintPolylineGraph->Clear();
   m_ConstraintPolylineGraph->CopyFromPolydata(pd);

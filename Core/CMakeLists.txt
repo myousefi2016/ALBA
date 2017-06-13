@@ -72,10 +72,12 @@ IF (MAF_USE_VTK)
 ENDIF (MAF_USE_VTK)
 
 # List libraries that are needed by this project.
-SET(PROJECT_LIBS mafBase mafIO mafGui curl)
+SET(PROJECT_LIBS mafBase mafIO mafGui vtkMAF curl)
 
 IF (MAF_USE_VTK)
-  SET(PROJECT_LIBS ${PROJECT_LIBS} vtkCommon)
+  find_package(VTK 7.1 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+  SET(PROJECT_LIBS ${PROJECT_LIBS} ${VTK_LIBRARIES})
 ENDIF (MAF_USE_VTK)
 
 # ------------------------------------

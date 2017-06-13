@@ -30,8 +30,6 @@
 #include "mafAttachCamera.h"
 #include "mafVMESurface.h"
 #include "mafVMERoot.h"
-#include "mafVME.h"
-
 #include "vtkMAFSmartPointer.h"
 #include "vtkMapper.h"
 #include "vtkDataSetMapper.h"
@@ -84,18 +82,18 @@ void mafAttachCameraTest::TestRenderStuff()
 void mafAttachCameraTest::TestEnableDisableAttachCamera()
 {
   mafAttachCamera *attachCamera=new mafAttachCamera(NULL, NULL, NULL);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == FALSE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == false);
   attachCamera->EnableAttachCamera();
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == TRUE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == true);
   cppDEL(attachCamera);
 }
 
 void mafAttachCameraTest::TestSetGetEnableAttachCamera()
 {
   mafAttachCamera *attachCamera=new mafAttachCamera(NULL, NULL, NULL);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == FALSE);
-  attachCamera->SetEnableAttachCamera(TRUE);
-  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == TRUE);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == false);
+  attachCamera->SetEnableAttachCamera(true);
+  CPPUNIT_ASSERT(attachCamera->GetEnableAttachCamera() == true);
   cppDEL(attachCamera);
 }
 
@@ -152,10 +150,11 @@ void mafAttachCameraTest::CreateTestData()
   axes->SetScaleFactor(2.5);
 
   vtkMAFSmartPointer<vtkTubeFilter> tube;
-  tube->SetInput(axes->GetOutput());
+  tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.1);
   tube->CappingOn();
   tube->SetNumberOfSides(20);
+	tube->Update();
 
   m_TestSurface->SetData(tube->GetOutput(),0.0,mafVMEGeneric::MAF_VME_REFERENCE_DATA);
 
@@ -172,7 +171,7 @@ void mafAttachCameraTest::RenderVMESurface( mafVMESurface *vme )
 {
   vtkDataSetMapper *mapper = vtkDataSetMapper::New();
   mapper->ScalarVisibilityOn();
-  mapper->SetInput(vme->GetOutput()->GetVTKData());
+  mapper->SetInputData(vme->GetOutput()->GetVTKData());
 
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);

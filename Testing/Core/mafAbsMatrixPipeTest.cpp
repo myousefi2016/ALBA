@@ -73,7 +73,6 @@ void mafAbsMatrixPipeTest::TestSetVME()
 
   //Test Set/Get
   cubeVME->SetData(cubeVTK->GetOutput(),0.0);
-  cubeVME->GetOutput()->GetVTKData()->Update();
   cubeVME->GetOutput()->Update();
   cubeVME->Update();
 
@@ -103,7 +102,6 @@ void mafAbsMatrixPipeTest::TestSetVME()
   mafSmartPointer<mafVMESurface> sphereVME;
 
   sphereVME->SetData(sphereVTK->GetOutput(),0.0);
-  sphereVME->GetOutput()->GetVTKData()->Update();
   sphereVME->GetOutput()->Update();
   sphereVME->Update();
   

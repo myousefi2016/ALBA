@@ -88,7 +88,9 @@ IF (MAF_USE_CRYPTO)
 ENDIF (MAF_USE_CRYPTO)
 
 IF (MAF_USE_VTK)
-  SET(PROJECT_LIBS ${PROJECT_LIBS} mafVME vtkIO vtkRendering vtkGraphics vtkHybrid mafDataPipes)
+  find_package(VTK 7.1 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+  SET(PROJECT_LIBS ${PROJECT_LIBS} ${VTK_LIBRARIES} mafVME mafDataPipes)
 ENDIF (MAF_USE_VTK)
 
 # Create the library.

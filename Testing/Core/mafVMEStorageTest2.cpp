@@ -133,19 +133,14 @@ void mafVMEStorageTest2::BeforeTest()
   // if you remove comments from next line the next assert will fail
   // vmeSphereOutput->Update();
 
-  // this looks strange but...
   CPPUNIT_ASSERT(vtkSphereOutput->GetNumberOfPoints()  == m_SphereSource->GetOutput()->GetNumberOfPoints());
-  // ... if you update the VTK output...
-  vtkSphereOutput->Update();
-  // ... everything works
+
   CPPUNIT_ASSERT(vtkSphereOutput->GetNumberOfPoints() == polyDataSphereSource->GetNumberOfPoints());
 
   CPPUNIT_ASSERT(vtkSphereOutput->GetNumberOfCells() == polyDataSphereSource->GetNumberOfCells());
 
   // getting VTK data from mafVMEOutput
   vtkPolyData* polyDataFromVMEOutput = vtkPolyData::SafeDownCast(vmeSphereOutput->GetVTKData());
-
-  polyDataFromVMEOutput->Update();
 
   CPPUNIT_ASSERT(polyDataFromVMEOutput->GetNumberOfPolys());
 
@@ -159,7 +154,7 @@ void mafVMEStorageTest2::BeforeTest()
 
 
   // if I don`t call this update ...
-  polyDataFromVMEOutputSurface->Update();
+  outputSurface->Update();
   // ...this assert will fail
   CPPUNIT_ASSERT(polyDataFromVMEOutputSurface->GetNumberOfPolys() == m_SphereSource->GetOutput()->GetNumberOfPolys());
 
@@ -280,8 +275,6 @@ void mafVMEStorageTest2::TestRestoreOnNewStorage()
   vtkDataSet* shouldBeTheVTKSphere = shouldBeTheVmeSphere->GetOutput()->GetVTKData();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere);
 
-  CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints() == 0);
-  shouldBeTheVTKSphere->Update();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints());
 
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfCells() == m_SphereSource->GetOutput()->GetNumberOfCells());
@@ -326,9 +319,6 @@ void mafVMEStorageTest2::TestRestoreOnSameStorage()
 
   vtkDataSet* shouldBeTheVTKSphere = shouldBeTheVmeSphere->GetOutput()->GetVTKData();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere);
-
-  CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints() == 0);
-  shouldBeTheVTKSphere->Update();
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfPoints());
 
   CPPUNIT_ASSERT(shouldBeTheVTKSphere->GetNumberOfCells() == m_SphereSource->GetOutput()->GetNumberOfCells());

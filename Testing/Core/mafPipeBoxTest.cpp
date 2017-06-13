@@ -42,6 +42,10 @@
 
 #include <iostream>
 #include <fstream>
+#include "vtkDataSetAttributes.h"
+#include "vtkImageAlgorithm.h"
+#include "vtkDataSet.h"
+#include "vtkDataArray.h"
 
 enum PIPE_BOX_ACTORS
 {
@@ -101,7 +105,6 @@ void mafPipeBoxTest::TestPipe3DExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -113,7 +116,6 @@ void mafPipeBoxTest::TestPipe3DExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -151,6 +153,7 @@ void mafPipeBoxTest::TestPipe3DExecution()
 	COMPARE_IMAGES(strings);
   vtkDEL(actorList);
   
+  delete pipeBox;
   delete sceneNode;
 
   mafDEL(surfaceChild);
@@ -186,7 +189,6 @@ void mafPipeBoxTest::TestPipe3DSubtreeExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -198,7 +200,6 @@ void mafPipeBoxTest::TestPipe3DSubtreeExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -237,6 +238,7 @@ void mafPipeBoxTest::TestPipe3DSubtreeExecution()
 
 	vtkDEL(actorList);
 
+  delete pipeBox;
   delete sceneNode;
 
   mafDEL(surfaceChild);
@@ -272,7 +274,6 @@ void mafPipeBoxTest::TestPipe4DExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -316,6 +317,7 @@ void mafPipeBoxTest::TestPipe4DExecution()
 
   vtkDEL(actorList);
 
+  delete pipeBox;
   delete sceneNode;
 
   mafDEL(surfaceParent);
@@ -350,7 +352,6 @@ void mafPipeBoxTest::TestPipe4DSubtreeExecution()
   mafVMESurface *surfaceParent;
   mafNEW(surfaceParent);
   surfaceParent->SetData(importer->GetOutput(),0.0);
-  surfaceParent->GetOutput()->GetVTKData()->Update();
   surfaceParent->GetOutput()->Update();
   surfaceParent->Update();
 
@@ -369,7 +370,6 @@ void mafPipeBoxTest::TestPipe4DSubtreeExecution()
   mafVMESurface *surfaceChild;
   mafNEW(surfaceChild);
   surfaceChild->SetData(importer->GetOutput(),0.0);
-  surfaceChild->GetOutput()->GetVTKData()->Update();
   surfaceChild->GetOutput()->Update();
   surfaceChild->Update();
 
@@ -415,6 +415,7 @@ void mafPipeBoxTest::TestPipe4DSubtreeExecution()
 
   vtkDEL(actorList);
 
+  delete pipeBox;
   delete sceneNode;
 
   mafDEL(surfaceChild);

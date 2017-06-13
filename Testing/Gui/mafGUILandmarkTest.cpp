@@ -42,7 +42,6 @@ void mafGUILandmarkTest::TestDynamicAllocation()
   surfaceParametric->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_SPHERE);
   surfaceParametric->SetSphereRadius(5.);
   surfaceParametric->Update();
-  surfaceParametric->GetOutput()->GetVTKData()->Update();
 
   mafVMESurface *surface;
   mafNEW(surface);
@@ -67,7 +66,6 @@ void mafGUILandmarkTest::TestVmeAccept()
   surfaceParametric->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_SPHERE);
   surfaceParametric->SetSphereRadius(5.);
   surfaceParametric->Update();
-  surfaceParametric->GetOutput()->GetVTKData()->Update();
 
   mafVMESurface *surface;
   mafNEW(surface);
