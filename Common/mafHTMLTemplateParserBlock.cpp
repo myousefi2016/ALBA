@@ -174,7 +174,7 @@ void mafHTMLTemplateParserBlock::AddImageVar(wxString name, vtkImageData *imageD
 	vtkNEW(imageJPEGWriter);
 
 	// Save image
-	imageJPEGWriter->SetInput(imageData);
+	imageJPEGWriter->SetInputData(imageData);
 	imageJPEGWriter->SetFileName(imagePath);
 	imageJPEGWriter->Write();
 
@@ -234,7 +234,7 @@ void mafHTMLTemplateParserBlock::PushImageVar(wxString name, vtkImageData *image
 	vtkNEW(imageJPEGWriter);
 
 	// Save image
-	imageJPEGWriter->SetInput(imageData);
+	imageJPEGWriter->SetInputData(imageData);
 	imageJPEGWriter->SetFileName(imagePath);
 	imageJPEGWriter->Write();
 

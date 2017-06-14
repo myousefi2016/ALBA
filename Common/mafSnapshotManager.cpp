@@ -217,10 +217,8 @@ void mafSnapshotManager::CreateSnapshot(mafVME *root, mafView *selectedView)
 
 	vtkImageData *vtkimg;
 	vtkNEW(vtkimg);
-	vtkimg->SetNumberOfScalarComponents(NumberOfComponents);
-	vtkimg->SetScalarTypeToUnsignedChar();
+	vtkimg->AllocateScalars(VTK_UNSIGNED_CHAR, NumberOfComponents);
 	vtkimg->SetDimensions(img.GetWidth(), img.GetHeight(), 1);
-	vtkimg->SetUpdateExtentToWholeExtent();
 	assert(vtkimg->GetPointData());
 	vtkimg->GetPointData()->SetScalars(buffer);
 
@@ -294,10 +292,8 @@ void mafSnapshotManager::AddSnapshot(wxBitmap &bitmap, wxString name = "")
 
 	vtkImageData *vtkimg;
 	vtkNEW(vtkimg);
-	vtkimg->SetNumberOfScalarComponents(NumberOfComponents);
-	vtkimg->SetScalarTypeToUnsignedChar();
+	vtkimg->AllocateScalars(VTK_UNSIGNED_CHAR, NumberOfComponents);
 	vtkimg->SetDimensions(img.GetWidth(), img.GetHeight(), 1);
-	vtkimg->SetUpdateExtentToWholeExtent();
 	assert(vtkimg->GetPointData());
 	vtkimg->GetPointData()->SetScalars(buffer);
 
@@ -536,7 +532,7 @@ int mafSnapshotManager::SaveVMEImage(mafVMEImage *image, wxString imageFileName,
 		// Flip y axis
 		vtkMAFSmartPointer<vtkImageFlip> imageFlipFilter;
 		imageFlipFilter->SetFilteredAxis(1);
-		imageFlipFilter->SetInput((vtkImageData*)image->GetOutput()->GetVTKData());
+		imageFlipFilter->SetInputData((vtkImageData*)image->GetOutput()->GetVTKData());
 		imageFlipFilter->Update();
 
 		vtkImageData *imageData = imageFlipFilter->GetOutput();
@@ -565,8 +561,8 @@ int mafSnapshotManager::SaveVMEImage(mafVMEImage *image, wxString imageFileName,
 			SP->SetDimensions(DIALOG_W, DIALOG_H, 1);
 			SP->SetSpacing(scaling, scaling, 1);
 
-			probeFilter->SetInput(SP);
-			probeFilter->SetSource(imageFlipFilter->GetOutput());
+			probeFilter->SetInputData(SP);
+			probeFilter->SetSourceData(imageFlipFilter->GetOutput());
 			probeFilter->Update();
 
 			imageData = (vtkImageData*)probeFilter->GetOutput();
@@ -582,7 +578,7 @@ int mafSnapshotManager::SaveVMEImage(mafVMEImage *image, wxString imageFileName,
 			vtkNEW(imageBMPWriter);
 
 			// Save image
-			imageBMPWriter->SetInput(imageData);
+			imageBMPWriter->SetInputData(imageData);
 			imageBMPWriter->SetFileName(imageFileName);
 			imageBMPWriter->Write();
 
@@ -596,7 +592,7 @@ int mafSnapshotManager::SaveVMEImage(mafVMEImage *image, wxString imageFileName,
 			vtkNEW(imageWriter);
 
 			// Save image
-			imageWriter->SetInput(imageData);
+			imageWriter->SetInputData(imageData);
 			imageWriter->SetFileName(imageFileName);
 			// 			int q = imageWriter->GetQuality()
 			// 			imageWriter->SetQuality(95);

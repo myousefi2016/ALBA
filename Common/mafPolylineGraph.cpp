@@ -46,7 +46,7 @@ hack for mafLogMessage was used.
 #endif
 #endif
 
-const /*static*/ vtkIdType mafPolylineGraph::m_UndefinedId = VTK_LARGE_ID ;
+const /*static*/ vtkIdType mafPolylineGraph::m_UndefinedId = VTK_ID_MAX;
 const /*static*/ int mafPolylineGraph::m_UndefinedInt = -1 ;
 const /*static*/ char* mafPolylineGraph::m_UndefinedName = "****" ;
 
@@ -1400,7 +1400,8 @@ bool mafPolylineGraph::CopyFromPolydata(vtkPolyData *polydata)
 
   // Allocate the vertices in the graph.
   // There is a one-to-one correspondence between the vertices in the graph and the points in the polydata.
-  int npts = polydata->GetNumberOfPoints();
+  vtkPoints *points = polydata->GetPoints() ;
+  int npts = polydata->GetNumberOfPoints() ;
   AllocateVertices(npts) ;
 
   // Allocate the branches in the graph
