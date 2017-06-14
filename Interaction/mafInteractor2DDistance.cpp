@@ -123,7 +123,7 @@ mafInteractor2DDistance::mafInteractor2DDistance(bool testMode /* = false */)
 	  m_HistogramRWI->SetSize(0,0,width,height);
 	  
 	  m_HistogramDialog->SetSize(x_init,y_init,width,height);
-		m_HistogramDialog->Show(FALSE);
+		m_HistogramDialog->Show(false);
 	}
 
   m_CurrentRwi = NULL;
@@ -134,7 +134,7 @@ mafInteractor2DDistance::mafInteractor2DDistance(bool testMode /* = false */)
   m_Line->SetPoint1(0,0,0);
   m_Line->SetPoint2(0.5,0.5,0);
   m_Line->Update();
-  m_LineMapper->SetInput(m_Line->GetOutput());
+  m_LineMapper->SetInputConnection(m_Line->GetOutputPort());
   m_LineMapper->SetTransformCoordinate(m_Coordinate);
   m_LineActor->SetMapper(m_LineMapper);
   m_LineActor->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -142,7 +142,7 @@ mafInteractor2DDistance::mafInteractor2DDistance(bool testMode /* = false */)
   m_Line2->SetPoint1(0,0,0);
   m_Line2->SetPoint2(0.5,0.5,0);
   m_Line2->Update();
-  m_LineMapper2->SetInput(m_Line2->GetOutput());
+  m_LineMapper2->SetInputConnection(m_Line2->GetOutputPort());
   m_LineMapper2->SetTransformCoordinate(m_Coordinate);
   m_LineActor2->SetMapper(m_LineMapper2);
   m_LineActor2->GetProperty()->SetColor(1.0,0.0,0.0);
@@ -628,27 +628,11 @@ void mafInteractor2DDistance::DrawMeasureTool(double x, double y)
     m_LineSourceVector1[m_LineSourceVector1.size()-1]->SetPoint2(tmpPt);
     m_LineSourceVector1[m_LineSourceVector1.size()-1]->Update();
 
-		/*
-		vtkMAFSmartPointer<vtkAppendPolyData> polyAppend;
-		if(m_MeasureType == DISTANCE_BETWEEN_POINTS)
-		{
-			vtkMAFSmartPointer<vtkSphereSource> sphere; 
-			sphere->SetCenter(tmpPt);
-			sphere->SetRadius(m_Distance/100.0);
-			sphere->SetThetaResolution(8);
-			sphere->SetPhiResolution(8);
-			sphere->Update();
-
-			polyAppend->AddInput(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutput());
-			polyAppend->AddInput(sphere->GetOutput());
-			polyAppend->Update();
-		}
-		*/
 
     m_LineMapperVector1.push_back(NULL);
     m_LineMapperVector1[m_LineMapperVector1.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInput(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutput());
+    m_LineMapperVector1[m_LineMapperVector1.size()-1]->SetInputConnection(m_LineSourceVector1[m_LineSourceVector1.size()-1]->GetOutputPort());
 
     m_LineActorVector1.push_back(NULL);
     m_LineActorVector1[m_LineActorVector1.size()-1] = vtkActor2D::New();
@@ -658,43 +642,6 @@ void mafInteractor2DDistance::DrawMeasureTool(double x, double y)
 
 		// glyph to emulate a arrow
 		
-		/* CONE	
-			double tmpPtCS1[3];
-			double tmpPtCS2[3];
-			m_ConeSourceVector.push_back(NULL);
-			m_ConeSourceVector[m_ConeSourceVector.size()-1] = vtkConeSource::New();
-			m_Line->GetPoint1(tmpPtCS1);
-			m_Line->GetPoint2(tmpPtCS2);
-			double distanceCS12 = 0;
-			distanceCS12 = sqrt(vtkMath::Distance2BetweenPoints(tmpPtCS1,tmpPtCS2));
-			m_ConeSourceVector[m_ConeSourceVector.size()-1]->SetCenter(tmpPtCS2);
-			m_ConeSourceVector[m_ConeSourceVector.size()-1]->SetRadius(distanceCS12/30.0);
-      m_ConeSourceVector[m_ConeSourceVector.size()-1]->SetHeight(distanceCS12/20.0);
-      m_ConeSourceVector[m_ConeSourceVector.size()-1]->SetResolution(8);
-      double direction[3];
-      direction[0] = tmpPtCS2[0] - tmpPtCS1[0];
-      direction[1] = tmpPtCS2[1] - tmpPtCS1[1];
-      direction[2] = tmpPtCS2[2] - tmpPtCS1[2];
-      m_ConeSourceVector[m_ConeSourceVector.size()-1]->SetDirection(direction);
-			m_ConeSourceVector[m_ConeSourceVector.size()-1]->Update();
-			
-
-			m_ConeMapperVector.push_back(NULL);
-			m_ConeMapperVector[m_ConeMapperVector.size()-1] = vtkPolyDataMapper2D::New();
-			m_ConeMapperVector[m_ConeMapperVector.size()-1]->SetTransformCoordinate(m_Coordinate);
-			m_ConeMapperVector[m_ConeMapperVector.size()-1]->SetInput(m_ConeSourceVector[m_ConeSourceVector.size()-1]->GetOutput());
-
-			m_ConeActorVector.push_back(NULL);
-			m_ConeActorVector[m_ConeActorVector.size()-1] = vtkActor2D::New();
-			m_ConeActorVector[m_ConeActorVector.size()-1]->SetMapper(m_ConeMapperVector[m_ConeMapperVector.size()-1]);
-			m_ConeActorVector[m_ConeActorVector.size()-1]->GetProperty()->SetColor(0.0,1.0,0.0);
-
-		if(m_MeasureType == DISTANCE_BETWEEN_POINTS)
-		{
-			m_CurrentRenderer->AddActor2D(m_ConeActorVector[m_ConeActorVector.size()-1]);
-		}
-
-    */
     // persistent LINE2
     double tmpPt2[3];
     m_LineSourceVector2.push_back(NULL);
@@ -720,7 +667,7 @@ void mafInteractor2DDistance::DrawMeasureTool(double x, double y)
     m_LineMapperVector2.push_back(NULL);
     m_LineMapperVector2[m_LineMapperVector2.size()-1] = vtkPolyDataMapper2D::New();
     m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetTransformCoordinate(m_Coordinate);
-    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInput(m_LineSourceVector2[m_LineMapperVector2.size()-1]->GetOutput());
+    m_LineMapperVector2[m_LineMapperVector2.size()-1]->SetInputConnection(m_LineSourceVector2[m_LineMapperVector2.size()-1]->GetOutputPort());
 
     m_LineActorVector2.push_back(NULL);
     m_LineActorVector2[m_LineActorVector2.size()-1] = vtkActor2D::New();
@@ -775,7 +722,6 @@ void mafInteractor2DDistance::CreateHistogram()
   if (m_ProbedVME != NULL)
   {
     vtkDataSet *probed_data = m_ProbedVME->GetOutput()->GetVTKData();
-    probed_data->Update();
 
     m_PlotActor->SetXRange(0,m_Distance);
     m_PlotActor->SetPlotCoordinate(0,m_Distance);
@@ -819,14 +765,14 @@ void mafInteractor2DDistance::CreateHistogram()
     m_ProbingLine->Update();
 
     vtkMAFSmartPointer<vtkProbeFilter> prober;
-    prober->SetInput(m_ProbingLine->GetOutput());
-    prober->SetSource(probed_data);
+    prober->SetInputConnection(m_ProbingLine->GetOutputPort());
+		prober->SetSourceData(probed_data);
     prober->Update();
 
-    m_PlotActor->RemoveAllInputs();
+    m_PlotActor->RemoveAllDataSetInputConnections();
 
-    vtkPolyData *probimg_result = prober->GetPolyDataOutput();
-    m_PlotActor->AddInput(probimg_result);
+    //TODO VTK7 Can be 		m_PlotActor->AddDataSetInput()
+		m_PlotActor->AddDataObjectInputConnection(prober->GetOutputPort());
     m_HistogramRWI->m_RwiBase->Render();
   }
 }
@@ -848,7 +794,7 @@ void mafInteractor2DDistance::GenerateHistogram(bool generate)
   m_GenerateHistogram = generate;
   if (m_GenerateHistogram)
   {
-    m_PlotActor->RemoveAllInputs();
+    m_PlotActor->RemoveAllDataSetInputConnections();
     if (m_HistogramRWI)
     {
     	m_HistogramRWI->m_RwiBase->Render();

@@ -44,6 +44,8 @@
 #include "vtkRenderer.h"
 #include "vtkCamera.h"
 #include <assert.h>
+#include "vtkFloatArray.h"
+#include "vtkDataArray.h"
 
 //------------------------------------------------------------------------------
 mafCxxTypeMacro(mmiInfoImage)

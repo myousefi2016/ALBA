@@ -145,13 +145,13 @@ void mafGizmoRotateFan::CreatePipeline()
 
   m_RotateFanTPDF = vtkTransformPolyDataFilter::New();
   m_RotateFanTPDF->SetTransform(m_RotateFanTransform);
-  m_RotateFanTPDF->SetInput(m_Sphere->GetOutput());
+  m_RotateFanTPDF->SetInputConnection(m_Sphere->GetOutputPort());
 
   // create the mirroring transform
   m_MirrorTr = vtkTransform::New();
   vtkNEW(m_MirrorTPDF);
   m_MirrorTPDF->SetTransform(m_MirrorTr);
-  m_MirrorTPDF->SetInput(m_RotateFanTPDF->GetOutput());
+  m_MirrorTPDF->SetInputConnection(m_RotateFanTPDF->GetOutputPort());
 
   // create the transform for the sphere
   m_ChangeFanAxisTransform = vtkTransform::New();
@@ -162,7 +162,7 @@ void mafGizmoRotateFan::CreatePipeline()
 
   // transform the sphere
   m_ChangeFanAxisTPDF = vtkTransformPolyDataFilter::New();
-  m_ChangeFanAxisTPDF->SetInput(m_MirrorTPDF->GetOutput());
+  m_ChangeFanAxisTPDF->SetInputConnection(m_MirrorTPDF->GetOutputPort());
   m_ChangeFanAxisTPDF->SetTransform(m_ChangeFanAxisTransform);
 }
 //----------------------------------------------------------------------------
@@ -270,8 +270,8 @@ void mafGizmoRotateFan::OnEvent(mafEventBase *maf_event)
 
           // build the rotation axis for mirroring
           double axis[3];
-          axis[0] = cos(vtkMath::DegreesToRadians() * offsetAngle);
-          axis[1] = sin(vtkMath::DegreesToRadians() * offsetAngle);
+          axis[0] = cos(vtkMath::RadiansFromDegrees(offsetAngle));
+          axis[1] = sin(vtkMath::RadiansFromDegrees(offsetAngle));
           axis[2] = 0;
 
           // create the transform for mirroring the fan
@@ -412,7 +412,7 @@ double mafGizmoRotateFan::PointPickedToStartTheta(double xp, double yp, double z
 	  }
 	  break;
   }
-  double startThetaDeg = startThetaRad * vtkMath::RadiansToDegrees();
+  double startThetaDeg =   vtkMath::DegreesFromRadians(startThetaRad);
   return ((startThetaDeg > 0) ? startThetaDeg : (360 + startThetaDeg));  
 }
 //----------------------------------------------------------------------------

@@ -80,10 +80,10 @@ mafInteractorDICOMImporter::mafInteractorDICOMImporter()
 	vtkNEW(m_CropPlane);
 	
 	vtkMAFSmartPointer<vtkOutlineFilter>	of;
-	of->SetInput(((vtkDataSet *)(m_CropPlane->GetOutput())));
+	of->SetInputConnection(m_CropPlane->GetOutputPort());
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> pdm;
-	pdm->SetInput(of->GetOutput());
+	pdm->SetInputConnection(of->GetOutputPort());
 
 	vtkNEW(m_CropActor);
 	m_CropActor->GetProperty()->SetColor(0.8, 0, 0);
