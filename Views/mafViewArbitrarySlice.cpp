@@ -175,7 +175,6 @@ void mafViewArbitrarySlice::VmeShow(mafVME *vme, bool show)
 
 			// get the VTK volume
 			vtkDataSet *data = vme->GetOutput()->GetVTKData();
-			data->Update();
 			//Get center of Volume to can the reset
 			data->GetCenter(SliceCenterVolumeReset);
 			//Get scalar range of the volume
@@ -197,7 +196,7 @@ void mafViewArbitrarySlice::VmeShow(mafVME *vme, bool show)
 			transform->Update();
 			vtkTransformPolyDataFilter *filter;
 			vtkNEW(filter);
-			filter->SetInput(pd);
+			filter->SetInputData(pd);
 			filter->SetTransform(transform);
 			filter->Update();
 			filter->GetOutput()->GetCenter(m_SliceCenterSurface);
@@ -923,7 +922,6 @@ void mafViewArbitrarySlice::VolumeWindowing(mafVME *volume)
 
 	double sr[2];
 	vtkDataSet *data = volume->GetOutput()->GetVTKData();
-	data->Update();
 	data->GetScalarRange(sr);
 
 	mmaMaterial *currentSurfaceMaterial = m_Slicer->GetMaterial();

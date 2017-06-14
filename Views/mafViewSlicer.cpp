@@ -157,9 +157,6 @@ void mafViewSlicer::VmeShow(mafVME *vme, bool show)
 		if(vme->GetOutput()->IsA("mafVMEOutputVolume"))
 		{
 			m_CurrentVolume = vme;
-
-			// data update
-      vme->GetOutput()->GetVTKData()->Update();
 		}
 		else if(vme->IsA("mafVMESurface") || vme->IsA("mafVMESurfaceParametric"))
 		{
