@@ -94,7 +94,6 @@ int mafVMEMesh::SetData(vtkUnstructuredGrid *data, mafTimeStamp t, int mode)
 
   if(unstructuredGrid)
   {
-    unstructuredGrid->Update();
     return Superclass::SetData(unstructuredGrid,t,mode);
   }
   else
@@ -112,7 +111,6 @@ int mafVMEMesh::SetData(vtkDataSet *data, mafTimeStamp t, int mode)
 
   if (unstructuredGrid) 
   {
-    unstructuredGrid->Update();
     return Superclass::SetData(data,t,mode);
   }
   else

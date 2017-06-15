@@ -367,7 +367,6 @@ void mafVMESurfaceParametric::InternalUpdate()
       surf->SetThetaResolution(m_SphereTheRes);
 			surf->Update();
 			m_PolyData->DeepCopy(surf->GetOutput());
-			m_PolyData->Update();
 		}
 	break;
 	case PARAMETRIC_CONE:
@@ -400,11 +399,10 @@ void mafVMESurfaceParametric::InternalUpdate()
 
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> ptf;
     ptf->SetTransform(t);
-    ptf->SetInput(surf->GetOutput());
+    ptf->SetInputConnection(surf->GetOutputPort());
     ptf->Update();
 
     m_PolyData->DeepCopy(ptf->GetOutput());
-    m_PolyData->Update();
 	}
 	break;
 	case PARAMETRIC_CYLINDER:
@@ -436,13 +434,11 @@ void mafVMESurfaceParametric::InternalUpdate()
 
     vtkMAFSmartPointer<vtkTransformPolyDataFilter> ptf;
     ptf->SetTransform(t);
-    ptf->SetInput(surf->GetOutput());
+    ptf->SetInputConnection(surf->GetOutputPort());
     ptf->Update();
 
 
     m_PolyData->DeepCopy(ptf->GetOutput());
-    m_PolyData->Update();
-
 	}
 	break;
 	case PARAMETRIC_CUBE:
@@ -453,7 +449,6 @@ void mafVMESurfaceParametric::InternalUpdate()
 		surf->SetZLength(m_CubeZLength);
 		surf->Update();
 		m_PolyData->DeepCopy(surf->GetOutput());
-		m_PolyData->Update();
 	}
 	break;
   
@@ -467,10 +462,9 @@ void mafVMESurfaceParametric::InternalUpdate()
     surf->SetPoint2(m_PlanePoint2);
     surf->Update();
     vtkMAFSmartPointer<vtkTriangleFilter> triangle;
-    triangle->SetInput(surf->GetOutput());
+    triangle->SetInputConnection(surf->GetOutputPort());
     triangle->Update();
     m_PolyData->DeepCopy(triangle->GetOutput());
-    m_PolyData->Update();
     }
     break;
 
@@ -504,11 +498,10 @@ void mafVMESurfaceParametric::InternalUpdate()
 
       vtkMAFSmartPointer<vtkTransformPolyDataFilter> ptf;
       ptf->SetTransform(t);
-      ptf->SetInput(surf->GetOutput());
+      ptf->SetInputConnection(surf->GetOutputPort());
       ptf->Update();
 
       m_PolyData->DeepCopy(ptf->GetOutput());
-      m_PolyData->Update();
     }
     break;
 	}

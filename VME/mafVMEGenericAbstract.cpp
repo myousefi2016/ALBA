@@ -90,33 +90,6 @@ int mafVMEGenericAbstract::DeepCopy(mafVME *a)
   return MAF_ERROR;
 }
 //-------------------------------------------------------------------------
-int mafVMEGenericAbstract::DeepCopyVmeLarge(mafVME *a)
-//-------------------------------------------------------------------------
-{ 
-  if (Superclass::DeepCopy(a)==MAF_OK)
-  {
-    mafVMEGenericAbstract *vme=(mafVMEGenericAbstract *)a;
-    m_MatrixVector->DeepCopy(vme->GetMatrixVector());
-
-    if (vme->GetDataVector())
-    {
-      //////////////////////////////////////////////////////////////////////////
-      mafDataPipeInterpolatorVTK::SafeDownCast(vme->GetDataPipe())->GetVTKDataPipe()->RemoveAllInputs();
-      mafDataPipeInterpolatorVTK::SafeDownCast(vme->GetDataPipe())->GetVTKDataPipe()->UnRegisterAllOutputs();
-      //////////////////////////////////////////////////////////////////////////
-
-      if(m_DataVector == NULL)
-        m_DataVector=vme->GetDataVector()->NewInstance(); // create a new instance of the same type
-
-      m_DataVector->DeepCopyVmeLarge(vme->GetDataVector()); // copy data
-      m_DataVector->SetListener(this);
-    }
-    return MAF_OK;
-  }
-  return MAF_ERROR;
-}
-
-//-------------------------------------------------------------------------
 int mafVMEGenericAbstract::ShallowCopy(mafVME *a)
 //-------------------------------------------------------------------------
 {  

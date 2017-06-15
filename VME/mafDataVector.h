@@ -104,11 +104,6 @@ public:
   /** internally used by mafMSFWriter/Reader to remember this is a encrypted data */
   void SetCrypting(bool flag);
 
-  /**
-  Allow to perform a DeepCopy with data very large.
-  Release memory of the input mafVME. */
-  void DeepCopyVmeLarge(mafDataVector *o);
-
   static mafID GetSingleFileDataId();
 
 protected:

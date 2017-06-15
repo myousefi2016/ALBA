@@ -89,9 +89,6 @@ public:
   /** reference another dataset's internal data */ 
   virtual void ShallowCopy(mafVMEItem *a);
 
-  /** copy large data from another dataset and release it (for mafVMEItem is equals to DeepCopy()).*/
-  virtual void DeepCopyVmeLarge(mafVMEItem *a){DeepCopy(a);};
-
   /** release data from memory */
   virtual void ReleaseData()=0;
 

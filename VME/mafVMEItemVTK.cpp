@@ -96,44 +96,6 @@ void mafVMEItemVTK::DeepCopy(mafVMEItem *a)
 }
 
 //-------------------------------------------------------------------------
-void mafVMEItemVTK::DeepCopyVmeLarge(mafVMEItem *a)
-//-------------------------------------------------------------------------
-{
-  mafVMEItemVTK *vtk_item=mafVMEItemVTK::SafeDownCast(a);
-  assert(vtk_item);
-  Superclass::DeepCopy(vtk_item);
-  if (vtk_item->GetData())
-  {
-      vtkDataSetWriter *w;
-      vtkNEW(w);
-      w->SetFileName("TMP.vtk");
-      w->SetInput(vtk_item->GetData());
-      w->SetFileTypeToBinary();
-      w->Write();
-      vtkDEL(w);
-
-      m_Data = vtk_item->GetData()->NewInstance();
-      m_Data->Delete(); // decrease reference count since VTK set it to 1 by default
-
-      vtk_item->ReleaseData();
-
-      mafString filename = mafGetAppDataDirectory().c_str();
-      filename<<"/TMP.vtk";
-      mafLogMessage("<<<<<Creating temp file : %s",filename);
-      this->ReadData(filename);
-      mafLogMessage("<<<<<Read temp file : %s",filename);
-
-      remove(filename);
-  }
-  else
-  {
-    m_Data = NULL;
-  }
-
-}
-
-
-//-------------------------------------------------------------------------
 void mafVMEItemVTK::ShallowCopy(mafVMEItem *a)
 //-------------------------------------------------------------------------
 {
@@ -156,9 +118,6 @@ bool mafVMEItemVTK::Equals(mafVMEItem *a)
 
     vtkDataSet *data1=GetData();
     vtkDataSet *data2=item->GetData();
-
-    data1->Update();
-    data2->Update();
 
     if (data1&&data2)
     {
@@ -233,7 +192,6 @@ void mafVMEItemVTK::SetData(vtkDataSet *data)
       this->SetDataType(data->GetClassName());
 
       double bounds[6];
-      data->Update();
       data->ComputeBounds();
       data->GetBounds(bounds);
       m_Bounds.DeepCopy(bounds);
@@ -265,7 +223,6 @@ void mafVMEItemVTK::UpdateData()
   // pipeline to update.
   if (IsDataModified()&&m_Data.GetPointer())
   {
-    m_Data->Update();
     //this->UpdateBounds();
     return;
   }
@@ -295,7 +252,6 @@ void mafVMEItemVTK::UpdateBounds()
     {
       double bounds[6];
 
-      m_Data->Update();
       //m_Data->Modified();
       m_Data->GetBounds(bounds);
 
@@ -440,8 +396,6 @@ int mafVMEItemVTK::ReadData(mafString &filename, int resolvedURL)
     else
     {
       //BES: 23.5.2008 - detach data from its reader, so we can destroy the reader
-      data->SetSource(NULL);
-
       SetData(data);
       m_IsLoadingData = false;
     }
@@ -584,7 +538,7 @@ int mafVMEItemVTK::InternalStoreData(const char *url)
       ReleaseOutputMemory();
 
       vtkMAFSmartPointer<vtkDataSetWriter> writer;
-      writer->SetInput(data);
+      writer->SetInputData(data);
       writer->SetFileTypeToBinary();
       writer->SetHeader("# MAF data file - mafVMEItemVTK output\n");
 
@@ -790,8 +744,5 @@ void mafVMEItemVTK::ReleaseOutputMemory()
 void mafVMEItemVTK::Print(std::ostream& os, const int tabs) const
 //-------------------------------------------------------------------------
 {
-  mafIndent indent(tabs);
-
-  // to do: implement DUMP of internally stored data
-  strstream ostr;
+  
 }

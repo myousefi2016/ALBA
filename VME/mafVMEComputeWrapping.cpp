@@ -115,8 +115,8 @@ mafVMEComputeWrapping::mafVMEComputeWrapping()
 	vtkNEW(m_Goniometer);
 	vtkNEW(m_LinePatcher);
 
-	m_Goniometer->AddInput(m_LineSource->GetOutput());
-	m_Goniometer->AddInput(m_LineSource2->GetOutput());
+	m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+	m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
 
 	mafNEW(m_TmpTransform);
 
@@ -134,7 +134,7 @@ mafVMEComputeWrapping::mafVMEComputeWrapping()
 	// Added a screencast to showcase the bug as bug comment
 	// http://www.youtube.com/watch?v=J9XsvXwgHaM
 	//-------------------------------------------------
-	m_LinePatcher->SetInput(m_Goniometer->GetOutput());
+	m_LinePatcher->SetInputConnection(m_Goniometer->GetOutputPort());
 	dpipe->SetInput(m_LinePatcher->GetOutput());	 
 
 }
@@ -579,7 +579,7 @@ void mafVMEComputeWrapping::DirectConnectSE(){
 
 	SE->SetPoint1(m_StartPoint[0],m_StartPoint[1],m_StartPoint[2]);
 	SE->SetPoint2(m_EndPoint[0],m_EndPoint[1],m_EndPoint[2]);
-	m_Goniometer->AddInput(SE->GetOutput());
+	m_Goniometer->AddInputConnection(SE->GetOutputPort());
 	d0 = sqrt(vtkMath::Distance2BetweenPoints(m_StartPoint,m_EndPoint));
 	m_Distance = d0;
 
@@ -860,11 +860,11 @@ void mafVMEComputeWrapping::WrapCylinderCylinderObstacleSet(){
 		m_ExportPointList.push_back(new double[3]);
 		CopyPointValue(Qg ,m_ExportPointList[m_ExportPointList.size()-1]);
 
-		m_Goniometer->AddInput(Line1->GetOutput());
-		m_Goniometer->AddInput(Line2->GetOutput());
-		m_Goniometer->AddInput(Line3->GetOutput());
-		m_Goniometer->AddInput(hCurve1);
-		m_Goniometer->AddInput(hCurve2);
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());
+		m_Goniometer->AddInputConnection(Line3->GetOutputPort());
+		m_Goniometer->AddInputData(hCurve1);
+		m_Goniometer->AddInputData(hCurve2);
 
 		//m_Goniometer->AddInput(Line4->GetOutput());
 	}
@@ -887,9 +887,9 @@ void mafVMEComputeWrapping::WrapCylinderCylinderObstacleSet(){
 		m_ExportPointList.push_back(new double[3]);
 		CopyPointValue(Hg ,m_ExportPointList[m_ExportPointList.size()-1]);
 
-		m_Goniometer->AddInput(Line1->GetOutput());
-		m_Goniometer->AddInput(hCurve1);
-		m_Goniometer->AddInput(Line2->GetOutput());
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
+		m_Goniometer->AddInputData(hCurve1);
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());
 
 	}else if ( !wrapObj1 && wrapObj2)
 	{	
@@ -910,15 +910,15 @@ void mafVMEComputeWrapping::WrapCylinderCylinderObstacleSet(){
 		m_ExportPointList.push_back(new double[3]);
 		CopyPointValue(Qg ,m_ExportPointList[m_ExportPointList.size()-1]);
 
-		m_Goniometer->AddInput(Line1->GetOutput());
-		m_Goniometer->AddInput(hCurve2);
-		m_Goniometer->AddInput(Line2->GetOutput());
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
+		m_Goniometer->AddInputData(hCurve2);
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());
 	}else{ //!wrapObj1 && !wrapObj2
 
 		m_Distance = sqrt(vtkMath::Distance2BetweenPoints(S,P));
 		Line1->SetPoint1(S);
 		Line1->SetPoint2(P);
-		m_Goniometer->AddInput(Line1->GetOutput());
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
 
 	}
 	vtkDEL(Line1);
@@ -1046,9 +1046,9 @@ void mafVMEComputeWrapping::WrapCylinderOnlyObstacleSet(int idx){
 	Line2->SetPoint1(Tg[0],Tg[1],Tg[2]);
 	Line2->SetPoint2(m_StartPoint[0],m_StartPoint[1],m_StartPoint[2]);
 	//--------------------------------------
-	m_Goniometer->AddInput(Line1->GetOutput());
-	m_Goniometer->AddInput(Line2->GetOutput());
-	m_Goniometer->AddInput(hCurve);
+	m_Goniometer->AddInputConnection(Line1->GetOutputPort());
+	m_Goniometer->AddInputConnection(Line2->GetOutputPort());
+	m_Goniometer->AddInputData(hCurve);
 
 	vtkDEL(Line1);
 	vtkDEL(Line2);
@@ -1169,7 +1169,7 @@ void mafVMEComputeWrapping::WrapCylinderOnly(int step){
 		CIcurve = CaculateHelix2(hCurve,endLocal,startLocal,true);
 		m_Distance = CIcurve;
 		TransformOutput(hCurve);
-		m_Goniometer->AddInput(hCurve);
+		m_Goniometer->AddInputData(hCurve);
 		vtkDEL(hCurve);
 
 	}else if (IsEndPonintOnCylinder(m_Tolerance,startLocal) || IsEndPonintOnCylinder(m_Tolerance,endLocal) )//start on surface or end on surface
@@ -1274,9 +1274,9 @@ void mafVMEComputeWrapping::WrapCylinderOnly(int step){
 
 
 		TransformOutput(hCurve);
-		m_Goniometer->AddInput(Line1->GetOutput());
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
 		//m_Goniometer->AddInput(L2);
-		m_Goniometer->AddInput(hCurve);
+		m_Goniometer->AddInputData(hCurve);
 
 		vtkDEL(Line1);
 		//vtkDEL(Line2);
@@ -1407,9 +1407,9 @@ void mafVMEComputeWrapping::WrapCylinderOnly(int step){
 
 		TransformOutput(hCurve);
 
-		m_Goniometer->AddInput(Line1->GetOutput());
-		m_Goniometer->AddInput(Line2->GetOutput());
-		m_Goniometer->AddInput(hCurve);
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());
+		m_Goniometer->AddInputData(hCurve);
 
 		vtkDEL(Line1);
 		vtkDEL(Line2);
@@ -1477,12 +1477,12 @@ void mafVMEComputeWrapping::WrapSingleCylinder(double vId){
 	// create ordered list of tangent point (2) real algorithm
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstDataInput;
 	transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapped_vme1->GetAbsMatrixPipe()->GetVTKTransform());
-	transformFirstDataInput->SetInput((vtkPolyData *)wrapped_vme1->GetOutput()->GetVTKData());
+	transformFirstDataInput->SetInputData((vtkPolyData *)wrapped_vme1->GetOutput()->GetVTKData());
 	transformFirstDataInput->Update();
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+	transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 	transformFirstData->Update(); 
 
 	// here REAL ALGORITHM //////////////////////////////
@@ -2298,13 +2298,13 @@ void mafVMEComputeWrapping::WrapSphereOnly(const int step,bool allowIntersectFla
 		BE->SetPoint1(bGcoord[0],bGcoord[1],bGcoord[2]);
 		BE->SetPoint2(m_EndPoint[0],m_EndPoint[1],m_EndPoint[2]);
 
-		m_Goniometer->AddInput(OA->GetOutput());
+		m_Goniometer->AddInputConnection(OA->GetOutputPort());
 
 		TransformOutputClipData(clipData->GetOutput());
-		m_Goniometer->AddInput(clipData->GetOutput());
+		m_Goniometer->AddInputConnection(clipData->GetOutputPort());
 		clipData->SetOutput(NULL);
 
-		m_Goniometer->AddInput(BE->GetOutput());
+		m_Goniometer->AddInputConnection(BE->GetOutputPort());
 
 		vtkDEL(OA);
 		vtkDEL(BE);
@@ -2648,11 +2648,11 @@ void mafVMEComputeWrapping::GetCylinderCylinderWrap(const int step){
 		Line2->SetPoint2(p3Global[0],p3Global[1],p3Global[2]);
 		Line3->SetPoint1(p4Global[0],p4Global[1],p4Global[2]);
 		Line3->SetPoint2(m_StartPoint[0],m_StartPoint[1],m_StartPoint[2]);
-		m_Goniometer->AddInput(Line1->GetOutput());//end--p1
-		m_Goniometer->AddInput(Line2->GetOutput());//p2--p3
-		m_Goniometer->AddInput(Line3->GetOutput());//p4--start
-		m_Goniometer->AddInput(hCurve12);
-		m_Goniometer->AddInput(hCurve34);
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());//end--p1
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());//p2--p3
+		m_Goniometer->AddInputConnection(Line3->GetOutputPort());//p4--start
+		m_Goniometer->AddInputData(hCurve12);
+		m_Goniometer->AddInputData(hCurve34);
 	}else{//only connect end-p1-p2-start
 		TransformOutputPoint(m_EndPoint);
 		TransformOutputPoint(p1Global);
@@ -2680,9 +2680,9 @@ void mafVMEComputeWrapping::GetCylinderCylinderWrap(const int step){
 		Line2->SetPoint1(p2Global[0],p2Global[1],p2Global[2]);
 		Line2->SetPoint2(m_StartPoint[0],m_StartPoint[1],m_StartPoint[2]);
 
-		m_Goniometer->AddInput(Line1->GetOutput());//end--p1
-		m_Goniometer->AddInput(Line2->GetOutput());//p2--p3
-		m_Goniometer->AddInput(hCurve12);
+		m_Goniometer->AddInputConnection(Line1->GetOutputPort());//end--p1
+		m_Goniometer->AddInputConnection(Line2->GetOutputPort());//p2--p3
+		m_Goniometer->AddInputData(hCurve12);
 
 	}
 		
@@ -2994,7 +2994,7 @@ void mafVMEComputeWrapping::GetSphereCylinderWrap(const int step,double *viaPoin
 		clipData->Update();
 
 		TransformOutputClipData(clipData->GetOutput());
-		m_Goniometer->AddInput(clipData->GetOutput());
+		m_Goniometer->AddInputConnection(clipData->GetOutputPort());
 		clipData->SetOutput(NULL);
 
 		TransformOutputPoint(m_StartPoint);
@@ -3021,11 +3021,11 @@ void mafVMEComputeWrapping::GetSphereCylinderWrap(const int step,double *viaPoin
 		TransformOutput(hcurve);
 
 
-		m_Goniometer->AddInput(OA->GetOutput());
-		m_Goniometer->AddInput(clipData->GetOutput());
-		m_Goniometer->AddInput(BC->GetOutput());
+		m_Goniometer->AddInputConnection(OA->GetOutputPort());
+		m_Goniometer->AddInputConnection(clipData->GetOutputPort());
+		m_Goniometer->AddInputConnection(BC->GetOutputPort());
 
-		m_Goniometer->AddInput(hcurve);//m_Goniometer->AddInput(clipDataCI->GetOutput());
+		m_Goniometer->AddInputData(hcurve);//m_Goniometer->AddInput(clipDataCI->GetOutput());
 
 
 		vtkDEL(OA);
@@ -3110,11 +3110,11 @@ bool mafVMEComputeWrapping::IsLineInterSectObject(mafVME *wrapVME,double *point1
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 
 	transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapVME->GetAbsMatrixPipe()->GetVTKTransform());
-	transformFirstDataInput->SetInput((vtkPolyData *)wrapVME->GetOutput()->GetVTKData());
+	transformFirstDataInput->SetInputData((vtkPolyData *)wrapVME->GetOutput()->GetVTKData());
 	transformFirstDataInput->Update();
 
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+	transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 	transformFirstData->Update(); 
 
 	//-------test intersect sphere---------------------
@@ -3296,11 +3296,11 @@ int mafVMEComputeWrapping::GetViaPoint(double *viaPoint,bool isNearEndflag){
 	if (wrapped_vme1)
 	{
 		transformFirstDataInput->SetTransform((vtkAbstractTransform *)GetWrappedVME1()->GetAbsMatrixPipe()->GetVTKTransform());
-		transformFirstDataInput->SetInput((vtkPolyData *)GetWrappedVME1()->GetOutput()->GetVTKData());
+		transformFirstDataInput->SetInputData((vtkPolyData *)GetWrappedVME1()->GetOutput()->GetVTKData());
 		transformFirstDataInput->Update();
 
 		transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-		transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+		transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 		transformFirstData->Update(); 
 
 		//-------test intersect sphere---------------------
@@ -3330,11 +3330,11 @@ int mafVMEComputeWrapping::GetViaPoint(double *viaPoint,bool isNearEndflag){
 	if (wrapped_vme2)
 	{
 		transformFirstDataInput->SetTransform((vtkAbstractTransform *)GetWrappedVME2()->GetAbsMatrixPipe()->GetVTKTransform());
-		transformFirstDataInput->SetInput((vtkPolyData *)GetWrappedVME2()->GetOutput()->GetVTKData());
+		transformFirstDataInput->SetInputData((vtkPolyData *)GetWrappedVME2()->GetOutput()->GetVTKData());
 		transformFirstDataInput->Update();
 
 		transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-		transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+		transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 		transformFirstData->Update(); 
 
 		locator->SetDataSet(transformFirstData->GetOutput());
@@ -3546,7 +3546,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCylinder(double *center,double *t1,d
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
+	transformFirstData->SetInputData((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
 
 	transformFirstData->Update(); 
 
@@ -3567,7 +3567,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCylinder(double *center,double *t1,d
 	planeCutter->SetOrigin(center);
 	planeCutter->SetNormal(planeSource->GetNormal());
 
-	cutter->SetInput(transformFirstData->GetOutput());
+	cutter->SetInputConnection(transformFirstData->GetOutputPort());
 	cutter->SetCutFunction(planeCutter);
 
 
@@ -3586,7 +3586,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCylinder(double *center,double *t1,d
 	planeClip->SetOrigin(t1);//midPoint
 	planeClip->SetNormal(normal);//normal
 
-	clipData->SetInput(cutter->GetOutput());
+	clipData->SetInputConnection(cutter->GetOutputPort());
 	clipData->SetClipFunction(planeClip);
 	clipData->Update();
 
@@ -3615,7 +3615,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCI(double *bCoord,double *cCoord,vtk
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)GetWrappedVME2()->GetOutput()->GetVTKData());
+	transformFirstData->SetInputData((vtkPolyData *)GetWrappedVME2()->GetOutput()->GetVTKData());
 	transformFirstData->Update(); 
 
 	vtkPlaneSource *planeSource;
@@ -3635,7 +3635,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCI(double *bCoord,double *cCoord,vtk
 	planeCutter->SetOrigin(m_ViaPoint);
 	planeCutter->SetNormal(planeSource->GetNormal());
 
-	cutter->SetInput(transformFirstData->GetOutput());
+	cutter->SetInputConnection(transformFirstData->GetOutputPort());
 	cutter->SetCutFunction(planeCutter);
 
 
@@ -3654,7 +3654,7 @@ double mafVMEComputeWrapping::GetCutPlaneForCI(double *bCoord,double *cCoord,vtk
 	planeClip->SetOrigin(cCoord);//midPoint
 	planeClip->SetNormal(normal);//normal
 
-	clipData->SetInput(cutter->GetOutput());
+	clipData->SetInputConnection(cutter->GetOutputPort());
 	clipData->SetClipFunction(planeClip);
 	clipData->Update();
 
@@ -3682,7 +3682,7 @@ double mafVMEComputeWrapping::GetCutPlane2(double *aPoint,double *bPoint,double 
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform2->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)GetWrappedVME1()->GetOutput()->GetVTKData());
+	transformFirstData->SetInputData((vtkPolyData *)(GetWrappedVME1())->GetOutput()->GetVTKData());
 	transformFirstData->Update(); 
 	vtkPlaneSource *planeSource;
 	vtkPlane *planeCutter;
@@ -3701,7 +3701,7 @@ double mafVMEComputeWrapping::GetCutPlane2(double *aPoint,double *bPoint,double 
 	planeCutter->SetOrigin(mPoint);
 	planeCutter->SetNormal(planeSource->GetNormal());
 
-	cutter->SetInput(transformFirstData->GetOutput());
+	cutter->SetInputConnection(transformFirstData->GetOutputPort());
 	cutter->SetCutFunction(planeCutter);
 
 
@@ -3721,7 +3721,7 @@ double mafVMEComputeWrapping::GetCutPlane2(double *aPoint,double *bPoint,double 
 	planeClip->SetOrigin(midPoint);//midPoint
 	planeClip->SetNormal(normal);//normal
 
-	clipData->SetInput(cutter->GetOutput());
+	clipData->SetInputConnection(cutter->GetOutputPort());
 	clipData->SetClipFunction(planeClip);
 	clipData->Update();
 	//outCurve = m_Clip->GetOutput();
@@ -4652,12 +4652,12 @@ int mafVMEComputeWrapping::PrepareData(int wrappedFlag,double *local_start,doubl
 		// create ordered list of tangent point (2) real algorithm
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstDataInput;
 		transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapped_vme->GetAbsMatrixPipe()->GetVTKTransform());
-		transformFirstDataInput->SetInput((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
+		transformFirstDataInput->SetInputData((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
 		transformFirstDataInput->Update();
 
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 		transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-		transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+		transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 		transformFirstData->Update(); 
 
 		//-------test intersect---------------------
@@ -4722,11 +4722,11 @@ void mafVMEComputeWrapping::SingleWrapAutomatedIOR(mafVME * wrapped_vme,double *
 
 	ET2->SetPoint1(pointTangent2[0],pointTangent2[1],pointTangent2[2]);
 	ET2->SetPoint2(m_EndPoint[0],m_EndPoint[1],m_EndPoint[2]);
-	m_Goniometer->AddInput(ST1->GetOutput());
-	m_Goniometer->AddInput(ET2->GetOutput());
+	m_Goniometer->AddInputConnection(ST1->GetOutputPort());
+	m_Goniometer->AddInputConnection(ET2->GetOutputPort());
 
 	curveLength = GetCutPlaneForCylinder(local_wrapped_center,pointTangent1,pointTangent2,GetWrappedVME1(),clipData);
-	m_Goniometer->AddInput(clipData->GetOutput());
+	m_Goniometer->AddInputConnection(clipData->GetOutputPort());
 	//---------------over--------------------------
 
 	InvokeEvent(this, VME_OUTPUT_DATA_UPDATE);
@@ -4761,12 +4761,12 @@ void mafVMEComputeWrapping::GetTwoTangentPoint(mafVME * wrapped_vme,double *loca
 	// create ordered list of tangent point (2) real algorithm
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstDataInput;
 	transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapped_vme->GetAbsMatrixPipe()->GetVTKTransform());
-	transformFirstDataInput->SetInput((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
+	transformFirstDataInput->SetInputData((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
 	transformFirstDataInput->Update();
 
 	//vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 	transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-	transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+	transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 	transformFirstData->Update(); 
 
 
@@ -4841,8 +4841,8 @@ void mafVMEComputeWrapping::GetTwoTangentPoint(mafVME * wrapped_vme,double *loca
 
 		CE->SetPoint1(m_WrappedVMECenter1[0],m_WrappedVMECenter1[1],m_WrappedVMECenter1[2]);
 		CE->SetPoint2(pointsIntersection2->GetPoint(0)[0],pointsIntersection2->GetPoint(0)[1],pointsIntersection2->GetPoint(0)[2]);
-		m_Goniometer->AddInput(SC->GetOutput());
-		m_Goniometer->AddInput(CE->GetOutput());
+		m_Goniometer->AddInputConnection(SC->GetOutputPort());
+		m_Goniometer->AddInputConnection(CE->GetOutputPort());
 
 		vtkDEL(SC);
 		vtkDEL(CE);
@@ -5982,15 +5982,15 @@ void mafVMEComputeWrapping::InternalUpdateManual()//first
 				m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 				m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
 
-				m_Goniometer->AddInput(m_LineSource->GetOutput());
-				m_Goniometer->AddInput(m_LineSource2->GetOutput());
+				m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+				m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
 
 			}
 
 			for(int j=0; j<m_MiddlePointList.size(); j++)
 			{    
 				m_LineSourceList.push_back(vtkLineSource::New());
-				m_Goniometer->AddInput(m_LineSourceList[m_LineSourceList.size()-1]->GetOutput());
+				m_Goniometer->AddInputConnection(m_LineSourceList[m_LineSourceList.size()-1]->GetOutputPort());
 				if(j==0)
 				{        
 					m_LineSourceList[m_LineSourceList.size()-1]->SetPoint1(local_start[0],local_start[1],local_start[2]);
@@ -6006,7 +6006,7 @@ void mafVMEComputeWrapping::InternalUpdateManual()//first
 				if(j == m_MiddlePointList.size()-1)
 				{
 					m_LineSourceList.push_back(vtkLineSource::New());
-					m_Goniometer->AddInput(m_LineSourceList[m_LineSourceList.size()-1]->GetOutput());
+					m_Goniometer->AddInputConnection(m_LineSourceList[m_LineSourceList.size()-1]->GetOutputPort());
 
 					m_LineSourceList[m_LineSourceList.size()-1]->SetPoint1(localMiddlePointList[j][0],localMiddlePointList[j][1],localMiddlePointList[j][2]);
 					m_LineSourceList[m_LineSourceList.size()-1]->SetPoint2(local_end[0],local_end[1],local_end[2]);
@@ -6116,12 +6116,12 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 		// create ordered list of tangent point (2) real algorithm
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstDataInput;
 		transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapped_vme->GetAbsMatrixPipe()->GetVTKTransform());
-		transformFirstDataInput->SetInput((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
+		transformFirstDataInput->SetInputData((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
 		transformFirstDataInput->Update();
 
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 		transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-		transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+		transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 		transformFirstData->Update(); 
 
 		// here REAL ALGORITHM //////////////////////////////
@@ -6136,7 +6136,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 			//if one point is inside connect start and end
 			m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 			m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
-			m_Goniometer->AddInput(m_LineSource->GetOutput());
+			m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
 
 			m_Distance = sqrt(vtkMath::Distance2BetweenPoints(local_start, local_end));
 
@@ -6179,7 +6179,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 			//if there is no intersection with geometry
 			m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 			m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
-			m_Goniometer->AddInput(m_LineSource->GetOutput());
+			m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
 
 			m_Distance = sqrt(vtkMath::Distance2BetweenPoints(local_start, local_end));
 
@@ -6217,7 +6217,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 				//if there is no intersection with geometry
 				m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 				m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
-				m_Goniometer->AddInput(m_LineSource->GetOutput());
+				m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
 
 				m_Distance = sqrt(vtkMath::Distance2BetweenPoints(local_start, local_end));
 
@@ -6369,7 +6369,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 		m_PlaneCutter->SetNormal(m_PlaneSource->GetNormal());
 
 
-		m_Cutter->SetInput(transformFirstData->GetOutput());
+		m_Cutter->SetInputConnection(transformFirstData->GetOutputPort());
 		m_Cutter->SetCutFunction(m_PlaneCutter);
 
 		double midPoint[3];
@@ -6388,7 +6388,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 		m_PlaneClip->SetNormal(normal);
 
 
-		m_Clip->SetInput(m_Cutter->GetOutput());
+		m_Clip->SetInputConnection(m_Cutter->GetOutputPort());
 		m_Clip->SetClipFunction(m_PlaneClip);
 
 		double clipLength = 0;
@@ -6417,10 +6417,9 @@ void mafVMEComputeWrapping::InternalUpdateAutomated()//second
 		m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 		m_LineSource->SetPoint2(pointTangent1[0],pointTangent1[1],pointTangent1[2]);
 
-		m_Goniometer->AddInput(m_LineSource->GetOutput());
-		m_Goniometer->AddInput(m_LineSource2->GetOutput());
-		//m_Goniometer->AddInput(m_LineSourceMiddle->GetOutput());
-		m_Goniometer->AddInput(m_Clip->GetOutput());
+		m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+		m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
+		m_Goniometer->AddInputConnection(m_Clip->GetOutputPort());
 
 
 		InvokeEvent(this, VME_OUTPUT_DATA_UPDATE);
@@ -6515,12 +6514,12 @@ void mafVMEComputeWrapping::InternalUpdateAutomatedIOR()//third
 		// create ordered list of tangent point (2) real algorithm
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstDataInput;
 		transformFirstDataInput->SetTransform((vtkAbstractTransform *)wrapped_vme->GetAbsMatrixPipe()->GetVTKTransform());
-		transformFirstDataInput->SetInput((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
+		transformFirstDataInput->SetInputData((vtkPolyData *)wrapped_vme->GetOutput()->GetVTKData());
 		transformFirstDataInput->Update();
 
 		vtkMAFSmartPointer<vtkTransformPolyDataFilter> transformFirstData;
 		transformFirstData->SetTransform((vtkAbstractTransform *)m_TmpTransform->GetVTKTransform());
-		transformFirstData->SetInput((vtkPolyData *)transformFirstDataInput->GetOutput());
+		transformFirstData->SetInputConnection(transformFirstDataInput->GetOutputPort());
 		transformFirstData->Update(); 
 
 		// here REAL ALGORITHM //////////////////////////////
@@ -6665,7 +6664,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomatedIOR()//third
 		m_PlaneCutter->SetNormal(m_PlaneSource->GetNormal());
 
 
-		m_Cutter->SetInput(transformFirstData->GetOutput());
+		m_Cutter->SetInputConnection(transformFirstData->GetOutputPort());
 		m_Cutter->SetCutFunction(m_PlaneCutter);
 
 		double midPoint[3];
@@ -6727,7 +6726,7 @@ void mafVMEComputeWrapping::InternalUpdateAutomatedIOR()//third
 		m_PlaneClip->SetNormal(normal);
 
 
-		m_Clip->SetInput(m_Cutter->GetOutput());
+		m_Clip->SetInputConnection(m_Cutter->GetOutputPort());
 		m_Clip->SetClipFunction(m_PlaneClip);
 
 		double clipLength = 0;
@@ -6756,10 +6755,9 @@ void mafVMEComputeWrapping::InternalUpdateAutomatedIOR()//third
 		m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 		m_LineSource->SetPoint2(pointTangent1[0],pointTangent1[1],pointTangent1[2]);
 
-		m_Goniometer->AddInput(m_LineSource->GetOutput());
-		m_Goniometer->AddInput(m_LineSource2->GetOutput());
-		//m_Goniometer->AddInput(m_LineSourceMiddle->GetOutput());
-		m_Goniometer->AddInput(m_Clip->GetOutput());
+		m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+		m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
+		m_Goniometer->AddInputConnection(m_Clip->GetOutputPort());
 
 
 		InvokeEvent(this, VME_OUTPUT_DATA_UPDATE);
@@ -6923,7 +6921,7 @@ void mafVMEComputeWrapping::AvoidWrapping(double *local_start, double *local_end
 	//if there is no intersection with geometry
 	m_LineSource->SetPoint1(local_start[0],local_start[1],local_start[2]);
 	m_LineSource->SetPoint2(local_end[0],local_end[1],local_end[2]);
-	m_Goniometer->AddInput(m_LineSource->GetOutput());
+	m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
 
 	m_Distance = sqrt(vtkMath::Distance2BetweenPoints(local_start, local_end));
 

@@ -95,11 +95,9 @@ int mafVMELandmark::DeepCopy(mafVME *a)
     SetLandmarkVisibility(lm->GetLandmarkVisibility());
 
     mafDataPipeCustom *dpipe = mafDataPipeCustom::SafeDownCast(GetDataPipe());
-    if (dpipe)
-    {
+
+		if (dpipe)
       dpipe->SetInput(m_Polydata);
-      m_Polydata->Update();
-    }
 
     return MAF_OK;
   }  

@@ -258,7 +258,6 @@ int mafVMEPointSet::GetPoint(int idx, double xyz[3],mafTimeStamp t)
 
   if (polydata)
   {
-    polydata->Update();
     ret=this->GetPoint(polydata,idx,xyz);
   }
     
@@ -417,11 +416,8 @@ int mafVMEPointSet::SetData(vtkDataSet *data, mafTimeStamp t, int mode)
 {
   assert(data);
   vtkPolyData *polydata = vtkPolyData::SafeDownCast(data);
-  
-  if (polydata)
-    polydata->Update();
 
-  if (polydata&&polydata->GetPolys()->GetNumberOfCells()==0&& \
+	if (polydata&&polydata->GetPolys()->GetNumberOfCells()==0&& \
     polydata->GetStrips()->GetNumberOfCells()==0&&polydata->GetLines()->GetNumberOfCells()==0)
   {
     return Superclass::SetData(data,t,mode);

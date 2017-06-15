@@ -147,22 +147,6 @@ void mafDataVector::ShallowCopy(mafDataVector *array)
   Modified();
 }
 
-//-------------------------------------------------------------------------
-void mafDataVector::DeepCopyVmeLarge(mafDataVector *o)
-//-------------------------------------------------------------------------
-{
-  RemoveAllItems();
-  Iterator it;
-  for (it=o->Begin();it!=o->End();it++)
-  {
-    mafVMEItem *m=it->second;
-    mafVMEItem *new_item=m->NewInstance();
-    new_item->DeepCopyVmeLarge(m);
-    AppendItem(new_item);
-  }
-  Modified();
-}
-
 //-----------------------------------------------------------------------
 void mafDataVector::SetSingleFileMode(bool mode)
 //-----------------------------------------------------------------------

@@ -86,8 +86,8 @@ mafVMEMeter::mafVMEMeter()
   vtkNEW(m_PolyData);
   
 
-  m_Goniometer->AddInput(m_LineSource->GetOutput());
-  m_Goniometer->AddInput(m_LineSource2->GetOutput());
+  m_Goniometer->AddInputConnection(m_LineSource->GetOutputPort());
+  m_Goniometer->AddInputConnection(m_LineSource2->GetOutputPort());
 
   m_PolyData->DeepCopy(m_Goniometer->GetOutput());
 
@@ -456,7 +456,7 @@ void mafVMEMeter::InternalUpdate()
       s = vtkMath::Dot(v1,v2);
       if(vn1 != 0 && vn2 != 0)
       {
-        m_Angle = acos(s / (vn1 * vn2)) * vtkMath::RadiansToDegrees();
+        m_Angle = vtkMath::DegreesFromRadians(acos(s / (vn1 * vn2)));
         if(GetMeterMeasureType() == mafVMEMeter::RELATIVE_MEASURE)
           m_Angle -= GetMeterAttributes()->m_InitMeasure;
       }
@@ -511,7 +511,6 @@ void mafVMEMeter::InternalUpdate()
 
   m_PolyData->SetPoints(m_Goniometer->GetOutput()->GetPoints());
   m_PolyData->SetLines(cellArray);
-  m_PolyData->Update();
 
 }
 //-----------------------------------------------------------------------
@@ -856,7 +855,7 @@ void mafVMEMeter::OnEvent(mafEventBase *maf_event)
           m_HistogramRWI->SetSize(0,0,width,height);
 
           m_HistogramDialog->SetSize(x_init,y_init,width,height);
-          m_HistogramDialog->Show(FALSE);
+          m_HistogramDialog->Show(false);
         }
         
         GenerateHistogram(m_GenerateHistogram);
@@ -923,7 +922,6 @@ void mafVMEMeter::CreateHistogram()
   if (m_ProbedVME != NULL)
   {
     vtkDataSet *probed_data = m_ProbedVME->GetOutput()->GetVTKData();
-    probed_data->Update();
 		    
     m_PlotActor->SetXRange(0,m_Distance);
     double srY[2];
@@ -940,14 +938,14 @@ void mafVMEMeter::CreateHistogram()
     m_ProbingLine->Update();
 
     vtkMAFSmartPointer<vtkProbeFilter> prober;
-    prober->SetInput(m_ProbingLine->GetOutput());
-    prober->SetSource(probed_data);
+    prober->SetInputConnection(m_ProbingLine->GetOutputPort());
+    prober->SetSourceData(probed_data);
     prober->Update();
 
-    m_PlotActor->RemoveAllInputs();
+    m_PlotActor->RemoveAllDataSetInputConnections();
 
     vtkPolyData *probimg_result = prober->GetPolyDataOutput();
-    m_PlotActor->AddInput(probimg_result);
+    m_PlotActor->AddDataSetInput(probimg_result);
     if(m_HistogramRWI) m_HistogramRWI->m_RwiBase->Render();
   }
 }

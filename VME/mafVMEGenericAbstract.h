@@ -57,11 +57,6 @@ public:
     conversion. */
   virtual int DeepCopy(mafVME *a);
 
-  /**
-    Allow to perform a DeepCopy with data very large.
-    Release memory of the input mafVME. */
-  virtual int DeepCopyVmeLarge(mafVME *a);
-
   /** 
     perform a copy by simply referencing the copied VME's data array. 
     Beware: This can allow to save memory when doing special tasks, but
