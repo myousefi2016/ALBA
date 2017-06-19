@@ -35,6 +35,7 @@
 #include "vtkPointData.h"
 #include "vtkDataSetWriter.h"
 #include "vtkMAFSmartPointer.h"
+#include "vtkDataArray.h"
 
 //----------------------------------------------------------------------------
 mafCxxTypeMacro(mafOpVolumeMirror);
@@ -220,8 +221,6 @@ void mafOpVolumeMirror::Preview()
 	}
 	outScalars->Modified();
 
-	m_OutputImageData->Update();
-	
   ((mafVMEVolumeGray *)m_Input)->SetData(m_OutputImageData,m_Input->GetTimeStamp());
 
   mafEventMacro(mafEvent(this, CAMERA_UPDATE));

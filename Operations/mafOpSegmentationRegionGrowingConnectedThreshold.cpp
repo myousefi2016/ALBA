@@ -80,7 +80,7 @@ mafOpSegmentationRegionGrowingConnectedThreshold::mafOpSegmentationRegionGrowing
   m_NumIter = 5;// this is used in smoothing
   m_TimeStep = 0.0125;// this is used in smoothing
   m_Conductance = 1.0; // this is used in smoothing
-  m_UseSpacing = TRUE;// this is used in smoothing
+  m_UseSpacing = true;// this is used in smoothing
 
   m_Picker = NULL;
   m_OldBehavior = NULL;
@@ -142,7 +142,8 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::OpRun()
 	  m_Sphere->ReparentTo(m_ResampleInput->GetParent());
 
 	  vtkNEW(m_SphereVTK);
-    double bounds[6];m_ResampleInput->GetOutput()->GetBounds(bounds);
+    double bounds[6];
+		m_ResampleInput->GetOutput()->GetBounds(bounds);
 	  m_SphereVTK->SetRadius((bounds[5]-bounds[4])/256);
     mafLogMessage("Sphere radius = %f",(bounds[5]-bounds[4])/256);
 	  m_SphereVTK->Update();
@@ -250,7 +251,7 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::Algorithm()
   
   vtkMAFSmartPointer<vtkImageCast> vtkImageToFloat;
   vtkImageToFloat->SetOutputScalarTypeToFloat ();
-  vtkImageToFloat->SetInput(im);
+  vtkImageToFloat->SetInputData(im);
   vtkImageToFloat->Modified();
   vtkImageToFloat->Update();
 
@@ -275,7 +276,7 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::Algorithm()
   //ConnectedThresholdParams->timeStep = m_TimeStep;
   //ConnectedThresholdParams->conductance = m_Conductance;
 
-  if (m_UseSpacing == TRUE)
+  if (m_UseSpacing == true)
   {
     //ConnectedThresholdParams->useImageSpacing = true;
   } 
@@ -307,11 +308,9 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::Algorithm()
   m_VolumeOut->SetName("Connected Threshold");
 
   vtkImageData *image = ((vtkImageData*)itkTOvtk->GetOutput());
-  image->Update();
-
 
   vtkMAFSmartPointer<vtkImageToStructuredPoints> image_to_sp;
-  image_to_sp->SetInput(image);
+  image_to_sp->SetInputData(image);
   image_to_sp->Update();
   m_VolumeOut->SetData(image_to_sp->GetOutput(),m_ResampleInput->GetTimeStamp());
 
@@ -372,7 +371,6 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::OnEvent(mafEventBase *maf
         mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetBounds(b);
 
         vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
-        sp->Update();
 
         sp->GetSpacing(spacing);
         sp->GetOrigin(origin);
@@ -410,7 +408,6 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::OnEvent(mafEventBase *maf
 					GetLogicManager()->CameraUpdate();
 
           vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
-          sp->Update();
 
           int id;
           id = e->GetArg();
@@ -508,7 +505,6 @@ int mafOpSegmentationRegionGrowingConnectedThreshold::CreateResample()
     m_Resample->Resample();
      
     mafVME *Output = m_Resample->GetOutput();
-    Output->GetOutput()->GetVTKData()->Update();
     m_ResampleInput=mafVMEVolumeGray::SafeDownCast(Output);
     m_ResampleInput->Update();
 

@@ -780,14 +780,13 @@ void mafOpImporterC3D::ImportPlatform(mafOpImporterC3D::_InternalC3DData &intDat
 			pointsForce->InsertPoint(1, intData.m_ForceX, intData.m_ForceY, intData.m_ForceZ);
 			cellArrayForce->Reset();
 			cellArrayForce->InsertNextCell(2, pointIdForce);
-			vectorForce->Update();
 
 			vtkMAFSmartPointer<vtkTransformPolyDataFilter> transfVecForce;
 			vtkMAFSmartPointer<vtkTransform> transfForce;
 
 			transfForce->Translate(intData.m_CopX, intData.m_CopY, z); //z = 0
 			transfVecForce->SetTransform(transfForce);
-			transfVecForce->SetInput(vectorForce);
+			transfVecForce->SetInputData(vectorForce);
 			transfVecForce->Update();
 
 
@@ -795,7 +794,6 @@ void mafOpImporterC3D::ImportPlatform(mafOpImporterC3D::_InternalC3DData &intDat
 
 			intData.m_ForceList[currentPlatform]->Modified();
 			intData.m_ForceList[currentPlatform]->Update();
-			intData.m_ForceList[currentPlatform]->GetOutput()->GetVTKData()->Update();
 
 			//moment
 
@@ -806,14 +804,13 @@ void mafOpImporterC3D::ImportPlatform(mafOpImporterC3D::_InternalC3DData &intDat
 
 			cellArrayMoment->Reset();
 			cellArrayMoment->InsertNextCell(2, pointIdMoment);
-			vectorMoment->Update();
 
 			vtkMAFSmartPointer<vtkTransformPolyDataFilter> transfVecMoment;
 			vtkMAFSmartPointer<vtkTransform> transfMoment;
 
 			transfMoment->Translate(intData.m_CopX, intData.m_CopY, z); //z = 0
 			transfVecMoment->SetTransform(transfMoment);
-			transfVecMoment->SetInput(vectorMoment);
+			transfVecMoment->SetInputData(vectorMoment);
 			transfVecMoment->Update();
 
 
@@ -821,7 +818,6 @@ void mafOpImporterC3D::ImportPlatform(mafOpImporterC3D::_InternalC3DData &intDat
 
 			intData.m_MomentList[currentPlatform]->Modified();
 			intData.m_MomentList[currentPlatform]->Update();
-			intData.m_MomentList[currentPlatform]->GetOutput()->GetVTKData()->Update();
 
 			progessHelper.UpdateProgressBar(((currentSample + 1 + (currentPlatform * intData.m_NumSamples)) * 100 / (intData.m_NumSamples * intData.m_NumPlatforms)));
 		}

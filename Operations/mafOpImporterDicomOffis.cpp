@@ -394,7 +394,6 @@ int mafOpImporterDicomOffis::BuildVMEVolumeGrayOutput()
 
 		vtkRectilinearGrid *rg_out;
 		rg_out = accumulate->GetOutput();
-		rg_out->Update();
 
 		//Set data at specific time
 		VolumeOut->SetDataByDetaching(rg_out, triggerTime);
@@ -609,13 +608,12 @@ void mafOpImporterDicomOffis::CreateSliceVTKPipeline()
 	vtkNEW(m_SliceActor);
 
 	m_SliceTexture->InterpolateOn();
-	m_SliceMapper->SetInput(m_SlicePlane->GetOutput());
+	m_SliceMapper->SetInputConnection(m_SlicePlane->GetOutputPort());
 	m_SliceActor->SetMapper(m_SliceMapper);
 	m_SliceActor->SetTexture(m_SliceTexture); 
 	
 	// text stuff
 	m_TextMapper = vtkTextMapper::New();
-	m_TextMapper->GetTextProperty()->AntiAliasingOn();
 
 	m_TextActor = vtkActor2D::New();
 	m_TextActor->GetProperty()->SetColor(0.8,0,0);
@@ -879,26 +877,22 @@ vtkImageData * mafOpImporterDicomOffis::CreateImageData(DcmDataset * dicomDatase
 	vtkImageData *imageData;
 	vtkNEW(imageData);
 	imageData->SetDimensions(dcmRows, dcmColumns, 1);
-	imageData->SetWholeExtent(0, dcmColumns - 1, 0, dcmRows - 1, 0, 0);
-	imageData->SetUpdateExtent(0, dcmColumns - 1, 0, dcmRows - 1, 0, 0);
-	imageData->SetExtent(imageData->GetUpdateExtent());
-	imageData->SetNumberOfScalarComponents(1);
+	imageData->SetExtent(imageData->GetExtent());
 	imageData->SetSpacing(dcmPixelSpacing);
 	imageData->SetOrigin(dcmImagePositionPatient);
 
 	//Setting Scalars Type and name
 	if (dcmBitPerPixel == 8 && minValue >= VTK_UNSIGNED_CHAR_MIN && maxValue <= VTK_UNSIGNED_CHAR_MAX)
-		imageData->SetScalarType(VTK_UNSIGNED_CHAR);
+		imageData->AllocateScalars(VTK_UNSIGNED_CHAR,1);
 	else if (dcmBitPerPixel == 8 && minValue >= VTK_CHAR_MIN && maxValue <= VTK_CHAR_MAX)
-		imageData->SetScalarType(VTK_CHAR);
+		imageData->AllocateScalars(VTK_CHAR,1);
 	else if (minValue >= VTK_UNSIGNED_SHORT_MIN && maxValue <= VTK_UNSIGNED_SHORT_MAX)
-		imageData->SetScalarType(VTK_UNSIGNED_SHORT);
+		imageData->AllocateScalars(VTK_UNSIGNED_SHORT,1);
 	else if (minValue >= VTK_SHORT_MIN && maxValue <= VTK_SHORT_MAX)
-		imageData->SetScalarType(VTK_SHORT);
+		imageData->AllocateScalars(VTK_SHORT,1);
 	else
-		imageData->SetScalarType(VTK_FLOAT);
+		imageData->AllocateScalars(VTK_FLOAT,1);
 
-	imageData->AllocateScalars();
 	imageData->GetPointData()->GetScalars()->SetName("Scalars");
 	
 	vtkDataArray *scalars = imageData->GetPointData()->GetScalars();
@@ -918,8 +912,6 @@ vtkImageData * mafOpImporterDicomOffis::CreateImageData(DcmDataset * dicomDatase
 			scalars->SetTuple(i, &value);
 		}
 	}
-
-	imageData->Update();
 
 	return imageData;
 }
@@ -1003,7 +995,6 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 	mafDicomSlice* slice = m_SelectedSeries->GetSlice(imageID);
 	assert(slice);
 
-	slice->GetVTKImageData()->Update();
 	slice->GetVTKImageData()->GetBounds(m_SliceBounds);
 	
 	double origin[3], orientation[6];
@@ -1015,7 +1006,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 	m_TextMapper->Modified();
 
 	slice->GetVTKImageData()->GetScalarRange(range);
-	m_SliceTexture->SetInput(slice->GetVTKImageData());
+	m_SliceTexture->SetInputData(slice->GetVTKImageData());
 	m_SliceTexture->Modified();
 		
 	//Invert gray scale for Photometric Interpretation MONOCHROME1
@@ -1035,10 +1026,7 @@ void mafOpImporterDicomOffis::GenerateSliceTexture(int imageID)
 void mafOpImporterDicomOffis::Crop(vtkImageData *slice)
 {
 	if (m_CropEnabled)
-	{
-		slice->SetUpdateExtent(m_CropExtent);
-		slice->Crop();
-	}
+		slice->Crop(m_CropExtent);
 }
 
 //----------------------------------------------------------------------------
@@ -1172,7 +1160,6 @@ void mafOpImporterDicomOffis::GetDicomRange(double *range)
 		slice = m_SelectedSeries->GetSlice(imageID);
 		assert(slice);
 
-		slice->GetVTKImageData()->Update();
 		slice->GetVTKImageData()->GetScalarRange(sliceRange);
 
 		if (sliceRange[0]<range[0]) range[0]=sliceRange[0];

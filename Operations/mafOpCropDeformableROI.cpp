@@ -213,7 +213,7 @@ void mafOpCropDeformableROI::Algorithm(mafVME *vme)
 			// to delete
 			transformFilter = vtkTransformFilter::New();
 			
-			transformFilter->SetInput(maskPolydata);
+			transformFilter->SetInputData(maskPolydata);
 			transformFilter->SetTransform(transform);
 			transformFilter->Update();
 
@@ -223,7 +223,7 @@ void mafOpCropDeformableROI::Algorithm(mafVME *vme)
 
 		vtkNEW(m_MaskPolydataFilter);
 		mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(m_Input);
-		m_MaskPolydataFilter->SetInput(volume->GetOutput()->GetVTKData());
+		m_MaskPolydataFilter->SetInputData(volume->GetOutput()->GetVTKData());
 		m_MaskPolydataFilter->SetDistance(m_Distance);
 		m_MaskPolydataFilter->SetFillValue(m_FillValue);
 		m_MaskPolydataFilter->SetInsideOut(m_InsideOut);
@@ -232,9 +232,9 @@ void mafOpCropDeformableROI::Algorithm(mafVME *vme)
 		m_MaskPolydataFilter->Update();
 
 		if(vtkRectilinearGrid::SafeDownCast(m_MaskPolydataFilter->GetOutput()))
-			m_ResultVme->SetData(((vtkRectilinearGrid*)m_MaskPolydataFilter->GetOutput()),m_Input->GetTimeStamp());
+			m_ResultVme->SetData(((vtkRectilinearGrid*)m_MaskPolydataFilter->GetOutput()),((mafVME*)m_Input)->GetTimeStamp());
 		else if(vtkImageData::SafeDownCast(m_MaskPolydataFilter->GetOutput()))
-			m_ResultVme->SetData(((vtkImageData*)m_MaskPolydataFilter->GetOutput()),m_Input->GetTimeStamp());
+			m_ResultVme->SetData(((vtkImageData*)m_MaskPolydataFilter->GetOutput()),((mafVME*)m_Input)->GetTimeStamp());
 	
 		m_ResultVme->Modified();
 		m_ResultVme->Update();

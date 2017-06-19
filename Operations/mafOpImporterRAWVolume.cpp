@@ -134,7 +134,7 @@ void mafOpImporterRAWVolume::OpRun()
 	vtkNEW(m_LookupTable);
 
   vtkMAFSmartPointer<vtkTexture> texture;
-	texture->SetInput(m_Reader->GetOutput());
+	texture->SetInputConnection(m_Reader->GetOutputPort());
 	texture->InterpolateOn();
   texture->MapColorScalarsThroughLookupTableOn();
   texture->SetLookupTable((vtkLookupTable *)m_LookupTable);
@@ -142,7 +142,7 @@ void mafOpImporterRAWVolume::OpRun()
 	vtkMAFSmartPointer<vtkPlaneSource> plane;
 
 	vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-	mapper ->SetInput(plane->GetOutput());
+	mapper ->SetInputConnection(plane->GetOutputPort());
 
 	vtkNEW(m_Actor);
 	m_Actor->SetMapper(mapper);
@@ -473,14 +473,14 @@ bool mafOpImporterRAWVolume::Import()
 	reader->Update();
 
   vtkMAFSmartPointer<vtkImageToStructuredPoints> image_to_sp;
-  image_to_sp->SetInput(reader->GetOutput());
+  image_to_sp->SetInputConnection(reader->GetOutputPort());
   image_to_sp->Update();
 
 	if(m_BuildRectilinearGrid)
 	{
 		// conversion from vtkStructuredPoints to vtkRectilinearGrid
 
-		vtkMAFSmartPointer<vtkStructuredPoints> structured_data = image_to_sp->GetOutput();
+		vtkMAFSmartPointer<vtkStructuredPoints> structured_data = (vtkStructuredPoints *)image_to_sp->GetOutput();
 		vtkMAFSmartPointer<vtkPointData> data = structured_data->GetPointData();
 		vtkMAFSmartPointer<vtkDataArray> scalars = data->GetScalars();
 

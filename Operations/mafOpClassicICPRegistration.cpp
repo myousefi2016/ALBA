@@ -183,13 +183,13 @@ void mafOpClassicICPRegistration::OpDo()
 	
 	mafMatrix *inputMatr = m_Input->GetOutput()->GetAbsMatrix();
 	inputTra->SetMatrix(inputMatr->GetVTKMatrix());
-	inputTraFilter->SetInput((vtkPolyData *)m_Input->GetOutput()->GetVTKData());
+	inputTraFilter->SetInputData((vtkPolyData *)m_Input->GetOutput()->GetVTKData());
 	inputTraFilter->SetTransform(inputTra);
 	inputTraFilter->Update();
 	
 	mafMatrix *targetMatr = m_Target->GetOutput()->GetAbsMatrix();
 	targetTra->SetMatrix(targetMatr->GetVTKMatrix());
-	targetTraFilter->SetInput((vtkPolyData *)m_Target->GetOutput()->GetVTKData());
+	targetTraFilter->SetInputData((vtkPolyData *)m_Target->GetOutput()->GetVTKData());
 	targetTraFilter->SetTransform(targetTra);
 	targetTraFilter->Update();
 

@@ -110,7 +110,6 @@ void mafOpCrop::OpRun()
   {
 		vtkNEW(m_InputSP);
 		m_InputSP->DeepCopy(vtkStructuredPoints::SafeDownCast(volume->GetOutput()->GetVTKData()));
-    m_InputSP->Update();
 		m_InputSP->GetBounds(m_InputBounds);	
 		if(!m_TestMode)
 			m_GizmoROI->SetBounds(m_InputBounds);
@@ -124,7 +123,6 @@ void mafOpCrop::OpRun()
 	{
 		vtkNEW(m_InputRG);
     m_InputRG->DeepCopy(vtkRectilinearGrid::SafeDownCast(volume->GetOutput()->GetVTKData()));		
-    m_InputRG->Update();
 		m_InputRG->GetBounds(m_InputBounds);
 		if(!m_TestMode)
 			m_GizmoROI->SetBounds(m_InputBounds);
@@ -187,7 +185,7 @@ void mafOpCrop::Crop()
 			boundsIndexArray[2*numArray + 1] = maxId; 
 		}
 		vtkExtractRectilinearGrid *extractRG = vtkExtractRectilinearGrid::New();
-		extractRG->SetInput(rgData);
+		extractRG->SetInputData(rgData);
 		extractRG->SetVOI(boundsIndexArray); 
 		extractRG->Update();  
 			
@@ -287,8 +285,8 @@ void mafOpCrop::Crop()
 		}
     
 		vtkMAFSmartPointer<vtkProbeFilter> probeFilter;
-		probeFilter->SetInput(v_esp);
-		probeFilter->SetSource(m_InputSP);
+		probeFilter->SetInputData(v_esp);
+		probeFilter->SetSourceData(m_InputSP);
 		probeFilter->Update();
 
 		vtkNEW(m_OutputSP);

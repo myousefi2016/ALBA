@@ -438,14 +438,13 @@ void mafOpExtractGeometry::VolumeSmoothing()
     im->SetSpacing(spacing[0],spacing[1],0.0);
     im->GetPointData()->AddArray(sliceScalars);
     im->GetPointData()->SetActiveScalars("SCALARS");
-    im->SetScalarTypeToUnsignedChar();
-    im->Update();
+    im->AllocateScalars(VTK_UNSIGNED_CHAR,1);
 
     vtkMAFSmartPointer<vtkImageData> filteredImage;
 
     vtkMAFSmartPointer<vtkImageCast> vtkImageToUnsignedChar;
     vtkImageToUnsignedChar->SetOutputScalarTypeToUnsignedChar();
-    vtkImageToUnsignedChar->SetInput(im);
+    vtkImageToUnsignedChar->SetInputData(im);
     vtkImageToUnsignedChar->Modified();
     vtkImageToUnsignedChar->Update();
 
@@ -472,7 +471,6 @@ void mafOpExtractGeometry::VolumeSmoothing()
     itkTOvtk->SetInput( smoothingFilter->GetOutput() ); 
 
     filteredImage = ((vtkImageData*)itkTOvtk->GetOutput());
-    filteredImage->Update();
 
     vtkDataArray *binaryScalars = filteredImage->GetPointData()->GetScalars();
 
@@ -487,11 +485,9 @@ void mafOpExtractGeometry::VolumeSmoothing()
 
   vtkMAFSmartPointer<vtkImageData> newImageData;
   newImageData->CopyStructure(m_OriginalData);
-  newImageData->Update();
   newImageData->GetPointData()->AddArray(smoothedVolumeScalars);
   newImageData->GetPointData()->SetActiveScalars("SCALARS");
-  newImageData->SetScalarTypeToUnsignedChar();
-  newImageData->Update();
+  newImageData->AllocateScalars(VTK_UNSIGNED_CHAR,1);
 
   m_ResampledVolume->SetData(newImageData,m_ResampledVolume->GetTimeStamp());
 }
@@ -502,7 +498,7 @@ void mafOpExtractGeometry::SurfaceCleaning()
 {
   vtkMAFSmartPointer<vtkCleanPolyData>clearFilter;
 
-  clearFilter->SetInput(m_SurfaceData);
+  clearFilter->SetInputData(m_SurfaceData);
   clearFilter->ConvertLinesToPointsOff();
   clearFilter->ConvertPolysToLinesOff();
   clearFilter->ConvertStripsToPolysOff();
@@ -517,13 +513,13 @@ void mafOpExtractGeometry::SurfaceDecimation()
 {
   // triangle
   vtkMAFSmartPointer<vtkTriangleFilter> triangleFilter;
-  triangleFilter->SetInput(m_SurfaceData);
+  triangleFilter->SetInputData(m_SurfaceData);
   triangleFilter->Update();
   m_SurfaceData->DeepCopy(triangleFilter->GetOutput());
 
   //decimate
   vtkMAFSmartPointer<vtkDecimatePro> decimate;
-  decimate->SetInput(m_SurfaceData);
+  decimate->SetInputData(m_SurfaceData);
   decimate->SetPreserveTopology(1); 
   int m_Reduction = 50;
   decimate->SetTargetReduction(m_Reduction/100.0);
@@ -540,7 +536,7 @@ void mafOpExtractGeometry::SurfaceSmoothing()
 {
 
   vtkMAFSmartPointer<vtkSmoothPolyDataFilter> smoothFilter;
-  smoothFilter->SetInput(m_SurfaceData);
+  smoothFilter->SetInputData(m_SurfaceData);
   smoothFilter->SetNumberOfIterations(m_SmoothSurfaceIterationsNumber);
   smoothFilter->FeatureEdgeSmoothingOn();
   smoothFilter->Update();
@@ -553,7 +549,7 @@ void mafOpExtractGeometry::SurfaceConnectivity()
 //----------------------------------------------------------------------------
 {
   vtkMAFSmartPointer<vtkPolyDataConnectivityFilter> connectivityFilter;
-  connectivityFilter->SetInput(m_SurfaceData);
+  connectivityFilter->SetInputData(m_SurfaceData);
   connectivityFilter->Update();
 
   m_SurfaceData->DeepCopy((vtkPolyData*)(connectivityFilter->GetOutput()));
@@ -599,7 +595,6 @@ int mafOpExtractGeometry::GenerateIsosurface()
 
     m_ResampledVolume->Update();
     m_OriginalData = vtkImageData::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampledVolume)->GetOutput()->GetVTKData());
-    m_OriginalData->Update();
 
     m_VolumeInput = m_ResampledVolume;
     m_VolumeInput->Update();
@@ -641,14 +636,13 @@ int mafOpExtractGeometry::GenerateIsosurface()
 
   if(m_Connectivity)
     SurfaceConnectivity();
-  m_SurfaceData->Update();
 
   wxBusyInfo wait(_("Extracting Isosurface: please wait ..."));
 
   if (m_ProcessingType==0)
   {
     vtkMAFSmartPointer<vtkMAFFixTopology> fixTopologyFilter;
-    fixTopologyFilter->SetInput(m_SurfaceData);
+    fixTopologyFilter->SetInputData(m_SurfaceData);
     fixTopologyFilter->Update();
     m_SurfaceData->DeepCopy(fixTopologyFilter->GetOutput());
   }
@@ -661,8 +655,6 @@ int mafOpExtractGeometry::GenerateIsosurface()
   {
     // vtkCleanPolyData
     SurfaceCleaning();
-
-    m_SurfaceData->Update();
   }
 
   if(m_SmoothSurface)
@@ -670,14 +662,12 @@ int mafOpExtractGeometry::GenerateIsosurface()
     //vtkSmoothPolyDataFilter
     SurfaceSmoothing();
 
-    m_SurfaceData->Update();
   }
 
   if(m_DecimateSurface)
   {
     // (vtkTriangleFilter) + vtkDecimate 
     SurfaceDecimation();
-    m_SurfaceData->Update();
   }
 
 

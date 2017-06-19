@@ -33,7 +33,6 @@ using namespace std;
 
 #include "vtkCell.h"
 #include "vtkIdList.h"
-#include "vtkIdType.h"
 #include "vtkPoints.h"
 #include "vtkTriangle.h"
 #include "vtkDataSet.h"
@@ -360,10 +359,9 @@ int mafOpComputeInertialTensor::ComputeLocalInertialTensor(mafVME* node, int cur
 	if (surf->GetOutput() == NULL || surf->GetOutput()->GetVTKData() == NULL)
 		return OP_RUN_CANCEL;
 	surf->GetOutput()->Update();
-	surf->GetOutput()->GetVTKData()->Update();
 	
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> tranformFilter;
-  tranformFilter->SetInput((vtkPolyData *)surf->GetOutput()->GetVTKData());
+  tranformFilter->SetInputData((vtkPolyData *)surf->GetOutput()->GetVTKData());
   tranformFilter->SetTransform(surf->GetOutput()->GetTransform()->GetVTKTransform());
   tranformFilter->Update();
 

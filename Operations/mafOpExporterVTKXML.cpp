@@ -62,7 +62,7 @@ mafOp(label)
 	m_ABSMatrixFlag = 0;
 
 	m_FileDir = mafGetLastUserFolder().c_str();
-  m_ForceUnsignedShortScalarOutputForStructuredPoints = FALSE;
+  m_ForceUnsignedShortScalarOutputForStructuredPoints = false;
 }
 //----------------------------------------------------------------------------
 mafOpExporterVTKXML::~mafOpExporterVTKXML()
@@ -227,23 +227,23 @@ void mafOpExporterVTKXML::SaveVTKData()
 		if (m_Input->IsA("mafVMEMesh"))
 		{
 			vtkMAFSmartPointer<vtkTransformFilter> v_tpdf;
-			v_tpdf->SetInput((vtkUnstructuredGrid *)m_Input->GetOutput()->GetVTKData());
+			v_tpdf->SetInputData((vtkUnstructuredGrid *)m_Input->GetOutput()->GetVTKData());
 			v_tpdf->SetTransform(tra);
 			v_tpdf->Update();
-			writer->SetInput(v_tpdf->GetOutput());
+			writer->SetInputConnection(v_tpdf->GetOutputPort());
 		}
 		else
 		{
 			vtkMAFSmartPointer<vtkTransformPolyDataFilter> v_tpdf;
-			v_tpdf->SetInput((vtkPolyData *)m_Input->GetOutput()->GetVTKData());
+			v_tpdf->SetInputData((vtkPolyData *)m_Input->GetOutput()->GetVTKData());
 			v_tpdf->SetTransform(tra);
 			v_tpdf->Update();
-			writer->SetInput(v_tpdf->GetOutput());
+			writer->SetInputConnection(v_tpdf->GetOutputPort());
 		}
 	}
 	else
 	{
-		writer->SetInput(writerInput);
+		writer->SetInputData(writerInput);
 	}
 
   if (this->m_Binary)

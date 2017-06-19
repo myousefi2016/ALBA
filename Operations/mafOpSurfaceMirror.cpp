@@ -142,7 +142,7 @@ void mafOpSurfaceMirror::OpRun()
 	}
 
   m_MirrorFilter = vtkMAFPolyDataMirror::New();
-  m_MirrorFilter->SetInput(m_InputPolydata);
+  m_MirrorFilter->SetInputData(m_InputPolydata);
 
   Preview();
 }
@@ -221,7 +221,6 @@ void mafOpSurfaceMirror::Preview()
   
 
   m_OutputPolydata->DeepCopy(m_MirrorFilter->GetOutput());
-  m_OutputPolydata->Update();
   ((mafVMESurface *)m_Input)->SetData(m_OutputPolydata,m_Input->GetTimeStamp());
 
 	GetLogicManager()->CameraUpdate();

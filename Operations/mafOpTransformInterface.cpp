@@ -184,7 +184,7 @@ void mafOpTransformInterface::OpDo()
       pd->DeepCopy(currentPD);
 
       vtkMAFSmartPointer<vtkTransformPolyDataFilter> tPDF;
-      tPDF->SetInput(pd);
+      tPDF->SetInputData(pd);
       tPDF->SetTransform(scaleTransform);
 
       // progress bar stuff
@@ -208,7 +208,7 @@ void mafOpTransformInterface::OpDo()
       ug->DeepCopy(currentUG);
 
       vtkMAFSmartPointer<vtkTransformFilter> tf;
-      tf->SetInput(ug);
+      tf->SetInputData(ug);
       tf->SetTransform(scaleTransform);
 
       // progress bar stuff

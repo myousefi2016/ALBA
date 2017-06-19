@@ -40,8 +40,9 @@
 #include <vnl/vnl_matrix.h>
 
 #include "mafString.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
-vtkCxxRevisionMacro(mafParabolicMeshToLinearMeshFilter, "$Revision: 1.4 $");
 vtkStandardNewMacro(mafParabolicMeshToLinearMeshFilter);
 
 mafParabolicMeshToLinearMeshFilter::mafParabolicMeshToLinearMeshFilter()
@@ -58,19 +59,21 @@ mafParabolicMeshToLinearMeshFilter::~mafParabolicMeshToLinearMeshFilter()
 //#include <atlbase.h>
 //#include "G:/Programs/Libraries/BSGenLib/BSGenLib/Include/BSGenLib.h"
 
-void mafParabolicMeshToLinearMeshFilter::Execute()
+int mafParabolicMeshToLinearMeshFilter::RequestData( vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
-//  PROFILE_THIS_FUNCTION();
+	// get the info objects
+	vtkInformation *inInfo = inputVector[0]->GetInformationObject(0);
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkUnstructuredGrid  *input = vtkUnstructuredGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkUnstructuredGrid *output = vtkUnstructuredGrid::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
   int nCells;
   int numPointsNew;
   int oldCellType, newCellType;
   int numPointsPerCellNew;
   
-  // 
-  vtkUnstructuredGrid *input = this->GetInput();
-  vtkUnstructuredGrid *output = this->GetOutput();
-
   nCells = input->GetNumberOfCells();
   
   // since the mesh is not hybrid I can ask for the first element to determine the element type
@@ -100,7 +103,7 @@ void mafParabolicMeshToLinearMeshFilter::Execute()
       output->DeepCopy(input);
 
       mafLogMessage("Mesh is already linear or made of unsupported type elements! Bypassing the filter");
-      return;
+      return 0;
     }
   }  
 
@@ -217,6 +220,8 @@ void mafParabolicMeshToLinearMeshFilter::Execute()
     output->GetFieldData()->DeepCopy(inFD);
   
     output->Squeeze();     
+
+		return 1;
 }
 
 void mafParabolicMeshToLinearMeshFilter::PrintSelf(ostream& os, vtkIndent indent)

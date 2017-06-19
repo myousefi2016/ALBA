@@ -800,7 +800,6 @@ void mafOpRegisterClusters::OpUndo()
 				points->InsertNextPoint(coords);
 			}
 			data->SetPoints(points);
-			data->Update();
 						
 			matrix->Identity();
 			m_Registered->SetPose(*matrix,cTime);
@@ -825,7 +824,6 @@ void mafOpRegisterClusters::OpUndo()
 			points->InsertNextPoint(coords);
 		}
 		data->SetPoints(points);
-		data->Update();
 		
 		matrix->Identity();
 		m_Registered->SetMatrix(*matrix);

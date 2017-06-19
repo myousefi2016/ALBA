@@ -225,7 +225,6 @@ void mafOpExporterWrappedMeter::ExportWrappedMeterCoordinates(int index, int ind
 
 	mafVMEComputeWrapping *vmeWrappedMeter =  mafVMEComputeWrapping::SafeDownCast(m_CurrentVme);
 	vmeWrappedMeter->GetOutput()->GetVTKData()->Modified();
-	vmeWrappedMeter->GetOutput()->GetVTKData()->Update();
 	vmeWrappedMeter->Modified();
 	vmeWrappedMeter->Update();
 	int size;
@@ -489,7 +488,7 @@ void mafOpExporterWrappedMeter::Test()
 
 
 	wrappedMeter->ReparentTo(cloud);
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
+
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 

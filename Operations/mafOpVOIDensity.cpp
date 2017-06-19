@@ -169,7 +169,7 @@ void mafOpVOIDensity::OnEvent(mafEventBase *maf_event)
 					return;
 				m_Surface->Update();
 				vtkMAFSmartPointer<vtkFeatureEdges> FE;
-				FE->SetInput((vtkPolyData *)(m_Surface->GetOutput()->GetVTKData()));
+				FE->SetInputData((vtkPolyData *)(m_Surface->GetOutput()->GetVTKData()));
 				FE->SetFeatureAngle(30);
 				FE->SetBoundaryEdges(1);
 				FE->SetColoring(0);
@@ -226,7 +226,7 @@ void mafOpVOIDensity::ExtractVolumeScalars()
 
 	vtkMAFSmartPointer<vtkTransformPolyDataFilter> TransformDataClipper;
   TransformDataClipper->SetTransform(transform);
-  TransformDataClipper->SetInput(polydata);
+  TransformDataClipper->SetInputData(polydata);
   TransformDataClipper->Update();
 
 	vtkMAFSmartPointer<vtkMAFImplicitPolyData> ImplicitSurface;
@@ -237,7 +237,6 @@ void mafOpVOIDensity::ExtractVolumeScalars()
 	ImplicitBox->Modified();
 
   vtkMAFSmartPointer<vtkDataSet> VolumeData = m_Input->GetOutput()->GetVTKData();
-  VolumeData->Update();
 	NumberVoxels = VolumeData->GetNumberOfPoints();
   
 	for (int voxel=0; voxel<NumberVoxels; voxel++)
@@ -251,7 +250,7 @@ void mafOpVOIDensity::ExtractVolumeScalars()
       {
         //store the corresponding point's scalar value
         PointId = VolumeData->FindPoint(Point);
-        InsideScalar = VolumeData->GetPointData()->GetTuple(PointId)[0];
+        InsideScalar = VolumeData->GetPointData()->GetScalars()->GetTuple(PointId)[0];
         SumScalars += InsideScalar;
         m_MaxScalar = MAX(InsideScalar,m_MaxScalar);
         m_MinScalar = MIN(InsideScalar,m_MinScalar);

@@ -150,7 +150,7 @@ void mafOpInteractionDebugger::OnEvent(mafEventBase *maf_event)
         {
           OnChooseConstrainVme(vme);
 
-          assert(TRUE);
+          assert(true);
         }
       }
       break;
@@ -274,7 +274,6 @@ void mafOpInteractionDebugger::BuildVMEPolyline( vtkPoints * in_points, mafVMEPo
   in_data->SetPoints(in_points);
   in_data->SetLines(in_cells);
   in_data->Modified();
-  in_data->Update();
 
 
   // try to set this data to the volume
@@ -342,7 +341,6 @@ void mafOpInteractionDebugger::AddmafVMEPolylineGraphTestConstrain1ToTree()
   mafNEW(polyline);
   
   polyline->SetData(pd, -1);
-  polyline->GetOutput()->GetVTKData()->Update();
   polyline->Update();
 
   polyline->SetName("test graph");

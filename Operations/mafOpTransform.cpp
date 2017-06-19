@@ -175,14 +175,14 @@ void mafOpTransform::OpRun()
 	if (m_Input->IsA("mafVMELandmark"))
 	{
 		vtkMAFSmartPointer<vtkMAFLandmarkCloudOutlineCornerFilter> corner;
-		corner->SetInput(m_Input->GetOutput()->GetVTKData());
+		corner->SetInputData(m_Input->GetOutput()->GetVTKData());
 		corner->Update();
 		m_TransformVME->SetData(corner->GetOutput(), m_CurrentTime);
 	}
 	else
 	{
 		vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-		corner->SetInput(m_Input->GetOutput()->GetVTKData());
+		corner->SetInputData(m_Input->GetOutput()->GetVTKData());
 		corner->Update();
 		m_TransformVME->SetData(corner->GetOutput(), m_CurrentTime);
 	}

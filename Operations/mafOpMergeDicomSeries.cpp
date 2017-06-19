@@ -26,7 +26,6 @@
 
 #include "mafOpMergeDicomSeries.h"
 #include "mafGUIDicomSettings.h"
-#include "vtkDicomUnPacker.h"
 
 //BES: 4.7.2009 - VS 2008 cannot compile it due to the following error
 //C:\MAF\Medical\Libraries\Offis\Sources\dcmtk-3.5.4\config\include\dcmtk/config/cfwin32.h(362) : error C2371: 'ssize_t' : redefinition; different basic types

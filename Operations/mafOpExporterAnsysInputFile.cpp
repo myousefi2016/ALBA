@@ -94,7 +94,6 @@ int mafOpExporterAnsysInputFile::Write()
 
   input->Update();
   input->GetUnstructuredGridOutput()->Update();
-  input->GetUnstructuredGridOutput()->GetVTKData()->Update();
 
 	m_ProgressHelper = new mafProgressBarHelper(m_Listener);
 	m_ProgressHelper->SetTextMode(m_TestMode);
@@ -204,7 +203,7 @@ int mafOpExporterAnsysInputFile::WriteNodesFile(FILE *file )
     inUGDeepCopy = vtkUnstructuredGrid::New();
     inUGDeepCopy->DeepCopy(inputUGrid);
 
-    transformFilter->SetInput(inUGDeepCopy);
+    transformFilter->SetInputData(inUGDeepCopy);
     transformFilter->SetTransform(transform);
     transformFilter->Update();
 
