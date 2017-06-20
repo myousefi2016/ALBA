@@ -188,7 +188,9 @@ ENDIF (MAF_USE_ITK)
 SET(PROJECT_LIBS "mafVME" "mafInteraction")
 
 IF (MAF_USE_VTK)
-  SET(PROJECT_LIBS ${PROJECT_LIBS} mafCommon vtkCommon vtkMAF)
+  find_package(VTK 7.1 REQUIRED NO_MODULE)
+	include(${VTK_USE_FILE})
+  SET(PROJECT_LIBS ${PROJECT_LIBS} ${VTK_LIBRARIES} mafCommon vtkMAF)
 ENDIF (MAF_USE_VTK)
 
 # Create the library.
