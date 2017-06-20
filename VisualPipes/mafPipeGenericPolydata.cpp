@@ -112,7 +112,6 @@ void mafPipeGenericPolydata::Create(mafSceneNode *n)
 void mafPipeGenericPolydata::ExecutePipe()
 {
   m_Vme->Update();
-  m_Vme->GetOutput()->GetVTKData()->Update();
 
 
 	mafVMEOutput *vmeOutput = m_Vme->GetOutput();
@@ -120,7 +119,6 @@ void mafPipeGenericPolydata::ExecutePipe()
 	vmeOutput->Update();
 	vtkDataSet *dataSet = vtkDataSet::SafeDownCast(vmeOutput->GetVTKData());
 	assert(dataSet);
-	dataSet->Update();
 
 	vtkNEW(m_Mapper);
 	m_Mapper->ImmediateModeRenderingOn();
@@ -130,18 +128,18 @@ void mafPipeGenericPolydata::ExecutePipe()
 	vtkPolyData *polyData=GetInputAsPolyData();
 
 	vtkNEW(m_NormalsFilter);
-	m_NormalsFilter->SetInput(polyData);
+	m_NormalsFilter->SetInputData(polyData);
 	m_NormalsFilter->AutoOrientNormalsOn();
 	m_NormalsFilter->SetComputePointNormals(!m_ShowCellsNormals);
 	m_NormalsFilter->SetComputeCellNormals(m_ShowCellsNormals);
-	m_Mapper->SetInput(m_NormalsFilter->GetOutput());	
+	m_Mapper->SetInputConnection(m_NormalsFilter->GetOutputPort());	
 
 
   m_Mapper->Update();
 	m_Mapper->SetResolveCoincidentTopologyToPolygonOffset();
 
   vtkNEW(m_MapperWired);
-  m_MapperWired->SetInput(polyData);
+	m_MapperWired->SetInputData(polyData);
   m_MapperWired->SetScalarRange(0,0);
   m_MapperWired->ScalarVisibilityOff();
 
@@ -174,10 +172,10 @@ void mafPipeGenericPolydata::ExecutePipe()
   
   // selection highlight
   vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(polyData);  
+	corner->SetInputData(polyData);  
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
   vtkMAFSmartPointer<vtkProperty> corner_props;
 	corner_props->SetColor(1,1,1);

@@ -60,7 +60,6 @@
 mafCxxTypeMacro(mafPipeVolumeOrthoSlice);
 
 #include "mafMemDbg.h"
-#include "vtkDataSetToDataSetFilter.h"
 
 //----------------------------------------------------------------------------
 mafPipeVolumeOrthoSlice::mafPipeVolumeOrthoSlice():mafPipeSlice()
@@ -134,7 +133,6 @@ void mafPipeVolumeOrthoSlice::Create(mafSceneNode *n)
   vtkDataSet *data = m_Vme->GetOutput()->GetVTKData();
   double b[6];
   m_Vme->GetOutput()->Update();
-  data->Update();
   m_Vme->GetOutput()->GetVMELocalBounds(b);
 
   mmaVolumeMaterial *material = m_VolumeOutput->GetMaterial();
@@ -166,10 +164,10 @@ void mafPipeVolumeOrthoSlice::Create(mafSceneNode *n)
 	CreateTICKs();
 
   vtkMAFSmartPointer<vtkOutlineCornerFilter> corner;
-	corner->SetInput(data);
+	corner->SetInputData(data);
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-	corner_mapper->SetInput(corner->GetOutput());
+	corner_mapper->SetInputConnection(corner->GetOutputPort());
 
 	vtkNEW(m_VolumeBoxActor);
 	m_VolumeBoxActor->SetMapper(corner_mapper);
@@ -189,7 +187,7 @@ void mafPipeVolumeOrthoSlice::Create(mafSceneNode *n)
 		vtkNEW(m_Box);
 		m_Box->SetBounds(bounds);
 		vtkNEW(m_Mapper);
-		m_Mapper->SetInput(m_Box->GetOutput());
+		m_Mapper->SetInputConnection(m_Box->GetOutputPort());
 		vtkNEW(m_Actor);
 		m_Actor->SetMapper(m_Mapper);
 		m_AssemblyUsed->AddPart(m_Actor);
@@ -221,7 +219,6 @@ void mafPipeVolumeOrthoSlice::CreateTICKs()
 	int	counter = 0;
 
 	vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-	vtk_data->Update();
 
 	double bounds[6];
 	vtk_data->GetBounds(bounds);
@@ -292,7 +289,7 @@ void mafPipeVolumeOrthoSlice::CreateTICKs()
 
 	//Add tick to scene
 	vtkPolyDataMapper *TickMapper = vtkPolyDataMapper::New();
-	TickMapper->SetInput(CTLinesPD);
+	TickMapper->SetInputData(CTLinesPD);
 
 	vtkProperty	*TickProperty = vtkProperty::New();
 	TickProperty->SetColor(1,0,0);
@@ -322,19 +319,18 @@ void mafPipeVolumeOrthoSlice::CreateSlice(int direction)
 {
 	double bounds[6];
 	vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-  vtk_data->Update();
  
 	vtkNEW(m_Slicer[direction]);
 	m_Slicer[direction]->SetSclicingMode(direction);
 	m_Slicer[direction]->SetPlaneOrigin(m_Origin);
-	m_Slicer[direction]->SetInput(vtk_data);
+	m_Slicer[direction]->SetInputData(vtk_data);
   
 
 	vtkNEW(m_Texture[direction]);
 	m_Texture[direction]->RepeatOff();
 	m_Texture[direction]->SetInterpolate(m_Interpolate);
 	m_Texture[direction]->SetQualityTo32Bit();
-	m_Texture[direction]->SetInput((vtkImageData*)m_Slicer[direction]->GetOutput());
+	m_Texture[direction]->SetInputConnection(m_Slicer[direction]->GetOutputPort());
   m_Texture[direction]->SetLookupTable(m_ColorLUT);
   m_Texture[direction]->MapColorScalarsThroughLookupTableOn();
 
@@ -371,7 +367,7 @@ void mafPipeVolumeOrthoSlice::CreateSlice(int direction)
 	}
 
 	vtkNEW(m_SliceMapper[direction]);
-	m_SliceMapper[direction]->SetInput(m_SlicePlane[direction]->GetOutput());
+	m_SliceMapper[direction]->SetInputConnection(m_SlicePlane[direction]->GetOutputPort());
 	m_SliceMapper[direction]->ScalarVisibilityOff();
 
 	vtkNEW(m_SliceActor[direction]);

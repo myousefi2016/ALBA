@@ -29,6 +29,7 @@
 #include "vtkPointData.h"
 
 #include "mafDbg.h"
+#include "vtkFloatArray.h"
 
 //----------------------------------------------------------------------------
 mafCxxAbstractTypeMacro(mafPipeTensorField);
@@ -79,7 +80,6 @@ void mafPipeTensorField::Create(mafSceneNode *n)
 //------------------------------------------------------------------------
 {
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
-  ds->Update(); //force its update
 }
 
 //------------------------------------------------------------------------

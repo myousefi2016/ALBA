@@ -29,6 +29,7 @@
 #include "vtkPointData.h"
 
 #include "mafDbg.h"
+#include "vtkFloatArray.h"
 
 //----------------------------------------------------------------------------
 mafCxxAbstractTypeMacro(mafPipeVectorField);
@@ -80,7 +81,6 @@ void mafPipeVectorField::Create(mafSceneNode *n)
   //The default implementation is to update VME
   
   vtkDataSet* ds = m_Vme->GetOutput()->GetVTKData();
-  ds->Update(); //force its update
 }
 
 //------------------------------------------------------------------------

@@ -1131,7 +1131,7 @@ void mafPipeTensorFieldGlyphs::DoFilter(int mode ,double *rangeValue,double *ran
 								}
 								if (DoCondition(mode,tensorScale,pointScale,rangeValue,rangeValue2))//in range
 								{
-									pCoord = allPoints->GetTuple(idxPoints);
+									pCoord = allPoints->GetScalars()->GetTuple(idxPoints);
 
 									pCoord[0] = origin[0] + ix * spacing[0];
 									pCoord[1] = origin[1] + iy * spacing[1];
@@ -1171,8 +1171,7 @@ void mafPipeTensorFieldGlyphs::DoFilter(int mode ,double *rangeValue,double *ran
 		m_Output->GetPointData()->SetVectors(vectors) ;
 		m_Output->GetPointData()->SetTensors(tensors);
 			
-		m_Output->Update();
-		m_Glyphs->SetInput(m_Output);
+		m_Glyphs->SetInputData(m_Output);
 		m_Glyphs->Update();
 		//outputFile2<< "  sr[0]="<<sr[0]<<"  sr[1]="<<sr[1]<<std::endl;//if debug
 		//outputFile2.close();//if debug
@@ -1392,7 +1391,7 @@ void mafPipeTensorFieldGlyphs::OnEvent(mafEventBase *maf_event)
 		{
 			if (m_ShowAll)
 			{
-				m_Glyphs->SetInput(m_Vme->GetOutput()->GetVTKData());
+				m_Glyphs->SetInputData(m_Vme->GetOutput()->GetVTKData());
 			}
 		}else if (e->GetId()==ID_CHOOSE_ANDOR)
 		{
@@ -1452,14 +1451,14 @@ void mafPipeTensorFieldGlyphs::OnEvent(mafEventBase *maf_event)
   m_GlyphArrow->SetTipLength(0.5);     
 
   m_Glyphs = vtkTensorGlyph::New();
-  m_Glyphs->SetInput(m_Vme->GetOutput()->GetVTKData());  
+  m_Glyphs->SetInputData(m_Vme->GetOutput()->GetVTKData());  
   m_Glyphs->SetScaleFactor(1.0);
   m_Glyphs->ClampScalingOff();
   m_Glyphs->SymmetricOff();  
  
 
   m_GlyphsMapper = vtkPolyDataMapper::New();
-  m_GlyphsMapper->SetInput(m_Glyphs->GetOutput());
+  m_GlyphsMapper->SetInputConnection(m_Glyphs->GetOutputPort());
   m_GlyphsMapper->ImmediateModeRenderingOn();
   m_GlyphsMapper->SetScalarModeToUsePointData();
   m_GlyphsMapper->SetColorModeToMapScalars();
@@ -1499,7 +1498,7 @@ void mafPipeTensorFieldGlyphs::OnEvent(mafEventBase *maf_event)
   if (m_GlyphType == GLYPH_AXES)
   {
 	  //m_GlyphAxes
-	  m_Glyphs->SetSource(m_GlyphAxes->GetOutput());
+	  m_Glyphs->SetSourceConnection(m_GlyphAxes->GetOutputPort());
 	  m_Glyphs->ThreeGlyphsOff();
   }
   else if (m_GlyphType == GLYPH_ELLIPSOID)
@@ -1508,7 +1507,7 @@ void mafPipeTensorFieldGlyphs::OnEvent(mafEventBase *maf_event)
     m_GlyphEllipsoid->SetPhiResolution(m_GlyphRes);
     m_GlyphEllipsoid->SetThetaResolution(m_GlyphRes);
 
-    m_Glyphs->SetSource(m_GlyphEllipsoid->GetOutput());
+    m_Glyphs->SetSourceConnection(m_GlyphEllipsoid->GetOutputPort());
     m_Glyphs->ThreeGlyphsOff();
 	 
   }  
@@ -1520,7 +1519,7 @@ void mafPipeTensorFieldGlyphs::OnEvent(mafEventBase *maf_event)
     m_GlyphArrow->SetTipRadius(m_GlyphRadius);    
     m_GlyphArrow->SetTipResolution(m_GlyphRes);
     
-    m_Glyphs->SetSource(m_GlyphArrow->GetOutput());
+    m_Glyphs->SetSourceConnection(m_GlyphArrow->GetOutputPort());
     m_Glyphs->ThreeGlyphsOn();
   }
   

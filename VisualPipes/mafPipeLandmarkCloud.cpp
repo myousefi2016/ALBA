@@ -69,7 +69,7 @@ mafPipeLandmarkCloud::mafPipeLandmarkCloud()
 	m_CloundCornerFilter = NULL;
 
   m_Radius = 1.0;
-  m_ScalarVisibility = FALSE;
+  m_ScalarVisibility = false;
   m_RenderingDisplayListFlag = 0;
 }
 //----------------------------------------------------------------------------
@@ -213,11 +213,11 @@ void mafPipeLandmarkCloud::CreateCloudPipe(vtkDataSet *data, double radius, doub
   m_SphereSource->Update();
 
   vtkNEW(m_Normals);
-  m_Normals->SetInput(m_SphereSource->GetOutput());
+  m_Normals->SetInputConnection(m_SphereSource->GetOutputPort());
   m_Normals->Update();
 
   vtkNEW(m_Glyph);
-  m_Glyph->SetInput(data);
+  m_Glyph->SetInputData(data);
   m_Glyph->SetSource(m_Normals->GetOutput());
   m_Glyph->OrientOff();
   m_Glyph->ScalingOff();
@@ -225,7 +225,7 @@ void mafPipeLandmarkCloud::CreateCloudPipe(vtkDataSet *data, double radius, doub
   m_Glyph->Update();
 
   vtkNEW(m_CloudMapper);
-  m_CloudMapper->SetInput(m_Glyph->GetOutput());
+  m_CloudMapper->SetInputConnection(m_Glyph->GetOutputPort());
   m_CloudMapper->ScalarVisibilityOff();
   if(m_Vme->IsAnimated())				
     m_CloudMapper->ImmediateModeRenderingOn();	 //avoid Display-Lists for animated items.
@@ -255,11 +255,11 @@ void mafPipeLandmarkCloud::CreateCloudPipe(vtkDataSet *data, double radius, doub
 
   // selection highlight
   vtkNEW(m_CloundCornerFilter);
-  m_CloundCornerFilter->SetInput(data);
+  m_CloundCornerFilter->SetInputData(data);
 	m_CloundCornerFilter->SetCloudRadius(radius);
 
   vtkMAFSmartPointer<vtkPolyDataMapper> corner_mapper;
-  corner_mapper->SetInput(m_CloundCornerFilter->GetOutput());
+  corner_mapper->SetInputConnection(m_CloundCornerFilter->GetOutputPort());
 
   vtkMAFSmartPointer<vtkProperty> corner_props;
   corner_props->SetColor(1,1,1);

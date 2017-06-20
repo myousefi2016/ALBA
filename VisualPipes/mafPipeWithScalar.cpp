@@ -212,7 +212,6 @@ void mafPipeWithScalar::OnEvent(mafEventBase *maf_event)
 void mafPipeWithScalar::UpdateActiveScalarsInVMEDataVectorItems()
 {
   
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->Update();
   
   if(m_ActiveScalarType == POINT_TYPE && m_PointCellArraySeparation > 0)
@@ -226,7 +225,6 @@ void mafPipeWithScalar::UpdateActiveScalarsInVMEDataVectorItems()
     m_Vme->GetOutput()->GetVTKData()->GetCellData()->GetScalars()->Modified();
   }
   m_Vme->Modified();
-  m_Vme->GetOutput()->GetVTKData()->Update();
   m_Vme->Update();
   
 	if(mafVMEGeneric::SafeDownCast(m_Vme) && ((mafVMEGeneric *)m_Vme)->GetDataVector())
@@ -275,8 +273,6 @@ void mafPipeWithScalar::UpdateActiveScalarsInVMEDataVectorItems()
 					outputVTK->GetCellData()->GetScalars()->Modified();
 				}
 				outputVTK->Modified();
-				outputVTK->Update();
-      
 			}
 		}
 	}
@@ -289,7 +285,6 @@ void mafPipeWithScalar::UpdateActiveScalarsInVMEDataVectorItems()
 void mafPipeWithScalar::UpdateVisualizationWithNewSelectedScalars()
 {
   vtkDataSet *data = vtkDataSet::SafeDownCast(m_Vme->GetOutput()->GetVTKData());
-  data->Update();
   double sr[2]={0,1};
   if(m_ActiveScalarType == POINT_TYPE && m_PointCellArraySeparation > 0)
     data->GetPointData()->GetScalars()->GetRange(sr);

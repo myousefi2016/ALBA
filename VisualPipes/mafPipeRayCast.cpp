@@ -120,7 +120,6 @@ void mafPipeRayCast::Create(mafSceneNode *n)
   //to have a single call to that function
   //if the volume is already loaded m_Onloading changes simple do nothing
   m_OnLoading=true;
-  dataset->Update();
   m_OnLoading=false;
 
 
@@ -135,10 +134,10 @@ void mafPipeRayCast::Create(mafSceneNode *n)
     
   // selection box
   vtkNEW(m_OutlineBox);
-  m_OutlineBox->SetInput(dataset);
+  m_OutlineBox->SetInputData(dataset);
 
   vtkNEW(m_OutlineMapper);
-  m_OutlineMapper->SetInput(m_OutlineBox->GetOutput());
+  m_OutlineMapper->SetInputConnection(m_OutlineBox->GetOutputPort());
 
   vtkNEW(m_OutlineActor);
   m_OutlineActor->SetMapper(m_OutlineMapper);
@@ -332,7 +331,6 @@ void mafPipeRayCast::UpdateFromData()
   vtkMAFVolumeResample		 *resampleFilter;	
 
   vtkDataSet *dataset = m_Vme->GetOutput()->GetVTKData();
-  dataset->Update();
 
   int resampled=false;
 
@@ -385,9 +383,8 @@ void mafPipeRayCast::UpdateFromData()
 
     volume->SetSpacing(volSpacing);
     //output scalars are of the same type of input
-    volume->SetScalarType(rgrid->GetPointData()->GetScalars()->GetDataType());
+    volume->AllocateScalars(rgrid->GetPointData()->GetScalars()->GetDataType(),rgrid->GetPointData()->GetScalars()->GetNumberOfComponents());
     volume->SetExtent(output_extent);
-    volume->SetUpdateExtent(output_extent);
     volume->SetOrigin(bounds[0],bounds[2],bounds[4]);
 
     double sr[2];
@@ -399,7 +396,7 @@ void mafPipeRayCast::UpdateFromData()
     //Setting Filter parameters 
     resampleFilter->SetWindow(w);
     resampleFilter->SetLevel(l);
-    resampleFilter->SetInput(rgrid);
+    resampleFilter->SetInputData(rgrid);
     resampleFilter->SetOutput(volume);
     resampleFilter->AutoSpacingOff();
     resampleFilter->Update();
@@ -428,7 +425,7 @@ void mafPipeRayCast::UpdateFromData()
   //scalars shifted by - lower range 
   if (m_RayCastCleaner==NULL)
     vtkNEW(m_RayCastCleaner);
-  m_RayCastCleaner->SetInput(volume);
+  m_RayCastCleaner->SetInputData(volume);
   m_RayCastCleaner->SetBloodLowerThreshold(m_BloodLowerThreshold);
   m_RayCastCleaner->SetBloodUpperThreshold(m_BloodUpperThreshold);
   m_RayCastCleaner->SetBoneLowerThreshold(m_BoneLowerThreshold);
@@ -460,7 +457,7 @@ void mafPipeRayCast::UpdateFromData()
   vtkMAFSmartPointer<vtkVolumeRayCastCompositeFunction> compositeFunction;
   compositeFunction->SetCompositeMethodToClassifyFirst();
   m_RayCastMapper->SetVolumeRayCastFunction(compositeFunction);
-  m_RayCastMapper->SetInput(m_RayCastCleaner->GetOutput());
+  m_RayCastMapper->SetInputConnection(m_RayCastCleaner->GetOutputPort());
   
   //Create a empty volume to manage the mapper
   if (m_Volume==NULL)
