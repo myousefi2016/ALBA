@@ -121,7 +121,6 @@ void mafDataPipeInterpolatorVTKTest::TestGetVTKData()
 
   vtkDataSet *dataset;
   dataset = di->GetVTKData();
-  dataset->Update();
 
   double numberOfPoints = dataset->GetNumberOfPoints();
 
@@ -178,7 +177,6 @@ void mafDataPipeInterpolatorVTKTest::TestUpdate()
   
   vtkDataSet *dataset;
   dataset = di->GetVTKData();
-  dataset->Update();
 
   di->Update();
 

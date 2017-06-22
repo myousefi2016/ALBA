@@ -34,6 +34,8 @@
 #include "mafVMESurface.h"
 #include "vtkCubeSource.h"
 #include "vtkPolyData.h"
+#include "vtkDataSet.h"
+#include "vtkDataSetReader.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(result);
 
@@ -65,7 +67,7 @@ void vtkMAFDataPipeTest::TestSetNthInput()
 	dp->SetNthInput(0, poly0);
 	dp->SetNthInput(1, poly1);
 
-	result = 2 == dp->GetNumberOfInputs();
+	result = 2 == dp->GetNumberOfInputPorts();
 	TEST_RESULT;
 	poly0->Delete();
 	poly1->Delete();
@@ -100,8 +102,9 @@ void vtkMAFDataPipeTest::TestGetMTime()
 //----------------------------------------------------------------------------
 {
 	vtkMAFSmartPointer<vtkMAFDataPipe> dp;
-	
+	vtkMAFSmartPointer<vtkDataSet> ds;
 	//m_DataPipe == NULL
+	dp->SetNthInput(0,ds);
 	long time1, time2;
 	time1 = dp->GetMTime();
 	dp->Modified();
@@ -130,9 +133,21 @@ void vtkMAFDataPipeTest::TestGetInformationTime()
 {
 	vtkMAFSmartPointer<vtkMAFDataPipe> dp;
   long time1, time2;
+	
+	// set filename
+	std::ostringstream fname ;
+	fname << MAF_DATA_ROOT << "/VTK_Volumes/CropTestVolumeSP" << ".vtk" << std::ends ;
+
+	// read the data
+	vtkDataSetReader *reader = vtkDataSetReader::New();
+	reader->SetFileName(fname.str().c_str());
+	reader->Update();
+	
 	time1 = dp->GetInformationTime();
+	dp->SetInputConnection(reader->GetOutputPort());
 	dp->UpdateInformation();
 	time2 = dp->GetInformationTime();
+	vtkDataSet *output=dp->GetOutput();
 
 	result = time2 > time1;
 	TEST_RESULT;
