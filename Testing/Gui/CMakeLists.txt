@@ -4,7 +4,7 @@ PROJECT (Gui_TEST)
 IF(MAF_BUILD_MAFDLL)
   LINK_LIBRARIES(mafDLL)
 ELSE(MAF_BUILD_MAFDLL)
-  LINK_LIBRARIES(mafTests mafCore mafGui mafService)
+  LINK_LIBRARIES(mafTests mafCore mafVME mafCommon mafInteraction mafGui mafService)
 ENDIF (MAF_BUILD_MAFDLL)
 
 #-----------------------------------------------------------------------------
