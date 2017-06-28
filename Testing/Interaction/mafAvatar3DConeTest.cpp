@@ -106,7 +106,7 @@ void mafAvatar3DConeTest::TestPick()
   disk->SetRadialResolution(80);
   disk->Update();
   vtkMAFSmartPointer<vtkPolyDataMapper> mapper;
-  mapper->SetInput(disk->GetOutput());
+  mapper->SetInputConnection(disk->GetOutputPort());
   vtkMAFSmartPointer<vtkActor> actor;
   actor->SetMapper(mapper);
   actor->SetPosition(0,0,0);

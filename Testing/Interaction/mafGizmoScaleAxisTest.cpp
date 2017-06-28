@@ -89,9 +89,10 @@ void mafGizmoScaleAxisTest::CreateTestData()
   axes->SetScaleFactor(2.5);
   
   vtkMAFSmartPointer<vtkTubeFilter> tube;
-  tube->SetInput(axes->GetOutput());
+  tube->SetInputConnection(axes->GetOutputPort());
   tube->SetRadius(0.5);
   tube->SetNumberOfSides(20);
+  tube->Update();
   
   m_GizmoInputSurface->SetData(tube->GetOutput(),0.0,mafVMEGeneric::MAF_VME_REFERENCE_DATA);
   
@@ -251,7 +252,7 @@ void mafGizmoScaleAxisTest::RenderData( vtkDataSet *data )
 {
   vtkDataSetMapper *mapper = vtkDataSetMapper::New();
   mapper->ScalarVisibilityOn();
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
 
   vtkActor *actor = vtkActor::New();
   actor->SetMapper(mapper);
