@@ -147,7 +147,7 @@ void vtkMAFVolumeTextureMapper2DTest::TestPipeExecution()
   volume->PickableOff();
 
   m_Renderer->AddVolume(volume);
-  //m_RenderWindow->Render();
+	m_Renderer->ResetCamera(volume->GetBounds());
 
   vtkCamera *camera = m_Renderer->GetActiveCamera();
   camera->Azimuth(60);
