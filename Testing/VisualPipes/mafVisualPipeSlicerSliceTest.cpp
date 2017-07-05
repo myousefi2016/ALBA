@@ -83,7 +83,6 @@ void mafVisualPipeSlicerSliceTest::TestPipeExecution()
 	importer->OpRun();
 
   mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->ReparentTo(root);
 	volume->Update();
 

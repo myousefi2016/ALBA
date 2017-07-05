@@ -99,7 +99,6 @@ void mafPipeSurfaceSliceTest::TestCloudPipeExecution()
   ldm->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
 	ldm->ShowAllLandmarks();
 
-  ldm->GetOutput()->GetVTKData()->Update();
   ldm->GetOutput()->Update();
   ldm->Update();
 
@@ -174,7 +173,6 @@ void mafPipeSurfaceSliceTest::TestSurfacePipeExecution()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
@@ -261,7 +259,6 @@ void mafPipeSurfaceSliceTest::TestSurfacePipeCreation()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;
@@ -307,7 +304,6 @@ void mafPipeSurfaceSliceTest::TestSetGetThickness()
 
   mafSmartPointer<mafVMESurface> surface;
   surface->SetData(sphere->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->GetOutput()->Update();
   surface->GetMaterial();
   surface->GetMaterial()->m_MaterialType = mmaMaterial::USE_LOOKUPTABLE;

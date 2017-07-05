@@ -108,7 +108,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -190,7 +189,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution()
 			COMPARE_IMAGES("TestPipeExecution", 3 * direction + i);
     }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
 		sceneNode->DeletePipe();
   }
@@ -217,7 +216,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetSliceOpacity()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -307,7 +305,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetSliceOpacity()
 			COMPARE_IMAGES("TestPipeExecution_SetSliceOpacity", ID_TEST_PIPEEXECUTION_SLICEOPACITY + 3 * direction + i);
     }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
 		sceneNode->DeletePipe();
   }
@@ -334,7 +332,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetLutRange()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -425,7 +422,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetLutRange()
 			COMPARE_IMAGES("TestPipeExecution_SetLutRange", ID_TEST_PIPEEXECUTION_LUTRANGE + 3 * direction + i);
     }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
 		sceneNode->DeletePipe();
   }
@@ -451,7 +448,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetColorLookupTable()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -539,7 +535,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_SetColorLookupTable()
 			COMPARE_IMAGES("TestPipeExecution_SetColorLookupTable", ID_TEST_PIPEEXECUTION_COLORLOOKUPTABLE + 3 * direction + i);
     }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
     vtkDEL(lut);
 		sceneNode->DeletePipe();
@@ -566,7 +562,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_TicksOnOff()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -637,7 +632,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_TicksOnOff()
 			COMPARE_IMAGES("TestPipeExecution_TicksOnOff", ID_TEST_PIPEEXECUTION_TICKS + showticks * 3 + i);
     }
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
 		sceneNode->DeletePipe();
   }  
@@ -664,7 +659,6 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_Arbitrary()
 	mafVMEVolumeGray *volumeInput;
 	mafNEW(volumeInput);
 	volumeInput->SetData((vtkImageData*)importer->GetOutput(), 0.0);
-	volumeInput->GetOutput()->GetVTKData()->Update();
 	volumeInput->GetOutput()->Update();
 	volumeInput->Update();
 
@@ -721,7 +715,7 @@ void mafPipeVolumeArbSliceTest::TestPipeExecution_Arbitrary()
 
 	COMPARE_IMAGES("TestPipeExecution_Arbitrary", ID_TEST_PIPEEXECUTION_TICKS + 1);
 
-	m_Renderer->RemoveAllProps();
+	m_Renderer->RemoveAllViewProps();
 	vtkDEL(actorList);
 	sceneNode->DeletePipe();
 

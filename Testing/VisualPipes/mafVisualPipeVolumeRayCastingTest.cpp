@@ -88,7 +88,6 @@ void mafVisualPipeVolumeRayCastingTest::TestPipeExecution()
   mafVMEVolumeGray *volume;
   mafNEW(volume);
   volume->SetData((vtkImageData*)importer->GetOutput(),0.0);
-  volume->GetOutput()->GetVTKData()->Update();
   volume->GetOutput()->Update();
   volume->Update();
 

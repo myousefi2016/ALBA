@@ -89,7 +89,6 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
   volumeInput->SetData((vtkStructuredPoints*)Importer->GetOutput(),0.0);
-  volumeInput->GetOutput()->GetVTKData()->Update();
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -132,7 +131,7 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
 
 		COMPARE_IMAGES("TestPipeExecution", testNum);
 
-    m_Renderer->RemoveAllProps();
+    m_Renderer->RemoveAllViewProps();
     vtkDEL(actorList);
 		sceneNode->DeletePipe();
 
@@ -159,7 +158,6 @@ void mafPipeVolumeProjectedTest::TestProjectionRange()
 	mafVMEVolumeGray *volumeInput;
 	mafNEW(volumeInput);
 	volumeInput->SetData((vtkStructuredPoints*)Importer->GetOutput(), 0.0);
-	volumeInput->GetOutput()->GetVTKData()->Update();
 	volumeInput->GetOutput()->Update();
 	volumeInput->Update();
 	
@@ -212,7 +210,7 @@ void mafPipeVolumeProjectedTest::TestProjectionRange()
 
 		COMPARE_IMAGES("TestProjectionRange", testNum);
 
-		m_Renderer->RemoveAllProps();
+		m_Renderer->RemoveAllViewProps();
 		vtkDEL(actorList);
 		sceneNode->DeletePipe();
 

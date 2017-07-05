@@ -92,13 +92,11 @@ void mafPipeWrappedMeterTest::TestPipeExecution()
   ////// Create support VMEs ////////////////////
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);	
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 	
@@ -112,7 +110,6 @@ void mafPipeWrappedMeterTest::TestPipeExecution()
   meter->SetMeterLink("StartVME",vmeParametricSurfaceSTART);
   meter->SetMeterLink("EndVME1",vmeParametricSurfaceEND1);
   meter->ReparentTo(storage->GetRoot());
-  meter->GetOutput()->GetVTKData()->Update();
   meter->Modified();
   meter->Update();
 

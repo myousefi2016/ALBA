@@ -136,13 +136,13 @@ void mafPipePolylineTest::TestPipeExecution()
 		break;
 		case TEST_POLYLINE_SPLINE_MODE:
 		{
-			pipePolyline->SetSplineMode(TRUE);
+			pipePolyline->SetSplineMode(true);
 			pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
 		}
 		break;
 		case TEST_TUBE:
 		{
-			pipePolyline->SetSplineMode(FALSE);
+			pipePolyline->SetSplineMode(false);
 			pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
 			pipePolyline->SetRepresentation(mafPipePolyline::TUBES);
 			pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_POLYLINE_REPRESENTATION));
@@ -150,7 +150,7 @@ void mafPipePolylineTest::TestPipeExecution()
 		break;
 		case TEST_TUBE_SPLINE_MODE:
 		{
-			pipePolyline->SetSplineMode(TRUE);
+			pipePolyline->SetSplineMode(true);
 			pipePolyline->OnEvent(&mafEvent(this, mafPipePolyline::ID_SPLINE));
 		}
 		break;

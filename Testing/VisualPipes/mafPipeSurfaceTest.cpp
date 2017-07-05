@@ -87,9 +87,9 @@ void mafPipeSurfaceTest::BeforeTest()
 void mafPipeSurfaceTest::AfterTest()
 //----------------------------------------------------------------------------
 {
-  vtkDEL(m_Renderer);
+  //vtkDEL(m_Renderer);
   vtkDEL(m_RenderWindow);
-  vtkDEL(m_RenderWindowInteractor);
+  //vtkDEL(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
 void mafPipeSurfaceTest::TestPipeExecution()
@@ -171,7 +171,7 @@ void mafPipeSurfaceTest::TestPipeExecution()
    
 		actorList->InitTraversal();
 		vtkProp *actor = actorList->GetNextProp();
-		m_Renderer->RemoveAllProps();
+		m_Renderer->RemoveAllViewProps();
 		while(actor)
 		{   
 			m_Renderer->AddActor(actor);

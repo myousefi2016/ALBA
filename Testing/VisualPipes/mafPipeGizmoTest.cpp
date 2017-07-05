@@ -96,8 +96,8 @@ void mafPipeGizmoTest::TestPipeExecution()
   handler->Update();
 
   vtkAppendPolyData *append = vtkAppendPolyData::New();
-  append->AddInput(cube->GetOutput());
-  append->AddInput(handler->GetOutput());
+  append->AddInputConnection(cube->GetOutputPort());
+  append->AddInputConnection(handler->GetOutputPort());
   append->Update();
 
   vtkTransform *transform = vtkTransform::New(); 
@@ -105,7 +105,7 @@ void mafPipeGizmoTest::TestPipeExecution()
   transform->Update();
 
   vtkTransformPolyDataFilter *tpdf = vtkTransformPolyDataFilter::New();
-  tpdf->SetInput(append->GetOutput());
+  tpdf->SetInputConnection(append->GetOutputPort());
   tpdf->SetTransform(transform);
   tpdf->Update();
 

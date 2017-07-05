@@ -78,9 +78,9 @@ void mafPipeMeshTest::BeforeTest()
 void mafPipeMeshTest::AfterTest()
 //----------------------------------------------------------------------------
 {
-  vtkDEL(m_Renderer);
+//  vtkDEL(m_Renderer);
   vtkDEL(m_RenderWindow);
-  vtkDEL(m_RenderWindowInteractor);
+//  vtkDEL(m_RenderWindowInteractor);
 }
 //----------------------------------------------------------------------------
 void mafPipeMeshTest::TestPipeExecution()

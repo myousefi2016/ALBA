@@ -85,7 +85,6 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
   cloud->AppendLandmark(30.0,0.0,0.0,"third");
   cloud->AppendLandmark(40.0,0.0,0.0,"fourth");
 
-  cloud->GetOutput()->GetVTKData()->Update();
   cloud->GetOutput()->Update();
 
 	//Setting standard material to avoid random color selection
@@ -104,14 +103,11 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
   scalars->SetName("scalars");
 
   vtkPolyData *ds = vtkPolyData::SafeDownCast(cloud->GetOutput()->GetVTKData());
-  ds->Update();
   int p = ds->GetNumberOfPoints();
   int c = ds->GetNumberOfCells();
   ds->GetPointData()->SetScalars(scalars);
-  ds->UpdateData();
 
   cloud->GetMaterial();
-  cloud->GetOutput()->GetVTKData()->Update();
   cloud->GetOutput()->Update();
   cloud->Update();
 
@@ -141,10 +137,10 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
 
 	COMPARE_IMAGES("TestPipeExecution", 0);
 
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
   m_RenderWindow->Render();
-	
-  pipe->SetScalarVisibility(TRUE);
+
+  pipe->SetScalarVisibility(true);
   pipe->OnEvent(&mafEvent(this,mafPipeLandmarkCloud::ID_SCALAR_VISIBILITY));
   actorList->RemoveAllItems();
   pipe->GetAssemblyFront()->GetActors(actorList);
@@ -164,10 +160,10 @@ void mafPipeLandmarkCloudTest::TestPipeExecution()
 
 	COMPARE_IMAGES("TestPipeExecution", 1);
 
-  m_Renderer->RemoveAllProps();
+  m_Renderer->RemoveAllViewProps();
   m_RenderWindow->Render();
 
-  pipe->SetScalarVisibility(FALSE);
+  pipe->SetScalarVisibility(false);
   pipe->OnEvent(&mafEventBase(this,mafPipeLandmarkCloud::ID_SCALAR_VISIBILITY));
 
   actorList->RemoveAllItems();
