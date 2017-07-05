@@ -54,7 +54,6 @@ void mafOpConnectivitySurfaceTest::Test()
   std::vector<mafVMESurface*> importedSTL;
   Importer->GetImportedSTL(importedSTL);
   mafVMESurface *Data = importedSTL[0];
-  Data->GetOutput()->GetVTKData()->Update();
 	Data->Update();
 
 	mafOpConnectivitySurface *connectSurface = new mafOpConnectivitySurface;

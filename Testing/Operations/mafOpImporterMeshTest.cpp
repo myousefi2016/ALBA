@@ -76,7 +76,6 @@ void mafOpImporterMeshTest::TestImportGenericMesh()
   vtkDataSet* data;
 
   data = mafVMEMesh::SafeDownCast(node)->GetUnstructuredGridOutput()->GetVTKData();
-  data->Update();
 
   int cells=data->GetNumberOfCells();
   CPPUNIT_ASSERT(cells==2);

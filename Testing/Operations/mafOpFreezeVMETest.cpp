@@ -74,7 +74,6 @@ void mafOpFreezeVMETest::TestFreezeVMESurfaceParametric()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
@@ -86,7 +85,6 @@ void mafOpFreezeVMETest::TestFreezeVMESurfaceParametric()
 
   mafVMESurface *surface=(mafVMESurface *)(freezeOp->GetOutput());
   surface->ReparentTo(root);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->Update();
 
   CPPUNIT_ASSERT(surface && surface->GetOutput()->GetVTKData()->GetNumberOfPoints() == vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->GetNumberOfPoints());
@@ -112,14 +110,12 @@ void mafOpFreezeVMETest::TestFreezeVMEMeter()
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);
 	vmeParametricSurfaceSTART->ReparentTo(root);
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND1;
 	mafNEW(vmeParametricSurfaceEND1);	
 	vmeParametricSurfaceEND1->ReparentTo(root);
-	vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceEND1->Update();
 
@@ -142,14 +138,12 @@ void mafOpFreezeVMETest::TestFreezeVMEMeter()
 	meter->Modified();
 	meter->Update();
 
-  meter->GetOutput()->GetVTKData()->Update();
 
 	freezeOp->SetInput(meter);
 	freezeOp->OpRun();
 
 	mafVMEPolyline *polyline2=(mafVMEPolyline *)(freezeOp->GetOutput());
 	polyline2->ReparentTo(root);
-	polyline2->GetOutput()->GetVTKData()->Update();
 	polyline2->Update();
 	CPPUNIT_ASSERT(polyline2 && polyline2->GetOutput()->GetVTKData()->GetNumberOfPoints() == meter->GetOutput()->GetVTKData()->GetNumberOfPoints());
 
@@ -180,14 +174,12 @@ void mafOpFreezeVMETest::TestFreezeVMEWrappedMeter()
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);
 	vmeParametricSurfaceSTART->ReparentTo(root);
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND1;
 	mafNEW(vmeParametricSurfaceEND1);	
 	vmeParametricSurfaceEND1->ReparentTo(root);
-	vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceEND1->Update();
 
@@ -205,7 +197,6 @@ void mafOpFreezeVMETest::TestFreezeVMEWrappedMeter()
 	wrappedMeter->SetMeterLink("StartVME",vmeParametricSurfaceSTART);
 	wrappedMeter->SetMeterLink("EndVME1",vmeParametricSurfaceEND1);
 	wrappedMeter->ReparentTo(storage->GetRoot());
-	wrappedMeter->GetOutput()->GetVTKData()->Update();
 	wrappedMeter->Modified();
 	wrappedMeter->Update();
 
@@ -215,7 +206,6 @@ void mafOpFreezeVMETest::TestFreezeVMEWrappedMeter()
 
 	mafVMEPolyline *polyline1=(mafVMEPolyline *)(freezeOp->GetOutput());
 	polyline1->ReparentTo(root);
-	polyline1->GetOutput()->GetVTKData()->Update();
 	polyline1->Update();
 	CPPUNIT_ASSERT(polyline1 && polyline1->GetOutput()->GetVTKData()->GetNumberOfPoints() == wrappedMeter->GetOutput()->GetVTKData()->GetNumberOfPoints());
 	
@@ -253,7 +243,6 @@ void mafOpFreezeVMETest::TestFreezeVMESlicer()
 	importer->OpRun();
 
 	mafVMEVolumeGray *volume=mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->ReparentTo(root);
 	volume->Update();
 
@@ -276,7 +265,6 @@ void mafOpFreezeVMETest::TestFreezeVMESlicer()
 
 	mafVMESurface *sliceSurface=(mafVMESurface *)(freezeOp->GetOutput());
 	sliceSurface->ReparentTo(volume);
-	sliceSurface->GetOutput()->GetVTKData()->Update();
 	sliceSurface->Update();
 	int numSrc = sliceSurface->GetOutput()->GetVTKData()->GetNumberOfPoints();
 	int numDst = slicer->GetOutput()->GetVTKData()->GetNumberOfPoints();
@@ -337,12 +325,10 @@ void mafOpFreezeVMETest::TestFreezeVMEProber()
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);
 	vmeParametricSurfaceSTART->ReparentTo(root);
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMEVolumeGray *volume=mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->ReparentTo(root);
 	volume->Update();
 
@@ -359,7 +345,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProber()
 	prober->SetVolumeLink(volume);
 	prober->SetSurfaceLink(vmeParametricSurfaceSTART);
 	prober->ReparentTo(storage->GetRoot());
-	prober->GetOutput()->GetVTKData()->Update();
 	prober->Modified();
 	prober->Update();
 
@@ -368,7 +353,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProber()
 
 	mafVMESurface *probSurface=(mafVMESurface *)(freezeOp->GetOutput());
 	probSurface->ReparentTo(root);
-	probSurface->GetOutput()->GetVTKData()->Update();
 	probSurface->Update();
 	int numSrc = probSurface->GetOutput()->GetVTKData()->GetNumberOfPoints();
 	int numDst = prober->GetOutput()->GetVTKData()->GetNumberOfPoints();
@@ -436,7 +420,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProfileSpline()
 
   polydata->SetPoints(points);
   polydata->SetLines(cells);
-  polydata->Update();
   vmePolyline->SetData(polydata, 0.0);
   vmePolyline->ReparentTo(root);
   vmePolyline->Update();
@@ -448,7 +431,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProfileSpline()
   mafNEW(spline);
   spline->SetPolylineLink(vmePolyline);
   spline->ReparentTo(root);
-  spline->GetOutput()->GetVTKData()->Update();
   spline->Modified();
   spline->Update();
 
@@ -457,7 +439,6 @@ void mafOpFreezeVMETest::TestFreezeVMEProfileSpline()
 
   mafVMEPolyline *polyline2=(mafVMEPolyline *)(freezeOp->GetOutput());
   polyline2->ReparentTo(root);
-  polyline2->GetOutput()->GetVTKData()->Update();
   polyline2->Update();
   int value1 = spline->GetOutput()->GetVTKData()->GetNumberOfPoints();
   int value2 = polyline2->GetOutput()->GetVTKData()->GetNumberOfPoints();
@@ -491,7 +472,6 @@ void mafOpFreezeVMETest::TestFreezeVMERefSys()
   mafVMERefSys *vmeRefSys;
   mafNEW(vmeRefSys);
   vmeRefSys->ReparentTo(root);
-  vmeRefSys->GetOutput()->GetVTKData()->Update();
   vmeRefSys->ReparentTo(storage->GetRoot());
   vmeRefSys->Update();
 
@@ -502,8 +482,6 @@ void mafOpFreezeVMETest::TestFreezeVMERefSys()
   freezeOp->OpRun();
 
   mafVMESurface *surface=(mafVMESurface *)(freezeOp->GetOutput());
-  surface->ReparentTo(root);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->Update();
 
   int num1 = surface->GetOutput()->GetVTKData()->GetNumberOfPoints();

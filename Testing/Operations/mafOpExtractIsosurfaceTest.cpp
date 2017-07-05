@@ -35,6 +35,8 @@
 #include "mafVMEVolumeGray.h"
 #include "mafVMEGenericAbstract.h"
 #include "vtkMAFSmartPointer.h"
+#include "vtkStructuredPoints.h"
+#include "vtkRectilinearGrid.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(result);
 
@@ -63,12 +65,11 @@ void mafOpExtractIsosurfaceTest::TestExtractRG()
   preader->SetFileName(filename);
   preader->Update();
 
-  vtkDataSet *data = vtkDataSet::SafeDownCast(preader->GetOutputs()[0]);
+  vtkRectilinearGrid *data = preader->GetOutput();
 
   mafSmartPointer<mafVMEVolumeGray> Input;
   Input->SetDataByDetaching(data,0);
   Input->Update();
-  Input->GetOutput()->GetVTKData()->Update();
 
   //clean on, triangulate on
   mafOpExtractIsosurface *extract = new mafOpExtractIsosurface();
@@ -139,12 +140,11 @@ void mafOpExtractIsosurfaceTest::TestExtractSP()
   preader->SetFileName(filename);
   preader->Update();
 
-  vtkDataSet *data = vtkDataSet::SafeDownCast(preader->GetOutputs()[0]);
+  vtkStructuredPoints *data = preader->GetOutput();
 
   mafSmartPointer<mafVMEVolumeGray> Input;
   Input->SetDataByDetaching(data,0);
   Input->Update();
-  Input->GetOutput()->GetVTKData()->Update();
 
   //clean on, triangulate on
   mafOpExtractIsosurface *extract = new mafOpExtractIsosurface();

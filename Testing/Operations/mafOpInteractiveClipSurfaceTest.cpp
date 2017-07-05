@@ -51,13 +51,12 @@ void mafOpInteractiveClipSurfaceTest::TestOpRun()
   vtkSphereSource *sphere = vtkSphereSource::New();
   sphere->Update();
   vtkAppendPolyData *append = vtkAppendPolyData::New();
-  append->SetInput(sphere->GetOutput());
+  append->SetInputConnection(sphere->GetOutputPort());
   append->Update();
 
   mafVMESurface *surfaceInput;
   mafNEW(surfaceInput);
   surfaceInput->SetData(append->GetOutput(),0.0);
-  surfaceInput->GetOutput()->GetVTKData()->Update();
   surfaceInput->GetOutput()->Update();
   surfaceInput->Update();
 
@@ -72,7 +71,6 @@ void mafOpInteractiveClipSurfaceTest::TestOpRun()
   int result = clip->Clip();
   CPPUNIT_ASSERT(result==MAF_OK);
 
-  surfaceInput->GetOutput()->GetVTKData()->Update();
   surfaceInput->GetOutput()->Update();
   surfaceInput->Update();
 

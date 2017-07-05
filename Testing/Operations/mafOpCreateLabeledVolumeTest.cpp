@@ -57,7 +57,6 @@ void mafOpCreateLabeledVolumeTest::TestOpRun()
   array->Allocate(10*10*10);
 
   data->GetPointData()->AddArray(array);
-  data->Update();
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(data.GetPointer(), 0.0);
@@ -113,7 +112,6 @@ void mafOpCreateLabeledVolumeTest::TestOpDo()
   array->Allocate(10*10*10);
 
   data->GetPointData()->AddArray(array);
-  data->Update();
 
   mafSmartPointer<mafVMEVolumeGray> volume;
   volume->SetData(data.GetPointer(), 0.0);

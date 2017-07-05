@@ -118,14 +118,13 @@ void mafVMEDataSetAttributesImporterTest::SaveToDiskAndDisplay(mafVMEMesh *vmeMe
 {
 	// get vtk output
 	vtkUnstructuredGrid* data = vmeMesh->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-	data->Update();
 
 	// some tests on the geometry...
 	if (writeToDisk)
 	{
 		// save output to file
 		vtkMAFSmartPointer<vtkUnstructuredGridWriter> writer;
-		writer->SetInput(data);
+    writer->SetInputData(data) ;
 		writer->SetFileTypeToASCII();
 
 		mafString gridFileName = dirPrefix;
@@ -173,14 +172,13 @@ void mafVMEDataSetAttributesImporterTest::SaveToDiskForTimeVarying(mafVMEMesh *v
 
 		// get vtk output
 		vtkUnstructuredGrid* data = vmeMesh->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-		data->Update();
 
 		// some tests on the geometry...
 		if (writeToDisk)
 		{
 			// save output to file
 			vtkMAFSmartPointer<vtkUnstructuredGridWriter> writer;
-			writer->SetInput(data);
+      writer->SetInputData(data) ;
 			writer->SetFileTypeToASCII();
 
 			mafString gridFileName = dirPrefix;
@@ -282,6 +280,7 @@ void mafVMEDataSetAttributesImporterTest::RenderData(vtkUnstructuredGrid *data, 
 		mapper->SetScalarModeToUseCellData();
 	}
 
+
 	mafParabolicMeshToLinearMeshFilter *linearizationFilter = NULL;
 
 	mapper->UseLookupTableScalarRangeOff();
@@ -291,13 +290,13 @@ void mafVMEDataSetAttributesImporterTest::RenderData(vtkUnstructuredGrid *data, 
 	if (linearize)
 	{
 		linearizationFilter = mafParabolicMeshToLinearMeshFilter::New();
-		linearizationFilter->SetInput(data);
+    linearizationFilter->SetInputData(data);
 		linearizationFilter->Update();
-		mapper->SetInput(linearizationFilter->GetOutput());
+		mapper->SetInputConnection(linearizationFilter->GetOutputPort());
 	}
 	else
 	{
-		mapper->SetInput(data);
+		mapper->SetInputData(data);
 	}
 
 	vtkMAFSmartPointer<vtkActor> actor;
@@ -349,8 +348,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10SingleTime3CellAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",
-		true, "EPTO1_S1_UZ_element_matrix.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",	true, "EPTO1_S1_UZ_element_matrix.vtk", false);
 
 	cppDEL(importer);
 }
@@ -382,8 +380,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10SingleTime1CellAttributes()
   importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-  SaveToDiskAndDisplay(mesh, outputDir,CELL_DATA, "EPTO1",
-    true, "EPTO1_element.vtk",false);
+  SaveToDiskAndDisplay(mesh, outputDir,CELL_DATA, "EPTO1", true, "EPTO1_element.vtk",false);
 
   cppDEL(importer);
 }
@@ -415,8 +412,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10SingleTime1PointsAttributes
   importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-  SaveToDiskAndDisplay(mesh,outputDir,POINT_DATA, "UZ", 
-    true, "UZ_nodal.vtk",false);
+  SaveToDiskAndDisplay(mesh,outputDir,POINT_DATA, "UZ", true, "UZ_nodal.vtk",false);
 
   cppDEL(importer);
 }
@@ -452,8 +448,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10MultiTime1CellAttributes()
   importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-  SaveToDiskForTimeVarying(mesh,outputDir,CELL_DATA, "EPTO1", 
-    true, "EPTO1_element");
+  SaveToDiskForTimeVarying(mesh,outputDir,CELL_DATA, "EPTO1", true, "EPTO1_element");
 
   cppDEL(importer);
 }
@@ -489,8 +484,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10MultiTime3CellAttributes()
   importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-  SaveToDiskForTimeVarying(mesh,outputDir,CELL_DATA, "EPTO1", 
-    true, "EPTO1_S1_UZ_element_matrix_");
+  SaveToDiskForTimeVarying(mesh,outputDir,CELL_DATA, "EPTO1", true, "EPTO1_S1_UZ_element_matrix_");
 
   cppDEL(importer);
 }
@@ -526,8 +520,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10MultiTime1PointAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskForTimeVarying(mesh, outputDir, POINT_DATA, "UZ",
-		true, "UZ_nodal_");
+	SaveToDiskForTimeVarying(mesh, outputDir, POINT_DATA, "UZ", true, "UZ_nodal_");
 
 	cppDEL(importer);
 }
@@ -579,8 +572,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa8SingleTime3CellAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",
-		true, "EPTO1_S1_UZ_element_matrix.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",	true, "EPTO1_S1_UZ_element_matrix.vtk", false);
 
 	cppDEL(importer);
 }
@@ -612,8 +604,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa8SingleTime1CellAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",
-		true, "EPTO1_element.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1", true, "EPTO1_element.vtk", false);
 
 	cppDEL(importer);
 }
@@ -645,8 +636,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa8SingleTime1PointsAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, POINT_DATA, "UZ",
-		true, "UZ_nodal.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, POINT_DATA, "UZ", true, "UZ_nodal.vtk", false);
 
 	cppDEL(importer);
 }
@@ -678,8 +668,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa20SingleTime1PointsAttributes(
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, POINT_DATA, "UZ",
-		true, "UZ_nodal.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, POINT_DATA, "UZ",	true, "UZ_nodal.vtk", false);
 
 	cppDEL(importer);
 }
@@ -711,8 +700,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa20SingleTime1CellAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",
-		true, "EPTO1_element.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1", true, "EPTO1_element.vtk", false);
 
 	cppDEL(importer);
 }
@@ -744,8 +732,7 @@ void mafVMEDataSetAttributesImporterTest::TestHexa20SingleTime3CellAttributes()
 	importer->Read();
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",
-		true, "S1_EPTO1_UZ_element_matrix.vtk", false);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPTO1",	true, "S1_EPTO1_UZ_element_matrix.vtk", false);
 
 	cppDEL(importer);
 }
@@ -810,10 +797,6 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10ANSYS_ELEMENT_IDJumpingSing
 	assert(mesh);
 	mesh->SetData(reader->GetOutput(), -1);
 
-	// this is strange but...
-	CPPUNIT_ASSERT(mesh->GetUnstructuredGridOutput()->GetVTKData()->GetNumberOfCells() == 0);
-	// ... after MAF magic update :P ...
-	mesh->GetUnstructuredGridOutput()->GetVTKData()->Update();
 	// ... everything works :D
 	CPPUNIT_ASSERT(mesh->GetUnstructuredGridOutput()->GetVTKData()->GetNumberOfCells() != 0);
 
@@ -835,8 +818,7 @@ void mafVMEDataSetAttributesImporterTest::TestTetra10ANSYS_ELEMENT_IDJumpingSing
 	CPPUNIT_ASSERT(result == MAF_OK);
 
 	mafString outputDir = GET_TEST_DATA_DIR();
-	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPEL1",
-		true, "EPEL1_element.vtk", false, true);
+	SaveToDiskAndDisplay(mesh, outputDir, CELL_DATA, "EPEL1", true, "EPEL1_element.vtk", false, true);
 
 	vtkUnstructuredGrid *outputData = mesh->GetUnstructuredGridOutput()->GetUnstructuredGridData();
 	vtkDataArray *dataArray = outputData->GetCellData()->GetArray("EPEL1");

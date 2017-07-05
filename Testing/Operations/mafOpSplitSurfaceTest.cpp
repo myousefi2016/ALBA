@@ -55,7 +55,6 @@ void mafOpSplitSurfaceTest::TestClip()
 	surfaceParametric->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_SPHERE);
 	surfaceParametric->SetSphereRadius(5.);
 	surfaceParametric->Update();
-	surfaceParametric->GetOutput()->GetVTKData()->Update();
  
   mafVMESurface *surface;
   mafNEW(surface);
@@ -67,7 +66,6 @@ void mafOpSplitSurfaceTest::TestClip()
   mafNEW(surfaceParametricClip);
   surfaceParametricClip->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_PLANE);
   surfaceParametricClip->Update();
-  surfaceParametricClip->GetOutput()->GetVTKData()->Update();
 
   mafOpSplitSurface *split=new mafOpSplitSurface();
   split->TestModeOn();

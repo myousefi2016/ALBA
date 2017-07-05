@@ -57,7 +57,6 @@ void mafOpLabelizeSurfaceTest::Test()
 
 	mafSmartPointer<mafVMESurface>surface;
 	surface->SetData(reader->GetOutput(),0.0);
-	surface->GetOutput()->GetVTKData()->Update();
 	surface->Update();
 	CPPUNIT_ASSERT(surface);
 
@@ -78,7 +77,6 @@ void mafOpLabelizeSurfaceTest::Test()
 	labelize->OpStop(OP_RUN_OK);
 	labelize->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 	surface->Update();
 
 	vtkPolyData *surfaceOutput = vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
@@ -89,7 +87,7 @@ void mafOpLabelizeSurfaceTest::Test()
 	CPPUNIT_ASSERT(range[0]==0 && range[1]==1);
 
 	vtkMAFSmartPointer<vtkCellCenters> centers;
-	centers->SetInput(surfaceOutput);
+	centers->SetInputData(surfaceOutput);
 	centers->Update();
 
 	for(int i=0;i<centers->GetOutput()->GetNumberOfPoints();i++)

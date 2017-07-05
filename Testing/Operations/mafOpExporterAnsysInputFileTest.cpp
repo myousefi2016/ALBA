@@ -144,7 +144,6 @@ void mafOpExporterAnsysInputFileTest::CompareINPFilesData(mafString fileName)
 
   importedData->GetUnstructuredGridOutput()->Update();
   vtkUnstructuredGrid *inputUGrid = importedData->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-  inputUGrid->Update();
 
   // Nodes
   vtkIntArray *nodesIDArray = importedData->GetNodesIDArray();
@@ -165,7 +164,6 @@ void mafOpExporterAnsysInputFileTest::CompareINPFilesData(mafString fileName)
   //
   importedData2->GetUnstructuredGridOutput()->Update();
   vtkUnstructuredGrid *inputUGrid2 = importedData2->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-  inputUGrid2->Update();
 
   // Nodes
   vtkIntArray *nodesIDArray2 = importedData2->GetNodesIDArray();

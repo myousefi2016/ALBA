@@ -52,12 +52,10 @@ void mafOpEditNormalsTest::Test()
 	reader->Update();
   mafSmartPointer<mafVMESurface> surface;
 	surface->SetData(reader->GetOutput(),0.0);
-	surface->GetOutput()->GetVTKData()->Update();
 	surface->Update();
 
 	vtkMAFSmartPointer<vtkPolyData>originalPolydata;
 	originalPolydata->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData()));
-	originalPolydata->Update();
 
 	mafOpEditNormals *editNormals1 = new mafOpEditNormals();
 	editNormals1->TestModeOn();
@@ -66,11 +64,9 @@ void mafOpEditNormalsTest::Test()
 	editNormals1->OnGenerateNormals();
 	editNormals1->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 	
 	vtkMAFSmartPointer<vtkPolyData> resultPolydata1;
 	resultPolydata1->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData())); 
-	resultPolydata1->Update();
 
 	vtkFloatArray *pointNormals1=vtkFloatArray::SafeDownCast(resultPolydata1->GetPointData()->GetNormals());
 
@@ -84,11 +80,9 @@ void mafOpEditNormalsTest::Test()
 	editNormals2->OnGenerateNormals();
 	editNormals2->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	vtkMAFSmartPointer<vtkPolyData> resultPolydata2;
 	resultPolydata2->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData()));
-	resultPolydata2->Update();
 
 	vtkFloatArray *pointNormals2=vtkFloatArray::SafeDownCast(resultPolydata2->GetPointData()->GetNormals());
 
@@ -131,12 +125,10 @@ void mafOpEditNormalsTest::TestUndo1()
 	reader->Update();
 	mafSmartPointer<mafVMESurface> surface;
 	surface->SetData(reader->GetOutput(),0.0);
-	surface->GetOutput()->GetVTKData()->Update();
 	surface->Update();
 
 	vtkMAFSmartPointer<vtkPolyData>originalPolydata;
 	originalPolydata->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData()));
-	originalPolydata->Update();
 
 	mafOpEditNormals *editNormals = new mafOpEditNormals();
 	editNormals->TestModeOn();
@@ -146,15 +138,12 @@ void mafOpEditNormalsTest::TestUndo1()
 	editNormals->OnGenerateNormals();
 	editNormals->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	editNormals->OpUndo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	vtkMAFSmartPointer<vtkPolyData>resultPolydata1;
 	resultPolydata1->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData())); 
-	resultPolydata1->Update();
 
 	vtkFloatArray *pointNormalsResult1=vtkFloatArray::SafeDownCast(resultPolydata1->GetPointData()->GetNormals());
 	vtkFloatArray *pointNormalsOriginal1=vtkFloatArray::SafeDownCast(originalPolydata->GetPointData()->GetNormals());
@@ -175,7 +164,6 @@ void mafOpEditNormalsTest::TestUndo2()
 	reader->Update();
 	mafSmartPointer<mafVMESurface> surface;
 	surface->SetData(reader->GetOutput(),0.0);
-	surface->GetOutput()->GetVTKData()->Update();
 	surface->Update();
 
 	mafOpEditNormals *editNormals1 = new mafOpEditNormals();
@@ -186,11 +174,9 @@ void mafOpEditNormalsTest::TestUndo2()
 	editNormals1->OnGenerateNormals();
 	editNormals1->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	vtkMAFSmartPointer<vtkPolyData>originalPolydata;
 	originalPolydata->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData()));
-	originalPolydata->Update();
 
 	mafOpEditNormals *editNormals2 = new mafOpEditNormals();
 	editNormals2->TestModeOn();
@@ -200,15 +186,12 @@ void mafOpEditNormalsTest::TestUndo2()
 	editNormals2->OnGenerateNormals();
 	editNormals2->OpDo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	editNormals2->OpUndo();
 
-	surface->GetOutput()->GetVTKData()->Update();
 
 	vtkMAFSmartPointer<vtkPolyData>resultPolydata2;
 	resultPolydata2->DeepCopy(vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData()));
-	resultPolydata2->Update();
 
 	resultPolydata2->GetPointData()->Update();
 	originalPolydata->GetPointData()->Update();

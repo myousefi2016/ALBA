@@ -103,7 +103,6 @@ void mafVMEMeshAnsysTextImporterTest::Read(mafVMEMeshAnsysTextImporter* reader, 
   CPPUNIT_ASSERT(reader->GetOutput() != NULL);
 
   vtkUnstructuredGrid* data = reader->GetOutput()->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-  data->Update();
   
 	mafString outputDir = GET_TEST_DATA_DIR();
   SaveUnstructuredGridToFile(outputDir, outputFileName, data);
@@ -113,7 +112,7 @@ void mafVMEMeshAnsysTextImporterTest::SaveUnstructuredGridToFile(mafString &dirP
 {
   // save output to file
   vtkMAFSmartPointer<vtkUnstructuredGridWriter> writer;
-  writer->SetInput(data) ;
+  writer->SetInputData(data) ;
   writer->SetFileTypeToASCII();
 
   mafString gridFileName = dirPrefix;
@@ -157,9 +156,8 @@ void mafVMEMeshAnsysTextImporterTest::ReadAndDisplay( mafString &dirPrefix, int 
 
   vtkUnstructuredGrid *ugrid = vtkUnstructuredGrid::New();
   vtkUnstructuredGrid* data = reader->GetOutput()->GetUnstructuredGridOutput()->GetUnstructuredGridData();
-  data->Update();
 
-  // some tests on the geometry...
+	// some tests on the geometry...
 
   if (reader->GetMeshType() == mafVMEMeshAnsysTextImporter::LINEAR)
   {
@@ -304,7 +302,7 @@ void mafVMEMeshAnsysTextImporterTest::RenderData(  vtkUnstructuredGrid *data, in
   mapper->UseLookupTableScalarRangeOff();
   mapper->SetScalarRange(reverseLut->GetTableRange());
   mapper->SetLookupTable(reverseLut);
-  mapper->SetInput(data);
+  mapper->SetInputData(data);
 
   vtkMAFSmartPointer<vtkActor> actor;
   actor->SetMapper(mapper);

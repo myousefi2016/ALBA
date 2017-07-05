@@ -46,6 +46,7 @@
 #include "mafstring.h"
 #include "mafVMEStorage.h"
 #include "mafVMERoot.h"
+#include "vtkDataArray.h"
 
 
 #define ITK_IMAGE_DIMENSION 3
@@ -124,7 +125,7 @@ void mafOpSegmentationRegionGrowingConnectedThresholdTest::TestAlgorithm()
   r->Update();
 
   vtkMAFSmartPointer<vtkImageCast> imageToFloat;
-  imageToFloat->SetInput(vtkImageData::SafeDownCast(r->GetOutput()));
+  imageToFloat->SetInputConnection(r->GetOutputPort());
   imageToFloat->SetOutputScalarTypeToFloat();
   imageToFloat->Update();
 
@@ -213,10 +214,8 @@ void mafOpSegmentationRegionGrowingConnectedThresholdTest::TestAlgorithm()
   //Compare the two results
   vtkMAFSmartPointer<vtkImageData> imITK;
   imITK->DeepCopy(vtkImageData::SafeDownCast(r->GetOutput()));
-  imITK->Update();
   vtkMAFSmartPointer<vtkImageData> imOP;
   imOP->DeepCopy(vtkImageData::SafeDownCast(volumeOperationOutput->GetOutput()->GetVTKData()));
-  imOP->Update();
 
   CompareImageData(imITK,imOP);
 
@@ -246,7 +245,6 @@ void mafOpSegmentationRegionGrowingConnectedThresholdTest::TestAlgorithmRG()
   inputVolume->ReparentTo(storage->GetRoot());
   inputVolume->Update();
   inputVolume->GetOutput()->Update();
-  inputVolume->GetOutput()->GetVTKData()->Update();
   int k=inputVolume->GetOutput()->GetVTKData()->GetNumberOfPoints();
 
 
@@ -274,10 +272,8 @@ void mafOpSegmentationRegionGrowingConnectedThresholdTest::TestAlgorithmRG()
   //Compare the two results
   vtkMAFSmartPointer<vtkImageData> imFile;
   imFile->DeepCopy(vtkImageData::SafeDownCast(outputRead->GetOutput()));
-  imFile->Update();
   vtkMAFSmartPointer<vtkImageData> imOP;
   imOP->DeepCopy(vtkImageData::SafeDownCast(volumeOperationOutput->GetOutput()->GetVTKData()));
-  imOP->Update();
 
   CompareImageData(imFile,imOP);
 

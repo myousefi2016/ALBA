@@ -193,7 +193,6 @@ void mafGeometryEditorPolylineGraphTest::TestAddNewVertex2()
 	mafVMEPolylineGraph *polyline;
 	mafNEW(polyline);
 	polyline->SetData(m_Graph,0.0);
-	polyline->GetOutput()->GetVTKData()->Update();
 	polyline->Update();
 
 	mafGeometryEditorPolylineGraph *PolylineGraph = new mafGeometryEditorPolylineGraph(NULL,NULL,polyline,true);
@@ -250,7 +249,6 @@ void mafGeometryEditorPolylineGraphTest::TestSelectPoint()
 	mafVMEPolylineGraph *polyline;
 	mafNEW(polyline);
 	polyline->SetData(m_Graph,0.0);
-	polyline->GetOutput()->GetVTKData()->Update();
 	polyline->Update();
 
 	mafGeometryEditorPolylineGraph *PolylineGraph = new mafGeometryEditorPolylineGraph(NULL,NULL,polyline,true);
@@ -274,7 +272,6 @@ void mafGeometryEditorPolylineGraphTest::TestDeletePoint()
 	mafVMEPolylineGraph *polyline;
 	mafNEW(polyline);
 	polyline->SetData(m_Graph,0.0);
-	polyline->GetOutput()->GetVTKData()->Update();
 	polyline->Update();
 
 	mafGeometryEditorPolylineGraph *PolylineGraph = new mafGeometryEditorPolylineGraph(NULL,NULL,polyline,true);
@@ -297,7 +294,6 @@ void mafGeometryEditorPolylineGraphTest::TestSelectBranch()
 	mafVMEPolylineGraph *polyline;
 	mafNEW(polyline);
 	polyline->SetData(m_Graph,0.0);
-	polyline->GetOutput()->GetVTKData()->Update();
 	polyline->Update();
 
 	mafGeometryEditorPolylineGraph *PolylineGraph = new mafGeometryEditorPolylineGraph(NULL,NULL,polyline,true);
@@ -316,7 +312,6 @@ void mafGeometryEditorPolylineGraphTest::TestInsertPoint()
 	mafVMEPolylineGraph *polyline;
 	mafNEW(polyline);
 	polyline->SetData(m_Graph,0.0);
-	polyline->GetOutput()->GetVTKData()->Update();
 	polyline->Update();
 
 	mafGeometryEditorPolylineGraph *PolylineGraph = new mafGeometryEditorPolylineGraph(NULL,NULL,polyline,true);

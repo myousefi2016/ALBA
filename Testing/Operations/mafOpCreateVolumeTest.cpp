@@ -99,7 +99,6 @@ void mafOpCreateVolumeTest::VolumeCreatedTest()
   op->CreateVolume();
   mafVMEVolumeGray *vol = mafVMEVolumeGray::SafeDownCast(op->GetOutput());
   vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vol->GetVolumeOutput()->GetVTKData());
-  sp->Update();
   
   double spc[3], sr[2], dim[3], b[6];
   sp->GetSpacing(spc);

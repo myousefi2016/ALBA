@@ -63,7 +63,6 @@ void mafOpImporterMSF1xTest::Test()
 		if(node->IsA("mafVMESurface"))
 		{
 			vtkDataSet *data=node->GetOutput()->GetVTKData();
-			data->Update();
 			int cells=data->GetNumberOfCells();
 			CPPUNIT_ASSERT(cells==12);
 			int n=node->GetNumberOfChildren();
@@ -72,7 +71,6 @@ void mafOpImporterMSF1xTest::Test()
 		if(node->IsA("mafVMEVolume"))
 		{
 			vtkDataSet *data=node->GetOutput()->GetVTKData();
-			data->Update();
 			double range[2];
 			data->GetScalarRange(range);
 			CPPUNIT_ASSERT(range[0]==-1024.00 && range[1]==1698.00);

@@ -63,14 +63,10 @@ void mafOpSurfaceMirrorTest::TestOpRun()
 	pointId[1] = 1;
 	pointId[2] = 2;
 	cellArray->InsertNextCell(3 , pointId);
-
-	testPolyData->Update();
-
   	
   mafVMESurface *vmeSurface;
   mafNEW(vmeSurface);
   vmeSurface->SetData(testPolyData, 0);
-	vmeSurface->GetOutput()->GetVTKData()->Update();
   vmeSurface->Update();
   	
 	mafOpSurfaceMirror *surfaceMirrorOp=new mafOpSurfaceMirror("Surface Mirror");
@@ -82,7 +78,6 @@ void mafOpSurfaceMirrorTest::TestOpRun()
   surfaceMirrorOp->OpRun();
 	surfaceMirrorOp->OpDo();
 	
-	vmeSurface->GetOutput()->GetVTKData()->Update();
 	vmeSurface->Update();
 
 	

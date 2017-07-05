@@ -50,7 +50,6 @@ void mafOpCreateSurfaceTest::TestOpRun()
 	surfaceParametric->SetGeometryType(mafVMESurfaceParametric::PARAMETRIC_SPHERE);
 	surfaceParametric->SetSphereRadius(5.);
 	surfaceParametric->Update();
-	surfaceParametric->GetOutput()->GetVTKData()->Update();
 
   mafVMESurface *surfaceOutput;
   int numberOfPointsBefore=surfaceParametric->GetOutput()->GetVTKData()->GetNumberOfPoints();
@@ -62,7 +61,6 @@ void mafOpCreateSurfaceTest::TestOpRun()
 
 
 	surfaceOutput = mafVMESurface::SafeDownCast(create->GetOutput());
-  surfaceOutput->GetOutput()->GetVTKData()->Update();
   surfaceOutput->GetOutput()->Update();
   surfaceOutput->Update();
 

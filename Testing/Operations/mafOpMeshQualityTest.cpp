@@ -97,16 +97,13 @@ void mafOpMeshQualityTest::TestOpRun()
 
   mafSmartPointer<mafVMESurface>surface;
   surface->SetData(reader->GetOutput(),0.0);
-  surface->GetOutput()->GetVTKData()->Update();
   surface->Update();
   CPPUNIT_ASSERT(surface);
 
   surface->Update();
-  surface->GetOutput()->GetVTKData()->Update();
   vtkPolyData *data=vtkPolyData::SafeDownCast(surface->GetOutput()->GetVTKData());
   CPPUNIT_ASSERT(data);
 
-  data->Update();
 
   vtkTriangleQualityRatio *triangleQualityRatio;
   vtkNEW(triangleQualityRatio);

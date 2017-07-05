@@ -83,7 +83,6 @@ void mafOpExporterMeshTest::TestExporterMesh()
   CPPUNIT_ASSERT(dummyVme->GetChild(0) && dummyVme->GetChild(0)->IsA("mafVMEMesh"));
   mafVMEMesh *vmeMesh = mafVMEMesh::SafeDownCast(importerVTK->GetOutput());
 	vmeMesh->Update();
-	((vtkUnstructuredGrid *)(vmeMesh->GetOutput()->GetVTKData()))->UpdateData();
 	CPPUNIT_ASSERT(vmeMesh);
   CPPUNIT_ASSERT(vmeMesh->GetOutput()->GetVTKData()->GetNumberOfPoints()>0);
   CPPUNIT_ASSERT(vmeMesh->GetOutput()->GetVTKData()->GetNumberOfCells()>0);
