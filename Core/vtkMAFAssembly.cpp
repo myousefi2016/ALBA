@@ -320,6 +320,9 @@ int vtkMAFAssembly::RenderOpaqueGeometry(vtkViewport *ren)
 	{
 		vtkAssemblyPath *path;
 
+		if (!Paths)
+			UpdatePaths();
+
 		// for allocating render time between components
 		const float fraction = this->AllocatedRenderTime
 			/ (float)(this->Paths->GetNumberOfItems() > 0 ? this->Paths->GetNumberOfItems() : 1);
