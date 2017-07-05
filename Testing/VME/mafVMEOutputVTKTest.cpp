@@ -49,7 +49,6 @@ void mafVMEOutputVTKTest::TestGetVTKData()
   data->SetDimensions(5, 5, 1);
   data->SetOrigin(0, 0, 0);
   data->SetSpacing(1,1,1);
-  data->Update();
 
   mafTimeStamp timestamp;
   timestamp = time(0);
@@ -58,7 +57,6 @@ void mafVMEOutputVTKTest::TestGetVTKData()
   vme->Update();
 
   mafVMEOutputVTK *output = mafVMEOutputVTK::SafeDownCast(vme->GetVTKOutput());
-  output->GetVTKData()->Update();
   output->Update();
   
   m_Result = output != NULL;

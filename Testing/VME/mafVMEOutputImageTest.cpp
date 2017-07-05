@@ -60,14 +60,12 @@ void mafVMEOutputImageTest::TestGetImageData()
   im->SetDimensions(5, 5, 1);
   im->SetOrigin(0, 0, 0);
   im->SetSpacing(1,1,1);
-  im->Update();
 
   mafSmartPointer<mafVMEImage> image;
   image->SetData(im,0.0);
   image->Update();
 
   mafVMEOutputImage *output = mafVMEOutputImage::SafeDownCast(image->GetOutput());
-  output->GetVTKData()->Update();
   output->Update();
   
   m_Result = output != NULL;

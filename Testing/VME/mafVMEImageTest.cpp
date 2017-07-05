@@ -138,7 +138,7 @@ void mafVMEImageTest::TestVMEImageVisualization()
 
   imageVME->SetData(imageData,-1);
 
-  mapper->SetInput(imageVME->GetImageOutput()->GetVTKData());
+  mapper->SetInputData(imageVME->GetImageOutput()->GetVTKData());
   mapper->SetScalarModeToDefault();
   mapper->SetScalarRange(scalars->GetRange());
 
@@ -150,7 +150,7 @@ void mafVMEImageTest::TestTimeVaryingVMEImageTree()
 //----------------------------------------------------------------------------
 {
   CreateVMETestTree();
-  PlayTree(m_VmeRoot, FALSE);
+  PlayTree(m_VmeRoot, false);
 }
 
 
@@ -203,7 +203,7 @@ int mafVMEImageTest::PlayTree(mafVMERoot *root, bool ignoreVisibleToTraverse)
       {
         vtkDataSet *vmedata=node->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
         mapper->SetScalarModeToDefault();
         mapper->SetScalarRange(0,100);
 

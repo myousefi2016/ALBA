@@ -68,8 +68,6 @@ void mafVMEOutputLandmarkCloudTest::TestGetVTKData()
   m_Result = outputLandmarkCloud->GetVTKData() == lcloud->GetOutput()->GetVTKData();
 
   TEST_RESULT;
-  
-  outputLandmarkCloud->GetVTKData()->Update();
 
   m_Result = 4 == lcloud->GetOutput()->GetVTKData()->GetNumberOfPoints();
 

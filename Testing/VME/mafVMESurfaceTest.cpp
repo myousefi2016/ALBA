@@ -131,10 +131,11 @@ void mafVMESurfaceTest::TestVMESurfaceVisualization()
   mafSmartPointer<mafVMESurface> sphereSurfaceVME;
 
   vtkMAFSmartPointer<vtkSphereSource> sphereSource;
+	sphereSource->Update();
 
   sphereSurfaceVME->SetData(sphereSource->GetOutput(),-1);
 
-  mapper->SetInput(sphereSurfaceVME->GetSurfaceOutput()->GetVTKData());
+  mapper->SetInputData(sphereSurfaceVME->GetSurfaceOutput()->GetVTKData());
 
   renWin->Render();
 }
@@ -144,7 +145,7 @@ void mafVMESurfaceTest::TestTimeVaryingVMESurfaceTree()
 //----------------------------------------------------------------------------
 {
   CreateVMETestTree();
-  PlayTree(m_VmeRoot, FALSE);
+  PlayTree(m_VmeRoot, false);
 }
 
 
@@ -197,7 +198,7 @@ int mafVMESurfaceTest::PlayTree(mafVMERoot *root, bool ignoreVisibleToTraverse)
       {
         vtkDataSet *vmedata=node->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
 
         vtkMAFSmartPointer<vtkActor> vmeact;
         vmeact->SetMapper(mapper);
@@ -301,6 +302,8 @@ void mafVMESurfaceTest::CreateVMETestTree()
 
   vtkMAFSmartPointer<vtkSphereSource> sphere;
   vtkMAFSmartPointer<vtkConeSource> cone;
+	sphere->Update();
+	cone->Update();
 
   int i;
   for (i=0;i<100;i++)
@@ -327,7 +330,7 @@ void mafVMESurfaceTest::CreateVMETestTree()
 
     vcone->SetPose(trans.GetMatrix(),i*.5+75);
 
-    vtkPolyDataSource *morph;
+    vtkPolyDataAlgorithm *morph;
 
     // the morphing tube
     if (i<50)
@@ -346,7 +349,7 @@ void mafVMESurfaceTest::CreateVMETestTree()
       cube->SetZLength(1);
       morph=cube;
     }
-
+		morph->Update();
     vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
     morph->Delete();
   }

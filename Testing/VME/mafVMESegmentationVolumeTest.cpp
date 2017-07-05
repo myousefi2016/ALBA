@@ -35,6 +35,8 @@
 #include "vtkStructuredPoints.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPointData.h"
+#include "vtkDataArray.h"
+#include "vtkDataSetAttributes.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(m_Result)
 
@@ -268,7 +270,6 @@ void mafVMESegmentationVolumeTest::TestAutomaticSegmentation()
   vme->Update();
   CPPUNIT_ASSERT( vme->GetAutomaticOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
-  sp->Update();
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );
@@ -307,7 +308,6 @@ void mafVMESegmentationVolumeTest::TestManualSegmentation()
   CPPUNIT_ASSERT( vme->GetAutomaticOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   CPPUNIT_ASSERT( vme->GetManualOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
-  sp->Update();
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );
@@ -342,7 +342,6 @@ void mafVMESegmentationVolumeTest::TestRefinementSegmentation()
   CPPUNIT_ASSERT( vme->GetManualOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   CPPUNIT_ASSERT( vme->GetRefinementOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
-  sp->Update();
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );

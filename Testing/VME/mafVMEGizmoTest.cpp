@@ -110,7 +110,7 @@ int mafVMEGizmoTest::PlayTree(mafVMERoot *root, bool ignoreVisibleToTraverse)
       {
         vtkDataSet *vmedata=node->GetOutput()->GetVTKData();
         vtkMAFSmartPointer<vtkDataSetMapper> mapper;
-        mapper->SetInput((vtkPolyData *)vmedata);
+        mapper->SetInputData((vtkPolyData *)vmedata);
 
         vtkMAFSmartPointer<vtkActor> vmeact;
         vmeact->SetMapper(mapper);
@@ -236,7 +236,7 @@ void mafVMEGizmoTest::TestGizmoVisualizatioAlone()
 
   gizmo->SetData(sphere->GetOutput());
 
-  mapper->SetInput(gizmo->GetSurfaceOutput()->GetVTKData());
+  mapper->SetInputData(gizmo->GetSurfaceOutput()->GetVTKData());
   
   renWin->Render();
   
@@ -299,6 +299,8 @@ void mafVMEGizmoTest::CreateVMETestTree()
 
   vtkMAFSmartPointer<vtkSphereSource> sphere;
   vtkMAFSmartPointer<vtkConeSource> cone;
+	cone->Update();
+	sphere->Update();
 
   int i;
   for (i=0;i<100;i++)
@@ -325,7 +327,7 @@ void mafVMEGizmoTest::CreateVMETestTree()
 
     vcone->SetPose(trans.GetMatrix(),i*.5+75);
 
-    vtkPolyDataSource *morph;
+    vtkPolyDataAlgorithm *morph;
 
     // the morphing tube
     if (i<50)
@@ -345,6 +347,7 @@ void mafVMEGizmoTest::CreateVMETestTree()
       morph=cube;
     }
 
+		morph->Update();
     vmorph->SetData(morph->GetOutput(),log10((double)(100-i))*50);
     morph->Delete();
   }

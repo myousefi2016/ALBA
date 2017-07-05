@@ -230,21 +230,18 @@ void mafVMEMeterTest::GetAngleTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND2;
   mafNEW(vmeParametricSurfaceEND2);	
   vmeParametricSurfaceEND2->ReparentTo(root);
-  vmeParametricSurfaceEND2->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND2->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND2->Update();
 
@@ -271,7 +268,6 @@ void mafVMEMeterTest::GetAngleTest()
   meter->SetMeterMode(mafVMEMeter::LINE_ANGLE);
   meter->Modified();
   meter->Update();
-  meter->GetOutput()->GetVTKData()->Update();
 
   meter->GetOutput()->Update();
   double angle = meter->GetAngle();
@@ -306,19 +302,16 @@ void mafVMEMeterTest::GetDistanceTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
 	vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND2;
   mafNEW(vmeParametricSurfaceEND2);	
   vmeParametricSurfaceEND2->ReparentTo(root);
-  vmeParametricSurfaceEND2->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND2->Update();
 
   enum {X,Y,Z};
@@ -332,7 +325,6 @@ void mafVMEMeterTest::GetDistanceTest()
   matrix2.SetElement(Y,3,-4); //set a translation value on x axis of 3.0
 	vmeParametricSurfaceEND2->SetAbsMatrix(matrix2);
 
-	
   mafVMEMeter *meter;
   mafNEW(meter);
   meter->SetMeterLink("StartVME",vmeParametricSurfaceSTART);
@@ -342,7 +334,6 @@ void mafVMEMeterTest::GetDistanceTest()
   meter->Modified();
   meter->Update();
 
-  meter->GetOutput()->GetVTKData()->Update();
 
   meter->GetOutput()->Update();
 
@@ -379,21 +370,18 @@ void mafVMEMeterTest::GetEndPoint2CoordinateTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND2;
   mafNEW(vmeParametricSurfaceEND2);	
   vmeParametricSurfaceEND2->ReparentTo(root);
-  vmeParametricSurfaceEND2->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND2->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND2->Update();
 
@@ -416,9 +404,7 @@ void mafVMEMeterTest::GetEndPoint2CoordinateTest()
   meter->ReparentTo(storage->GetRoot());
   meter->Modified();
   meter->Update();
-
-  meter->GetOutput()->GetVTKData()->Update();
-  meter->GetOutput()->Update();
+	meter->GetOutput()->Update();
 
   double *outPos;
   outPos = meter->GetEndPoint2Coordinate();
@@ -452,14 +438,12 @@ void mafVMEMeterTest::GetEndPointCoordinateTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
@@ -481,7 +465,6 @@ void mafVMEMeterTest::GetEndPointCoordinateTest()
   meter->Modified();
   meter->Update();
 
-  meter->GetOutput()->GetVTKData()->Update();
   meter->GetOutput()->Update();
 
   double *outPos;
@@ -543,21 +526,18 @@ void mafVMEMeterTest::GetPolylineOutputTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND2;
   mafNEW(vmeParametricSurfaceEND2);	
   vmeParametricSurfaceEND2->ReparentTo(root);
-  vmeParametricSurfaceEND2->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND2->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND2->Update();
 
@@ -580,8 +560,6 @@ void mafVMEMeterTest::GetPolylineOutputTest()
   meter->ReparentTo(storage->GetRoot());
   meter->Modified();
   meter->Update();
-
-  meter->GetOutput()->GetVTKData()->Update();
 
   meter->GetOutput()->Update();
 
@@ -839,14 +817,12 @@ void mafVMEMeterTest::GetStartPointCoordinateTest()
   mafVMESurfaceParametric *vmeParametricSurfaceSTART;
   mafNEW(vmeParametricSurfaceSTART);
   vmeParametricSurfaceSTART->ReparentTo(root);
-  vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceSTART->Update();
 
   mafVMESurfaceParametric *vmeParametricSurfaceEND1;
   mafNEW(vmeParametricSurfaceEND1);	
   vmeParametricSurfaceEND1->ReparentTo(root);
-  vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
   vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
   vmeParametricSurfaceEND1->Update();
 
@@ -869,7 +845,6 @@ void mafVMEMeterTest::GetStartPointCoordinateTest()
   meter->Modified();
   meter->Update();
 
-  meter->GetOutput()->GetVTKData()->Update();
   meter->GetOutput()->Update();
 
   double *outPos;

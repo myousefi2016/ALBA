@@ -66,7 +66,6 @@ void mafVMEOutputSurfaceTest::TestGetSurfaceData()
   //create a parametric surface
   mafVMESurfaceParametric *vmeParametricSurface;
   mafNEW(vmeParametricSurface);
-  vmeParametricSurface->GetOutput()->GetVTKData()->Update();
   vmeParametricSurface->Update();
 
   mafVMEOutputSurface *outputSurface = NULL;
@@ -84,7 +83,6 @@ void mafVMEOutputSurfaceTest::TestSetGetTexture()
   //create a parametric surface
   mafVMESurfaceParametric *vmeParametricSurface;
   mafNEW(vmeParametricSurface);
-  vmeParametricSurface->GetOutput()->GetVTKData()->Update();
   vmeParametricSurface->Update();
 
   vtkIntArray *array;
@@ -101,7 +99,6 @@ void mafVMEOutputSurfaceTest::TestSetGetTexture()
   imageData->SetDimensions(dimensions);
   
   imageData->GetPointData()->SetScalars(array);
-  imageData->Update();
 
   mafVMEOutputSurface *surfaceOutput;
   surfaceOutput = vmeParametricSurface->GetSurfaceOutput();
@@ -127,7 +124,6 @@ void mafVMEOutputSurfaceTest::TestSetGetMaterial()
   //create a parametric surface
   mafVMESurfaceParametric *vmeParametricSurface;
   mafNEW(vmeParametricSurface);
-  vmeParametricSurface->GetOutput()->GetVTKData()->Update();
   vmeParametricSurface->Update();
 
   mafVMEOutputSurface *outputSurface = vmeParametricSurface->GetSurfaceOutput();
@@ -151,7 +147,6 @@ void mafVMEOutputSurfaceTest::TestGetNumberOfTrainglesUpdate()
 	//create a parametric surface
 	mafVMESurfaceParametric *vmeParametricSurface;
 	mafNEW(vmeParametricSurface);
-	vmeParametricSurface->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurface->Update();
   int controlNumberOfPolys = vtkPolyData::SafeDownCast(vmeParametricSurface->GetOutput()->GetVTKData())->GetNumberOfPolys();
 

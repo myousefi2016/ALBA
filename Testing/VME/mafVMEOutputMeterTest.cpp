@@ -72,21 +72,18 @@ void mafVMEOutputMeterTest::TestUpdate()
 	mafVMESurfaceParametric *vmeParametricSurfaceSTART;
 	mafNEW(vmeParametricSurfaceSTART);
 	vmeParametricSurfaceSTART->ReparentTo(root);
-	vmeParametricSurfaceSTART->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceSTART->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceSTART->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND1;
 	mafNEW(vmeParametricSurfaceEND1);	
 	vmeParametricSurfaceEND1->ReparentTo(root);
-	vmeParametricSurfaceEND1->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND1->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceEND1->Update();
 
 	mafVMESurfaceParametric *vmeParametricSurfaceEND2;
 	mafNEW(vmeParametricSurfaceEND2);	
 	vmeParametricSurfaceEND2->ReparentTo(root);
-	vmeParametricSurfaceEND2->GetOutput()->GetVTKData()->Update();
 	vmeParametricSurfaceEND2->ReparentTo(storage->GetRoot());
 	vmeParametricSurfaceEND2->Update();
 
@@ -110,7 +107,6 @@ void mafVMEOutputMeterTest::TestUpdate()
 	meter->Modified();
 	meter->Update();
 
-	meter->GetOutput()->GetVTKData()->Update();
 
 	mafVMEOutputMeter *outputMeter = mafVMEOutputMeter::SafeDownCast(meter->GetOutput());
 	outputMeter->Update();
@@ -123,7 +119,6 @@ void mafVMEOutputMeterTest::TestUpdate()
 	meter->SetMeterMode(mafVMEMeter::LINE_ANGLE);
 	meter->Modified();
 	meter->Update();
-	meter->GetOutput()->GetVTKData()->Update();
 
 	outputMeter->Update();
 	mafString angleString = outputMeter->GetAngle();

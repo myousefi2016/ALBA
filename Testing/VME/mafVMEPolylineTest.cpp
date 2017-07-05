@@ -88,7 +88,6 @@ void mafVMEPolylineTest::TestSetData()
 	in_data->SetPoints(in_points);
 	in_data->SetLines(in_cells);
   in_data->Modified();
-	in_data->Update();
 
 
 	// try to set this data to the volume
