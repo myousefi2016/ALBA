@@ -83,6 +83,9 @@ void mafTest::setUp()
 
 	//Run Test Specific Stuff
 	BeforeTest();
+
+	//Set a fixed random sequence to avoid differences on random material color selection when tests are added/removed
+	srand(984);
 }
 //----------------------------------------------------------------------------
 void mafTest::tearDown()

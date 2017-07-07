@@ -296,7 +296,7 @@ wxColour mafRandomColor()
 //----------------------------------------------------------------------------
 {
   static long i = 117;
-  i = (i*13)%16+1;
+	i = rand() % 16 + 1;
   switch( i )
   {
     case 1:  return wxColour(229,166,215); break;

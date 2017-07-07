@@ -15,16 +15,17 @@ Copyright (c) 2012
 #include "vtkCellData.h"
 #include "vtkFloatArray.h"
 #include "vtkMath.h"
+#include "vtkInformation.h"
+#include "vtkInformationVector.h"
 #include "vtkObjectFactory.h"
 #include "vtkPointData.h"
 #include "vtkPolyData.h"
 #include "vtkPolyLine.h"
-#include "vtkInformationVector.h"
-#include "vtkInformation.h"
-
-vtkStandardNewMacro(vtkMAFTubeFilter);
+#include <algorithm>
 
 #define EPSILON 1e-8
+
+vtkStandardNewMacro(vtkMAFTubeFilter);
 
 // Construct object with radius 0.5, radius variation turned off, the number 
 // of sides set to 3, and radius factor of 10.
@@ -46,6 +47,16 @@ vtkMAFTubeFilter::vtkMAFTubeFilter()
 
 	this->GenerateTCoords = VTK_TCOORDS_OFF;
 	this->TextureLength = 1.0;
+
+  this->OutputPointsPrecision = vtkAlgorithm::DEFAULT_PRECISION;
+
+  // by default process active point scalars
+  this->SetInputArrayToProcess(0,0,0,vtkDataObject::FIELD_ASSOCIATION_POINTS,
+                               vtkDataSetAttributes::SCALARS);
+
+  // by default process active point vectors
+  this->SetInputArrayToProcess(1,0,0,vtkDataObject::FIELD_ASSOCIATION_POINTS,
+                               vtkDataSetAttributes::VECTORS);
 }
 
 int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
@@ -64,8 +75,8 @@ int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInform
 	vtkCellData *outCD = output->GetCellData();
 	vtkCellArray *inLines = NULL;
 	vtkDataArray *inNormals;
-	vtkDataArray *inScalars = pd->GetScalars();
-	vtkDataArray *inVectors = pd->GetVectors();
+  vtkDataArray *inScalars=this->GetInputArrayToProcess(0,inputVector);
+  vtkDataArray *inVectors=this->GetInputArrayToProcess(1,inputVector);
 
 	vtkPoints *inPts;
 	vtkIdType numPts = 0;
@@ -93,12 +104,27 @@ int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInform
 		!(inLines = input->GetLines()) ||
 		(numLines = inLines->GetNumberOfCells()) < 1)
 	{
-		return 0;
+    return 1;
 	}
 
 	// Create the geometry and topology
 	numNewPts = numPts * this->NumberOfSides;
 	newPts = vtkPoints::New();
+
+  // Set the desired precision for the points in the output.
+  if(this->OutputPointsPrecision == vtkAlgorithm::DEFAULT_PRECISION)
+  {
+    newPts->SetDataType(inPts->GetDataType());
+  }
+  else if(this->OutputPointsPrecision == vtkAlgorithm::SINGLE_PRECISION)
+  {
+    newPts->SetDataType(VTK_FLOAT);
+  }
+  else if(this->OutputPointsPrecision == vtkAlgorithm::DOUBLE_PRECISION)
+  {
+    newPts->SetDataType(VTK_DOUBLE);
+  }
+
 	newPts->Allocate(numNewPts);
 	newNormals = vtkFloatArray::New();
 	newNormals->SetName("TubeNormals");
@@ -178,15 +204,16 @@ int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInform
 	//
 	numNewCells = inLines->GetNumberOfCells() * this->NumberOfSides + 2;
 	outCD->CopyNormalsOff();
-	outPD->CopyAllocate(pd, numNewCells);
+  outCD->CopyAllocate(cd,numNewCells);
 
 	//  Create points along each polyline that are connected into NumberOfSides
 	//  triangle strips. Texture coordinates are optionally generated.
 	//
 	this->Theta = 2.0*vtkMath::Pi() / this->NumberOfSides;
 	vtkPolyLine *lineNormalGenerator = vtkPolyLine::New();
-	for (inCellId = 0, inLines->InitTraversal();
-	inLines->GetNextCell(npts, pts) && !abort; inCellId++)
+  // the line cellIds start after the last vert cellId
+  inCellId = input->GetNumberOfVerts();
+  for (inLines->InitTraversal(); inLines->GetNextCell(npts, pts) && !abort; inCellId++)
 	{
 		this->UpdateProgress((double)inCellId / numLines);
 		abort = this->GetAbortExecute();
@@ -206,13 +233,8 @@ int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInform
 		if (generateNormals)
 		{
 			singlePolyline->Reset(); //avoid instantiation
-			singlePolyline->InsertNextCell(cleanNpts, cleanPts);
-			if (!lineNormalGenerator->GenerateSlidingNormals(inPts, singlePolyline,
-				inNormals))
-			{
-				vtkWarningMacro(<< "No normals for line!");
-				continue; //skip tubing this polyline
-			}
+      singlePolyline->InsertNextCell(npts,pts);
+      lineNormalGenerator->GenerateSlidingNormals(inPts,singlePolyline, inNormals);
 		}
 
 		// Generate the points around the polyline. The tube is not stripped
@@ -246,7 +268,7 @@ int vtkMAFTubeFilter::RequestData(vtkInformation *vtkNotUsed(request), vtkInform
 
 	singlePolyline->Delete();
 
-	// reset the radius to ite orginal value if necessary
+  // reset the radius to ite original value if necessary
 	if (this->VaryRadius == VTK_VARY_RADIUS_BY_ABSOLUTE_SCALAR)
 	{
 		this->Radius = oldRadius;
@@ -315,12 +337,12 @@ int vtkMAFTubeFilter::GeneratePoints(vtkIdType offset,
 	int i, k;
 	double p[3];
 	double pNext[3];
-	double sNext[3];
+  double sNext[3] = {0.0, 0.0, 0.0};
 	double sPrev[3];
 	double startCapNorm[3], endCapNorm[3];
 	double n[3];
 	double s[3];
-	double bevelAngle;
+  //double bevelAngle;
 	double w[3];
 	double nP[3];
 	double sFactor = 1.0;
@@ -391,7 +413,7 @@ int vtkMAFTubeFilter::GeneratePoints(vtkIdType offset,
 			}
 		}
 
-		if ((bevelAngle = vtkMath::Dot(sNext, sPrev)) > 1.0)
+/*    if ( (bevelAngle = vtkMath::Dot(sNext,sPrev)) > 1.0 )
 		{
 			bevelAngle = 1.0;
 		}
@@ -406,7 +428,7 @@ int vtkMAFTubeFilter::GeneratePoints(vtkIdType offset,
 		}
 
 		bevelAngle = this->Radius / bevelAngle; //keep tube constant radius
-
+*/
 		vtkMath::Cross(s, n, w);
 		if (vtkMath::Normalize(w) == 0.0)
 		{
@@ -705,7 +727,7 @@ void vtkMAFTubeFilter::GenerateTextureCoords(vtkIdType offset,
 			tc = len / length;
 			for (k = 0; k < numSides; k++)
 			{
-				newTCoords->InsertTuple2(offset + i * 2 + k, tc, 0.0);
+        newTCoords->InsertTuple2(offset+i*numSides+k,tc,0.0);
 			}
 			xPrev[0] = x[0]; xPrev[1] = x[1]; xPrev[2] = x[2];
 		}
@@ -817,4 +839,6 @@ void vtkMAFTubeFilter::PrintSelf(ostream& os, vtkIndent indent)
 	os << indent << "Generate TCoords: "
 		<< this->GetGenerateTCoordsAsString() << endl;
 	os << indent << "Texture Length: " << this->TextureLength << endl;
+  os << indent << "Output Points Precision: " << this->OutputPointsPrecision
+     << endl;
 }

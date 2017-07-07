@@ -46,6 +46,8 @@
 #include "mafstring.h"
 #include "mafVMEStorage.h"
 #include "mafVMERoot.h"
+#include "vtkDataSetAttributes.h"
+#include "vtkImageData.h"
 #include "vtkDataArray.h"
 
 

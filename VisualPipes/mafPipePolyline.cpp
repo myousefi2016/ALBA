@@ -414,19 +414,22 @@ void mafPipePolyline::UpdateProperty(bool fromTag)
 	if (m_Mapper)
 	{
 		m_AppendPolyData->RemoveAllInputs();
-
-		if (m_SplineMode == true)
-			data = m_SplineFilter->GetOutput();
+		m_Tube->RemoveAllInputs();
 
 		if (m_Representation == TUBES)
 		{
-			m_Tube->SetInputData(data);
+			if (m_SplineMode == true)
+				m_Tube->SetInputConnection(m_SplineFilter->GetOutputPort());
+			else
+				m_Tube->SetInputData(data);
 			m_AppendPolyData->AddInputConnection(m_Tube->GetOutputPort());
 		}
-
-		if (m_Representation == LINES)
+		else if (m_Representation == LINES)
 		{
-			m_AppendPolyData->AddInputData(data);
+			if (m_SplineMode == true)
+				m_AppendPolyData->AddInputConnection(m_SplineFilter->GetOutputPort());
+			else
+				m_AppendPolyData->AddInputData(data);
 		}
 
 		if (m_ShowSpheres)
