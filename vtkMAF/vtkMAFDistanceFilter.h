@@ -32,6 +32,8 @@
 
 #include "mafConfigure.h"
 
+class vtkPointSet;
+
 /**
 Class Name:vtkMAFDistanceFilter.
 vtkMAFDistanceFilter is a filter that computes distance vectors
@@ -119,7 +121,10 @@ class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetAlgorithm  {
     /** execute information*/
     int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
     /** execute data*/
-    void ExecuteData(vtkDataObject *output);
+		int RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector);
+		/** execute data*/
+		void RequestData(vtkInformation* request, vtkPointSet *output);
+    //void ExecuteData(vtkDataObject *output);
     /** compute and update extents */
     int RequestUpdateExtent( vtkInformation *request, vtkInformationVector **inputVector,	vtkInformationVector *outputVector);
 

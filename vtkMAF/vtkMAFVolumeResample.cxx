@@ -81,6 +81,9 @@ void vtkMAFVolumeResample::myDBG(const char *msg,int index)
 // Constructor sets default values
 vtkMAFVolumeResample::vtkMAFVolumeResample() 
 {
+	this->OutputExtent[0] = this->OutputExtent[1] = this->OutputExtent[2] = this->OutputExtent[3] = this->OutputExtent[4] = this->OutputExtent[5] = 0;
+	this->OutputSpacing[0] = this->OutputSpacing[1] = this->OutputSpacing[2] = 0;
+
   this->VolumeOrigin[0] = this->VolumeOrigin[1] = this->VolumeOrigin[2] = this->VolumeAxisX[1] = this->VolumeAxisX[2] = this->VolumeAxisY[0] = this->VolumeAxisY[2] = 0.f;
   this->VolumeAxisX[0]  = this->VolumeAxisY[1]  = 1.f;
 
@@ -92,6 +95,14 @@ vtkMAFVolumeResample::vtkMAFVolumeResample()
   this->AutoSpacing = true;
 
   this->VoxelCoordinates[0] = this->VoxelCoordinates[1] = this->VoxelCoordinates[2] = NULL;
+}
+
+//----------------------------------------------------------------------------
+int vtkMAFVolumeResample::FillOutputPortInformation(int port, vtkInformation* info)
+{
+	// now add our info
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData");
+	return 1;
 }
 
 
@@ -131,79 +142,72 @@ void vtkMAFVolumeResample::SetVolumeAxisY(double axis[3]) {
 }
 
 //----------------------------------------------------------------------------
-void vtkMAFVolumeResample::SetOutput(vtkImageData *data)
-{
-	this->GetExecutive()->SetOutputData(0, data);
-}
-
-//----------------------------------------------------------------------------
 int vtkMAFVolumeResample::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector) 
 {
   for (int i = 0; i < this->GetNumberOfOutputPorts(); i++) {
     if (vtkImageData::SafeDownCast(this->GetOutput(i))) {
       vtkImageData *output = (vtkImageData*)this->GetOutput(i);
       
-      int dims[3];
-      output->GetDimensions(dims); // this is the number of pixels in each direction...
-      // modified by Marco. 25-10-2003
-      // now we allow output volumes, with Z!=1 for resampling the volume
-      //if (dims[2] != 1) {
-      //  dims[2] = 1;
-      //  output->SetDimensions(dims);
-      //  }
-      this->SetUpdateExtentToWholeExtent();
+			int dims[3];
+			this->SetUpdateExtent(OutputExtent);
+			output->SetExtent(OutputExtent);
+			output->GetDimensions(dims); // this is the number of pixels in each direction...
+      
+			this->SetUpdateExtentToWholeExtent();
 
       if (this->AutoSpacing) { // select spacing
-        this->PrepareVolume();
-        const double d = (this->VolumeAxisZ[0] * this->VolumeOrigin[0] + this->VolumeAxisZ[1] * this->VolumeOrigin[1] + this->VolumeAxisZ[2] * this->VolumeOrigin[2]);
-  
-        // intersect plane with the bounding box
-        double spacing[3] = {1.f, 1.f, 1.f};
-        double t[24][2], minT = VTK_DOUBLE_MAX, maxT = VTK_DOUBLE_MIN, minS = VTK_DOUBLE_MAX, maxS = VTK_DOUBLE_MIN;
-        int    numberOfPoints = 0;
-        for (int i = 0; i < 3; i++) {
-          const int j = (i + 1) % 3, k = (i + 2) % 3;
-          
-          for (int jj = 0; jj < 2; jj++) {
-            for (int kk = 0; kk < 2; kk++) {
-              double p[3];
-              p[j] = this->DataBounds[j][jj];
-              p[k] = this->DataBounds[k][kk];
-              p[i] = (d + this->VolumeAxisZ[j] * p[j] + this->VolumeAxisZ[k] * p[k]);
-              
-              if (fabs(this->VolumeAxisZ[i]) < 1.e-10)
-                continue;
-              p[i] /= this->VolumeAxisZ[i];
-              if (p[i] >= this->DataBounds[i][0] && p[i] <= this->DataBounds[i][1]) {
-                this->CalculateTextureCoordinates(p, (int*)dims, spacing, t[numberOfPoints]);
-                if (t[numberOfPoints][0] > maxT)
-                  maxT = t[numberOfPoints][0];
-                if (t[numberOfPoints][0] < minT)
-                  minT = t[numberOfPoints][0];
-                if (t[numberOfPoints][1] > maxS)
-                  maxS = t[numberOfPoints][1];
-                if (t[numberOfPoints][1] < minS)
-                  minS = t[numberOfPoints][1];
-                numberOfPoints++; // add point
-                }
-              }
-            }
-          }
-        
-        // find spacing now
-        double maxSpacing = max(maxS - minS, maxT - minT);
-        spacing[0] = spacing[1] = spacing[3] = max(maxSpacing, 1.e-8f);
-        output->SetSpacing(spacing);
-        if (fabs(minT) > 1.e-3 || fabs(minS) > 1.e-3) {
-          this->VolumeOrigin[0] += minT * this->VolumeAxisX[0] * dims[0] + minS * this->VolumeAxisY[0] * dims[1];
-          this->VolumeOrigin[1] += minT * this->VolumeAxisX[1] * dims[0] + minS * this->VolumeAxisY[1] * dims[1];
-          this->VolumeOrigin[2] += minT * this->VolumeAxisX[2] * dims[0] + minS * this->VolumeAxisY[2] * dims[1];
-          this->Modified();
-          }
-        }
+				this->PrepareVolume();
+				const double d = (this->VolumeAxisZ[0] * this->VolumeOrigin[0] + this->VolumeAxisZ[1] * this->VolumeOrigin[1] + this->VolumeAxisZ[2] * this->VolumeOrigin[2]);
+
+				// intersect plane with the bounding box
+				double spacing[3] = { 1.f, 1.f, 1.f };
+				double t[24][2], minT = VTK_DOUBLE_MAX, maxT = VTK_DOUBLE_MIN, minS = VTK_DOUBLE_MAX, maxS = VTK_DOUBLE_MIN;
+				int    numberOfPoints = 0;
+				for (int i = 0; i < 3; i++) {
+					const int j = (i + 1) % 3, k = (i + 2) % 3;
+
+					for (int jj = 0; jj < 2; jj++) {
+						for (int kk = 0; kk < 2; kk++) {
+							double p[3];
+							p[j] = this->DataBounds[j][jj];
+							p[k] = this->DataBounds[k][kk];
+							p[i] = (d + this->VolumeAxisZ[j] * p[j] + this->VolumeAxisZ[k] * p[k]);
+
+							if (fabs(this->VolumeAxisZ[i]) < 1.e-10)
+								continue;
+							p[i] /= this->VolumeAxisZ[i];
+							if (p[i] >= this->DataBounds[i][0] && p[i] <= this->DataBounds[i][1]) {
+								this->CalculateTextureCoordinates(p, (int*)dims, spacing, t[numberOfPoints]);
+								if (t[numberOfPoints][0] > maxT)
+									maxT = t[numberOfPoints][0];
+								if (t[numberOfPoints][0] < minT)
+									minT = t[numberOfPoints][0];
+								if (t[numberOfPoints][1] > maxS)
+									maxS = t[numberOfPoints][1];
+								if (t[numberOfPoints][1] < minS)
+									minS = t[numberOfPoints][1];
+								numberOfPoints++; // add point
+							}
+						}
+					}
+				}
+
+				// find spacing now
+				double maxSpacing = max(maxS - minS, maxT - minT);
+				spacing[0] = spacing[1] = spacing[3] = max(maxSpacing, 1.e-8f);
+				output->SetSpacing(spacing);
+				if (fabs(minT) > 1.e-3 || fabs(minS) > 1.e-3) {
+					this->VolumeOrigin[0] += minT * this->VolumeAxisX[0] * dims[0] + minS * this->VolumeAxisY[0] * dims[1];
+					this->VolumeOrigin[1] += minT * this->VolumeAxisX[1] * dims[0] + minS * this->VolumeAxisY[1] * dims[1];
+					this->VolumeOrigin[2] += minT * this->VolumeAxisX[2] * dims[0] + minS * this->VolumeAxisY[2] * dims[1];
+					this->Modified();
+				}
+			}
+			else {
+				output->SetSpacing(OutputSpacing);
+			}
+
       output->SetOrigin(this->VolumeOrigin);
-      }
-    else {
       }
     }
 
@@ -216,14 +220,18 @@ int vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkInformationVec
 	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
 	// Initialize some frequently used values.
-	vtkDataObject *output = vtkDataObject::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkImageData *output = vtkImageData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
-  this->PrepareVolume();
+	if (output)
+	{
+		this->PrepareVolume();
+		output->SetExtent(OutputExtent);
 
-  if (vtkImageData::SafeDownCast(output))
-    this->RequestData(request,(vtkImageData*)output);
-  
-  output->Modified();
+		if (output)
+			this->RequestData(request, output);
+
+		output->Modified();
+	}
 	return 1;
 }
 
@@ -311,137 +319,46 @@ int	vtkMAFVolumeResample::RequestUpdateExtent( vtkInformation *request, vtkInfor
 //----------------------------------------------------------------------------
 void vtkMAFVolumeResample::RequestData(vtkInformation* request, vtkImageData *outputObject) 
 {
-
-  //outputObject->SetNumberOfScalarComponents(1);
-  outputObject->AllocateScalars(request);
 	vtkDataSet *input =	vtkDataSet::SafeDownCast(this->GetInput());
   
-  const void *inputPointer  = input->GetPointData()->GetScalars()->GetVoidPointer(0);
-  const void *outputPointer = outputObject->GetPointData()->GetScalars()->GetVoidPointer(0);
-  
-  switch (input->GetPointData()->GetScalars()->GetDataType()) 
-  {
-    case VTK_CHAR: //---------------------------------------------
-      switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 
-      {
-        case VTK_CHAR:
-          this->CreateImage((const char*)inputPointer, (char*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_CHAR:
-          this->CreateImage((const char*)inputPointer, (u_char*)outputPointer, outputObject);
-          break;
-        case VTK_SHORT:
-          this->CreateImage((const char*)inputPointer, (short*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_SHORT:
-          this->CreateImage((const char*)inputPointer, (u_short*)outputPointer, outputObject);
-          break;
-        case VTK_FLOAT:
-          this->CreateImage((const char*)inputPointer, (float*)outputPointer, outputObject);
-          break;
-        default:
-          vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-          return;
-      }
-      break;
-    case VTK_UNSIGNED_CHAR: //------------------------------------
-      switch (outputObject->GetPointData()->GetScalars()->GetDataType()) {
-        case VTK_CHAR:
-          this->CreateImage((const u_char*)inputPointer, (char*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_CHAR:
-          this->CreateImage((const u_char*)inputPointer, (u_char*)outputPointer, outputObject);
-          break;
-        case VTK_SHORT:
-          this->CreateImage((const u_char*)inputPointer, (short*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_SHORT:
-          this->CreateImage((const u_char*)inputPointer, (u_short*)outputPointer, outputObject);
-          break;
-        case VTK_FLOAT:
-          this->CreateImage((const u_char*)inputPointer, (float*)outputPointer, outputObject);
-          break;
-        default:
-          vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-          return;
-        }
-      break;
-    case VTK_SHORT: //--------------------------------------------
-      switch (outputObject->GetPointData()->GetScalars()->GetDataType()) {
-        case VTK_CHAR:
-          this->CreateImage((const short*)inputPointer, (char*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_CHAR:
-          this->CreateImage((const short*)inputPointer, (u_char*)outputPointer, outputObject);
-          break;
-        case VTK_SHORT:
-          this->CreateImage((const short*)inputPointer, (short*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_SHORT:
-          this->CreateImage((const short*)inputPointer, (u_short*)outputPointer, outputObject);
-          break;
-        case VTK_FLOAT:
-          this->CreateImage((const short*)inputPointer, (float*)outputPointer, outputObject);
-          break;
-        default:
-          vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-          return;
-      }
-      break;
-    case VTK_UNSIGNED_SHORT: //-----------------------------------
-      switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 
-      {
-        case VTK_CHAR:
-          this->CreateImage((const u_short*)inputPointer, (char*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_CHAR:
-          this->CreateImage((const u_short*)inputPointer, (u_char*)outputPointer, outputObject);
-          break;
-        case VTK_SHORT:
-          this->CreateImage((const u_short*)inputPointer, (short*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_SHORT:
-          this->CreateImage((const u_short*)inputPointer, (u_short*)outputPointer, outputObject);
-          break;
-        case VTK_FLOAT:
-          this->CreateImage((const u_short*)inputPointer, (float*)outputPointer, outputObject);
-          break;
-        default:
-          vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-          return;
-      }
-      break;
-    case VTK_FLOAT: //--------------------------------------------
-      switch (outputObject->GetPointData()->GetScalars()->GetDataType()) 
-      {
-        case VTK_CHAR:
-          this->CreateImage((const float*)inputPointer, (char*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_CHAR:
-          this->CreateImage((const float*)inputPointer, (u_char*)outputPointer, outputObject);
-          break;
-        case VTK_SHORT:
-          this->CreateImage((const float*)inputPointer, (short*)outputPointer, outputObject);
-          break;
-        case VTK_UNSIGNED_SHORT:
-          this->CreateImage((const float*)inputPointer, (u_short*)outputPointer, outputObject);
-          break;
-        case VTK_FLOAT:
-          this->CreateImage((const float*)inputPointer, (float*)outputPointer, outputObject);
-          break;
-        default:
-          vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-          return;
-      }
-      break;
-    default:
-      vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
-      return;
-  }
+
+	vtkDataArray* inputScalars = input->GetPointData()->GetScalars();
+  const void *inputPointer  = inputScalars->GetVoidPointer(0);
+	
+
+	int *dims = outputObject->GetDimensions();
+	vtkDataArray 			*outputScalars = inputScalars->NewInstance();
+	outputScalars->SetNumberOfTuples(dims[0] * dims[1] * dims[2]);
+	const void *outputPointer = outputScalars->GetVoidPointer(0);
+
+	outputObject->SetNumberOfScalarComponents(input->GetPointData()->GetNumberOfComponents(), request);
+	  
+	switch (inputScalars->GetDataType())
+	{
+		case VTK_CHAR:
+			this->CreateImage((const char*)inputPointer, (char*)outputPointer, outputObject);
+			break;
+		case VTK_UNSIGNED_CHAR:
+			this->CreateImage((const u_char*)inputPointer, (u_char*)outputPointer, outputObject);
+			break;
+		case VTK_SHORT:
+			this->CreateImage((const short*)inputPointer, (short*)outputPointer, outputObject);
+			break;
+		case VTK_UNSIGNED_SHORT:
+			this->CreateImage((const u_short*)inputPointer, (u_short*)outputPointer, outputObject);
+			break;
+		case VTK_FLOAT:
+			this->CreateImage((const float*)inputPointer, (float*)outputPointer, outputObject);
+			break;
+		default:
+			vtkErrorMacro(<< "vtkMAFVolumeResample: Scalar type is not supported");
+			return;
+	}
+	outputObject->GetPointData()->SetScalars(outputScalars);
 }
 
 //----------------------------------------------------------------------------
-template<typename InputDataType, typename OutputDataType> void vtkMAFVolumeResample::CreateImage(const InputDataType *input, OutputDataType *output, vtkImageData *outputObject) 
+template<typename DataType> void vtkMAFVolumeResample::CreateImage(const DataType *input, DataType *output, vtkImageData *outputObject)
 {  
   // for the progress bar 
   unsigned long count = 0; 
@@ -496,11 +413,11 @@ template<typename InputDataType, typename OutputDataType> void vtkMAFVolumeResam
   const double scale = 1.0 / this->Window;
 
 //  this->Num=0;
-  OutputDataType *pixel = output;
+  DataType *pixel = output;
 
   // this is an array of pointers for retrieving sample point and sorrounding points used for trilinear interp.
   // It stores origin mem ptr and surrouding points.
-  const InputDataType *samplingPtr[8] = { input, input + 1, input + this->DataDimensions[0], input + this->DataDimensions[0] + 1,
+  const DataType *samplingPtr[8] = { input, input + 1, input + this->DataDimensions[0], input + this->DataDimensions[0] + 1,
      input + this->DataDimensions[0] * this->DataDimensions[1], input + this->DataDimensions[0] * this->DataDimensions[1] + 1, input + this->DataDimensions[0] * this->DataDimensions[1] + this->DataDimensions[0], input + this->DataDimensions[0] * this->DataDimensions[1] + this->DataDimensions[0] + 1 };
 
   for (int zi = 0; zi < zs; zi++) 

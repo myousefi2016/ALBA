@@ -184,6 +184,7 @@ void mafVMEPolylineSpline::InternalUpdate() //Multi
 		return;
 	}
   vme->Update();
+	vme->GetOutput()->Update();
 
   vtkPolyData *polyline = ((vtkPolyData *)vme->GetOutput()->GetVTKData());
 

@@ -113,11 +113,7 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
   resample->SetLevel(l);
   resample->AutoSpacingOff();
   
-  vtkStructuredPoints *outputSP = vtkStructuredPoints::New();
   
-  outputSP->SetOrigin(inputDataOrigin);
-  outputSP->SetSpacing(inputDataSpacing);
-  outputSP->AllocateScalars(rg->GetPointData()->GetScalars()->GetDataType(),1);
   
   double resamplingBoxBounds[6];
   rg->GetBounds(resamplingBoxBounds);
@@ -128,11 +124,14 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
   outputSPExtent[3] = (resamplingBoxBounds[3] - resamplingBoxBounds[2]) / inputDataSpacing[1];
   outputSPExtent[4] = 0;
   outputSPExtent[5] = (resamplingBoxBounds[5] - resamplingBoxBounds[4]) / inputDataSpacing[2];
-  outputSP->SetExtent(outputSPExtent);
-  outputSP->Modified();
 
-  resample->SetOutput(outputSP);
+	resample->SetOutputSpacing(inputDataSpacing);
+	resample->SetOutputExtent(outputSPExtent);
+
+  //resample->SetOutput(outputSP);
   resample->Update();
+
+	vtkImageData *outputSP = vtkImageData::SafeDownCast(resample->GetOutput());
   
   double inBounds[6] = {0,0,0};
   rg->GetBounds(inBounds);
@@ -147,7 +146,6 @@ void vtkMAFVolumeResampleTest::TestResampleInternal( const char *inFileName , co
   
   reader->Delete();
   resample->Delete(); 
-  outputSP->Delete();
   transform->Delete();
 }
 

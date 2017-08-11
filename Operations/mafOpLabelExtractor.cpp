@@ -53,6 +53,7 @@
 #include "vtkImageToStructuredPoints.h"
 
 #include <list>
+#include "vtkDataSetWriter.h"
 #define OUTRANGE_SCALAR -1000
 
 //----------------------------------------------------------------------------
@@ -380,8 +381,6 @@ void mafOpLabelExtractor::ExtractLabel()
     double bounds[6];
     rgrid->GetBounds(bounds);
 
-    vtkMAFSmartPointer<vtkStructuredPoints> sp;
-
     double xmin = bounds[0];
     double xmax = bounds[1];
     double ymin = bounds[2];
@@ -447,9 +446,6 @@ void mafOpLabelExtractor::ExtractLabel()
 
     resampler->SetVolumeOrigin(origin[0],origin[1],origin[2]);
 
-    sp->SetSpacing(volumeSpacing);
-    sp->SetExtent(output_extent);
-    sp->AllocateScalars(rgrid->GetPointData()->GetScalars()->GetDataType(),1);
 
     double sr[2];
     rgrid->GetScalarRange(sr);
@@ -460,23 +456,22 @@ void mafOpLabelExtractor::ExtractLabel()
     resampler->SetWindow(w);
     resampler->SetLevel(l);
     resampler->SetInputData(rgrid);
-    resampler->SetOutput(sp);
+		resampler->SetOutputExtent(output_extent);
+		resampler->SetOutputSpacing(volumeSpacing);
     resampler->AutoSpacingOff();
     resampler->Update();
 
-		sp->DeepCopy(resampler->GetOutput());
+		
 
-    sp->SetOrigin(bounds[0],bounds[2],bounds[4]);
-    m_OutputData = sp->NewInstance();
-    m_OutputData->DeepCopy(sp);
+		vtkNEW(m_OutputData);
+    m_OutputData->DeepCopy(resampler->GetOutput());
 
     if (m_Input->IsA("mafVMELabeledVolume"))
     {
       GenerateLabeledVolume();
     }
 
-    vol->DeepCopy((vtkImageData *)m_OutputData);
-    //mafDEL(m_OutputData);
+    vol->DeepCopy((vtkImageData *)resampler->GetOutput());
   }
   else
   {

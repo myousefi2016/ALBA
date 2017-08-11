@@ -291,6 +291,7 @@ void mafOpFilterVolume::OnSmooth()
   if (m_ApplyDirectlyOnInput)
   {
     ((mafVMEVolumeGray *)m_Input)->SetData(smoothFilter->GetOutput(),m_Input->GetTimeStamp());
+		m_InputData = (vtkImageData*)m_Input->GetOutput()->GetVTKData();
 		GetLogicManager()->CameraUpdate();
   }
   else
@@ -333,6 +334,7 @@ void mafOpFilterVolume::OnMedian()
   if (m_ApplyDirectlyOnInput)
   {
     ((mafVMEVolumeGray *)m_Input)->SetData(medianFilter->GetOutput(),m_Input->GetTimeStamp());
+		m_InputData = (vtkImageData*)m_Input->GetOutput()->GetVTKData();
 		GetLogicManager()->CameraUpdate();
   }
   else
@@ -449,6 +451,7 @@ void mafOpFilterVolume::OnReplace()
 		if (m_ApplyDirectlyOnInput)
 		{
 			((mafVMEVolumeGray *)m_Input)->SetData(outputDataRG, m_Input->GetTimeStamp());
+			m_InputData = (vtkImageData*)m_Input->GetOutput()->GetVTKData();
 			mafEventMacro(mafEvent(this, CAMERA_UPDATE));
 		}
 		else
@@ -461,6 +464,7 @@ void mafOpFilterVolume::OnReplace()
 		if (m_ApplyDirectlyOnInput)
 		{
 			((mafVMEVolumeGray *)m_Input)->SetData(outputDataSP, m_Input->GetTimeStamp());
+			m_InputData = (vtkImageData*)m_Input->GetOutput()->GetVTKData();
 			mafEventMacro(mafEvent(this, CAMERA_UPDATE));
 		}
 		else

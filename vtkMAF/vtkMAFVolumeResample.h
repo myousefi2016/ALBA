@@ -8,7 +8,7 @@
  All rights reserved. See Copyright.txt or
  http://www.scsitaly.com/Copyright.htm for details.
 
- This software is distributed WITHOUT ANY WARRANTY; without even
+ This software is distributed WITHOUT ANY WARRANTY; without eve
  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
  PURPOSE.  See the above copyright notice for more information.
 
@@ -86,7 +86,15 @@ public:
   vtkGetMacro( AutoSpacing, int );
   vtkBooleanMacro(AutoSpacing, int );
 
-	void SetOutput(vtkImageData *data);
+	/**
+	Specify output Spacing.*/
+	vtkSetVector3Macro(OutputSpacing, double);
+	vtkGetVectorMacro(OutputSpacing, double, 3);
+
+	/**
+	Specify output Extent*/
+	vtkSetVector6Macro(OutputExtent, int);
+	vtkGetVectorMacro(OutputExtent, int, 6);
 
 protected:
   vtkMAFVolumeResample();
@@ -103,7 +111,10 @@ protected:
   void PrepareVolume();
   void CalculateTextureCoordinates(const double point[3], const int size[2], const double spacing[2], double ts[2]);
 
-  template<typename InputDataType, typename OutputDataType> void CreateImage(const InputDataType *input, OutputDataType *output, vtkImageData *outputObject);
+	/** specialize output information type */
+	virtual int FillOutputPortInformation(int port, vtkInformation* info);
+
+  template<typename DataType> void CreateImage(const DataType *input, DataType *output, vtkImageData *outputObject);
 
   // plane coordinates
   double VolumeOrigin[3];
@@ -127,6 +138,10 @@ protected:
   double        DataBounds[3][2];
   int           DataDimensions[3];
   double        SamplingTableMultiplier[3];
+	
+	//Output settings
+	double OutputSpacing[3];
+	int OutputExtent[6];
 
 private:
   vtkMAFVolumeResample(const vtkMAFVolumeResample&);  // Not implemented.

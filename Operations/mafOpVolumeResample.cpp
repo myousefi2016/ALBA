@@ -485,13 +485,7 @@ void mafOpVolumeResample::Resample()
         
         volumeResampleFilter->SetVolumeAxisX(xAxis);
         volumeResampleFilter->SetVolumeAxisY(yAxis);
-        
-        vtkMAFSmartPointer<vtkStructuredPoints> outputSPVtkData;
-        outputSPVtkData->SetSpacing(m_VolumeSpacing);
-        outputSPVtkData->AllocateScalars(inputData->GetPointData()->GetScalars()->GetDataType(),1);
-        outputSPVtkData->SetExtent(outputSPExtent);
-
-        vtkDoubleArray *scalar = vtkDoubleArray::SafeDownCast(outputSPVtkData->GetPointData()->GetScalars());
+  
         
         inputData->GetScalarRange(sr);
 
@@ -501,7 +495,8 @@ void mafOpVolumeResample::Resample()
         volumeResampleFilter->SetWindow(w);
         volumeResampleFilter->SetLevel(l);
         volumeResampleFilter->SetInputData(inputData);
-        volumeResampleFilter->SetOutput(outputSPVtkData);
+				volumeResampleFilter->SetOutputSpacing(m_VolumeSpacing);
+				volumeResampleFilter->SetOutputExtent(outputSPExtent);
         volumeResampleFilter->AutoSpacingOff();
         volumeResampleFilter->Update();
         
@@ -513,9 +508,7 @@ void mafOpVolumeResample::Resample()
         this->PrintSelf(stringStream);
         mafLogMessage(stringStream.str().c_str());
 
-        outputSPVtkData->SetOrigin(m_VolumeBounds[0],m_VolumeBounds[2],m_VolumeBounds[4]);
-
-        m_ResampledVme->SetDataByDetaching(outputSPVtkData, input_item->GetTimeStamp());
+        m_ResampledVme->SetDataByDetaching(volumeResampleFilter->GetOutput(), input_item->GetTimeStamp());
         m_ResampledVme->Update();
       }
     }

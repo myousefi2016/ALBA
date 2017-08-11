@@ -22,6 +22,8 @@
 
 #include "assert.h"
 #include "vtkExecutive.h"
+#include "vtkInformationVector.h"
+#include "vtkInformation.h"
 
 
 vtkStandardNewMacro(vtkMAFDistanceFilter);
@@ -99,139 +101,160 @@ int	vtkMAFDistanceFilter::RequestUpdateExtent( vtkInformation *request, vtkInfor
   if (source)
     this->SetUpdateExtentToWholeExtent();
 
-	return 1;
+	return 0;
 }
 
 //----------------------------------------------------------------------------
 int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
 {
 
-	return 1;
+	return 0;
 }
 
 
 //----------------------------------------------------------------------------
-void vtkMAFDistanceFilter::ExecuteData(vtkDataObject *outputObject) 
+void vtkMAFDistanceFilter::RequestData(vtkInformation* request, vtkPointSet *output)
 {
-  vtkImageData       *imageData = vtkImageData::SafeDownCast(this->GetSource());
-  vtkRectilinearGrid *gridData  = vtkRectilinearGrid::SafeDownCast(this->GetSource());
-  vtkPointSet   *input  = vtkPointSet::SafeDownCast(this->GetInput());
-  vtkPointSet   *output = vtkPointSet::SafeDownCast(outputObject);
+	vtkImageData       *imageData = vtkImageData::SafeDownCast(this->GetSource());
+	vtkRectilinearGrid *gridData = vtkRectilinearGrid::SafeDownCast(this->GetSource());
+	vtkPointSet   *input = vtkPointSet::SafeDownCast(this->GetInput());
 
-  if (input == NULL || output == NULL || imageData == NULL && gridData == NULL) {
-    vtkErrorMacro(<< "Input or output is incorrect");
-    return;
-    }
-  if (input->GetPointData()->GetNormals() == NULL && this->FilterMode == VTK_DISTANCE_MODE) {
-    vtkErrorMacro(<<"No normals for input");
-    return;
-    }
+	if (input == NULL || output == NULL || imageData == NULL && gridData == NULL) {
+		vtkErrorMacro(<< "Input or output is incorrect");
+		return;
+	}
+	if (input->GetPointData()->GetNormals() == NULL && this->FilterMode == VTK_DISTANCE_MODE) {
+		vtkErrorMacro(<< "No normals for input");
+		return;
+	}
 
-  // prepare data for calculations
-  this->PrepareVolume();
-  output->CopyStructure(input);
+	// prepare data for calculations
+	this->PrepareVolume();
+	output->CopyStructure(input);
 
-  const int numPts = input->GetNumberOfPoints();
-  vtkPoints     * const points  = input->GetPoints();
-  vtkDataArray  * const normals = input->GetPointData()->GetNormals();
-  vtkFloatArray * const scalars = this->DistanceMode == VTK_SCALAR || this->FilterMode == VTK_DENSITY_MODE ? vtkFloatArray::New(): NULL;
-  vtkFloatArray * const vectors = scalars == NULL ? vtkFloatArray::New(): NULL;
-  if (scalars) {
-    scalars->SetNumberOfComponents(1);
-    scalars->SetNumberOfTuples(numPts);
-    output->GetPointData()->SetScalars(scalars);
-    scalars->UnRegister(NULL);
-    }
-  else {
-    vectors->SetNumberOfComponents(3);
-    vectors->SetNumberOfTuples(numPts);
-    output->GetPointData()->SetVectors(vectors);
-    vectors->UnRegister(NULL);
-    }
-  output->GetPointData()->SetNormals(normals);
-  
-  const int dataType             = this->GetSource()->GetPointData()->GetScalars()->GetDataType();
-  const void * const DataPointer = this->GetSource()->GetPointData()->GetScalars()->GetVoidPointer(0);
+	const int numPts = input->GetNumberOfPoints();
+	vtkPoints     * const points = input->GetPoints();
+	vtkDataArray  * const normals = input->GetPointData()->GetNormals();
+	vtkFloatArray * const scalars = this->DistanceMode == VTK_SCALAR || this->FilterMode == VTK_DENSITY_MODE ? vtkFloatArray::New() : NULL;
+	vtkFloatArray * const vectors = scalars == NULL ? vtkFloatArray::New() : NULL;
+	if (scalars) {
+		scalars->SetNumberOfComponents(1);
+		scalars->SetNumberOfTuples(numPts);
+		output->GetPointData()->SetScalars(scalars);
+		scalars->UnRegister(NULL);
+	}
+	else {
+		vectors->SetNumberOfComponents(3);
+		vectors->SetNumberOfTuples(numPts);
+		output->GetPointData()->SetVectors(vectors);
+		vectors->UnRegister(NULL);
+	}
+	output->GetPointData()->SetNormals(normals);
 
-  // process the data
-  if (this->FilterMode == VTK_DISTANCE_MODE) {
-    for (int pi = 0; pi < numPts; pi++) {
-      double point[4], normal[4];
-      points->GetPoint(pi, point);
-      normals->GetTuple(pi, normal);
-      
-      if(this->InputTransform)
-        this->SetInputMatrix(this->InputTransform->GetMatrix());
+	const int dataType = this->GetSource()->GetPointData()->GetScalars()->GetDataType();
+	const void * const DataPointer = this->GetSource()->GetPointData()->GetScalars()->GetVoidPointer(0);
 
-      if (this->InputMatrix) { // transform the point into the world coordinates
-        normal[0] += point[0];
-        normal[1] += point[1];
-        normal[2] += point[2];
-        normal[3] = 1.f;
-        point[3] = 1.f;
-        
-        this->InputMatrix->MultiplyPoint(point, point);
-        float norm = (fabs(point[3]) > 0.0001) ? (1.f / point[3]) : 1.f;
-        point[0] *= norm;
-        point[1] *= norm;
-        point[2] *= norm;
-        
-        this->InputMatrix->MultiplyPoint(normal, normal);
-        norm = (fabs(normal[3]) > 0.0001f) ? (1.f / normal[3]) : 1.f;
-        normal[0] = normal[0] * norm - point[0];
-        normal[1] = normal[1] * norm - point[1];
-        normal[2] = normal[2] * norm - point[2];
-        vtkMath::Normalize(normal);
-        }
-      
-      float distance = 0;
-      switch (dataType) {
-        case VTK_UNSIGNED_SHORT: distance = this->TraceRay(point, normal, (const unsigned short*)DataPointer); break;
-        case VTK_SHORT:          distance = this->TraceRay(point, normal, (const short*)DataPointer); break;
-        case VTK_UNSIGNED_CHAR:  distance = this->TraceRay(point, normal, (const unsigned char*)DataPointer); break;
-        case VTK_CHAR:           distance = this->TraceRay(point, normal, (const char*)DataPointer); break;
-        case VTK_FLOAT:          distance = this->TraceRay(point, normal, (const float*)DataPointer); break;
-        case VTK_DOUBLE:         distance = this->TraceRay(point, normal, (const double*)DataPointer); break;
-        }
-      if (scalars)
-        scalars->SetTuple1(pi, distance);
-      else
-        vectors->SetTuple3(pi, distance * normal[0], distance * normal[1], distance * normal[2]);
-      }
-    }
-  else { // density mode
-    for (int pi = 0; pi < numPts; pi++) {
-      double point[4];
-      points->GetPoint(pi, point);
-     
-      if(this->InputTransform)
-        this->SetInputMatrix(this->InputTransform->GetMatrix());
+	// process the data
+	if (this->FilterMode == VTK_DISTANCE_MODE) {
+		for (int pi = 0; pi < numPts; pi++) {
+			double point[4], normal[4];
+			points->GetPoint(pi, point);
+			normals->GetTuple(pi, normal);
 
-      if (this->InputMatrix) {
-        point[3] = 1.f;
-        this->InputMatrix->MultiplyPoint(point, point);
-        float norm = (fabs(point[3]) > 0.0001) ? (1.f / point[3]) : 1.f;
-        point[0] *= norm;
-        point[1] *= norm;
-        point[2] *= norm;
-        }
-      
-      float density = 0;
-      switch (dataType) {
-        case VTK_UNSIGNED_SHORT: density = this->FindDensity(point, (const unsigned short*)DataPointer); break;
-        case VTK_SHORT:          density = this->FindDensity(point, (const short*)DataPointer); break;
-        case VTK_UNSIGNED_CHAR:  density = this->FindDensity(point, (const unsigned char*)DataPointer); break;
-        case VTK_CHAR:           density = this->FindDensity(point, (const char*)DataPointer); break;
-        case VTK_FLOAT:          density = this->FindDensity(point, (const float*)DataPointer); break;
-        case VTK_DOUBLE:         density = this->FindDensity(point, (const double*)DataPointer); break;
-        }
-      if (scalars)
-        scalars->SetTuple1(pi, density);
-      }
-    
-    }
-  }
+			if (this->InputTransform)
+				this->SetInputMatrix(this->InputTransform->GetMatrix());
 
+			if (this->InputMatrix) { // transform the point into the world coordinates
+				normal[0] += point[0];
+				normal[1] += point[1];
+				normal[2] += point[2];
+				normal[3] = 1.f;
+				point[3] = 1.f;
+
+				this->InputMatrix->MultiplyPoint(point, point);
+				float norm = (fabs(point[3]) > 0.0001) ? (1.f / point[3]) : 1.f;
+				point[0] *= norm;
+				point[1] *= norm;
+				point[2] *= norm;
+
+				this->InputMatrix->MultiplyPoint(normal, normal);
+				norm = (fabs(normal[3]) > 0.0001f) ? (1.f / normal[3]) : 1.f;
+				normal[0] = normal[0] * norm - point[0];
+				normal[1] = normal[1] * norm - point[1];
+				normal[2] = normal[2] * norm - point[2];
+				vtkMath::Normalize(normal);
+			}
+
+			float distance = 0;
+			switch (dataType) {
+				case VTK_UNSIGNED_SHORT: distance = this->TraceRay(point, normal, (const unsigned short*)DataPointer); break;
+				case VTK_SHORT:          distance = this->TraceRay(point, normal, (const short*)DataPointer); break;
+				case VTK_UNSIGNED_CHAR:  distance = this->TraceRay(point, normal, (const unsigned char*)DataPointer); break;
+				case VTK_CHAR:           distance = this->TraceRay(point, normal, (const char*)DataPointer); break;
+				case VTK_FLOAT:          distance = this->TraceRay(point, normal, (const float*)DataPointer); break;
+				case VTK_DOUBLE:         distance = this->TraceRay(point, normal, (const double*)DataPointer); break;
+			}
+			if (scalars)
+				scalars->SetTuple1(pi, distance);
+			else
+				vectors->SetTuple3(pi, distance * normal[0], distance * normal[1], distance * normal[2]);
+		}
+	}
+	else { // density mode
+		for (int pi = 0; pi < numPts; pi++) {
+			double point[4];
+			points->GetPoint(pi, point);
+
+			if (this->InputTransform)
+				this->SetInputMatrix(this->InputTransform->GetMatrix());
+
+			if (this->InputMatrix) {
+				point[3] = 1.f;
+				this->InputMatrix->MultiplyPoint(point, point);
+				float norm = (fabs(point[3]) > 0.0001) ? (1.f / point[3]) : 1.f;
+				point[0] *= norm;
+				point[1] *= norm;
+				point[2] *= norm;
+			}
+
+			float density = 0;
+			switch (dataType) {
+				case VTK_UNSIGNED_SHORT: density = this->FindDensity(point, (const unsigned short*)DataPointer); break;
+				case VTK_SHORT:          density = this->FindDensity(point, (const short*)DataPointer); break;
+				case VTK_UNSIGNED_CHAR:  density = this->FindDensity(point, (const unsigned char*)DataPointer); break;
+				case VTK_CHAR:           density = this->FindDensity(point, (const char*)DataPointer); break;
+				case VTK_FLOAT:          density = this->FindDensity(point, (const float*)DataPointer); break;
+				case VTK_DOUBLE:         density = this->FindDensity(point, (const double*)DataPointer); break;
+			}
+			if (scalars)
+				scalars->SetTuple1(pi, density);
+		}
+
+	}
+}
+
+
+
+//----------------------------------------------------------------------------
+int vtkMAFDistanceFilter::RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector)
+{
+	// get the info objects
+	vtkInformation *outInfo = outputVector->GetInformationObject(0);
+
+	// Initialize some frequently used values.
+	vtkPointSet *output = vtkPointSet::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+
+	if (output)
+	{
+		this->PrepareVolume();
+
+		if (output)
+			this->RequestData(request, output);
+
+		output->Modified();
+	}
+	return 0;
+}
 
 //--------------------------------------------------------------------------------------
 template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double origin[3], const double ray[3], const DataType *dataPointer) 
@@ -284,10 +307,8 @@ template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double o
   
   //---------------- actual traverse
   const DataType Threshold = (DataType)this->Threshold;
-  //modified by STEFY 25-6-2004(begin)
-  //double distance = 0; // traversed distance
-  // inizializing the distance with a negative value, so to have also negative distances (compenetration)
-  double distance = -(this->MaxDistance + 1);
+  // initializing the distance with a negative value, so to have also negative distances (compenetration)
+  double distance = -(this->MaxDistance + 1); // traversed distance
   //modified by STEFY 25-6-2004(end)
   for ( ; (distance < this->MaxDistance) && *dataPointer < Threshold; ) {
     const int ii = (l[0] <= l[1] && l[0] <= l[2]) ? 0 : ((l[1] <= l[2]) ? 1 : 2);

@@ -42,7 +42,6 @@
 
 //------------------------------------------------------------------------------
 vtkStandardNewMacro(vtkMAFDataPipe)
-//------------------------------------------------------------------------------
 
 class vtkMAFDemandDrivenPipeline : public vtkDemandDrivenPipeline
 {
@@ -52,7 +51,6 @@ class vtkMAFDemandDrivenPipeline : public vtkDemandDrivenPipeline
 
 //------------------------------------------------------------------------------
 vtkMAFDataPipe::vtkMAFDataPipe()
-//------------------------------------------------------------------------------
 {
 	SetNumberOfOutputPorts(2);
   m_DataPipe = NULL;
@@ -60,20 +58,17 @@ vtkMAFDataPipe::vtkMAFDataPipe()
 
 //------------------------------------------------------------------------------
 vtkMAFDataPipe::~vtkMAFDataPipe()
-//------------------------------------------------------------------------------
 {
 }
 
 //----------------------------------------------------------------------------
 void vtkMAFDataPipe::SetDataPipe(mafDataPipe *dpipe)
-//----------------------------------------------------------------------------
 {
   m_DataPipe=dpipe;
 }
 
 //----------------------------------------------------------------------------
 void vtkMAFDataPipe::SetNthInput(int num, vtkDataSet *input)
-//----------------------------------------------------------------------------
 {
 	int currentPortNum=this->GetNumberOfInputPorts();
 	if (num>currentPortNum-1)
@@ -87,7 +82,6 @@ void vtkMAFDataPipe::SetNthInput(int num, vtkDataSet *input)
 //----------------------------------------------------------------------------
 // Get the MTime. Take in consideration also modifications to the MAF data pipe
 vtkMTimeType vtkMAFDataPipe::GetMTime()
-//------------------------------------------------------------------------------
 {
 	vtkMTimeType mtime = this->Superclass::GetMTime();
 
@@ -105,7 +99,6 @@ vtkMTimeType vtkMAFDataPipe::GetMTime()
 
 //------------------------------------------------------------------------------
 unsigned long vtkMAFDataPipe::GetInformationTime()
-//------------------------------------------------------------------------------
 {
 	vtkDemandDrivenPipeline* ddp = vtkDemandDrivenPipeline::SafeDownCast(this->GetExecutive());
 	if (ddp)
@@ -118,20 +111,16 @@ unsigned long vtkMAFDataPipe::GetInformationTime()
 
 //------------------------------------------------------------------------------
 void vtkMAFDataPipe::UpdateInformation()
-//------------------------------------------------------------------------------
 {
   // forward event to MAF data pipe
   if (m_DataPipe)
     m_DataPipe->OnEvent(&mafEventBase(this,VME_OUTPUT_DATA_PREUPDATE));
 
-  this->Superclass::UpdateInformation();
-
-	
+  this->Superclass::UpdateInformation();	
 }
 
 //------------------------------------------------------------------------------
 int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVector **inputVector, vtkInformationVector *outputVector)
-//------------------------------------------------------------------------------
 {
   this->SetErrorCode( vtkErrorCode::NoError );
   
@@ -157,7 +146,6 @@ int vtkMAFDataPipe::RequestInformation(vtkInformation *request, vtkInformationVe
         {
           UpdateInformation();
           vtkDataSet *new_data=input->NewInstance();
-          //new_data->CopyInformatio(data);
           
 					this->GetExecutive()->SetOutputData(i,new_data);
           new_data->Delete();
@@ -199,7 +187,7 @@ int vtkMAFDataPipe::RequestData(vtkInformation *vtkNotUsed(request),	vtkInformat
 				vtkDataObject *nthOutput = vtkDataObject::SafeDownCast(nthOutInfo->Get(vtkDataObject::DATA_OBJECT()));
 
 				if(nthOutput)
-					nthOutput->ShallowCopy(nthInput);
+					nthOutput->DeepCopy(nthInput);
       }
       else
       {

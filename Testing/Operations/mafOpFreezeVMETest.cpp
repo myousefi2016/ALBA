@@ -354,6 +354,8 @@ void mafOpFreezeVMETest::TestFreezeVMEProber()
 	mafVMESurface *probSurface=(mafVMESurface *)(freezeOp->GetOutput());
 	probSurface->ReparentTo(root);
 	probSurface->Update();
+	//	probSurface->GetOutput()->Update();
+
 	int numSrc = probSurface->GetOutput()->GetVTKData()->GetNumberOfPoints();
 	int numDst = prober->GetOutput()->GetVTKData()->GetNumberOfPoints();
 
@@ -423,6 +425,10 @@ void mafOpFreezeVMETest::TestFreezeVMEProfileSpline()
   vmePolyline->SetData(polydata, 0.0);
   vmePolyline->ReparentTo(root);
   vmePolyline->Update();
+//	vmePolyline->GetOutput()->Update();
+//	mafVMEOutputVTK * vTKOutput = vmePolyline->GetVTKOutput();
+//	mafVMEOutputPolyline * polylineOutput = vmePolyline->GetPolylineOutput();
+//	vtkPolyData * polylineData = polylineOutput->GetPolylineData();
 
   mafOpFreezeVME *freezeOp=new mafOpFreezeVME("freeze");
   freezeOp->TestModeOn();

@@ -96,6 +96,8 @@ void mafOpExporterGRFWSTest::TestWrite()
 	vtkMAFSmartPointer<vtkCubeSource> platformRight;
 	platformLeft->SetBounds(0, 10, 0, 50, 0, 5);
 	platformRight->SetBounds(0, 10, 0, 50, 0, 5);
+	platformLeft->Update();
+	platformRight->Update();
 	platform1->SetData(platformLeft->GetOutput(), 0);
 	platform2->SetData(platformRight->GetOutput(), 0);
 
@@ -255,6 +257,8 @@ void mafOpExporterGRFWSTest::TestWriteFast()
 	vtkMAFSmartPointer<vtkCubeSource> platformRight;
 	platformLeft->SetBounds(0, 10, 0, 50, 0, 5);
 	platformRight->SetBounds(0, 10, 0, 50, 0, 5);
+	platformLeft->Update();
+	platformRight->Update();
 	platform1->SetData(platformLeft->GetOutput(), 0);
 	platform2->SetData(platformRight->GetOutput(), 0);
 

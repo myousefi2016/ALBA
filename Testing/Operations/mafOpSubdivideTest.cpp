@@ -48,6 +48,8 @@ void mafOpSubdivideTest::TestOpRun()
 {
 	vtkPolyData *testPolyData;
   vtkMAFSmartPointer<vtkSphereSource> sphere;
+	sphere->Update();
+
   testPolyData = sphere->GetOutput();
 
   mafVMESurface *vmeSurface;

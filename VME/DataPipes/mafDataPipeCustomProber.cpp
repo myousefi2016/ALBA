@@ -60,6 +60,7 @@ mafDataPipeCustomProber::mafDataPipeCustomProber()
   vtkNEW(m_Normals);
   vtkNEW(m_Prober);
   m_Prober->SetInputConnection(m_Normals->GetOutputPort());
+	m_Prober->Update();
   SetInput(m_Prober->GetOutput());
 }
 
@@ -79,10 +80,16 @@ void mafDataPipeCustomProber::SetSurface(mafVME *surface)
   {
     vtkDataSet *surf_data = m_Surface->GetOutput()->GetVTKData();
     m_Normals->SetInputData((vtkPolyData *)surf_data);
+		m_Normals->Modified();
+		m_Normals->Update();
+		
+		m_Prober->Modified();
+		m_Prober->Update();
   }
   else
   {
     m_Normals->SetInputData(NULL);
+		m_Normals->Modified();
   }
 }
 //------------------------------------------------------------------------------
@@ -94,10 +101,12 @@ void mafDataPipeCustomProber::SetVolume(mafVME *volume)
   {
     vtkDataSet *vol_data = m_Volume->GetOutput()->GetVTKData();
     m_Prober->SetSource(vol_data);
+		m_Prober->Modified();
   }
   else
   {
     m_Prober->SetSource(NULL);
+		m_Prober->Modified();
   }
 }
 //------------------------------------------------------------------------------
@@ -172,6 +181,8 @@ void mafDataPipeCustomProber::PreExecute()
 void mafDataPipeCustomProber::Execute()
 //------------------------------------------------------------------------------
 {
+	m_Prober->Update();
+	SetInput(m_Prober->GetOutput());
 }
 //-----------------------------------------------------------------------
 void mafDataPipeCustomProber::SetModeToDensity()

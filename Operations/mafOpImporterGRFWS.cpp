@@ -337,6 +337,7 @@ void mafOpImporterGRFWS::ReadForcePlates()
       transff->Translate(cop1X, cop1Y, cop1Z);
       transfForL->SetTransform(transff);
       transfForL->SetInputData(force1);
+			transfForL->Update();
 
       m_ForceLeft->SetData(transfForL->GetOutput(), time);
       m_ForceLeft->Modified();

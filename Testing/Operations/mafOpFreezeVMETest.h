@@ -22,12 +22,12 @@
 class mafOpFreezeVMETest : public mafTest
 {
 	CPPUNIT_TEST_SUITE( mafOpFreezeVMETest );
-	CPPUNIT_TEST( TestDynamicAllocation );
+	CPPUNIT_TEST( TestDynamicAllocation );/*
 	CPPUNIT_TEST( TestStaticAllocation );
 	CPPUNIT_TEST( TestFreezeVMESurfaceParametric );
 	CPPUNIT_TEST( TestFreezeVMEMeter );
 	CPPUNIT_TEST( TestFreezeVMEWrappedMeter );
-	CPPUNIT_TEST( TestFreezeVMESlicer );
+	CPPUNIT_TEST( TestFreezeVMESlicer ); */
 	CPPUNIT_TEST( TestFreezeVMEProber );
   CPPUNIT_TEST( TestFreezeVMEProfileSpline );
   CPPUNIT_TEST( TestFreezeVMERefSys );

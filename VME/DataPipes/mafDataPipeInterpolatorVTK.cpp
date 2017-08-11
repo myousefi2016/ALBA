@@ -65,10 +65,9 @@ bool mafDataPipeInterpolatorVTK::Accept(mafVME *vme)
 vtkDataSet *mafDataPipeInterpolatorVTK::GetVTKData()
 //------------------------------------------------------------------------------
 {
-  m_VTKDataPipe->UpdateInformation();
-  vtkDataSet *data = vtkDataSet::SafeDownCast(m_VTKDataPipe->GetInput());
-	m_VTKDataPipe->Update();
-  return (data != NULL) ? m_VTKDataPipe->GetOutput() : NULL;
+	m_VTKDataPipe->UpdateInformation();
+  m_VTKDataPipe->Update();
+  return m_VTKDataPipe->GetOutput();
 }
 
 //----------------------------------------------------------------------------
