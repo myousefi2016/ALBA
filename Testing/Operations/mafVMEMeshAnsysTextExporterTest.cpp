@@ -47,21 +47,22 @@
 #include "vtkLookupTable.h"
 #include "vtkActor.h"
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestFixture()
 {
 
 }
-
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::BeforeTest()
 {
 
 }
-
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::AfterTest()
 {
 
 }
-
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestConstructorDestructor()
 {
   mafVMEMeshAnsysTextExporter *exporter = new mafVMEMeshAnsysTextExporter  ;
@@ -71,7 +72,7 @@ void mafVMEMeshAnsysTextExporterTest::TestConstructorDestructor()
   delete exporter;
 }
 
-
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::Read( mafVMEMeshAnsysTextImporter *reader, \
 mafString &dirPrefix, bool readMaterials /*= false*/, bool writeToDisk /*= false*/,\
 mafString &outputFileName , mafString inputNLISTFileName /*= "NLIST.lis"*/, \
@@ -111,6 +112,7 @@ mafString inputELISTFileName /*= "ELIST.lis"*/, mafString inputMPLISTFileName /*
   SaveUnstructuredGridToFile(outputDir, outputFileName, data);
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::SaveUnstructuredGridToFile(mafString &dirPrefix, mafString &fileName, vtkUnstructuredGrid *data)
 {
   // save output to file
@@ -125,6 +127,7 @@ void mafVMEMeshAnsysTextExporterTest::SaveUnstructuredGridToFile(mafString &dirP
   writer->SetFileName(gridFileName.GetCStr());
   writer->Write();
 }
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::ReadAndDisplay( mafString &dirPrefix, int dataType /*= 0*/, bool readMaterials /*= false*/, bool writeToDisk /*= false*/ )
 {
   mafVMEMeshAnsysTextImporter* reader = new mafVMEMeshAnsysTextImporter;
@@ -235,6 +238,7 @@ void mafVMEMeshAnsysTextExporterTest::ReadAndDisplay( mafString &dirPrefix, int 
   ugrid->Delete();
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::RenderData(  vtkUnstructuredGrid *data, int dataType)
 {
 
@@ -318,7 +322,8 @@ void mafVMEMeshAnsysTextExporterTest::RenderData(  vtkUnstructuredGrid *data, in
   // renderWindowInteractor->Start();
 
 }
-  
+
+//----------------------------------------------------------------------------------------
 int mafVMEMeshAnsysTextExporterTest::GetRowsNumber(vtkUnstructuredGrid *inputUGrid)
 {
   int numberOfPoints = inputUGrid->GetNumberOfPoints();
@@ -326,6 +331,8 @@ int mafVMEMeshAnsysTextExporterTest::GetRowsNumber(vtkUnstructuredGrid *inputUGr
   int rowsNumber = numberOfPoints;
   return rowsNumber;
 }
+
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestTetra10TrivialMeshExport()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -357,6 +364,12 @@ void mafVMEMeshAnsysTextExporterTest::TestTetra10TrivialMeshExport()
   exporter->SetInput(ugrid);
   exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
   exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
+ 	
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+ 	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
   exporter->Write();
 
   // mesh with materials
@@ -379,17 +392,22 @@ void mafVMEMeshAnsysTextExporterTest::TestTetra10TrivialMeshExport()
   exporter->SetInput(ugrid);
   exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
   exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
+
+	mafOpExporterFEMCommon tmpFEMop2;
+	tmpFEMop2.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop2.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop2.GetMatIdArray());
+
   exporter->Write();
 
   // cleanup
   delete exporter;
   delete reader;
-
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestTetra10NodesIdJumpingMaterialsIdJumpingMaterialsGroupingNoTimevarExport()
 {
-
 	mafString dirPrefix = MAF_DATA_ROOT;
 	dirPrefix << "/FEM/ANSYS/tet10/Tetra10NodesIdJumpingMaterialsIdJumpingMaterialsGroupingNoTimevar/";
 
@@ -419,6 +437,12 @@ void mafVMEMeshAnsysTextExporterTest::TestTetra10NodesIdJumpingMaterialsIdJumpin
 	exporter->SetInput(ugrid);
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
+
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->Write();
 
 	// mesh with materials
@@ -441,6 +465,12 @@ void mafVMEMeshAnsysTextExporterTest::TestTetra10NodesIdJumpingMaterialsIdJumpin
 	exporter->SetInput(ugrid);
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
+
+	mafOpExporterFEMCommon tmpFEMop2;
+	tmpFEMop2.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop2.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop2.GetMatIdArray());
+
 	exporter->Write();
 
 	// cleanup
@@ -448,6 +478,7 @@ void mafVMEMeshAnsysTextExporterTest::TestTetra10NodesIdJumpingMaterialsIdJumpin
 	delete reader;
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMaterialsIdJumpingMaterialsGroupingNoTimevarExport()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -490,12 +521,27 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMate
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+
+ 	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
+	reader->SetNodesFileName(outputNodesFileName.GetCStr());
+	reader->SetElementsFileName(outputElementsFileName.GetCStr());
+	reader->SetMaterialsFileName(outputMaterialsFileName.GetCStr());
+	reader->Read();
+// 	this->Read(reader, dirPrefix, true, true, mafString("BonemattedMeshWithMaterials.vtk"));
+// 
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->Write();
 
 	// cleanup
 	delete exporter;
+	delete reader;
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMaterialsIdJumpingMaterialsGroupingNoTimevarExportWithAppliedPose()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -543,14 +589,30 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMate
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+
+	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
+	reader->SetNodesFileName(outputNodesFileName.GetCStr());
+	reader->SetElementsFileName(outputElementsFileName.GetCStr());
+	reader->SetMaterialsFileName(outputMaterialsFileName.GetCStr());
+	reader->Read();
+	// 	this->Read(reader, dirPrefix, true, true, mafString("BonemattedMeshWithMaterials.vtk"));
+	// 
+
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->ApplyMatrixOn();
 	exporter->SetMatrix(mat);
 	exporter->Write();
 
 	// cleanup
 	delete exporter;
+	delete reader;
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingNoMaterialsNoTimeVarExport()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -593,12 +655,27 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingNoMa
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+
+	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
+	reader->SetNodesFileName(outputNodesFileName.GetCStr());
+	reader->SetElementsFileName(outputElementsFileName.GetCStr());
+	reader->SetMaterialsFileName(outputMaterialsFileName.GetCStr());
+	reader->Read();
+	// 	this->Read(reader, dirPrefix, true, true, mafString("BonemattedMeshWithMaterials.vtk"));
+	// 
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->Write();
 
 	// cleanup
 	delete exporter;
+	delete reader;
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestExportTetra10VtkWithoutAnsysInformation()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -641,6 +718,19 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra10VtkWithoutAnsysInformatio
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+
+	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
+	reader->SetNodesFileName(outputNodesFileName.GetCStr());
+	reader->SetElementsFileName(outputElementsFileName.GetCStr());
+	reader->SetMaterialsFileName(outputMaterialsFileName.GetCStr());
+	reader->Read();
+	// 	this->Read(reader, dirPrefix, true, true, mafString("BonemattedMeshWithMaterials.vtk"));
+	// 
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->Write();
 
 	// cleanup
@@ -662,8 +752,10 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra10VtkWithoutAnsysInformatio
 	CPPUNIT_ASSERT(numCells == 2);
 
 	delete importer;
+	delete reader;
 }
 
+//----------------------------------------------------------------------------------------
 void mafVMEMeshAnsysTextExporterTest::TestExportTetra4VtkWithoutAnsysInformation()
 {
 	mafString dirPrefix = MAF_DATA_ROOT;
@@ -706,6 +798,19 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra4VtkWithoutAnsysInformation
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+
+	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
+	reader->SetNodesFileName(outputNodesFileName.GetCStr());
+	reader->SetElementsFileName(outputElementsFileName.GetCStr());
+	reader->SetMaterialsFileName(outputMaterialsFileName.GetCStr());
+	reader->Read();
+	// 	this->Read(reader, dirPrefix, true, true, mafString("BonemattedMeshWithMaterials.vtk"));
+	// 
+	mafOpExporterFEMCommon tmpFEMop1;
+	tmpFEMop1.SetInput(reader->GetOutput());
+	exporter->SetMaterialData(tmpFEMop1.GetMaterialData());
+	exporter->SetMatIdArray(tmpFEMop1.GetMatIdArray());
+
 	exporter->Write();
 
 	// cleanup
@@ -727,4 +832,5 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra4VtkWithoutAnsysInformation
 	CPPUNIT_ASSERT(numCells == 2);
 
 	delete importer;
+	delete reader;
 }
