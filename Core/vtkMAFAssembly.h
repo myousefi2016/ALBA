@@ -76,7 +76,7 @@ public:
   assemblies; that is, assemblies that only serve to group and transform
   its parts.*/
   int RenderOpaqueGeometry(vtkViewport *ren);
-  int RenderTranslucentGeometry(vtkViewport *ren);
+  int RenderTranslucentPolygonalGeometry(vtkViewport *ren);
 
   /**
   Release any graphics resources that are being consumed by this actor.

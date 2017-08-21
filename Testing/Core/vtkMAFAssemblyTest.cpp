@@ -274,7 +274,7 @@ void vtkMAFAssemblyTest::RenderOpaqueGeometryTest()
   vtkDEL(assembly);
 }
 //----------------------------------------------------------------------------
-void vtkMAFAssemblyTest::RenderTranslucentGeometry()
+void vtkMAFAssemblyTest::RenderTranslucentPolygonalGeometryTest()
 //----------------------------------------------------------------------------
 {
   vtkTimerLog::SetLogging(0); // Must shutdown logging otherwise it will generate leaks

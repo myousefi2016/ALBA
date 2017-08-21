@@ -279,13 +279,16 @@ void vtkMAFAssembly::PrintSelf(ostream& os, vtkIndent indent)
 }
 
 //-----------------------------------------------------------------------------
-int vtkMAFAssembly::RenderTranslucentGeometry(vtkViewport *ren)
+int vtkMAFAssembly::RenderTranslucentPolygonalGeometry(vtkViewport *ren)
 {
 	int renderedSomething = 0;
 
 	if (GetVisibility())
 	{
 		vtkAssemblyPath *path;
+
+		if (!Paths)
+			UpdatePaths();
 
 		// for allocating render time between components
 		const float fraction = this->AllocatedRenderTime
