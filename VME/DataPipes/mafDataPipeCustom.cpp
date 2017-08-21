@@ -122,7 +122,4 @@ void mafDataPipeCustom::SetNthInput(int n, vtkDataSet *input_dataset)
 {
 	vtkMAFDataPipe * vtkDataPipe = GetVTKDataPipe();
   vtkDataPipe->SetNthInput(n,input_dataset);
-	vtkDataPipe->Modified();
-	vtkDataPipe->Update();
-	vtkDataSet* tmpOut = vtkDataPipe->GetOutput();
 }
