@@ -62,7 +62,6 @@ SET(PROJECT_SRCS
 	mafPipeCompoundVolumeMIPTest.h mafPipeCompoundVolumeMIPTest.cpp
 	mafPipeCompoundVolumeDRRTest.h mafPipeCompoundVolumeDRRTest.cpp
 	mafPipeCompoundVolumeIsosurfaceTest.h mafPipeCompoundVolumeIsosurfaceTest.cpp
-	mafPipeRayCastTest.h mafPipeRayCastTest.cpp
 )
 
 ADD_EXECUTABLE(mafVisualPipesTests ${PROJECT_SRCS})

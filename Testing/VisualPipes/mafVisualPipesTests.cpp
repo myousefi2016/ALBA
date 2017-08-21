@@ -45,7 +45,6 @@
 #include "mafPipePolylineGraphEditorTest.h"
 #include "mafPipePolylineSliceTest.h"
 #include "mafPipePolylineTest.h"
-#include "mafPipeRayCastTest.h"
 #include "mafPipeScalarMatrixTest.h"
 #include "mafPipeScalarTest.h"
 #include "mafPipeSliceTest.h"
@@ -163,7 +162,6 @@ int	main( int argc, char* argv[] )
 	runner.addTest(mafPipeCompoundVolumeMIPTest::suite());
 	runner.addTest(mafPipeCompoundVolumeDRRTest::suite());
 	runner.addTest(mafPipeCompoundVolumeIsosurfaceTest::suite());
-	runner.addTest(mafPipeRayCastTest::suite());
 
 	runner.run( controller );
 
