@@ -48,18 +48,18 @@ void vtkMAFDistanceFilterTest::TestInput()
 {
 	vtkMAFSmartPointer<vtkMAFDistanceFilter> filter;
 
-	CPPUNIT_ASSERT(filter->GetNumberOfInputs() == 0);
+	CPPUNIT_ASSERT(filter->GetTotalNumberOfInputConnections() == 0);
 
 	vtkMAFSmartPointer<vtkSphereSource> sphere;
 	sphere->Update();
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normals;
-	normals->SetInput(sphere->GetOutput());
+	normals->SetInputConnection(sphere->GetOutputPort());
 
-	filter->SetInput((vtkDataSet *)normals->GetOutput());
+	filter->SetInputConnection(normals->GetOutputPort());
 	filter->Update();
 
-	CPPUNIT_ASSERT(filter->GetNumberOfInputs() == 1);
+	CPPUNIT_ASSERT(filter->GetTotalNumberOfInputConnections() == 1);
 }
 
 //----------------------------------------------------------------------------
@@ -111,7 +111,6 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 	importer->OpRun();
 
 	mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->ReparentTo(root);
 	volume->Update();
 	
@@ -123,7 +122,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 	sphere->Update();
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normals;
-	normals->SetInput(sphere->GetOutput());
+	normals->SetInputConnection(sphere->GetOutputPort());
 
 	// Create Filter
 	vtkMAFSmartPointer<vtkMAFDistanceFilter> filter;
@@ -132,7 +131,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 	filter->SetFilterModeToDensity();
 
 	filter->SetSource(volume->GetOutput()->GetVTKData());
-	filter->SetInput((vtkDataSet *)normals->GetOutput());
+	filter->SetInputConnection(normals->GetOutputPort());
 	filter->Update();
 
 	//	
@@ -146,21 +145,21 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
   CPPUNIT_ASSERT(vectors == NULL && scalars != NULL);
 
 	double val = 0.88789987564086914;
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(5)[1] == val);   // 0.88789987564086914
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(10)[1] == val);  // 0.88789987564086914
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(57)[1] == -val); //-0.88789987564086914
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(22)[2] == val);  // 0.88789987564086914
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(55)[2] == val);  // 0.88789987564086914
+	CPPUNIT_ASSERT(scalars->GetTuple(5)[1] == val);   // 0.88789987564086914
+	CPPUNIT_ASSERT(scalars->GetTuple(10)[1] == val);  // 0.88789987564086914
+	CPPUNIT_ASSERT(scalars->GetTuple(57)[1] == -val); //-0.88789987564086914
+	CPPUNIT_ASSERT(scalars->GetTuple(22)[2] == val);  // 0.88789987564086914
+	CPPUNIT_ASSERT(scalars->GetTuple(55)[2] == val);  // 0.88789987564086914
 
 	val = 0.88789993524551392;
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(28)[1] == -val); //-0.88789993524551392
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(50)[1] == val);  // 0.88789993524551392
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(16)[2] == val);  // 0.88789993524551392
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(40)[2] == -val); //-0.88789993524551392
+	CPPUNIT_ASSERT(scalars->GetTuple(28)[1] == -val); //-0.88789993524551392
+	CPPUNIT_ASSERT(scalars->GetTuple(50)[1] == val);  // 0.88789993524551392
+	CPPUNIT_ASSERT(scalars->GetTuple(16)[2] == val);  // 0.88789993524551392
+	CPPUNIT_ASSERT(scalars->GetTuple(40)[2] == -val); //-0.88789993524551392
 
 	val = 0.88789981603622437;
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(34)[1] == -val); //-0.88789981603622437
-	CPPUNIT_ASSERT(filter->GetOutput()->GetPointData()->GetTuple(46)[2] == -val); //-0.88789981603622437
+	CPPUNIT_ASSERT(scalars->GetTuple(34)[1] == -val); //-0.88789981603622437
+	CPPUNIT_ASSERT(scalars->GetTuple(46)[2] == -val); //-0.88789981603622437
 
 	//
 	volume->ReparentTo(NULL);
@@ -187,7 +186,6 @@ void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 	importer->OpRun();
 
 	mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->GetOutput()->GetVTKData()->Update();
 	volume->ReparentTo(root);
 	volume->Update();
 
@@ -195,7 +193,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 	sphere->Update();
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normals;
-	normals->SetInput(sphere->GetOutput());
+	normals->SetInputConnection(sphere->GetOutputPort());
 
 	// Create Filter
 	vtkMAFSmartPointer<vtkMAFDistanceFilter> filter;
@@ -204,7 +202,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 	filter->SetFilterModeToDistance();
 
 	filter->SetSource(volume->GetOutput()->GetVTKData());
-	filter->SetInput((vtkDataSet *)normals->GetOutput());
+	filter->SetInputConnection(normals->GetOutputPort());
 	filter->Update();
 
 	//	
