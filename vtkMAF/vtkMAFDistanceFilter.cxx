@@ -101,15 +101,15 @@ int	vtkMAFDistanceFilter::RequestUpdateExtent( vtkInformation *request, vtkInfor
   if (source)
     this->SetUpdateExtentToWholeExtent();
 
-	return 0;
+	return 1;
 }
 
-//----------------------------------------------------------------------------
-int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
-{
-
-	return 0;
-}
+// ----------------------------------------------------------------------------
+// int vtkMAFDistanceFilter::RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector)
+// {
+// 
+// 	return 0;
+// }
 
 
 //----------------------------------------------------------------------------
@@ -253,7 +253,7 @@ int vtkMAFDistanceFilter::RequestData(vtkInformation* request, vtkInformationVec
 
 		output->Modified();
 	}
-	return 0;
+	return 1;
 }
 
 //--------------------------------------------------------------------------------------
@@ -309,8 +309,8 @@ template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double o
   const DataType Threshold = (DataType)this->Threshold;
   // initializing the distance with a negative value, so to have also negative distances (compenetration)
   double distance = -(this->MaxDistance + 1); // traversed distance
-  //modified by STEFY 25-6-2004(end)
-  for ( ; (distance < this->MaxDistance) && *dataPointer < Threshold; ) {
+
+	for ( ; (distance < this->MaxDistance) && *dataPointer < Threshold; ) {
     const int ii = (l[0] <= l[1] && l[0] <= l[2]) ? 0 : ((l[1] <= l[2]) ? 1 : 2);
     distance = l[ii];
     

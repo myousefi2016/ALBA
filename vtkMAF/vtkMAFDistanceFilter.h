@@ -119,7 +119,7 @@ class MAF_EXPORT vtkMAFDistanceFilter : public vtkDataSetAlgorithm  {
 		vtkMTimeType GetMTime();
 
     /** execute information*/
-    int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
+    //int RequestInformation(vtkInformation *vtkNotUsed(request), vtkInformationVector **inputVector, vtkInformationVector *outputVector);
     /** execute data*/
 		int RequestData(vtkInformation* request, vtkInformationVector** inputVector, vtkInformationVector* outputVector);
 		/** execute data*/
