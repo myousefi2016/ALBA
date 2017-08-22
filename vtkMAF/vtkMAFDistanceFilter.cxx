@@ -333,8 +333,6 @@ template<typename DataType> double vtkMAFDistanceFilter::TraceRay(const double o
 //------------------------------------------------------------------------
 template<typename DataType> double vtkMAFDistanceFilter::FindDensity(const double point[3], const DataType *dataPointer) 
 {
-  vtkRectilinearGrid *gridData  = vtkRectilinearGrid::SafeDownCast(this->GetSource());
-
   double density = 0.f, xyz[3], dxyz[3];
   int ixyz[3];
   // convert point to index

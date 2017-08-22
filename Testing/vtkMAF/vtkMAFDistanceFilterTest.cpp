@@ -27,13 +27,9 @@
 #include "vtkMAFDistanceFilterTest.h"
 #include "vtkMAFDistanceFilter.h"
 #include "vtkSphereSource.h"
-#include "mafVMEStorage.h"
-#include "mafVMERoot.h"
-#include "mafOpImporterVTK.h"
-#include "mafVMEVolumeGray.h"
 #include "vtkPolyDataNormals.h"
 #include "vtkMAFSmartPointer.h"
-
+#include "vtkDataSetReader.h"
 
 //-----------------------------------------------------------
 void vtkMAFDistanceFilterTest::TestDynamicAllocation()
@@ -95,30 +91,16 @@ void vtkMAFDistanceFilterTest::TestGetSet()
 //----------------------------------------------------------------------------
 void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 {
-	mafVMEStorage *storage = mafVMEStorage::New();
-	storage->GetRoot()->SetName("root");
-	storage->GetRoot()->Initialize();
-
-	mafVMERoot *root = storage->GetRoot();
-
+	////// import vtkData ////////////////////
+	vtkDataSetReader *importer;
+	vtkNEW(importer);
 	mafString filename = MAF_DATA_ROOT;
 	filename << "/VTK_Volumes/volume.vtk";
-
-	mafOpImporterVTK *importer = new mafOpImporterVTK("importer");
-	importer->TestModeOn();
-	importer->SetInput(root);
-	importer->SetFileName(filename.GetCStr());
-	importer->OpRun();
-
-	mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->ReparentTo(root);
-	volume->Update();
+	importer->SetFileName(filename);
+	importer->Update();
 	
 	vtkMAFSmartPointer<vtkSphereSource> sphere;
-// 	sphere->SetThetaResolution(6);
-// 	sphere->SetPhiResolution(6);
-// 	sphere->SetCenter(0, 0, 0);
-// 	sphere->SetRadius(1.0);
+ 	sphere->SetCenter(60, 60, 50);
 	sphere->Update();
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normals;
@@ -130,7 +112,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 	filter->SetDistanceModeToScalar();
 	filter->SetFilterModeToDensity();
 
-	filter->SetSource(volume->GetOutput()->GetVTKData());
+	filter->SetSource(importer->GetOutput());
 	filter->SetInputConnection(normals->GetOutputPort());
 	filter->Update();
 
@@ -144,52 +126,30 @@ void vtkMAFDistanceFilterTest::TestFilter_Scalar_Density()
 	
   CPPUNIT_ASSERT(vectors == NULL && scalars != NULL);
 
-	double val = 0.88789987564086914;
-	CPPUNIT_ASSERT(scalars->GetTuple(5)[1] == val);   // 0.88789987564086914
-	CPPUNIT_ASSERT(scalars->GetTuple(10)[1] == val);  // 0.88789987564086914
-	CPPUNIT_ASSERT(scalars->GetTuple(57)[1] == -val); //-0.88789987564086914
-	CPPUNIT_ASSERT(scalars->GetTuple(22)[2] == val);  // 0.88789987564086914
-	CPPUNIT_ASSERT(scalars->GetTuple(55)[2] == val);  // 0.88789987564086914
-
-	val = 0.88789993524551392;
-	CPPUNIT_ASSERT(scalars->GetTuple(28)[1] == -val); //-0.88789993524551392
-	CPPUNIT_ASSERT(scalars->GetTuple(50)[1] == val);  // 0.88789993524551392
-	CPPUNIT_ASSERT(scalars->GetTuple(16)[2] == val);  // 0.88789993524551392
-	CPPUNIT_ASSERT(scalars->GetTuple(40)[2] == -val); //-0.88789993524551392
-
-	val = 0.88789981603622437;
-	CPPUNIT_ASSERT(scalars->GetTuple(34)[1] == -val); //-0.88789981603622437
-	CPPUNIT_ASSERT(scalars->GetTuple(46)[2] == -val); //-0.88789981603622437
+	CPPUNIT_ASSERT(scalars->GetTuple1(10) == 19877.480468750000);
+	CPPUNIT_ASSERT(scalars->GetTuple1(15) == 18057.615234375000);
+	CPPUNIT_ASSERT(scalars->GetTuple1(20) == 18629.535156250000);
+	CPPUNIT_ASSERT(scalars->GetTuple1(31) == 20268.123046875000);
+	CPPUNIT_ASSERT(scalars->GetTuple1(44) == 19265.169921875000);
+	CPPUNIT_ASSERT(scalars->GetTuple1(55) == 17749.121093750000);
 
 	//
-	volume->ReparentTo(NULL);
-	cppDEL(importer);
-	mafDEL(storage);
+	vtkDEL(importer);
 }
 
 //----------------------------------------------------------------------------
 void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 {
-	mafVMEStorage *storage = mafVMEStorage::New();
-	storage->GetRoot()->SetName("root");
-	storage->GetRoot()->Initialize();
-
-	mafVMERoot *root = storage->GetRoot();
-
+	////// import vtkData ////////////////////
+	vtkDataSetReader *importer;
+	vtkNEW(importer);
 	mafString filename = MAF_DATA_ROOT;
 	filename << "/VTK_Volumes/volume.vtk";
-
-	mafOpImporterVTK *importer = new mafOpImporterVTK("importer");
-	importer->TestModeOn();
-	importer->SetInput(root);
-	importer->SetFileName(filename.GetCStr());
-	importer->OpRun();
-
-	mafVMEVolumeGray *volume = mafVMEVolumeGray::SafeDownCast(importer->GetOutput());
-	volume->ReparentTo(root);
-	volume->Update();
-
+	importer->SetFileName(filename);
+	importer->Update();
+	
 	vtkMAFSmartPointer<vtkSphereSource> sphere;
+	sphere->SetCenter(60, 60, 50);
 	sphere->Update();
 
 	vtkMAFSmartPointer<vtkPolyDataNormals> normals;
@@ -201,7 +161,7 @@ void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 	filter->SetDistanceModeToVector();
 	filter->SetFilterModeToDistance();
 
-	filter->SetSource(volume->GetOutput()->GetVTKData());
+	filter->SetSource(importer->GetOutput());
 	filter->SetInputConnection(normals->GetOutputPort());
 	filter->Update();
 
@@ -211,18 +171,18 @@ void vtkMAFDistanceFilterTest::TestFilter_Vector_Distance()
 
 	CPPUNIT_ASSERT(vectors != NULL && scalars == NULL);
 
-	double val = 8.8789997100830078;
-	CPPUNIT_ASSERT(vectors->GetTuple3(28)[0] == -val); //-8.8789997100830078
-	CPPUNIT_ASSERT(vectors->GetTuple3(50)[0] == val);  // 8.8789997100830078
-	CPPUNIT_ASSERT(vectors->GetTuple3(16)[1] == val);  // 8.8789997100830078
-	CPPUNIT_ASSERT(vectors->GetTuple3(40)[1] == -val); //-8.8789997100830078
-	CPPUNIT_ASSERT(vectors->GetTuple3(61)[1] == -val); //-8.8789997100830078
+	CPPUNIT_ASSERT(vectors->GetTuple3(10)[0] == -9.7669057846069336);
+	CPPUNIT_ASSERT(vectors->GetTuple3(10)[1] == -4.0455884933471680);
+	CPPUNIT_ASSERT(vectors->GetTuple3(10)[2] == -3.0398604869842529);
 
-	CPPUNIT_ASSERT(vectors->GetTuple3(0)[2] == 10.0);
-	CPPUNIT_ASSERT(vectors->GetTuple3(1)[2] == -10.0);
+	CPPUNIT_ASSERT(vectors->GetTuple3(33)[0] == 5.9230184555053711);
+	CPPUNIT_ASSERT(vectors->GetTuple3(33)[1] == 6.2009935379028320);
+	CPPUNIT_ASSERT(vectors->GetTuple3(33)[2] == -6.8895235061645508);
 
+	CPPUNIT_ASSERT(vectors->GetTuple3(55)[0] == 4.0455870628356934);
+	CPPUNIT_ASSERT(vectors->GetTuple3(55)[1] == -9.7669029235839844);
+	CPPUNIT_ASSERT(vectors->GetTuple3(55)[2] == 3.0398747920989990);
+	
 	//
-	volume->ReparentTo(NULL);
-	cppDEL(importer);
-	mafDEL(storage);
+	vtkDEL(importer);
 }
