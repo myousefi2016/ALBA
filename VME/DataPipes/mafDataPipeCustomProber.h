@@ -36,7 +36,7 @@ class mafVME;
 class MAF_EXPORT mafDataPipeCustomProber : public mafDataPipeCustom
 {
 public:
-  mafTypeMacro(mafDataPipeCustomProber,mafDataPipe);
+  mafTypeMacro(mafDataPipeCustomProber, mafDataPipeCustom);
 
   enum PROBING_MODALITY
   {
