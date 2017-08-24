@@ -216,9 +216,7 @@ void mafRWI::CreateRenderingScene(wxWindow *parent, RWI_LAYERS layers, bool use_
 
   m_RwiBase->SetRenderWindow(m_RenderWindow);
   m_RwiBase->Initialize();
-
-  assert(m_AlwaysVisibleRenderer->Transparent()	== true);
-
+	  
 	m_ShowOrientator = show_orientator;
 
 	vtkNEW(m_Orientator);
