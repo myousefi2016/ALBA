@@ -521,6 +521,7 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMate
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+	exporter->Write();
 
  	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
 	reader->SetNodesFileName(outputNodesFileName.GetCStr());
@@ -589,6 +590,7 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingMate
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+	exporter->Write();
 
 	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
 	reader->SetNodesFileName(outputNodesFileName.GetCStr());
@@ -655,7 +657,8 @@ void mafVMEMeshAnsysTextExporterTest::TestBonemattedTetra10ElementsIdJumpingNoMa
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
-
+	exporter->Write();
+	
 	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
 	reader->SetNodesFileName(outputNodesFileName.GetCStr());
 	reader->SetElementsFileName(outputElementsFileName.GetCStr());
@@ -718,6 +721,7 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra10VtkWithoutAnsysInformatio
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+	exporter->Write();
 
 	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
 	reader->SetNodesFileName(outputNodesFileName.GetCStr());
@@ -798,6 +802,7 @@ void mafVMEMeshAnsysTextExporterTest::TestExportTetra4VtkWithoutAnsysInformation
 	exporter->SetOutputNodesFileName(outputNodesFileName.GetCStr());
 	exporter->SetOutputElementsFileName(outputElementsFileName.GetCStr());
 	exporter->SetOutputMaterialsFileName(outputMaterialsFileName.GetCStr());
+	exporter->Write();
 
 	mafVMEMeshAnsysTextImporter *reader = new mafVMEMeshAnsysTextImporter;
 	reader->SetNodesFileName(outputNodesFileName.GetCStr());
