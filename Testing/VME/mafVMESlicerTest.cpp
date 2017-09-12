@@ -155,13 +155,13 @@ void mafVMESlicerTest::TestBug2454And2524Regression()
 	int numTuples = da->GetNumberOfTuples();
 
 	unsigned char value = da->GetValue(100011);
-	CPPUNIT_ASSERT(value == 43);
+	CPPUNIT_ASSERT(value == 28);
 
 	value = da->GetValue(200087);
-	CPPUNIT_ASSERT(value == 108);
+	CPPUNIT_ASSERT(value == 70);
 
 	value = da->GetValue(240289);
-	CPPUNIT_ASSERT(value == 48);
+	CPPUNIT_ASSERT(value == 125);
 
 	renWin->Render();
 
