@@ -771,7 +771,6 @@ void mafInteractor2DDistance::CreateHistogram()
 
     m_PlotActor->RemoveAllDataSetInputConnections();
 
-    //TODO VTK7 Can be 		m_PlotActor->AddDataSetInput()
 		m_PlotActor->AddDataObjectInputConnection(prober->GetOutputPort());
     m_HistogramRWI->m_RwiBase->Render();
   }

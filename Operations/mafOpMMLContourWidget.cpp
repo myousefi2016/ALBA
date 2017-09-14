@@ -1386,8 +1386,6 @@ void mafOpMMLContourWidget::PlaceWidget(double bds[6])
 
 vtkPolyDataAlgorithm* mafOpMMLContourWidget::GetPolyDataAlgorithm()
 {
-	//TODO VTK 7 
-	//manage return value
 	return NULL;
 }
 

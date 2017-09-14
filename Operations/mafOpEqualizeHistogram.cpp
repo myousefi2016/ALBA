@@ -139,7 +139,7 @@ void mafOpEqualizeHistogram::OpRun()
   m_VolumeInput->Update();
 
   mafNEW(m_VolumeOutput);
-  m_VolumeOutput->SetData(vtkStructuredPoints::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData()),m_VolumeInput->GetTimeStamp());
+  m_VolumeOutput->SetData(vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData()),m_VolumeInput->GetTimeStamp());
   mafString name = m_VolumeInput->GetName();
   name<<" - Equalized Histogram";
   m_VolumeOutput->SetName(name);
