@@ -30,7 +30,7 @@
 #include "vtkMAFSmartPointer.h"
 #include "vtkStructuredPointsReader.h"
 #include "vtkStructuredPointsWriter.h"
-#include "vtkImageData.h"
+#include "vtkStructuredPoints.h"
 #include "vtkDataArray.h"
 #include "vtkPointData.h"
 

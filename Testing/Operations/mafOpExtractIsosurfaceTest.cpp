@@ -35,7 +35,7 @@
 #include "mafVMEVolumeGray.h"
 #include "mafVMEGenericAbstract.h"
 #include "vtkMAFSmartPointer.h"
-#include "vtkImageData.h"
+#include "vtkStructuredPoints.h"
 #include "vtkRectilinearGrid.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(result);
