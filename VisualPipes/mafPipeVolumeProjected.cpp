@@ -37,7 +37,7 @@
 #include "vtkWindowLevelLookupTable.h"
 #include "vtkCellArray.h"
 #include "vtkPolyData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPlaneSource.h"
 #include "vtkTexture.h"
@@ -202,7 +202,7 @@ void mafPipeVolumeProjected::Create(mafSceneNode *n)
 			}
 		}
 	}
-  vtkStructuredPoints *sp_data = vtkStructuredPoints::SafeDownCast(vtk_data);
+  vtkImageData *sp_data = vtkImageData::SafeDownCast(vtk_data);
 	if (sp_data)
 	{
 		int dim[3];

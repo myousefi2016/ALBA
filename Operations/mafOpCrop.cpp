@@ -37,7 +37,7 @@
 #include "vtkMAFSmartPointer.h"
 #include "vtkPolyData.h"
 #include "vtkRectilinearGrid.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkProbeFilter.h"
 #include "vtkExtractRectilinearGrid.h"
 #include "vtkDoubleArray.h"
@@ -106,10 +106,10 @@ void mafOpCrop::OpRun()
 		m_GizmoROI->Show(e.GetBool());
 	}
 
-	if (volume->GetOutput()->GetVTKData()->IsA("vtkStructuredPoints"))
+	if (volume->GetOutput()->GetVTKData()->IsA("vtkImageData"))
   {
 		vtkNEW(m_InputSP);
-		m_InputSP->DeepCopy(vtkStructuredPoints::SafeDownCast(volume->GetOutput()->GetVTKData()));
+		m_InputSP->DeepCopy(vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData()));
 		m_InputSP->GetBounds(m_InputBounds);	
 		if(!m_TestMode)
 			m_GizmoROI->SetBounds(m_InputBounds);
@@ -195,7 +195,7 @@ void mafOpCrop::Crop()
 		extractRG->Delete();
 		extractRG = NULL;
 	}
-	else if (output->GetVTKData()->IsA("vtkStructuredPoints"))
+	else if (output->GetVTKData()->IsA("vtkImageData"))
 	{
 		int voi_dim[6];
         int original_vol_dim[6];
@@ -268,7 +268,7 @@ void mafOpCrop::Crop()
 		m_InputSP->GetOrigin(in_org);
 
 		// using the vtkMAFSmartPointer allows you to don't mind the object Delete
-		vtkMAFSmartPointer<vtkStructuredPoints> v_esp;
+		vtkMAFSmartPointer<vtkImageData> v_esp;
 		v_esp->SetOrigin(in_org[0] + voi_dim[0] * m_XSpacing,
 										 in_org[1] + voi_dim[2] * m_YSpacing,
 										 in_org[2] + voi_dim[4] * m_ZSpacing);

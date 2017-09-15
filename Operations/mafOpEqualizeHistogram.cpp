@@ -36,7 +36,7 @@
 #include "vtkImageData.h"
 #include "vtkImageCast.h"
 #include "vtkPointData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkImageToStructuredPoints.h"
 
 #include "itkVTKImageToImageFilter.h"
@@ -110,7 +110,7 @@ void mafOpEqualizeHistogram::OpRun()
 {
   m_VolumeInput = mafVMEVolumeGray::SafeDownCast(m_Input);
 
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
   //vtkImageData *im = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
   if (sp == NULL)
   {

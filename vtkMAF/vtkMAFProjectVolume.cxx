@@ -17,7 +17,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "mafDefines.h"
 #include "vtkMAFProjectVolume.h"
 #include "vtkObjectFactory.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 #include "vtkRectilinearGrid.h"
@@ -50,7 +50,7 @@ vtkMAFProjectVolume::vtkMAFProjectVolume()
 int vtkMAFProjectVolume::FillOutputPortInformation(int port, vtkInformation* info)
 {
 	// now add our info
-	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints");
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData");
 	return 1;
 }
 

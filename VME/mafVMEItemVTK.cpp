@@ -41,6 +41,7 @@
 #include "vtkRectilinearGridReader.h"
 #include "vtkStructuredGrid.h"
 #include "vtkStructuredGridReader.h"
+#include "vtkImageData.h"
 #include "vtkStructuredPoints.h"
 #include "vtkStructuredPointsReader.h"
 #include "vtkUnstructuredGrid.h"
@@ -349,7 +350,7 @@ int mafVMEItemVTK::ReadData(mafString &filename, int resolvedURL)
     {
       reader = vtkStructuredPointsReader::New();
       UpdateReader(reader, filename);
-      data = ((vtkStructuredPointsReader *)reader)->GetOutput();
+      data = vtkImageData::SafeDownCast(((vtkStructuredPointsReader *)reader)->GetOutput());
     }
     else if (datatype == "vtkStructuredGrid")
     {

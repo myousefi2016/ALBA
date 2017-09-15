@@ -31,7 +31,7 @@
 #include "mafVMESurfaceParametric.h"
 #include "mafVMEVolumeGray.h"
 
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(result);
 
@@ -66,7 +66,7 @@ void mafOpVOIDensityEditorTestTest::EditVolumeScalarsTest()
   mafVMEVolumeGray *vol = mafVMEVolumeGray::SafeDownCast(opVolume->GetOutput());
 
   double sr[2];
-  vtkStructuredPoints *data = vtkStructuredPoints::SafeDownCast(vol->GetOutput()->GetVTKData());
+  vtkImageData *data = vtkImageData::SafeDownCast(vol->GetOutput()->GetVTKData());
   data->GetScalarRange(sr);
   result = mafEquals(sr[0], sr[1]);
   TEST_RESULT;
@@ -85,7 +85,7 @@ void mafOpVOIDensityEditorTestTest::EditVolumeScalarsTest()
   editDensity->SetSurface(surf);
   editDensity->EditVolumeScalars();
   
-  data = vtkStructuredPoints::SafeDownCast(vol->GetOutput()->GetVTKData());
+  data = vtkImageData::SafeDownCast(vol->GetOutput()->GetVTKData());
   data->GetScalarRange(sr);
   result = !mafEquals(sr[0], sr[1]);
   TEST_RESULT;

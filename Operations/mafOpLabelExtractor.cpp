@@ -46,7 +46,7 @@
 #include "vtkImageThreshold.h"
 #include "vtkMatrix4x4.h"
 #include "vtkMAFContourVolumeMapper.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkPointData.h"
@@ -475,7 +475,7 @@ void mafOpLabelExtractor::ExtractLabel()
   }
   else
   {
-    vtkMAFSmartPointer<vtkStructuredPoints> sp = (vtkStructuredPoints *)m_Ds;
+    vtkMAFSmartPointer<vtkImageData> sp = (vtkImageData *)m_Ds;
     vol->DeepCopy((vtkImageData *)sp);  
   }
   

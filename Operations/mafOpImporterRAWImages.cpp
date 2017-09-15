@@ -52,7 +52,7 @@
 #include "vtkTexture.h" 
 #include "vtkPolyDataMapper.h"
 #include "vtkPlaneSource.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkImageToStructuredPoints.h"
 #include "vtkWindowLevelLookupTable.h"
 #include "vtkOutlineFilter.h"
@@ -984,7 +984,7 @@ bool mafOpImporterRAWImages::Import()
   ///////////////////////////////////////////////////////////////////////
   if(m_Rect)
   {
-    // conversion from vtkStructuredPoints to vtkRectilinearGrid
+    // conversion from vtkImageData to vtkRectilinearGrid
     vtkImageData	*structured_data = convert->GetOutput();
     vtkPointData *data = structured_data->GetPointData();
     vtkDataArray *scalars = data->GetScalars();

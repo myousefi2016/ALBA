@@ -21,7 +21,7 @@
 #include "vtkMAFVolumeResample.h"
 
 #include "vtkDataSet.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 #include "vtkRectilinearGridReader.h"
 #include "vtkRectilinearGrid.h"

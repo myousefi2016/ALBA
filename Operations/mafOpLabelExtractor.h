@@ -32,7 +32,7 @@ class mafOp;
 class mafGUI;
 class mafEvent;
 class vtkDataSet;
-class vtkStructuredPoints;
+class vtkImageData;
 
 #ifdef MAF_EXPORTS
 #include "mafDllMacros.h"
@@ -94,7 +94,7 @@ protected:
   int      m_SamplingRate[3];
 	wxString m_SurfaceName;
 
-  vtkStructuredPoints *m_OutputData;
+  vtkImageData *m_OutputData;
   vtkDataSet          *m_Ds;
 	mafVMESurface       *m_Vme;
   mafGUICheckListBox     *m_LabelCheckBox;

@@ -34,7 +34,7 @@
 #include "mafTagArray.h"
 
 #include "vtkDataSet.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkImageCast.h"
 #include "vtkPoints.h"
 #include "vtkSphereSource.h"
@@ -370,7 +370,7 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::OnEvent(mafEventBase *maf
         double b[6],spacing[3],origin[3];
         mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetBounds(b);
 
-        vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
+        vtkImageData *sp = vtkImageData::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
 
         sp->GetSpacing(spacing);
         sp->GetOrigin(origin);
@@ -407,7 +407,7 @@ void mafOpSegmentationRegionGrowingConnectedThreshold::OnEvent(mafEventBase *maf
           GetLogicManager()->VmeShow(m_Sphere, true);
 					GetLogicManager()->CameraUpdate();
 
-          vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
+          vtkImageData *sp = vtkImageData::SafeDownCast(mafVMEVolumeGray::SafeDownCast(m_ResampleInput)->GetOutput()->GetVTKData());
 
           int id;
           id = e->GetArg();

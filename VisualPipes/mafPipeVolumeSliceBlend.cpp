@@ -44,7 +44,7 @@
 #include "vtkPolyData.h"
 #include "vtkActor.h"
 #include "vtkOutlineCornerFilter.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkMAFVolumeSlicer.h"
 #include "vtkProperty.h"
@@ -314,7 +314,7 @@ void mafPipeVolumeSliceBlend::CreateSlice(int direction)
   double xspc = 0.33, yspc = 0.33, zspc = 1.0;
 
   vtkDataSet *vtk_data = m_Vme->GetOutput()->GetVTKData();
-  if(vtk_data->IsA("vtkImageData") || vtk_data->IsA("vtkStructuredPoints"))
+  if(vtk_data->IsA("vtkImageData") || vtk_data->IsA("vtkImageData"))
   {
     ((vtkImageData *)vtk_data)->GetSpacing(xspc,yspc,zspc);
   }

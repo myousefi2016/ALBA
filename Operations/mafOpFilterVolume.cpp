@@ -35,7 +35,7 @@
 #include "vtkImageGaussianSmooth.h"
 #include "vtkImageMedian3D.h"
 #include "vtkDataSet.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 #include "vtkRectilinearGrid.h"
@@ -417,7 +417,7 @@ void mafOpFilterVolume::OnReplace()
 	vtkDataArray *outputScalars;
 
 	vtkMAFSmartPointer<vtkRectilinearGrid> outputDataRG;
-	vtkMAFSmartPointer<vtkStructuredPoints> outputDataSP;
+	vtkMAFSmartPointer<vtkImageData> outputDataSP;
 
 	if (inputData->IsA("vtkRectilinearGrid"))
 	{

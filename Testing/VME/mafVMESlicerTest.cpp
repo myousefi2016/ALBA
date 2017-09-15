@@ -46,7 +46,7 @@
 #include "vtkImageActor.h"
 #include "vtkDataSetWriter.h"
 #include "vtkImageData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 #include <iostream>
 #include "vtkDataSet.h"

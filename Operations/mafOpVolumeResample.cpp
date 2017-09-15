@@ -51,7 +51,7 @@
 #include "vtkOutlineSource.h"
 #include "vtkProperty.h"
 #include "vtkPolyData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPointData.h"
 #include "vtkTransform.h"
@@ -1277,10 +1277,10 @@ void mafOpVolumeResample::PrintVolume( ostream& os , mafVME *volume , const char
   vtkDataSet *inputDataSet = input->GetOutput()->GetVTKData();
   if (logMessage) os << logMessage << std::endl;
   os << "data is: ";
-  if (inputDataSet->IsA("vtkStructuredPoints"))
+  if (inputDataSet->IsA("vtkImageData"))
   {
-    os << "vtkStructuredPoints" << std::endl;
-    vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(inputDataSet);
+    os << "vtkImageData" << std::endl;
+    vtkImageData *sp = vtkImageData::SafeDownCast(inputDataSet);
     double origin[3];
     sp->GetOrigin(origin);
     PrintDouble3(os, origin, "origin");

@@ -35,7 +35,7 @@
 #include "vtkMAFSmartPointer.h"
 
 #include "vtkDataSet.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 
 #include "vtkFeatureEdges.h"
@@ -205,9 +205,9 @@ void mafOpVOIDensityEditor::EditVolumeScalars()
 
   vtkDataSet *volumeData = m_Input->GetOutput()->GetVTKData();
   
-  if (volumeData->IsA("vtkStructuredPoints"))
+  if (volumeData->IsA("vtkImageData"))
   {
-    m_OldData = vtkStructuredPoints::New();
+    m_OldData = vtkImageData::New();
   }
   else if (volumeData->IsA("vtkRectilinearGrid"))
   {
@@ -261,9 +261,9 @@ void mafOpVOIDensityEditor::OpUndo()
   if (m_OldData != NULL)
   {
     int result = MAF_ERROR;
-    if (m_OldData->IsA("vtkStructuredPoints"))
+    if (m_OldData->IsA("vtkImageData"))
     {
-      result = ((mafVMEVolumeGray *)m_Input)->SetData((vtkStructuredPoints *)m_OldData, m_CurrentTimestamp);
+      result = ((mafVMEVolumeGray *)m_Input)->SetData((vtkImageData *)m_OldData, m_CurrentTimestamp);
     }
     else if (m_OldData->IsA("vtkRectilinearGrid"))
     {

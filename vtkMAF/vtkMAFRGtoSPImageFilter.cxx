@@ -17,7 +17,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "mafDefines.h"
 #include "vtkMAFRGtoSPImageFilter.h"
 #include "vtkObjectFactory.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 #include "vtkRectilinearGrid.h"
@@ -37,7 +37,7 @@ vtkStandardNewMacro(vtkMAFRGtoSPImageFilter);
 int vtkMAFRGtoSPImageFilter::FillOutputPortInformation(int port, vtkInformation* info)
 {
 	// now add our info
-	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints");
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData");
 	return 1;
 }
 
@@ -55,7 +55,7 @@ int vtkMAFRGtoSPImageFilter::RequestInformation(vtkInformation *vtkNotUsed(reque
 
 	// Initialize some frequently used values.
 	vtkRectilinearGrid  *input = vtkRectilinearGrid::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
-	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkImageData *output = vtkImageData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 	
 	int dims[3], outDims[3], extent[6];
 	double bestSpacing[3], outputSpacing[3],bounds[6];

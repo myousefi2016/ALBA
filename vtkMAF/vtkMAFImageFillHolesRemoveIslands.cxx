@@ -20,7 +20,7 @@
 
 #include "vtkMAFSmartPointer.h"
 #include "vtkObjectFactory.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkUnsignedCharArray.h"
 #include "vtkDoubleArray.h"
 #include "vtkPointData.h"
@@ -80,8 +80,8 @@ int vtkMAFImageFillHolesRemoveIslands::RequestData( vtkInformation *vtkNotUsed(r
 	vtkInformation *outInfo = outputVector->GetInformationObject(0);
 
 	// Initialize some frequently used values.
-	vtkStructuredPoints  *input = vtkStructuredPoints::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
-	vtkStructuredPoints *output = vtkStructuredPoints::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkImageData  *input = vtkImageData::SafeDownCast(inInfo->Get(vtkDataObject::DATA_OBJECT()));
+	vtkImageData *output = vtkImageData::SafeDownCast(outInfo->Get(vtkDataObject::DATA_OBJECT()));
 
 
   output->DeepCopy(input);

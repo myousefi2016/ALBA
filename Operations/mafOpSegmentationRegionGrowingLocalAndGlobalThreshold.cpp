@@ -42,7 +42,7 @@
 #include "vtkMAFRegionGrowingLocalGlobalThreshold.h"
 #include "vtkImageData.h"
 #include "vtkPointData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkImageToStructuredPoints.h"
 #include "vtkPolyDataConnectivityFilter.h"
 #include "vtkImageMedian3D.h"
@@ -155,7 +155,7 @@ void mafOpSegmentationRegionGrowingLocalAndGlobalThreshold::OpRun()
 {
   m_VolumeInput = mafVMEVolumeGray::SafeDownCast(m_Input);
 
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
   vtkImageData *im = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
   if (sp == NULL && im == NULL)
   {

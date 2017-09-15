@@ -30,7 +30,7 @@
 #include "vtkMAFSmartPointer.h"
 #include "vtkStructuredPointsReader.h"
 #include "vtkStructuredPointsWriter.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkDataArray.h"
 #include "vtkPointData.h"
 
@@ -52,7 +52,7 @@ void vtkMAFRayCastCleanerTest::TestFilter()
 //-------------------------------------------------------------------------
 {
 
-  vtkStructuredPoints *oldOutput,*newOutput;
+  vtkImageData *oldOutput,*newOutput;
 
   //Loading unfiltered data
   vtkMAFSmartPointer<vtkStructuredPointsReader> r;
@@ -76,7 +76,7 @@ void vtkMAFRayCastCleanerTest::TestFilter()
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
+  newOutput=vtkImageData::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));
@@ -110,7 +110,7 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
 //-------------------------------------------------------------------------
 {
 
-  vtkStructuredPoints *oldOutput,*newOutput;
+  vtkImageData *oldOutput,*newOutput;
   
   //Loading unfiltered data
   vtkMAFSmartPointer<vtkStructuredPointsReader> r;
@@ -134,7 +134,7 @@ void vtkMAFRayCastCleanerTest::TestFilterMR()
   
   //getting output
   oldOutput=r2->GetOutput();
-  newOutput=vtkStructuredPoints::SafeDownCast(filter->GetOutput());
+  newOutput=vtkImageData::SafeDownCast(filter->GetOutput());
   
   //base tests
   CPPUNIT_ASSERT( (oldOutput!= NULL) && (newOutput != NULL));

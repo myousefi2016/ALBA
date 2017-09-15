@@ -36,7 +36,7 @@
 
 #include "vtkRectilinearGrid.h"
 #include "vtkImageData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkShortArray.h"
 
@@ -115,7 +115,7 @@ void mafOpExporterRAWTest::Test()
 	DataExported->ComputeBounds();
 	CPPUNIT_ASSERT(DataExported);
 
-	vtkStructuredPoints *DataImported=vtkStructuredPoints::SafeDownCast(vmeVolumeGrayImported->GetOutput()->GetVTKData());
+	vtkImageData *DataImported=vtkImageData::SafeDownCast(vmeVolumeGrayImported->GetOutput()->GetVTKData());
 	DataImported->ComputeBounds();
 	CPPUNIT_ASSERT(DataImported);
 

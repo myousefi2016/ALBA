@@ -54,7 +54,7 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include "mafConfigure.h"
 #include <vtkRectilinearGridAlgorithm.h>
 #include "vtkRectilinearGrid.h"
-#include <vtkStructuredPoints.h>
+#include <vtkImageData.h>
 #include <vtkImageData.h>
 
 class MAF_EXPORT vtkMAFRGSliceAccumulate : public vtkRectilinearGridAlgorithm
@@ -68,10 +68,6 @@ public:
   /**
   Set the slice into the RectilinearGrid*/
   void SetSlice(int slice_num,vtkImageData *slice, double* unRotatedOrigin);
-  void SetSlice(int slice_num, vtkStructuredPoints * slice,double* unRotatedOrigin)
-  {
-	  SetSlice(slice_num, (vtkImageData *)slice, unRotatedOrigin);
-  }
  
   /**
   Dimensions of rectilinearGrid*/

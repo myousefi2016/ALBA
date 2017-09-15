@@ -31,7 +31,7 @@
 #include "mafTagItem.h"
 #include "mafVMERoot.h"
 #include "mafVMEStorage.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkPointData.h"

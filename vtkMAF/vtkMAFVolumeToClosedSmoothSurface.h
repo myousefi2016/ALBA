@@ -21,7 +21,7 @@
 #include "vtkMAFContourVolumeMapper.h"
 #include "vtkMatrix4x4.h"
 class vtkImageData;
-class vtkStructuredPoints;
+class vtkImageData;
 class vtkDataArray;
 
 

@@ -39,7 +39,7 @@
 #include "vtkRenderer.h"
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkCamera.h"
 
 #include "vtkMAFSmartPointer.h"
@@ -117,7 +117,7 @@ void mafPipeVectorFieldSliceTest::TestCreate()
 
 	int x, y, z;
 	x = y = z = 10;
-	vtkMAFSmartPointer<vtkStructuredPoints> image;
+	vtkMAFSmartPointer<vtkImageData> image;
 	double origin[3] = { 0.0,0.0, -45. };
 	image->SetOrigin(origin);
 	image->SetDimensions(x, y, z);

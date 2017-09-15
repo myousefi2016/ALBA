@@ -29,7 +29,7 @@
 #include "mafVMEVolumeGray.h"
 #include "mafVMEOutputVolume.h"
 
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 #define TEST_RESULT CPPUNIT_ASSERT(result);
 
@@ -98,7 +98,7 @@ void mafOpCreateVolumeTest::VolumeCreatedTest()
   op->SetVolumeDimensions(dimensions);
   op->CreateVolume();
   mafVMEVolumeGray *vol = mafVMEVolumeGray::SafeDownCast(op->GetOutput());
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vol->GetVolumeOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(vol->GetVolumeOutput()->GetVTKData());
   
   double spc[3], sr[2], dim[3], b[6];
   sp->GetSpacing(spc);

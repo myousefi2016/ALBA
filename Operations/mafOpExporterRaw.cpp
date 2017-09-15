@@ -42,7 +42,7 @@
 #include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkImageWriter.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkDoubleArray.h"
 #include "vtkShortArray.h"
 #include "vtkDataSet.h"
@@ -138,8 +138,8 @@ void mafOpExporterRAW::SaveVolume()
 	mafVMEVolumeGray *volume=mafVMEVolumeGray::SafeDownCast(m_Input);
 	volume->Modified();
 	
-	//if it is a vtkStructuredPoints
-	if (vtkStructuredPoints::SafeDownCast(volume->GetOutput()->GetVTKData()) || vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData()))
+	//if it is a vtkImageData
+	if (vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData()) || vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData()))
 	{
 		int dim[3];
 		vtkImageData *ImageData = vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData());
@@ -245,7 +245,7 @@ void mafOpExporterRAW::SaveVolume()
 		if (m_SingleFile)
 		{
 					
-			vtkStructuredPoints *StructuredPoints;
+			vtkImageData *StructuredPoints;
 			vtkNEW(StructuredPoints);
 
 			StructuredPoints->SetOrigin(xmin, ymin, zmin);
@@ -336,7 +336,7 @@ void mafOpExporterRAW::SaveVolume()
 		{
 			int slice_size = xdim*ydim;
 
-			vtkStructuredPoints *StructuredPoints;
+			vtkImageData *StructuredPoints;
 			vtkNEW(StructuredPoints);
 			StructuredPoints->SetOrigin(xmin, ymin, 0);
 			StructuredPoints->SetDimensions(xdim, ydim, 1);

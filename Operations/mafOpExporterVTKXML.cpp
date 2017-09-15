@@ -39,7 +39,7 @@
 #include "vtkAbstractTransform.h"
 #include "vtkImageCast.h"
 #include "vtkImageData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPolyData.h"
 #include "mafVMEGroup.h"
 #include "vtkTransformFilter.h"
@@ -100,7 +100,7 @@ void mafOpExporterVTKXML::OpRun()
   vtkDataSet *inputData = m_Input->GetOutput()->GetVTKData();
   assert(inputData);
 
-  bool isStructuredPoints = inputData->IsA("vtkStructuredPoints") != 0;
+  bool isStructuredPoints = inputData->IsA("vtkImageData") != 0;
 
   mafString wildc;
   if(inputData->IsA("vtkRectilinearGrid"))

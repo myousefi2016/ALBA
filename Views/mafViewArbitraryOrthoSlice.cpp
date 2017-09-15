@@ -86,7 +86,7 @@ const int BOUND_1=1;
 #include "mafGizmoInterface.h"
 #include "mafDataPipe.h"
 #include <algorithm>
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkDataSetWriter.h"
 #include "vtkUnsignedShortArray.h"
 #include "vtkShortArray.h"
@@ -3086,7 +3086,7 @@ void mafViewArbitraryOrthoSlice::AccumulateTextures( mafVMESlicer *inSlicer, dou
 	assert(m_InputVolume);
 	assert(m_InputVolume->IsA("mafVMEVolumeGray"));
 
-	vtkStructuredPoints *structuredPoints = vtkStructuredPoints::SafeDownCast(m_InputVolume->GetDataPipe()->GetVTKData());
+	vtkImageData *structuredPoints = vtkImageData::SafeDownCast(m_InputVolume->GetDataPipe()->GetVTKData());
 
 	// BEWARE: working for structured points only
 	// TODO REFACTOR THIS:
@@ -3998,7 +3998,7 @@ void mafViewArbitraryOrthoSlice::OnEventID_ENABLE_THICKNESS( int color )
 {
 	assert(m_InputVolume);
 
-	vtkStructuredPoints *structuredPoints = vtkStructuredPoints::SafeDownCast(m_InputVolume->GetDataPipe()->GetVTKData());
+	vtkImageData *structuredPoints = vtkImageData::SafeDownCast(m_InputVolume->GetDataPipe()->GetVTKData());
 
 	// BEWARE: working for structured points only
 	// TODO REFACTOR THIS:

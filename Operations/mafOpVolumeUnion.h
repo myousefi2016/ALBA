@@ -31,7 +31,7 @@ class mafString;
 class vtkProbeFilter;
 class vtkRectilinearGrid;
 class vtkProbeFilter;
-class vtkStructuredPoints;
+class vtkImageData;
 class mafVMEVolume;  
 
 //----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public:
   bool m_vme_is_selected;
 
   vtkRectilinearGrid *m_VolUnionRG; ///< Pointer for Rectilinear Grid volume union
-  vtkStructuredPoints *m_VolUnionRGstr;
+  vtkImageData *m_VolUnionRGstr;
   mafVMEVolume *m_FirstVMEVolume;
   mafVMEVolume *m_SecondVMEVolume;
 

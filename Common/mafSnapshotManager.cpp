@@ -47,7 +47,7 @@
 #include "vtkJPEGWriter.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkProbeFilter.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkUnsignedCharArray.h"
 #include "vtkPointData.h"
 #include "mafRWI.h"
@@ -556,7 +556,7 @@ int mafSnapshotManager::SaveVMEImage(mafVMEImage *image, wxString imageFileName,
 			origin[0] = -((DIALOG_W - (w / scaling)) / 2)*scaling;
 			origin[1] = -((DIALOG_H - (h / scaling)) / 2)*scaling;
 
-			vtkStructuredPoints *SP = vtkStructuredPoints::New();
+			vtkImageData *SP = vtkImageData::New();
 			SP->SetOrigin(origin[0], origin[1], origin[2]);
 			SP->SetDimensions(DIALOG_W, DIALOG_H, 1);
 			SP->SetSpacing(scaling, scaling, 1);

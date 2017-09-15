@@ -25,7 +25,7 @@ vtkStandardNewMacro(vtkMAFStructuredPointsAlgorithm);
 int vtkMAFStructuredPointsAlgorithm::FillOutputPortInformation(int port, vtkInformation* info)
 {
 	// now add our info
-	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints"); 
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData"); 
 	return 1;
 }
 

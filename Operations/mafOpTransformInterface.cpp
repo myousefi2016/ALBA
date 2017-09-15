@@ -43,7 +43,7 @@
 #include "vtkTransform.h"
 #include "vtkPolyData.h"
 #include "vtkUnstructuredGrid.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkTransformPolyDataFilter.h"
 #include "vtkTransformFilter.h"
@@ -144,7 +144,7 @@ void mafOpTransformInterface::OpDo()
   vtkMAFSmartPointer<vtkPolyData> pd;
   vtkMAFSmartPointer<vtkUnstructuredGrid> ug;
   vtkMAFSmartPointer<vtkRectilinearGrid> rg;
-  vtkMAFSmartPointer<vtkStructuredPoints> sp;
+  vtkMAFSmartPointer<vtkImageData> sp;
 
   if (m_EnableScaling == 1 && 
       // group has no dataset
@@ -220,14 +220,14 @@ void mafOpTransformInterface::OpDo()
 
       ((mafVMEGeneric *)m_Input)->SetData(tf->GetOutput(),m_Input->GetTimeStamp());
     }
-    else if (dataSet->IsA("vtkStructuredPoints"))
+    else if (dataSet->IsA("vtkImageData"))
     {
       if (!m_TestMode)
       {
       	wxBusyInfo wait_info("Applying scaling to data...");
       }
 
-      vtkStructuredPoints *currentSP = vtkStructuredPoints::SafeDownCast(m_Input->GetOutput()->GetVTKData());
+      vtkImageData *currentSP = vtkImageData::SafeDownCast(m_Input->GetOutput()->GetVTKData());
       assert(currentSP);
  
       sp->DeepCopy(currentSP);

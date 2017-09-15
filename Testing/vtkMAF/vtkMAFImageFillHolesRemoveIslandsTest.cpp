@@ -34,7 +34,7 @@
 #include "vtkTexture.h"
 #include "vtkPlaneSource.h"
 #include "vtkWindowLevelLookupTable.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkTimerLog.h"
 
@@ -124,7 +124,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::TestAlgorithm()
   r->Update();
 
   //create vtkImageData from zero and set the correct parameters (spacing, dimension) ...
-  vtkStructuredPoints *originalImage = vtkStructuredPoints::New();
+  vtkImageData *originalImage = vtkImageData::New();
   originalImage->SetSpacing(r->GetOutput()->GetSpacing());
   originalImage->SetDimensions(r->GetOutput()->GetDimensions());
   //originalImage->AllocateScalars();
@@ -148,7 +148,7 @@ void vtkMAFImageFillHolesRemoveIslandsTest::TestAlgorithm()
   filter->SetAlgorithm(m_Algorithm);
   filter->Update();
 
-  vtkStructuredPoints *outputImage = vtkStructuredPoints::New();
+  vtkImageData *outputImage = vtkImageData::New();
   outputImage->DeepCopy(filter->GetOutput());
 
   vtkPlaneSource *imagePlane = vtkPlaneSource::New();

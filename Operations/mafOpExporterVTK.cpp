@@ -39,7 +39,7 @@
 #include "vtkAbstractTransform.h"
 #include "vtkImageCast.h"
 #include "vtkImageData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPolyData.h"
 #include "mafVMEGroup.h"
 #include "mafProgressBarHelper.h"
@@ -100,7 +100,7 @@ void mafOpExporterVTK::OpRun()
   vtkDataSet *inputData = m_Input->GetOutput()->GetVTKData();
   assert(inputData);
 
-  bool isStructuredPoints = inputData->IsA("vtkStructuredPoints");
+  bool isStructuredPoints = inputData->IsA("vtkImageData");
 
   mafString wildc = "vtk Data (*.vtk)|*.vtk";
 
@@ -196,7 +196,7 @@ void mafOpExporterVTK::SaveVTKData()
   
   if (m_ForceUnsignedShortScalarOutputForStructuredPoints)
   {    
-    imageCast->SetInputData(vtkStructuredPoints::SafeDownCast(inputData));
+    imageCast->SetInputData(vtkImageData::SafeDownCast(inputData));
     imageCast->SetOutputScalarTypeToUnsignedShort();
     imageCast->Update();
     writerInput = imageCast->GetOutput();

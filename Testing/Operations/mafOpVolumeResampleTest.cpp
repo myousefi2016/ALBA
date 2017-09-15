@@ -41,7 +41,7 @@ typedef mafOpVolumeResample movr;
 
 #include "vtkMAFSmartPointer.h"
 #include "vtkDataSet.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkDataSetWriter.h"
 #include "vtkTransform.h"
@@ -123,7 +123,7 @@ void mafOpVolumeResampleTest::TestResampleInternal( const char *inFileName, cons
   opVolumeResample->Resample();
 
   mafVME *Output = opVolumeResample->GetOutput();
-  vtkStructuredPoints *outputVTKData=vtkStructuredPoints::SafeDownCast(Output->GetOutput()->GetVTKData());
+  vtkImageData *outputVTKData=vtkImageData::SafeDownCast(Output->GetOutput()->GetVTKData());
 
   CPPUNIT_ASSERT(outputVTKData!=NULL);
 

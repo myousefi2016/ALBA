@@ -32,7 +32,7 @@
 #include "mafVMEVolumeGray.h"
 
 #include "vtkMAFSmartPointer.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkDoubleArray.h"
 
@@ -142,7 +142,7 @@ void mafOpCreateVolume::CreateVolume()
   sca->SetNumberOfTuples(num_comp);
   sca->FillComponent(0, m_Density);
 
-  vtkMAFSmartPointer<vtkStructuredPoints> vol;
+  vtkMAFSmartPointer<vtkImageData> vol;
   vol->SetSpacing(m_Spacing);
   vol->SetDimensions(dim);
   vol->SetExtent(0, dim[0]-1, 0, dim[1]-1, 0, dim[2]-1);

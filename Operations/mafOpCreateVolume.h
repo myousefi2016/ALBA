@@ -67,7 +67,7 @@ public:
   /** Set/Get the volume real dimension.*/
   void GetVolumeDimensions(double dim[3]);
 
-  /** Create the vtkStructuredPoints and put it into the mafVolumeGray.*/
+  /** Create the vtkImageData and put it into the mafVolumeGray.*/
   void CreateVolume();
 
 private:

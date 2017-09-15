@@ -36,7 +36,7 @@
 #include "vtkFloatArray.h"
 #include "vtkPointData.h"
 #include "vtkRenderWindowInteractor.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkMAFSmartPointer.h"
 #include "vtkMAFAssembly.h"
 #include "vtkProp3DCollection.h"
@@ -107,7 +107,7 @@ void mafPipeTensorFieldGlyphsTest::TestCreate()
 	
   int x,y,z;
   x = y = z = 10;
-  vtkMAFSmartPointer<vtkStructuredPoints> image;
+  vtkMAFSmartPointer<vtkImageData> image;
   double origin[3] = {0.0,0.0, -45.};
   image->SetOrigin(origin);
   image->SetDimensions(x,y,z);

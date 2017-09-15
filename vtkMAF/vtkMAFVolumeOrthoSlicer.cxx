@@ -17,7 +17,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "mafDefines.h"
 #include "vtkMAFVolumeOrthoSlicer.h"
 #include "vtkObjectFactory.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
 #include "vtkRectilinearGrid.h"
@@ -57,7 +57,7 @@ vtkMAFVolumeOrthoSlicer::vtkMAFVolumeOrthoSlicer()
 int vtkMAFVolumeOrthoSlicer::FillOutputPortInformation(int port, vtkInformation* info)
 {
 	// now add our info
-	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkStructuredPoints");
+	info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData");
 	return 1;
 }
 

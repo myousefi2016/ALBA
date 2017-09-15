@@ -46,7 +46,7 @@
 #include "vtkDataArray.h"
 #include "vtkPointData.h"
 #include "vtkRectilinearGrid.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkDoubleArray.h"
 
 //----------------------------------------------------------------------------
@@ -478,9 +478,9 @@ bool mafOpImporterRAWVolume::Import()
 
 	if(m_BuildRectilinearGrid)
 	{
-		// conversion from vtkStructuredPoints to vtkRectilinearGrid
+		// conversion from vtkImageData to vtkRectilinearGrid
 
-		vtkMAFSmartPointer<vtkStructuredPoints> structured_data = (vtkStructuredPoints *)image_to_sp->GetOutput();
+		vtkMAFSmartPointer<vtkImageData> structured_data = (vtkImageData *)image_to_sp->GetOutput();
 		vtkMAFSmartPointer<vtkPointData> data = structured_data->GetPointData();
 		vtkMAFSmartPointer<vtkDataArray> scalars = data->GetScalars();
 

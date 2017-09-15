@@ -34,7 +34,7 @@
 #include "mafVMEPointSet.h"
 
 #include "vtkPolyData.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkUnstructuredGrid.h"
 

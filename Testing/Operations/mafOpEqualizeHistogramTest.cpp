@@ -32,7 +32,7 @@
 #include "vtkDataSetReader.h"
 #include "vtkImageData.h"
 #include "vtkImageCast.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkDataSet.h"
 #include "vtkDataArray.h"
@@ -141,7 +141,7 @@ void OpEqualizeHistogramDerivedTestClass::ExecuteOpRun()
 
 
 
-  /*vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
+  /*vtkImageData *sp = vtkImageData::SafeDownCast(m_VolumeInput->GetOutput()->GetVTKData());
   if (sp == NULL)
   {
     op->SetInput(m_VolumeInput);

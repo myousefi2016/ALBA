@@ -39,7 +39,7 @@
 #include "vtkDataSet.h"
 #include "vtkPointData.h"
 #include "vtkRectilinearGridReader.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 //-----------------------------------------------------------
 void mafOpCropTest::TestCropRG() 
@@ -162,8 +162,8 @@ void mafOpCropTest::TestCropSP()
 	Input->GetOutput()->GetBounds(b_out);
 	
 	double volumeSpacing[3];	
-	((vtkStructuredPoints*)Input->GetOutput()->GetVTKData())->GetSpacing(volumeSpacing);
-	((vtkStructuredPoints*)Input->GetOutput()->GetVTKData())->GetBounds(b_out);
+	((vtkImageData*)Input->GetOutput()->GetVTKData())->GetSpacing(volumeSpacing);
+	((vtkImageData*)Input->GetOutput()->GetVTKData())->GetBounds(b_out);
 
 	for(int i=0;i<3;i++)
 	{

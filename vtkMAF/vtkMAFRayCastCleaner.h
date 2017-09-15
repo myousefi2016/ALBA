@@ -21,7 +21,7 @@
 #include "vtkMAFStructuredPointsAlgorithm.h"
 
 class vtkImageData;
-class vtkStructuredPoints;
+class vtkImageData;
 class vtkDataArray;
 
 

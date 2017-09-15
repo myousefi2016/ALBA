@@ -42,7 +42,7 @@
 #include <iostream>
 #include <fstream>
 #include "mafVMEOutputVolume.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 
 //----------------------------------------------------------------------------
 void mafPipeVolumeProjectedTest::TestFixture()
@@ -88,7 +88,7 @@ void mafPipeVolumeProjectedTest::TestPipeExecution()
   Importer->Update();
   mafVMEVolumeGray *volumeInput;
   mafNEW(volumeInput);
-  volumeInput->SetData((vtkStructuredPoints*)Importer->GetOutput(),0.0);
+  volumeInput->SetData((vtkImageData*)Importer->GetOutput(),0.0);
   volumeInput->GetOutput()->Update();
   volumeInput->Update();
 
@@ -157,12 +157,12 @@ void mafPipeVolumeProjectedTest::TestProjectionRange()
 	Importer->Update();
 	mafVMEVolumeGray *volumeInput;
 	mafNEW(volumeInput);
-	volumeInput->SetData((vtkStructuredPoints*)Importer->GetOutput(), 0.0);
+	volumeInput->SetData((vtkImageData*)Importer->GetOutput(), 0.0);
 	volumeInput->GetOutput()->Update();
 	volumeInput->Update();
 	
 	//Creating a range valid for all sides
-	int *dims = vtkStructuredPoints::SafeDownCast(volumeInput->GetOutput()->GetVTKData())->GetDimensions();
+	int *dims = vtkImageData::SafeDownCast(volumeInput->GetOutput()->GetVTKData())->GetDimensions();
 	int minDim = MIN(dims[0], MIN(dims[1], dims[2]));
 	int prjRange[2];
 	prjRange[0] = minDim/4;

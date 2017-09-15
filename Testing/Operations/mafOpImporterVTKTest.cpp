@@ -34,7 +34,7 @@
 #include "mafVMEPolyline.h"
 #include "vtkPolyData.h"
 #include "mafVMEVolumeGray.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "mafVMELandmarkCloud.h"
 #include "mafVMESurface.h"
@@ -163,7 +163,7 @@ void mafOpImporterVTKTest::TestImportVTKVolumeSP()
 	volume->Modified();
 	volume->Update();
 
-	vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(volume->GetOutput()->GetVTKData());
+	vtkImageData *sp = vtkImageData::SafeDownCast(volume->GetOutput()->GetVTKData());
 
 	CPPUNIT_ASSERT(sp != NULL);
 	CPPUNIT_ASSERT(sp->GetNumberOfPoints() == 517440);

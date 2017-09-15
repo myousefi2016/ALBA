@@ -68,7 +68,7 @@ class vtkTextMapper;
 class vtkSphereSource;
 class vtkPolyDataMapper;
 class vtkActor;
-class vtkStructuredPoints;
+class vtkImageData;
 class vtkUnsignedCharArray;
 class mafViewSliceNotInterpolated;
 class wxStaticBoxSizer;
@@ -559,10 +559,10 @@ protected:
   void ResetRefinementRedoList();
 
   /** Apply refinement algorithm implemented with ITK (not used) */
-  bool ApplyRefinementFilter(vtkStructuredPoints *inputImage, vtkStructuredPoints *outputImage);
+  bool ApplyRefinementFilter(vtkImageData *inputImage, vtkImageData *outputImage);
 
   /** Apply refinement algorithm implemented with vtk only */
-  bool ApplyRefinementFilter2(vtkStructuredPoints *inputImage, vtkStructuredPoints *outputImage);
+  bool ApplyRefinementFilter2(vtkImageData *inputImage, vtkImageData *outputImage);
 
   /** Update slice visualisation on threshold step */
   void OnEventUpdateThresholdSlice();

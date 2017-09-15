@@ -32,7 +32,7 @@
 
 #include "vtkMAFSmartPointer.h"
 #include "vtkDataSetReader.h"
-#include "vtkStructuredPoints.h"
+#include "vtkImageData.h"
 #include "vtkRectilinearGrid.h"
 #include "vtkPointData.h"
 #include "vtkDataArray.h"
@@ -58,7 +58,7 @@ void mafVMESegmentationVolumeTest::BeforeTest()
   filename<<"/VTK_Volumes/volumeSP.vtk";
   r->SetFileName(filename);
   r->Update();
-  m_Volume->SetData(vtkStructuredPoints::SafeDownCast(r->GetOutput()),0.0);
+  m_Volume->SetData(vtkImageData::SafeDownCast(r->GetOutput()),0.0);
   m_Volume->Update();
 
   m_VolumeRG = NULL;
@@ -78,7 +78,7 @@ void mafVMESegmentationVolumeTest::BeforeTest()
   filename<<"/VTK_Volumes/manualMask.vtk";
   r->SetFileName(filename);
   r->Update();
-  m_VolumeManualMask->SetData(vtkStructuredPoints::SafeDownCast(r->GetOutput()),0.0);
+  m_VolumeManualMask->SetData(vtkImageData::SafeDownCast(r->GetOutput()),0.0);
   m_VolumeManualMask->Update();
 
   m_VolumeRefinementMask = NULL;
@@ -88,7 +88,7 @@ void mafVMESegmentationVolumeTest::BeforeTest()
   filename<<"/VTK_Volumes/refinementMask.vtk";
   r->SetFileName(filename);
   r->Update();
-  m_VolumeRefinementMask->SetData(vtkStructuredPoints::SafeDownCast(r->GetOutput()),0.0);
+  m_VolumeRefinementMask->SetData(vtkImageData::SafeDownCast(r->GetOutput()),0.0);
   m_VolumeRefinementMask->Update();
 }
 //----------------------------------------------------------------------------
@@ -269,7 +269,7 @@ void mafVMESegmentationVolumeTest::TestAutomaticSegmentation()
   vme->GetOutput()->Update();
   vme->Update();
   CPPUNIT_ASSERT( vme->GetAutomaticOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(vme->GetOutput()->GetVTKData());
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );
@@ -307,7 +307,7 @@ void mafVMESegmentationVolumeTest::TestManualSegmentation()
 
   CPPUNIT_ASSERT( vme->GetAutomaticOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   CPPUNIT_ASSERT( vme->GetManualOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(vme->GetOutput()->GetVTKData());
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );
@@ -341,7 +341,7 @@ void mafVMESegmentationVolumeTest::TestRefinementSegmentation()
   CPPUNIT_ASSERT( vme->GetAutomaticOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   CPPUNIT_ASSERT( vme->GetManualOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
   CPPUNIT_ASSERT( vme->GetRefinementOutput()->GetNumberOfPoints() == m_Volume->GetOutput()->GetVTKData()->GetNumberOfPoints() );
-  vtkStructuredPoints *sp = vtkStructuredPoints::SafeDownCast(vme->GetOutput()->GetVTKData());
+  vtkImageData *sp = vtkImageData::SafeDownCast(vme->GetOutput()->GetVTKData());
   double sr[2];
   sp->GetScalarRange(sr);
   CPPUNIT_ASSERT( sr[0] == 0.0 && sr[1] == 255.0 );
