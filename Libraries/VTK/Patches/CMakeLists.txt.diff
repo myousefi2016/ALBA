@@ -1,0 +1,4 @@
+595a596,598
+> 
+> # to enable compilation from MAF project
+> BUILD_COMMAND( MAKECOMMAND ${CMAKE_MAKE_PROGRAM} )

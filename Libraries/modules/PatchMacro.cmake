@@ -32,7 +32,7 @@ MACRO(FIND_AND_APPLAY_PATCHES PACKAGE_NAME PATCH_DIR SOURCE_DIR)
  		ENDIF(UNIX) 
 		IF(PATCH_EXECUTABLE)
   		
-  		#MESSAGE("${PACKAGE_NAME}: patching...")
+  		MESSAGE(STATUS "${PACKAGE_NAME}: patching...")
  			FOREACH ( MyDiffFile ${MyDiffFileList} )
  				GET_FILENAME_COMPONENT(MyDiffDir ${MyDiffFile} PATH)
    			GET_FILENAME_COMPONENT(MyDiffName ${MyDiffFile} NAME)
@@ -40,6 +40,8 @@ MACRO(FIND_AND_APPLAY_PATCHES PACKAGE_NAME PATCH_DIR SOURCE_DIR)
    			STRING(REGEX REPLACE "^${PATCH_DIR}" "" MyDiffDir ${MyDiffDir})
    			SET(MyPatchedTarget ${SOURCE_DIR}${MyDiffDir}/${MyDiffName})
    			
+				#MESSAGE("patching: ${MyPatchedTarget}") 
+				
    			#CONFIGURE_FILE("${SOURCE_DIR}/${MyDiffDir}/${MyDiffName}" "${SOURCE_DIR}/${MyDiffDir}/${MyDiffName}.orig" COPYONLY IMMEDIATE)
    			#MESSAGE("found ${MyDiffFile} in ${MyDiffDir} patching ${MyDiffName} target ${MyPatchedTarget}")
 				#patch -N ORIGFILE PATCHFILE  Ignore patches that appear to be reversed or already applied.
