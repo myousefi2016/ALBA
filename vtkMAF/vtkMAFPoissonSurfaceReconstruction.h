@@ -29,7 +29,6 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
-#include <sysinfoapi.h>
 
 //----------------------------------------------------------------------------
 // forward declarations :
