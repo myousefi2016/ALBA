@@ -114,7 +114,7 @@ std::string mafGetSaveFile(const char * initial, const char * wild, const char *
   wxSplitPath(initial,&path,&name,&ext);
   if(name != "" && ext != "") name = wxString::Format("%s.%s",name.c_str(),ext.c_str());
   wxString wildcard = wild;
-  wxString defaultname = "newMAFfile";
+  wxString defaultname = "NewFile";
   wildcard += "|All Files (*.*)|*.*";
   
 	long style = wxSAVE | wxHIDE_READONLY;
@@ -136,11 +136,20 @@ std::string mafGetSaveFile(const char * initial, const char * wild, const char *
 std::string mafGetApplicationDirectory()
 //----------------------------------------------------------------------------
 {
-  static wxString app_dir = "";
 
-  wxString cd = wxGetCwd();
+	wxStandardPaths std;
+	wxString exePath = std.GetDataDir();
+	
+	//get current working directory
+	wxString cd = wxGetCwd();
+
+  static wxString app_dir;
+
+	wxSetWorkingDirectory(exePath);
   wxSetWorkingDirectory("..");
-  app_dir = wxGetCwd();
+	app_dir = wxGetCwd();
+
+	//Restore working directory
   wxSetWorkingDirectory(cd);
 
   return app_dir.c_str();
