@@ -171,9 +171,6 @@ protected:
   // Usual data generation method
   virtual int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *);
   
-  vtkOBBTree *tree0;
-  vtkOBBTree *tree1;
-
   vtkLinearTransform *Transform[2];
   vtkMatrix4x4 *Matrix[2];
   
@@ -188,7 +185,8 @@ protected:
   float Opacity;
   
   int CollisionMode;
-
+  vtkOBBTree *Tree[2]; 
+	
 private:  
 
   vtkMAFCollisionDetectionFilter(const vtkMAFCollisionDetectionFilter&);  // Not implemented.

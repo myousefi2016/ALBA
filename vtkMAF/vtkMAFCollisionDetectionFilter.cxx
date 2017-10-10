@@ -61,8 +61,8 @@ vtkMAFCollisionDetectionFilter::vtkMAFCollisionDetectionFilter()
   this->BoxTolerance = 0.0;
   this->CellTolerance = 0.0;
   this->NumberOfCellsPerNode = 10;
-  this->tree0 = vtkOBBTree::New();
-  this->tree1 = vtkOBBTree::New();
+  this->Tree[0] = vtkOBBTree::New();
+  this->Tree[1] = vtkOBBTree::New();
   this->GenerateScalars = 0;
   this->CollisionMode = VTK_ALL_CONTACTS;
   this->Opacity = 1.0;
@@ -71,13 +71,13 @@ vtkMAFCollisionDetectionFilter::vtkMAFCollisionDetectionFilter()
 // Destroy any allocated memory.
 vtkMAFCollisionDetectionFilter::~vtkMAFCollisionDetectionFilter()
 {
-  if (this->tree0 != NULL)
+  if (this->Tree[0] != NULL)
     {
-    this->tree0->Delete();
+    this->Tree[0]->Delete();
     }
-  if (this->tree1 != NULL)
+  if (this->Tree[1] != NULL)
     {
-    this->tree1->Delete();
+    this->Tree[1]->Delete();
     }
 
   if (this->Matrix[0])
@@ -117,6 +117,12 @@ void vtkMAFCollisionDetectionFilter::SetInput(int idx, vtkPolyData *input)
     
   // Ask the superclass to connect the input.
   this->SetInputData(idx, input);
+
+ 	Tree[idx]->SetDataSet(input);
+  Tree[idx]->AutomaticOn();
+  Tree[idx]->SetNumberOfCellsPerNode(this->NumberOfCellsPerNode);
+  Tree[idx]->BuildLocator();
+  Tree[idx]->SetTolerance(this->BoxTolerance);
 }
 
 
@@ -400,6 +406,7 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
 {
   // get the info objects
   vtkDebugMacro(<< "Beginning execution...");
+	printf("\n\nRequest\n\n");
 
   // inputs and outputs
   vtkPolyData *input[2];
@@ -487,28 +494,11 @@ int vtkMAFCollisionDetectionFilter::RequestData( vtkInformation *vtkNotUsed(requ
 
   this->InvokeEvent(vtkCommand::StartEvent, NULL);
   
-
-  // rebuild the obb trees... they do their own mtime checking with input data
-  tree0->SetDataSet(input[0]);
-  tree0->AutomaticOn();
-  tree0->SetNumberOfCellsPerNode(this->NumberOfCellsPerNode);
-  tree0->BuildLocator();
-
-  tree1->SetDataSet(input[1]);
-  tree1->AutomaticOn();
-  tree1->SetNumberOfCellsPerNode(this->NumberOfCellsPerNode);
-  tree1->BuildLocator();
-    
-  // Set the Box Tolerance
-  tree0->SetTolerance(this->BoxTolerance);
-  tree1->SetTolerance(this->BoxTolerance);
-
-
+ 
 
 
   // Do the collision detection...
-  vtkIdType BoxTests = 
-    tree0->IntersectWithOBBTree(tree1,  matrix, ComputeCollisions, this);
+  vtkIdType BoxTests = Tree[0]->IntersectWithOBBTree(Tree[1],  matrix, ComputeCollisions, this);
 
   matrix->Delete();
   tmpMatrix->Delete();
