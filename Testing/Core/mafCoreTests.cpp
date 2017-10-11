@@ -221,7 +221,7 @@ main(int argc, char* argv[])
 	runner.addTest(mafOpPasteTest::suite());
 	runner.addTest(mafOpManagerTest::suite());
 	runner.addTest(mafOpEditTest::suite());
-	//runner.addTest(mafOpCutTest::suite()); TODO fix this test
+	//runner.addTest(mafOpCutTest::suite()); // TODO fix this test
 	runner.addTest(mafOpContextStackTest::suite());
 	runner.addTest(mafOpCopyTest::suite());
 	runner.addTest(mafVMETest::suite());
