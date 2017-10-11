@@ -75,7 +75,7 @@ void mafAttachCameraTest::TestConstructorDestructor()
 void mafAttachCameraTest::TestRenderStuff()
 {
   mafAttachCamera *attachCamera=new mafAttachCamera(NULL, NULL, NULL);
-  // RenderVMESurface(m_TestSurface);
+  RenderVMESurface(m_TestSurface);
   cppDEL(attachCamera);
 }
 
@@ -179,7 +179,7 @@ void mafAttachCameraTest::RenderVMESurface( mafVMESurface *vme )
   m_Renderer->AddActor(actor);
   
   m_RenderWindow->Render();
-  m_RenderWindowInteractor->Start();
+  //m_RenderWindowInteractor->Start();
 
   mapper->Delete();
   actor->Delete();
